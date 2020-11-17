@@ -13,7 +13,6 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.plaf.basic.BasicComboBoxUI;
-import static net.ucanaccess.converters.Functions.string;
 
 /**
  * 
@@ -32,6 +31,7 @@ public class MainGUI extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         welcomePlayer();
         test();
+        test2();
     }
     
     @SuppressWarnings("unchecked")
@@ -64,7 +64,7 @@ public class MainGUI extends javax.swing.JFrame {
         p1Toon.setFocusable(false);
 
         p1Info.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        p1Info.setText("Race - Class - Alignment");
+        p1Info.setText("Race - Class - Age");
         p1Info.setFocusable(false);
 
         p1Select.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Player 1" }));
@@ -73,7 +73,7 @@ public class MainGUI extends javax.swing.JFrame {
         p1Text.setColumns(20);
         p1Text.setLineWrap(true);
         p1Text.setRows(5);
-        p1Text.setText("Level:  _\n\nHP:  _/_\nMP:  _/_\n\nStrength:  _\nDefense:  _\nWisdom:  _\nDarkness: _\nWill:  _\nLuck:  _\nStamina:  _\nSpeed:  _\n\nExperience:  _/_\n\nBio:  _");
+        p1Text.setText("_Align_ - _Rep_\n\nStatus:  _\n\nLevel:  _\n\nHP:  _/_\nAP:  _/_\nMP:  _/_\n\nStrength:  _\nDefense:  _\nWisdom:  _\nDarkness: _\nWill:  _\nLuck:  _\nStamina:  _\nSpeed:  _\nDexterity:  _\n\nExperience:  _/_\n\n_BIO_");
         p1Text.setWrapStyleWord(true);
         p1Text.setFocusable(false);
         p1Pane.setViewportView(p1Text);
@@ -94,7 +94,7 @@ public class MainGUI extends javax.swing.JFrame {
         p2Toon.setFocusable(false);
 
         p2Info.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        p2Info.setText("Race - Class - Alignment");
+        p2Info.setText("Race - Class - Age");
         p2Info.setFocusable(false);
 
         p2Select.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -177,14 +177,9 @@ public class MainGUI extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException | InstantiationException | 
+                IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+            ex.printStackTrace();
         }
         //</editor-fold>
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -211,24 +206,39 @@ public class MainGUI extends javax.swing.JFrame {
         p2Select.setEnabled(true);
     }
             
-    private List<String> getdbList(String search,String table,String field) 
-            throws SQLException {
-        String list = (new RunQuery().getSingleList(search, table, field))
+    private List<String> dbQuery(String search,String table,String column,
+            String matchcol, String matchstr, boolean isitSingle) throws 
+            SQLException {
+        String list = "";
+        if (!isitSingle) {
+            System.out.println("IT IS NOTTRUE");
+                list = (new RunQuery().getSpecificRecord(search, table, column,
+                        matchcol, matchstr))
                 .replaceAll("\\[", "").replaceAll("\\]","");
+            } else {
+            System.out.println("IT IS TRUE");
+        list = (new RunQuery().getSingleList(search, table, column))
+                .replaceAll("\\[", "").replaceAll("\\]","");
+        }
         String[] stringList = list.split(",");
         List<String> convertedList = Arrays.asList(stringList);
         return convertedList;
     }
     
     private void test() throws SQLException {
-        List<String> toonList = getdbList("*","dbToons","toonName");
+        //fills Toon boxes
+        List<String> toonList = dbQuery("*","dbToons","toonName","","", true);
         DefaultComboBoxModel dml1 = new DefaultComboBoxModel();
         DefaultComboBoxModel dml2 = new DefaultComboBoxModel();
         fillSelect(p1Select,(toonList),dml1);
         fillSelect(p2Select,(toonList),dml2);
-        DefaultListCellRenderer listRenderer;
         p1Select.setSelectedIndex(0);
-        p1Select.setSelectedIndex(1);
+        p2Select.setSelectedIndex(1);
+    }
+    
+    private void test2() throws SQLException {
+        List<String> toonStats = dbQuery("*","dbToons","toonName","toonName","The Man Of Iron", false);
+        System.out.println(toonStats.toString());
     }
     
     private void fillSelect(JComboBox<String> player, List<String> list, 
