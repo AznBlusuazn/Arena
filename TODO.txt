@@ -1,6 +1,8 @@
 TO DO'S/IDEAS (DEVELOPING)
 
 - import stats on character select
+- separate tables for toon abl and toon status
+
 - set current stats after import
 - bio builder
 - translate specifics on character select
@@ -70,4 +72,7 @@ TO DO'S/IDEAS (DEVELOPING)
 - or if race/class attributes conflict, then neutralize logic (maybe)?
 - reversal attack logic?
 - team battles?
-=======
+- statuses that cancel others?
+- permadeaths
+- if you use time travel, you age faster logic
+- undead can't die lose until crit

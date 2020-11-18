@@ -38,6 +38,9 @@ ALPHA 0.0.2 / 2020.11.17.xxxx
 - added multiple values to abilities, ability types, linked tables
 - added more details to playerInfo
 - streamlined internal db queries to either specific list or whole record
+- made some changes to the list of attributes in the db for toons
+- added more to the TODO list
+- temporarily changed the default db to be in \db for now
 
 
 ALPHA 0.0.1 / 2020.11.17.0149

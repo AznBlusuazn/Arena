@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -60,11 +58,12 @@ class RunQuery {
         System.out.println("Attempted Query: " + query);
         ResultSet rs = st.executeQuery(query);
         ResultSetMetaData rsmd = rs.getMetaData();
-        int colC = (rsmd.getColumnCount() - 1);
+        int colC = (rsmd.getColumnCount());
         System.out.println("Count: " + colC);
         while (rs.next()) {
             for(int i = 1; i <= colC; i++) {
                 result = result + "," + rs.getString(i);
+                System.out.println(i + " - " + result);
             }
         }
         

@@ -18,7 +18,8 @@ import java.nio.file.Paths;
  */
 
 public class DatabaseCheck {
-    String ogPath = "db/default.dat";
+//    String ogPath = "db/default.dat";
+    String ogPath = "db/default.accdb";
     String dbPath = "data.accdb";
     File ogFile = new File(ogPath);
     File dbFile = new File(dbPath);

@@ -63,22 +63,24 @@ public class MainGUI extends javax.swing.JFrame {
         p1Toon.setText("COM IMAGE");
         p1Toon.setFocusable(false);
 
+        p1Info.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         p1Info.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         p1Info.setText("Race - Class - Age");
         p1Info.setFocusable(false);
 
         p1Select.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Player 1" }));
 
-        p1Text.setEditable(false);
         p1Text.setColumns(20);
+        p1Text.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         p1Text.setLineWrap(true);
         p1Text.setRows(5);
-        p1Text.setText("_Align_ - _Rep_\n\nStatus:  _\n\nLevel:  _\n\nHP:  _/_\nAP:  _/_\nMP:  _/_\n\nStrength:  _\nDefense:  _\nWisdom:  _\nDarkness: _\nWill:  _\nLuck:  _\nStamina:  _\nSpeed:  _\nDexterity:  _\n\nExperience:  _/_\n\n_BIO_");
+        p1Text.setText("_Align_ - _Rep_\n\nStatus:  _\n\nLevel:  _\n\nHP:  _/_\nAP:  _/_\nMP:  _/_\n\nAttack:\t_\nStrength: \t_\nDefense:\t_\nStamina:  \t_\nSpeed:\t_\nEvade:\t_\nDexterity:\t_\nMystic:\t_\nWillpower:  \t_\nLuck:  \t_\nCharm:\t_\nIntellect:\t_\n\nExperience:  _/_\n\n_BIO_");
         p1Text.setWrapStyleWord(true);
         p1Text.setFocusable(false);
         p1Pane.setViewportView(p1Text);
 
         battleText.setColumns(20);
+        battleText.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         battleText.setLineWrap(true);
         battleText.setRows(5);
         battleText.setWrapStyleWord(true);
@@ -93,17 +95,18 @@ public class MainGUI extends javax.swing.JFrame {
         p2Toon.setText("PLAYER IMAGE");
         p2Toon.setFocusable(false);
 
+        p2Info.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         p2Info.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         p2Info.setText("Race - Class - Age");
         p2Info.setFocusable(false);
 
-        p2Select.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        p2Select.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Player 2" }));
 
-        p2Text.setEditable(false);
         p2Text.setColumns(20);
+        p2Text.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         p2Text.setLineWrap(true);
         p2Text.setRows(5);
-        p2Text.setText("Level:  _\n\nHP:  _/_\nMP:  _/_\n\nStrength:  _\nDefense:  _\nWisdom:  _\nDarkness: _\nWill:  _\nLuck:  _\nStamina:  _\nSpeed:  _\n\nExperience:  _/_\n\nBio:  _");
+        p2Text.setText("_Align_ - _Rep_\n\nStatus:  _\n\nLevel:  _\n\nHP:  _/_\nAP:  _/_\nMP:  _/_\n\nAttack:\t_\nStrength: \t_\nDefense:\t_\nStamina:  \t_\nSpeed:\t_\nEvade:\t_\nDexterity:\t_\nMystic:\t_\nWillpower:  \t_\nLuck:  \t_\nCharm:\t_\nIntellect:\t_\n\nExperience:  _/_\n\n_BIO_");
         p2Text.setWrapStyleWord(true);
         p2Text.setFocusable(false);
         p2Pane.setViewportView(p2Text);
