@@ -2,7 +2,10 @@ TO DO'S/IDEAS (DEVELOPING)
 
 [PARTIAL SUCCESS] - import stats on character select 
 - separate tables for toon abl and toon status
-
+- change alignment/rep to jlabels
+- separate bio box into its own text box?
+[COMPLETE] text space for user input / submit button
+- config enter key to act as submit button
 - set current stats after import
 - bio builder
 - translate specifics on character select
@@ -76,3 +79,14 @@ TO DO'S/IDEAS (DEVELOPING)
 - permadeaths
 - if you use time travel, you age faster logic
 - undead can't die lose until crit
+- thanos snap effect
+- illnesses
+- bleeding effect
+- casino betting
+- implement some type of currency
+- shop to buy items or loot
+- different locations
+- different arenas
+- encrypt db
+- set encrypt db change db and uncomment hidefile db for release
+

@@ -36,59 +36,108 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
-              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+              <EmptySpace min="20" pref="20" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Component id="p1Toon" min="-2" pref="200" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="810" max="32767" attributes="0"/>
+                      <EmptySpace min="820" pref="820" max="-2" attributes="0"/>
+                      <Component id="p2Toon" min="-2" pref="200" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="p1Select" max="32767" attributes="0"/>
-                          <Component id="p1Info" alignment="1" max="32767" attributes="0"/>
-                          <Component id="p1Pane" alignment="1" pref="200" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="p1ToonName" min="-2" pref="200" max="-2" attributes="0"/>
+                      <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+                      <Component id="p1Select" min="-2" pref="200" max="-2" attributes="0"/>
+                      <EmptySpace min="400" pref="400" max="-2" attributes="0"/>
+                      <Component id="p2Select" min="-2" pref="200" max="-2" attributes="0"/>
+                      <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+                      <Component id="p2ToonName" min="-2" pref="200" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Component id="p1Info" min="-2" pref="200" max="-2" attributes="0"/>
+                      <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+                      <Component id="test1Button" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="686" pref="686" max="-2" attributes="0"/>
+                      <Component id="test2Button" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+                      <Component id="p2Info" min="-2" pref="200" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="p1Pane" min="-2" pref="200" max="-2" attributes="0"/>
+                              <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="p1AInfo" min="-2" pref="200" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="battlePane" min="-2" pref="800" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="battlePane" min="-2" pref="800" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="userInput" min="-2" pref="720" max="-2" attributes="0"/>
+                              <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+                              <Component id="enterButton" min="-2" pref="70" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="p2Pane" min="-2" pref="200" max="-2" attributes="0"/>
+                          <Component id="p2AInfo" min="-2" pref="200" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
               </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="p2Toon" max="32767" attributes="0"/>
-                  <Component id="p2Pane" alignment="0" pref="200" max="32767" attributes="0"/>
-                  <Component id="p2Info" alignment="0" max="32767" attributes="0"/>
-                  <Component id="p2Select" max="32767" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="p1Toon" alignment="3" min="-2" pref="200" max="-2" attributes="0"/>
-                  <Component id="p2Toon" alignment="3" min="-2" pref="200" max="-2" attributes="0"/>
+          <Group type="102" attributes="0">
+              <EmptySpace min="20" pref="20" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="p1Toon" min="-2" pref="200" max="-2" attributes="0"/>
+                  <Component id="p2Toon" min="-2" pref="200" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="p1Select" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="p2Select" alignment="3" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="p1ToonName" min="-2" pref="18" max="-2" attributes="0"/>
+                  <Component id="p1Select" min="-2" max="-2" attributes="0"/>
+                  <Component id="p2Select" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="1" pref="1" max="-2" attributes="0"/>
+                      <Component id="p2ToonName" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
-              <EmptySpace min="5" pref="5" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="p1Info" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
-                  <Component id="p2Info" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
+              <EmptySpace min="4" pref="4" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="p1Info" min="-2" pref="20" max="-2" attributes="0"/>
+                  <Component id="test1Button" min="-2" max="-2" attributes="0"/>
+                  <Component id="test2Button" min="-2" max="-2" attributes="0"/>
+                  <Component id="p2Info" min="-2" pref="20" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="p2Pane" pref="445" max="32767" attributes="0"/>
-                  <Component id="battlePane" max="32767" attributes="0"/>
-                  <Component id="p1Pane" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="8" pref="8" max="-2" attributes="0"/>
+                      <Component id="battlePane" min="-2" pref="410" max="-2" attributes="0"/>
+                      <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="userInput" min="-2" max="-2" attributes="0"/>
+                          <Component id="enterButton" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
+                      <Component id="p1AInfo" min="-2" pref="20" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="p1Pane" min="-2" pref="424" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+                      <Component id="p2AInfo" min="-2" pref="20" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="p2Pane" min="-2" pref="425" max="-2" attributes="0"/>
+                  </Group>
               </Group>
-              <EmptySpace pref="22" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -97,7 +146,7 @@
     <Component class="javax.swing.JLabel" name="p1Toon">
       <Properties>
         <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="COM IMAGE"/>
+        <Property name="text" type="java.lang.String" value="[Player 1 Image Here]"/>
         <Property name="focusable" type="boolean" value="false"/>
       </Properties>
     </Component>
@@ -113,12 +162,18 @@
     </Component>
     <Component class="javax.swing.JComboBox" name="p1Select">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI" size="11" style="1"/>
+        </Property>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="1">
             <StringItem index="0" value="Player 1"/>
           </StringArray>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="p1SelectActionPerformed"/>
+      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
@@ -138,7 +193,6 @@
             </Property>
             <Property name="lineWrap" type="boolean" value="true"/>
             <Property name="rows" type="int" value="5"/>
-            <Property name="text" type="java.lang.String" value="_Align_ - _Rep_&#xa;&#xa;Status:  _&#xa;&#xa;Level:  _&#xa;&#xa;HP:  _/_&#xa;AP:  _/_&#xa;MP:  _/_&#xa;&#xa;Attack:&#x9;_&#xa;Strength: &#x9;_&#xa;Defense:&#x9;_&#xa;Stamina:  &#x9;_&#xa;Speed:&#x9;_&#xa;Evade:&#x9;_&#xa;Dexterity:&#x9;_&#xa;Mystic:&#x9;_&#xa;Willpower:  &#x9;_&#xa;Luck:  &#x9;_&#xa;Charm:&#x9;_&#xa;Intellect:&#x9;_&#xa;&#xa;Experience:  _/_&#xa;&#xa;_BIO_"/>
             <Property name="wrapStyleWord" type="boolean" value="true"/>
             <Property name="focusable" type="boolean" value="false"/>
           </Properties>
@@ -154,6 +208,7 @@
       <SubComponents>
         <Component class="javax.swing.JTextArea" name="battleText">
           <Properties>
+            <Property name="editable" type="boolean" value="false"/>
             <Property name="columns" type="int" value="20"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Lucida Console" size="12" style="0"/>
@@ -161,17 +216,15 @@
             <Property name="lineWrap" type="boolean" value="true"/>
             <Property name="rows" type="int" value="5"/>
             <Property name="wrapStyleWord" type="boolean" value="true"/>
+            <Property name="focusable" type="boolean" value="false"/>
           </Properties>
-          <Events>
-            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="battleTextKeyPressed"/>
-          </Events>
         </Component>
       </SubComponents>
     </Container>
     <Component class="javax.swing.JLabel" name="p2Toon">
       <Properties>
         <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="PLAYER IMAGE"/>
+        <Property name="text" type="java.lang.String" value="[Player 2 Image Here]"/>
         <Property name="focusable" type="boolean" value="false"/>
       </Properties>
     </Component>
@@ -187,12 +240,18 @@
     </Component>
     <Component class="javax.swing.JComboBox" name="p2Select">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI" size="11" style="1"/>
+        </Property>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="1">
             <StringItem index="0" value="Player 2"/>
           </StringArray>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="p2SelectActionPerformed"/>
+      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
@@ -212,12 +271,83 @@
             </Property>
             <Property name="lineWrap" type="boolean" value="true"/>
             <Property name="rows" type="int" value="5"/>
-            <Property name="text" type="java.lang.String" value="_Align_ - _Rep_&#xa;&#xa;Status:  _&#xa;&#xa;Level:  _&#xa;&#xa;HP:  _/_&#xa;AP:  _/_&#xa;MP:  _/_&#xa;&#xa;Attack:&#x9;_&#xa;Strength: &#x9;_&#xa;Defense:&#x9;_&#xa;Stamina:  &#x9;_&#xa;Speed:&#x9;_&#xa;Evade:&#x9;_&#xa;Dexterity:&#x9;_&#xa;Mystic:&#x9;_&#xa;Willpower:  &#x9;_&#xa;Luck:  &#x9;_&#xa;Charm:&#x9;_&#xa;Intellect:&#x9;_&#xa;&#xa;Experience:  _/_&#xa;&#xa;_BIO_"/>
             <Property name="wrapStyleWord" type="boolean" value="true"/>
             <Property name="focusable" type="boolean" value="false"/>
           </Properties>
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JButton" name="test1Button">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="test1"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="test1ButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="test2Button">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="test2"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="test2ButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="p1ToonName">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI" size="12" style="1"/>
+        </Property>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="Player 1"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="p2ToonName">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI" size="12" style="1"/>
+        </Property>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="Player 2"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="userInput">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Lucida Console" size="12" style="0"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="userInputActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="enterButton">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Lucida Console" size="11" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Enter"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="p1AInfo">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI" size="12" style="0"/>
+        </Property>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="Alignment"/>
+        <Property name="focusable" type="boolean" value="false"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="p2AInfo">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI" size="12" style="0"/>
+        </Property>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="Alignment"/>
+        <Property name="focusable" type="boolean" value="false"/>
+      </Properties>
+    </Component>
   </SubComponents>
 </Form>

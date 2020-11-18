@@ -1,6 +1,6 @@
 =====================================
 SAVE THE WORLD by Geoff Clark
-VERSION ALPHA 0.0.2 / 2020.11.17.xxxx (in progress)
+VERSION ALPHA 0.0.3 / 2020.11.18.XXXX
 =====================================
 
 This program was written with JDK 1.8.  It does require a minimum of JRE 52 to run.
@@ -31,6 +31,12 @@ Contact the author:  gclark82@gmail.com
 ====================================
 
 DEVELOPMENT NOTES
+
+ALPHA 0.0.3 / 2020.11.18.XXXX
+
+- cleaned up interface for character selection dropdown
+- renamed dbcheck to filecheck
+- added userinput field and enter button
 
 ALPHA 0.0.2 / 2020.11.18.0019
 

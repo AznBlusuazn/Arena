@@ -1,5 +1,9 @@
 package com.clarktribe.arena;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -10,11 +14,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
+import static javax.swing.GroupLayout.Alignment.CENTER;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JTextField;
+import javax.swing.UIManager;
 import javax.swing.plaf.basic.BasicComboBoxUI;
+import javax.swing.text.JTextComponent;
 
-    // <editor-fold defaultstate="collapsed" desc="credits">
+// <editor-fold defaultstate="collapsed" desc="credits">
 /**
  * 
  * @author  Geoff Clark
@@ -88,12 +96,10 @@ public class MainGUI extends javax.swing.JFrame {
     
     public MainGUI() throws InterruptedException, SQLException, IOException, URISyntaxException {
         initComponents();
-        new DatabaseCheck().dbCheck();
+        dbCheck();
         setLocationRelativeTo(null);
         welcomePlayer();
         testFill();
-        setP1("The Man Of Iron");
-        setP2("The Captain");
     }
     
     @SuppressWarnings("unchecked")
@@ -112,6 +118,14 @@ public class MainGUI extends javax.swing.JFrame {
         p2Select = new javax.swing.JComboBox<>();
         p2Pane = new javax.swing.JScrollPane();
         p2Text = new javax.swing.JTextArea();
+        test1Button = new javax.swing.JButton();
+        test2Button = new javax.swing.JButton();
+        p1ToonName = new javax.swing.JLabel();
+        p2ToonName = new javax.swing.JLabel();
+        userInput = new javax.swing.JTextField();
+        enterButton = new javax.swing.JButton();
+        p1AInfo = new javax.swing.JLabel();
+        p2AInfo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Arena Game [Alpha]");
@@ -122,7 +136,7 @@ public class MainGUI extends javax.swing.JFrame {
         setResizable(false);
 
         p1Toon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        p1Toon.setText("COM IMAGE");
+        p1Toon.setText("[Player 1 Image Here]");
         p1Toon.setFocusable(false);
 
         p1Info.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
@@ -130,31 +144,33 @@ public class MainGUI extends javax.swing.JFrame {
         p1Info.setText("Race - Class - Age");
         p1Info.setFocusable(false);
 
+        p1Select.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
         p1Select.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Player 1" }));
+        p1Select.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                p1SelectActionPerformed(evt);
+            }
+        });
 
         p1Text.setColumns(20);
         p1Text.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         p1Text.setLineWrap(true);
         p1Text.setRows(5);
-        p1Text.setText("_Align_ - _Rep_\n\nStatus:  _\n\nLevel:  _\n\nHP:  _/_\nAP:  _/_\nMP:  _/_\n\nAttack:\t_\nStrength: \t_\nDefense:\t_\nStamina:  \t_\nSpeed:\t_\nEvade:\t_\nDexterity:\t_\nMystic:\t_\nWillpower:  \t_\nLuck:  \t_\nCharm:\t_\nIntellect:\t_\n\nExperience:  _/_\n\n_BIO_");
         p1Text.setWrapStyleWord(true);
         p1Text.setFocusable(false);
         p1Pane.setViewportView(p1Text);
 
+        battleText.setEditable(false);
         battleText.setColumns(20);
         battleText.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         battleText.setLineWrap(true);
         battleText.setRows(5);
         battleText.setWrapStyleWord(true);
-        battleText.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                battleTextKeyPressed(evt);
-            }
-        });
+        battleText.setFocusable(false);
         battlePane.setViewportView(battleText);
 
         p2Toon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        p2Toon.setText("PLAYER IMAGE");
+        p2Toon.setText("[Player 2 Image Here]");
         p2Toon.setFocusable(false);
 
         p2Info.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
@@ -162,16 +178,63 @@ public class MainGUI extends javax.swing.JFrame {
         p2Info.setText("Race - Class - Age");
         p2Info.setFocusable(false);
 
+        p2Select.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
         p2Select.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Player 2" }));
+        p2Select.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                p2SelectActionPerformed(evt);
+            }
+        });
 
         p2Text.setColumns(20);
         p2Text.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         p2Text.setLineWrap(true);
         p2Text.setRows(5);
-        p2Text.setText("_Align_ - _Rep_\n\nStatus:  _\n\nLevel:  _\n\nHP:  _/_\nAP:  _/_\nMP:  _/_\n\nAttack:\t_\nStrength: \t_\nDefense:\t_\nStamina:  \t_\nSpeed:\t_\nEvade:\t_\nDexterity:\t_\nMystic:\t_\nWillpower:  \t_\nLuck:  \t_\nCharm:\t_\nIntellect:\t_\n\nExperience:  _/_\n\n_BIO_");
         p2Text.setWrapStyleWord(true);
         p2Text.setFocusable(false);
         p2Pane.setViewportView(p2Text);
+
+        test1Button.setText("test1");
+        test1Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                test1ButtonActionPerformed(evt);
+            }
+        });
+
+        test2Button.setText("test2");
+        test2Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                test2ButtonActionPerformed(evt);
+            }
+        });
+
+        p1ToonName.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        p1ToonName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        p1ToonName.setText("Player 1");
+
+        p2ToonName.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        p2ToonName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        p2ToonName.setText("Player 2");
+
+        userInput.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
+        userInput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                userInputActionPerformed(evt);
+            }
+        });
+
+        enterButton.setFont(new java.awt.Font("Lucida Console", 0, 11)); // NOI18N
+        enterButton.setText("Enter");
+
+        p1AInfo.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        p1AInfo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        p1AInfo.setText("Alignment");
+        p1AInfo.setFocusable(false);
+
+        p2AInfo.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        p2AInfo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        p2AInfo.setText("Alignment");
+        p2AInfo.setFocusable(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -182,53 +245,124 @@ public class MainGUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(p1Toon, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 810, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(p1Select, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(p1Info, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(p1Pane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(battlePane, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(p2Toon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(p2Pane, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                    .addComponent(p2Info, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(p2Select, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(20, 20, 20))
+                        .addGap(820, 820, 820)
+                        .addComponent(p2Toon, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(p1ToonName, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(p1Select, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(400, 400, 400)
+                        .addComponent(p2Select, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(p2ToonName, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(p1Info, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(test1Button)
+                        .addGap(686, 686, 686)
+                        .addComponent(test2Button)
+                        .addGap(10, 10, 10)
+                        .addComponent(p2Info, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(p1Pane, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(10, 10, 10))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(p1AInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(battlePane, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(userInput, javax.swing.GroupLayout.PREFERRED_SIZE, 720, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(10, 10, 10)
+                                .addComponent(enterButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(10, 10, 10)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(p2Pane, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(p2AInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(p1Toon, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(p2Toon, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(p1ToonName, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(p1Select, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(p2Select, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(5, 5, 5)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(p2Select, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(p2ToonName)))
+                .addGap(4, 4, 4)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(p1Info, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(test1Button)
+                    .addComponent(test2Button)
                     .addComponent(p2Info, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(11, 11, 11)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(p2Pane, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE)
-                    .addComponent(battlePane)
-                    .addComponent(p1Pane))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(8, 8, 8)
+                        .addComponent(battlePane, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(userInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(enterButton)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(p1AInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(p1Pane, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(p2AInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(p2Pane, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void battleTextKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_battleTextKeyPressed
+    private void test1ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_test1ButtonActionPerformed
+        try {
+            changeP(1);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
         lockSelect(p1Select);
+    }//GEN-LAST:event_test1ButtonActionPerformed
+
+    private void test2ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_test2ButtonActionPerformed
+        try {
+            changeP(2);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
         lockSelect(p2Select);
-    }//GEN-LAST:event_battleTextKeyPressed
+    }//GEN-LAST:event_test2ButtonActionPerformed
+
+    private void p1SelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_p1SelectActionPerformed
+        try {
+            changeP(1);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_p1SelectActionPerformed
+
+    private void p2SelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_p2SelectActionPerformed
+        try {
+            changeP(2);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_p2SelectActionPerformed
+
+    private void userInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userInputActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_userInputActionPerformed
 
     public static void main(String args[]) {
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -251,10 +385,9 @@ public class MainGUI extends javax.swing.JFrame {
             public void run() {
                 try {
                     new MainGUI().setVisible(true);
-                } catch (InterruptedException | SQLException | IOException ex) {
+                } catch (InterruptedException | SQLException | IOException | 
+                        URISyntaxException ex) {
                     ex.printStackTrace();
-                } catch (URISyntaxException ex) {
-                    Logger.getLogger(MainGUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
@@ -267,8 +400,15 @@ public class MainGUI extends javax.swing.JFrame {
                 + "  This is just filler text for something greater, much, much"
                 + " later.\n\nEnjoy. - Geoff";
         new TypeEffect(battleText,text).start();
-        p1Select.setEnabled(true);
-        p2Select.setEnabled(true);
+//        hideDDArrow(p1Select);
+//        hideDDArrow(p2Select);
+    }
+    
+    private void dbCheck() throws IOException {
+        //String ogPath = "/db/default.dat";
+        String ogPath = "db/data.accdb";
+        String dbPath = "data.accdb";
+        new FileCheck().dbCheck(ogPath,dbPath);
     }
             
     private List<String> dbQuery(String search,String table,String column,
@@ -342,12 +482,12 @@ public class MainGUI extends javax.swing.JFrame {
         p1Exp = Integer.parseInt(removeSpace(p1Field[27]));
         p1Rep = Integer.parseInt(removeSpace(p1Field[28]));
         p1Bio = removeSpace(p1Field[29]);
-        p1Image = removeSpace(p1Field[30]).replace("]","");
-        
+        p1Image = removeSpace(p1Field[30]).replace("]","");        
         p1Select.setSelectedIndex(p1Index - 1);
-        p1Text.setText(p1Align + " / " + p1Rep + "\n\nStatus:  \t" + p1Status 
+        p1ToonName.setText(p1Name);
+        p1Text.setText(p1Align + " / " + p1Rep + "\n\nStatus:  " + p1Status 
                 + "\n\nLevel: \t " + plLv + "\n\nHP: \t " + p1HP + "/" + p1HP 
-                + "\nAP: \t" + p1AP + "/" + p1AP + "\nMP: \t " + p1MP + "/" +
+                + "\nAP: \t " + p1AP + "/" + p1AP + "\nMP: \t " + p1MP + "/" +
                 p1MP + "\n\nAttack:\t\t" + p1Att + "\nStrength: \t" + p1Str + 
                 "\nDefense:\t" + p1Def + "\nStamina:  \t" + p1Sta + "\nSpeed:\t\t"
                 + p1Spd + "\nEvade:\t\t" + p1Eva + "\nDexterity:\t" + p1Dex + 
@@ -357,8 +497,6 @@ public class MainGUI extends javax.swing.JFrame {
                 + p1Bio);
         p1Info.setText(p1Race + " - " + p1Class + " - " + "Age " + p1Age);
         new ToonImage().setImage(p1Toon,p1Image);
-        lockSelect(p1Select);
-
     }
     
     public void setP2(String toonname) throws SQLException {
@@ -392,10 +530,10 @@ public class MainGUI extends javax.swing.JFrame {
         p2Exp = Integer.parseInt(removeSpace(p2Field[27]));
         p2Rep = Integer.parseInt(removeSpace(p2Field[28]));
         p2Bio = removeSpace(p2Field[29]);
-        p2Image = removeSpace(p2Field[30]).replace("]","");
-        
+        p2Image = removeSpace(p2Field[30]).replace("]","");        
         p2Select.setSelectedIndex(p2Index - 1);
-        p2Text.setText(p2Align + " / " + p2Rep + "\n\nStatus:  \t" + p2Status 
+        p2ToonName.setText(p2Name);
+        p2Text.setText(p2Align + " / " + p2Rep + "\n\nStatus:  " + p2Status 
                 + "\n\nLevel: \t " + plLv + "\n\nHP: \t " + p2HP + "/" + p2HP 
                 + "\nAP:\t " + p2AP + "/" + p2AP + "\nMP: \t " + p2MP + "/" +
                 p2MP + "\n\nAttack:\t\t" + p2Att + "\nStrength: \t" + p2Str + 
@@ -407,15 +545,23 @@ public class MainGUI extends javax.swing.JFrame {
                 + p2Bio);
         p2Info.setText(p2Race + " - " + p2Class + " - " + "Age " + p2Age);
         new ToonImage().setImage(p2Toon,p2Image);
-        lockSelect(p2Select);
-
+    }
+    
+    private void changeP(int p) throws SQLException {
+        if(p == 1)
+            setP1((String) p1Select.getSelectedItem());
+        if(p == 2)
+            setP2((String) p2Select.getSelectedItem());
     }
     
     private void fillSelect(JComboBox<String> player, List<String> list, 
             DefaultComboBoxModel dml) {
+        System.out.println("Before: " + (player.getFont()));
+        Font font = player.getFont();
         DefaultListCellRenderer lrCenter;
         lrCenter = new DefaultListCellRenderer();
         lrCenter.setHorizontalAlignment(DefaultListCellRenderer.CENTER);
+        lrCenter.setFont(font.deriveFont(Font.BOLD));
         for(int i = 0; i < list.size(); i++) {
             dml.addElement((list.get(i)));
         }
@@ -425,21 +571,43 @@ public class MainGUI extends javax.swing.JFrame {
 
     
     private void lockSelect(JComboBox<String> dropdown) {
-        dropdown.setEditable(false);
-        dropdown.setEnabled(false);
-        dropdown.setUI(new BasicComboBoxUI() { 
-        protected JButton createArrowButton() {
-            return new JButton() {
-                public int getWidth() {
-                    return 0;
-                    }
-                @Override
-                public synchronized void addMouseListener(MouseListener l) {
-                }
-            };
-        }
-        });
+        dropOff(dropdown);
     }
+    
+    
+    // <editor-fold defaultstate="collapsed" desc="hideDDArrow"> 
+//    private void hideDDArrow(JComboBox<String> box) {
+//        box.setUI(new BasicComboBoxUI() { 
+//        protected JButton createArrowButton() {
+//            return new JButton() {
+//                public int getWidth() {
+//                    return 0;
+//                    }
+//                @Override
+//                public synchronized void addMouseListener(MouseListener l) {
+//                }
+//            };
+//        }
+//        });
+//        
+//    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="dropOn"> 
+    private void dropOn(JComboBox<String> box) {
+        box.setEnabled(true);
+        box.setBackground(new Color(214,217,223));
+        box.setFont((box.getFont().deriveFont(Font.PLAIN)));
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="dropOff"> 
+    private void dropOff(JComboBox<String> box) {
+        box.setVisible(false);
+        
+    
+    }
+    // </editor-fold>
     
     private String removeSpace(String s) {
         char c = s.charAt(0);
@@ -452,16 +620,24 @@ public class MainGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane battlePane;
     private javax.swing.JTextArea battleText;
+    private javax.swing.JButton enterButton;
+    private javax.swing.JLabel p1AInfo;
     private javax.swing.JLabel p1Info;
     private javax.swing.JScrollPane p1Pane;
     private javax.swing.JComboBox<String> p1Select;
     private javax.swing.JTextArea p1Text;
     private javax.swing.JLabel p1Toon;
+    private javax.swing.JLabel p1ToonName;
+    private javax.swing.JLabel p2AInfo;
     private javax.swing.JLabel p2Info;
     private javax.swing.JScrollPane p2Pane;
     private javax.swing.JComboBox<String> p2Select;
     private javax.swing.JTextArea p2Text;
     private javax.swing.JLabel p2Toon;
+    private javax.swing.JLabel p2ToonName;
+    private javax.swing.JButton test1Button;
+    private javax.swing.JButton test2Button;
+    private javax.swing.JTextField userInput;
     // End of variables declaration//GEN-END:variables
 
 }

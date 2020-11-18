@@ -6,8 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
     // <editor-fold defaultstate="collapsed" desc="credits">
 /**
@@ -19,16 +17,12 @@ import java.nio.file.Paths;
  */
 // </editor-fold>
 
-public class DatabaseCheck {
-//    String ogPath = "db/default.dat";
-    String ogPath = "db/default.accdb";
-    String dbPath = "data.accdb";
-    File ogFile = new File(ogPath);
-    File dbFile = new File(dbPath);
-    Path src = Paths.get(ogPath);
-    Path dest = Paths.get(dbPath);
-    
-    public void dbCheck() throws FileNotFoundException, IOException {
+public class FileCheck {
+
+    public void dbCheck(String ogPath, String dbPath) throws 
+            FileNotFoundException, IOException {
+        File ogFile = new File(ogPath);
+        File dbFile = new File(dbPath);
         boolean exists = dbFile.exists();
         if (!exists) {
             FileChannel source = null;
@@ -44,7 +38,7 @@ public class DatabaseCheck {
             if (destination != null) {
                 destination.close();
             }
-            hideFile(dbFile);
+            //hideFile(dbFile);
         }
     }
     
