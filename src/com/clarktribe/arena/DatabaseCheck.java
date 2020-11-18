@@ -9,6 +9,7 @@ import java.nio.channels.FileChannel;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+    // <editor-fold defaultstate="collapsed" desc="credits">
 /**
  * 
  * @author  Geoff Clark
@@ -16,6 +17,7 @@ import java.nio.file.Paths;
  * @game    Arena Game
  * 
  */
+// </editor-fold>
 
 public class DatabaseCheck {
 //    String ogPath = "db/default.dat";

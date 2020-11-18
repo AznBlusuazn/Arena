@@ -1,6 +1,6 @@
 TO DO'S/IDEAS (DEVELOPING)
 
-- import stats on character select
+[PARTIAL SUCCESS] - import stats on character select 
 - separate tables for toon abl and toon status
 
 - set current stats after import

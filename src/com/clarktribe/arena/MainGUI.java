@@ -14,24 +14,86 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 
+    // <editor-fold defaultstate="collapsed" desc="credits">
 /**
  * 
  * @author  Geoff Clark
  * @e-mail  gclark82@gmail.com
  * @game    Arena Game
- * @version alpha 0.0.1
+ * @version ALPHA 0.0.2 / 2020.11.18.0019
  * 
  */
+// </editor-fold>
 
 public class MainGUI extends javax.swing.JFrame {
 
+    // <editor-fold defaultstate="collapsed" desc="initialized variables">
+    int p1Index = 0;
+    String p1Name = "";
+    String p1Race = "";
+    String p1Class = "";
+    String p1Align = "";
+    int p1HP = 0;
+    int p1AP = 0;
+    int p1MP = 0;
+    int p1Att = 0;
+    int p1Str = 0;
+    int p1Def = 0;
+    int p1Sta = 0;
+    int p1Spd = 0;
+    int p1Eva = 0;
+    int p1Dex = 0;
+    int p1Mys = 0;
+    int p1Wil = 0;
+    int p1Lck = 0;
+    int p1Chm = 0;
+    int p1Int = 0;
+    int p1Age = 0;
+    int plLv = 0;
+    int p1Exp = 0;
+    int p1Rep = 0;
+    String p1Bio = "";
+    String p1Image = "";
+    String p1Status = "Healthy";
+    
+    int p2Index = 0;
+    String p2Name = "";
+    String p2Race = "";
+    String p2Class = "";
+    String p2Align = "";
+    int p2HP = 0;
+    int p2AP = 0;
+    int p2MP = 0;
+    int p2Att = 0;
+    int p2Str = 0;
+    int p2Def = 0;
+    int p2Sta = 0;
+    int p2Spd = 0;
+    int p2Eva = 0;
+    int p2Dex = 0;
+    int p2Mys = 0;
+    int p2Wil = 0;
+    int p2Lck = 0;
+    int p2Chm = 0;
+    int p2Int = 0;
+    int p2Age = 0;
+    int p2Lv = 0;
+    int p2Exp = 0;
+    int p2Rep = 0;
+    String p2Bio = "";
+    String p2Image = "";
+    String p2Status = "Healthy";
+    
+    // </editor-fold>
+    
     public MainGUI() throws InterruptedException, SQLException, IOException, URISyntaxException {
         initComponents();
         new DatabaseCheck().dbCheck();
         setLocationRelativeTo(null);
         welcomePlayer();
-        test();
-        test2();
+        testFill();
+        setP1("The Man Of Iron");
+        setP2("The Captain");
     }
     
     @SuppressWarnings("unchecked")
@@ -228,20 +290,125 @@ public class MainGUI extends javax.swing.JFrame {
         return convertedList;
     }
     
-    private void test() throws SQLException {
+    private void testFill() throws SQLException {
         //fills Toon boxes
         List<String> toonList = dbQuery("*","dbToons","toonName","","", true);
         DefaultComboBoxModel dml1 = new DefaultComboBoxModel();
         DefaultComboBoxModel dml2 = new DefaultComboBoxModel();
         fillSelect(p1Select,(toonList),dml1);
         fillSelect(p2Select,(toonList),dml2);
-        p1Select.setSelectedIndex(0);
-        p2Select.setSelectedIndex(1);
     }
     
-    private void test2() throws SQLException {
-        List<String> toonStats = dbQuery("*","dbToons","toonName","toonName","The Man Of Iron", false);
-        System.out.println(toonStats.toString());
+//    private void test2() throws SQLException {
+//        List<String> toonStats = dbQuery("*","dbToons","toonName","toonName","The Man Of Iron", false);
+//        String[] vars = ((toonStats.toString()).substring(1,(toonStats.toString()).length())).split(",");
+//        System.out.println("First Pre: " + vars[0]);
+//        System.out.println("First Post:" + removeSpace(vars[0]));
+//        
+//        System.out.println("SecondPre: " + vars[1]);
+//        System.out.println("SecondPost:" + removeSpace(vars[1]));
+//        
+//        System.out.println();
+//    }
+    
+    public void setP1(String toonname) throws SQLException {
+        List<String> toonStats = dbQuery("*","dbToons","toonName","toonName",
+                toonname, false);
+        String[] p1Field = ((toonStats.toString()).substring(1,(toonStats.
+                toString()).length())).split(",");
+        System.out.println(p1Field[0] + " " + p1Field[1]);
+        p1Index = Integer.parseInt(removeSpace(p1Field[0]));
+        p1Name = removeSpace(p1Field[1]);
+        p1Race = removeSpace(p1Field[2]);
+        p1Class = removeSpace(p1Field[3]);
+        p1Align = removeSpace(p1Field[4]);
+        p1HP = Integer.parseInt(removeSpace(p1Field[5]));
+        p1MP = Integer.parseInt(removeSpace(p1Field[6]));
+        p1AP = Integer.parseInt(removeSpace(p1Field[7]));
+        p1Att = Integer.parseInt(removeSpace(p1Field[8]));
+        p1Str = Integer.parseInt(removeSpace(p1Field[9]));
+        p1Def = Integer.parseInt(removeSpace(p1Field[10]));
+        p1Sta = Integer.parseInt(removeSpace(p1Field[11]));
+        p1Spd = Integer.parseInt(removeSpace(p1Field[12]));
+        p1Eva = Integer.parseInt(removeSpace(p1Field[13]));
+        p1Dex = Integer.parseInt(removeSpace(p1Field[14]));
+        p1Mys = Integer.parseInt(removeSpace(p1Field[15]));
+        p1Wil = Integer.parseInt(removeSpace(p1Field[16]));
+        p1Lck = Integer.parseInt(removeSpace(p1Field[17]));
+        p1Chm = Integer.parseInt(removeSpace(p1Field[18]));
+        p1Int = Integer.parseInt(removeSpace(p1Field[19]));
+        p1Age = Integer.parseInt(removeSpace(p1Field[25]));
+        plLv = Integer.parseInt(removeSpace(p1Field[26]));
+        p1Exp = Integer.parseInt(removeSpace(p1Field[27]));
+        p1Rep = Integer.parseInt(removeSpace(p1Field[28]));
+        p1Bio = removeSpace(p1Field[29]);
+        p1Image = removeSpace(p1Field[30]).replace("]","");
+        
+        p1Select.setSelectedIndex(p1Index - 1);
+        p1Text.setText(p1Align + " / " + p1Rep + "\n\nStatus:  \t" + p1Status 
+                + "\n\nLevel: \t " + plLv + "\n\nHP: \t " + p1HP + "/" + p1HP 
+                + "\nAP: \t" + p1AP + "/" + p1AP + "\nMP: \t " + p1MP + "/" +
+                p1MP + "\n\nAttack:\t\t" + p1Att + "\nStrength: \t" + p1Str + 
+                "\nDefense:\t" + p1Def + "\nStamina:  \t" + p1Sta + "\nSpeed:\t\t"
+                + p1Spd + "\nEvade:\t\t" + p1Eva + "\nDexterity:\t" + p1Dex + 
+                "\nMystic:\t\t" + p1Mys + "\nWillpower: \t" + p1Wil + 
+                "\nLuck:\t\t" + p1Lck + "\nCharm:\t\t" + p1Chm + "\nIntellect:\t"
+                + p1Int + "\n\nExperience:  \t" + p1Exp + "/" + p1Exp + "\n\n" 
+                + p1Bio);
+        p1Info.setText(p1Race + " - " + p1Class + " - " + "Age " + p1Age);
+        new ToonImage().setImage(p1Toon,p1Image);
+        lockSelect(p1Select);
+
+    }
+    
+    public void setP2(String toonname) throws SQLException {
+        List<String> toonStats = dbQuery("*","dbToons","toonName","toonName",
+                toonname, false);
+        String[] p2Field = ((toonStats.toString()).substring(1,(toonStats.
+                toString()).length())).split(",");
+        System.out.println(p2Field[0] + " " + p2Field[1]);
+        p2Index = Integer.parseInt(removeSpace(p2Field[0]));
+        p2Name = removeSpace(p2Field[1]);
+        p2Race = removeSpace(p2Field[2]);
+        p2Class = removeSpace(p2Field[3]);
+        p2Align = removeSpace(p2Field[4]);
+        p2HP = Integer.parseInt(removeSpace(p2Field[5]));
+        p2MP = Integer.parseInt(removeSpace(p2Field[6]));
+        p2AP = Integer.parseInt(removeSpace(p2Field[7]));
+        p2Att = Integer.parseInt(removeSpace(p2Field[8]));
+        p2Str = Integer.parseInt(removeSpace(p2Field[9]));
+        p2Def = Integer.parseInt(removeSpace(p2Field[10]));
+        p2Sta = Integer.parseInt(removeSpace(p2Field[11]));
+        p2Spd = Integer.parseInt(removeSpace(p2Field[12]));
+        p2Eva = Integer.parseInt(removeSpace(p2Field[13]));
+        p2Dex = Integer.parseInt(removeSpace(p2Field[14]));
+        p2Mys = Integer.parseInt(removeSpace(p2Field[15]));
+        p2Wil = Integer.parseInt(removeSpace(p2Field[16]));
+        p2Lck = Integer.parseInt(removeSpace(p2Field[17]));
+        p2Chm = Integer.parseInt(removeSpace(p2Field[18]));
+        p2Int = Integer.parseInt(removeSpace(p2Field[19]));
+        p2Age = Integer.parseInt(removeSpace(p2Field[25]));
+        plLv = Integer.parseInt(removeSpace(p2Field[26]));
+        p2Exp = Integer.parseInt(removeSpace(p2Field[27]));
+        p2Rep = Integer.parseInt(removeSpace(p2Field[28]));
+        p2Bio = removeSpace(p2Field[29]);
+        p2Image = removeSpace(p2Field[30]).replace("]","");
+        
+        p2Select.setSelectedIndex(p2Index - 1);
+        p2Text.setText(p2Align + " / " + p2Rep + "\n\nStatus:  \t" + p2Status 
+                + "\n\nLevel: \t " + plLv + "\n\nHP: \t " + p2HP + "/" + p2HP 
+                + "\nAP:\t " + p2AP + "/" + p2AP + "\nMP: \t " + p2MP + "/" +
+                p2MP + "\n\nAttack:\t\t" + p2Att + "\nStrength: \t" + p2Str + 
+                "\nDefense:\t" + p2Def + "\nStamina:  \t" + p2Sta + "\nSpeed:\t\t"
+                + p2Spd + "\nEvade:\t\t" + p2Eva + "\nDexterity:\t" + p2Dex + 
+                "\nMystic:\t\t" + p2Mys + "\nWillpower: \t" + p2Wil + 
+                "\nLuck:\t\t" + p2Lck + "\nCharm:\t\t" + p2Chm + "\nIntellect:\t"
+                + p2Int + "\n\nExperience:  \t" + p2Exp + "/" + p2Exp + "\n\n" 
+                + p2Bio);
+        p2Info.setText(p2Race + " - " + p2Class + " - " + "Age " + p2Age);
+        new ToonImage().setImage(p2Toon,p2Image);
+        lockSelect(p2Select);
+
     }
     
     private void fillSelect(JComboBox<String> player, List<String> list, 
@@ -272,6 +439,14 @@ public class MainGUI extends javax.swing.JFrame {
             };
         }
         });
+    }
+    
+    private String removeSpace(String s) {
+        char c = s.charAt(0);
+        if(c == ' ') {
+            s = s.substring(1);
+        }
+        return s;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

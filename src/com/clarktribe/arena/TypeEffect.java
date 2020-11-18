@@ -5,13 +5,15 @@ import java.awt.event.ActionListener;
 import javax.swing.JTextArea;
 import javax.swing.Timer;
 
+    // <editor-fold defaultstate="collapsed" desc="credits">
 /**
- *
+ * 
  * @author  Geoff Clark
  * @e-mail  gclark82@gmail.com
  * @game    Arena Game
  * 
  */
+// </editor-fold>
 
 public class TypeEffect {
     

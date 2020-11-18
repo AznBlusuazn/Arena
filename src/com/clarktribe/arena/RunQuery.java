@@ -7,10 +7,16 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+    // <editor-fold defaultstate="collapsed" desc="credits">
 /**
- *
- * @author admingec
+ * 
+ * @author  Geoff Clark
+ * @e-mail  gclark82@gmail.com
+ * @game    Arena Game
+ * 
  */
+// </editor-fold>
+
 class RunQuery {
     String db1 = "jdbc:ucanaccess://data.accdb";
     String db2 = "";
@@ -55,21 +61,18 @@ class RunQuery {
         Statement st = con.createStatement();
         String query = ("select " + search + " from " + table + " where " + 
                 match);
-        System.out.println("Attempted Query: " + query);
         ResultSet rs = st.executeQuery(query);
         ResultSetMetaData rsmd = rs.getMetaData();
         int colC = (rsmd.getColumnCount());
-        System.out.println("Count: " + colC);
         while (rs.next()) {
             for(int i = 1; i <= colC; i++) {
                 result = result + "," + rs.getString(i);
-                System.out.println(i + " - " + result);
             }
         }
-        
         st.close();
         con.close();
         result = result.substring(1,result.length());
+        System.out.println("Before Send: " + result);
         return result;
     }
 }

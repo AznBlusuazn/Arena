@@ -32,7 +32,7 @@ Contact the author:  gclark82@gmail.com
 
 DEVELOPMENT NOTES
 
-ALPHA 0.0.2 / 2020.11.17.xxxx
+ALPHA 0.0.2 / 2020.11.18.0019
 
 - added TODO.txt to GitHub for progress
 - added multiple values to abilities, ability types, linked tables
@@ -41,6 +41,8 @@ ALPHA 0.0.2 / 2020.11.17.xxxx
 - made some changes to the list of attributes in the db for toons
 - added more to the TODO list
 - temporarily changed the default db to be in \db for now
+- added an /avatars/ in src folder with test data
+- created test methods to populate player 1 and player 2 with db data (success)
 
 
 ALPHA 0.0.1 / 2020.11.17.0149
