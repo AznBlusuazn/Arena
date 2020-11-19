@@ -1,6 +1,6 @@
 =====================================
 SAVE THE WORLD by Geoff Clark
-VERSION ALPHA 0.0.3 / 2020.11.18.XXXX
+VERSION ALPHA 0.0.3 / 2020.11.18.2210
 =====================================
 
 This program was written with JDK 1.8.  It does require a minimum of JRE 52 to run.
@@ -32,13 +32,15 @@ Contact the author:  gclark82@gmail.com
 
 DEVELOPMENT NOTES
 
-ALPHA 0.0.3 / 2020.11.18.XXXX
+ALPHA 0.0.3 / 2020.11.18.2210
 
 - cleaned up interface for character selection dropdown
 - renamed dbcheck to filecheck
 - added userinput field and enter button
 - added import for race, class, and alignment for players
 - converted placeholder metadata for player profiles
+- added table for toon abilities and statuses
+- linked toon abilities to abilities table
 
 ALPHA 0.0.2 / 2020.11.18.0019
 

@@ -3,8 +3,10 @@ TO DO'S/IDEAS (DEVELOPING)
 [COMPLETE] import stats on character select 
 [COMPLETE] change alignment/rep to jlabels
 [COMPLETE] text space for user input / submit button
-
-- separate tables for toon abl and toon status
+[COMPLETE] separate tables for toon abl and toon status
+[COMPLETE] link toon abl to abl
+- create statuses table
+- link toon status to status
 - separate bio box into its own text box?
 - config enter key to act as submit button
 - set current stats after import
