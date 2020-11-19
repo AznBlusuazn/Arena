@@ -37,6 +37,8 @@ ALPHA 0.0.3 / 2020.11.18.XXXX
 - cleaned up interface for character selection dropdown
 - renamed dbcheck to filecheck
 - added userinput field and enter button
+- added import for race, class, and alignment for players
+- converted placeholder metadata for player profiles
 
 ALPHA 0.0.2 / 2020.11.18.0019
 

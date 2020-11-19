@@ -1,10 +1,11 @@
 TO DO'S/IDEAS (DEVELOPING)
 
-[PARTIAL SUCCESS] - import stats on character select 
-- separate tables for toon abl and toon status
-- change alignment/rep to jlabels
-- separate bio box into its own text box?
+[COMPLETE] import stats on character select 
+[COMPLETE] change alignment/rep to jlabels
 [COMPLETE] text space for user input / submit button
+
+- separate tables for toon abl and toon status
+- separate bio box into its own text box?
 - config enter key to act as submit button
 - set current stats after import
 - bio builder
@@ -89,4 +90,14 @@ TO DO'S/IDEAS (DEVELOPING)
 - different arenas
 - encrypt db
 - set encrypt db change db and uncomment hidefile db for release
-
+- attach abilities to weapons
+- level building for abilities tables
+- save game tables
+- current AI battle(s) ticker at top?
+- upcoming battles chart/button?
+- history looking up?
+- win/loss/tie records
+- clickable drill down/export?
+- turn meter
+- specific body damage
+- body part / melee modifiers (e.g. captain hook or baracka from MK)

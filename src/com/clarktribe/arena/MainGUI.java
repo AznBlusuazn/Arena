@@ -1,3 +1,4 @@
+// <editor-fold defaultstate="collapsed" desc="Header Items">
 package com.clarktribe.arena;
 
 import java.awt.Color;
@@ -20,9 +21,10 @@ import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.plaf.basic.BasicComboBoxUI;
+import javax.swing.text.BadLocationException;
 import javax.swing.text.JTextComponent;
+import javax.swing.text.StyledDocument;
 
-// <editor-fold defaultstate="collapsed" desc="credits">
 /**
  * 
  * @author  Geoff Clark
@@ -31,11 +33,13 @@ import javax.swing.text.JTextComponent;
  * @version ALPHA 0.0.2 / 2020.11.18.0019
  * 
  */
-// </editor-fold>
+//</editor-fold>
 
 public class MainGUI extends javax.swing.JFrame {
 
     // <editor-fold defaultstate="collapsed" desc="initialized variables">
+    
+    //Player 1 Vars
     int p1Index = 0;
     String p1Name = "";
     String p1Race = "";
@@ -57,13 +61,15 @@ public class MainGUI extends javax.swing.JFrame {
     int p1Chm = 0;
     int p1Int = 0;
     int p1Age = 0;
-    int plLv = 0;
+    int p1Lv = 0;
     int p1Exp = 0;
     int p1Rep = 0;
     String p1Bio = "";
     String p1Image = "";
-    String p1Status = "Healthy";
+    String p1Status = "<font color=green>Healthy</font>";
+    String p1TextString = "";
     
+    //Player 2 Vars
     int p2Index = 0;
     String p2Name = "";
     String p2Race = "";
@@ -90,7 +96,127 @@ public class MainGUI extends javax.swing.JFrame {
     int p2Rep = 0;
     String p2Bio = "";
     String p2Image = "";
-    String p2Status = "Healthy";
+    String p2Status = "<font color=green>Healthy</font>";
+    String p2TextString = "";
+    
+    //ToonList Vars
+    List<String> toonList = null;
+    DefaultComboBoxModel dml1 = new DefaultComboBoxModel();
+    DefaultComboBoxModel dml2 = new DefaultComboBoxModel();
+    
+    //Player 1 Race Vars
+    int r1Index = 0;
+    String r1Name = "";
+    String r1Desc = "";
+    int r1HPx = 0;
+    int r1APx = 0;
+    int r1MPx = 0;
+    int r1Attx = 0;
+    int r1Strx = 0;
+    int r1Defx = 0;
+    int r1Stax = 0;
+    int r1Spdx = 0;
+    int r1Evax = 0;
+    int r1Dexx = 0;
+    int r1Mysx = 0;
+    int r1Wilx = 0;
+    int r1Lckx = 0;
+    int r1Chmx = 0;
+    int r1Intx = 0;
+    int r1Agecap = 0;
+    int r1Lvcap = 0;
+    int r1Expx = 0;
+    int r1Repx = 0;
+    String r1Bio = "";
+    
+        //Player 2 Race Vars
+    int r2Index = 0;
+    String r2Name = "";
+    String r2Desc = "";
+    int r2HPx = 0;
+    int r2APx = 0;
+    int r2MPx = 0;
+    int r2Attx = 0;
+    int r2Strx = 0;
+    int r2Defx = 0;
+    int r2Stax = 0;
+    int r2Spdx = 0;
+    int r2Evax = 0;
+    int r2Dexx = 0;
+    int r2Mysx = 0;
+    int r2Wilx = 0;
+    int r2Lckx = 0;
+    int r2Chmx = 0;
+    int r2Intx = 0;
+    int r2Agecap = 0;
+    int r2Lvcap = 0;
+    int r2Expx = 0;
+    int r2Repx = 0;
+    String r2Bio = "";
+    
+    //Player 1 Class Vars
+    int c1Index = 0;
+    String c1Name = "";
+    String c1Desc = "";
+    int c1HPx = 0;
+    int c1APx = 0;
+    int c1MPx = 0;
+    int c1Attx = 0;
+    int c1Strx = 0;
+    int c1Defx = 0;
+    int c1Stax = 0;
+    int c1Spdx = 0;
+    int c1Evax = 0;
+    int c1Dexx = 0;
+    int c1Mysx = 0;
+    int c1Wilx = 0;
+    int c1Lckx = 0;
+    int c1Chmx = 0;
+    int c1Intx = 0;
+    int c1Agecap = 0;
+    int c1Lvcap = 0;
+    int c1Expx = 0;
+    int c1Repx = 0;
+    String c1Bio = "";
+    
+    //Player 2 Class Vars
+    int c2Index = 0;
+    String c2Name = "";
+    String c2Desc = "";
+    int c2HPx = 0;
+    int c2APx = 0;
+    int c2MPx = 0;
+    int c2Attx = 0;
+    int c2Strx = 0;
+    int c2Defx = 0;
+    int c2Stax = 0;
+    int c2Spdx = 0;
+    int c2Evax = 0;
+    int c2Dexx = 0;
+    int c2Mysx = 0;
+    int c2Wilx = 0;
+    int c2Lckx = 0;
+    int c2Chmx = 0;
+    int c2Intx = 0;
+    int c2Agecap = 0;
+    int c2Lvcap = 0;
+    int c2Expx = 0;
+    int c2Repx = 0;
+    String c2Bio = "";
+    
+    //Player 1 Alignment Vars
+    int align1Index = 0;
+    String align1Name = "";
+    String align1Desc = "";
+    int align1Score = 0;
+    String align1Bio = "";
+    
+    //Player 2 Alignment Vars
+    int align2Index = 0;
+    String align2Name = "";
+    String align2Desc = "";
+    int align2Score = 0;
+    String align2Bio = "";
     
     // </editor-fold>
     
@@ -99,7 +225,7 @@ public class MainGUI extends javax.swing.JFrame {
         dbCheck();
         setLocationRelativeTo(null);
         welcomePlayer();
-        testFill();
+        popSelect();
     }
     
     @SuppressWarnings("unchecked")
@@ -107,25 +233,27 @@ public class MainGUI extends javax.swing.JFrame {
     private void initComponents() {
 
         p1Toon = new javax.swing.JLabel();
-        p1Info = new javax.swing.JLabel();
+        p1Info1 = new javax.swing.JLabel();
+        p1Info2 = new javax.swing.JLabel();
+        p1Info3 = new javax.swing.JLabel();
         p1Select = new javax.swing.JComboBox<>();
         p1Pane = new javax.swing.JScrollPane();
-        p1Text = new javax.swing.JTextArea();
+        p1Text = new javax.swing.JTextPane();
         battlePane = new javax.swing.JScrollPane();
         battleText = new javax.swing.JTextArea();
         p2Toon = new javax.swing.JLabel();
-        p2Info = new javax.swing.JLabel();
+        p2Info1 = new javax.swing.JLabel();
+        p2Info2 = new javax.swing.JLabel();
+        p2Info3 = new javax.swing.JLabel();
         p2Select = new javax.swing.JComboBox<>();
-        p2Pane = new javax.swing.JScrollPane();
-        p2Text = new javax.swing.JTextArea();
         test1Button = new javax.swing.JButton();
         test2Button = new javax.swing.JButton();
         p1ToonName = new javax.swing.JLabel();
         p2ToonName = new javax.swing.JLabel();
         userInput = new javax.swing.JTextField();
         enterButton = new javax.swing.JButton();
-        p1AInfo = new javax.swing.JLabel();
-        p2AInfo = new javax.swing.JLabel();
+        p2Pane = new javax.swing.JScrollPane();
+        p2Text = new javax.swing.JTextPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Arena Game [Alpha]");
@@ -134,15 +262,27 @@ public class MainGUI extends javax.swing.JFrame {
         setName("mainGUI"); // NOI18N
         setPreferredSize(new java.awt.Dimension(1280, 800));
         setResizable(false);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         p1Toon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         p1Toon.setText("[Player 1 Image Here]");
         p1Toon.setFocusable(false);
+        getContentPane().add(p1Toon, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 200, 200));
 
-        p1Info.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        p1Info.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        p1Info.setText("Race - Class - Age");
-        p1Info.setFocusable(false);
+        p1Info1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        p1Info1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        p1Info1.setFocusable(false);
+        getContentPane().add(p1Info1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 260, 200, 20));
+
+        p1Info2.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        p1Info2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        p1Info2.setFocusable(false);
+        getContentPane().add(p1Info2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, 200, 20));
+
+        p1Info3.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        p1Info3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        p1Info3.setFocusable(false);
+        getContentPane().add(p1Info3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 300, 200, 20));
 
         p1Select.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
         p1Select.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Player 1" }));
@@ -151,14 +291,15 @@ public class MainGUI extends javax.swing.JFrame {
                 p1SelectActionPerformed(evt);
             }
         });
+        getContentPane().add(p1Select, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 200, -1));
 
-        p1Text.setColumns(20);
+        p1Text.setEditable(false);
+        p1Text.setContentType("text/html"); // NOI18N
         p1Text.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        p1Text.setLineWrap(true);
-        p1Text.setRows(5);
-        p1Text.setWrapStyleWord(true);
         p1Text.setFocusable(false);
         p1Pane.setViewportView(p1Text);
+
+        getContentPane().add(p1Pane, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 332, 200, 370));
 
         battleText.setEditable(false);
         battleText.setColumns(20);
@@ -169,14 +310,27 @@ public class MainGUI extends javax.swing.JFrame {
         battleText.setFocusable(false);
         battlePane.setViewportView(battleText);
 
+        getContentPane().add(battlePane, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 274, 800, 430));
+
         p2Toon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         p2Toon.setText("[Player 2 Image Here]");
         p2Toon.setFocusable(false);
+        getContentPane().add(p2Toon, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 20, 200, 200));
 
-        p2Info.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        p2Info.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        p2Info.setText("Race - Class - Age");
-        p2Info.setFocusable(false);
+        p2Info1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        p2Info1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        p2Info1.setFocusable(false);
+        getContentPane().add(p2Info1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 260, 200, 20));
+
+        p2Info2.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        p2Info2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        p2Info2.setFocusable(false);
+        getContentPane().add(p2Info2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 280, 200, 20));
+
+        p2Info3.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        p2Info3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        p2Info3.setFocusable(false);
+        getContentPane().add(p2Info3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 300, 200, 20));
 
         p2Select.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
         p2Select.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Player 2" }));
@@ -185,14 +339,7 @@ public class MainGUI extends javax.swing.JFrame {
                 p2SelectActionPerformed(evt);
             }
         });
-
-        p2Text.setColumns(20);
-        p2Text.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        p2Text.setLineWrap(true);
-        p2Text.setRows(5);
-        p2Text.setWrapStyleWord(true);
-        p2Text.setFocusable(false);
-        p2Pane.setViewportView(p2Text);
+        getContentPane().add(p2Select, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 240, 200, -1));
 
         test1Button.setText("test1");
         test1Button.addActionListener(new java.awt.event.ActionListener() {
@@ -200,6 +347,7 @@ public class MainGUI extends javax.swing.JFrame {
                 test1ButtonActionPerformed(evt);
             }
         });
+        getContentPane().add(test1Button, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 240, -1, -1));
 
         test2Button.setText("test2");
         test2Button.addActionListener(new java.awt.event.ActionListener() {
@@ -207,14 +355,17 @@ public class MainGUI extends javax.swing.JFrame {
                 test2ButtonActionPerformed(evt);
             }
         });
+        getContentPane().add(test2Button, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 240, -1, -1));
 
         p1ToonName.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         p1ToonName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         p1ToonName.setText("Player 1");
+        getContentPane().add(p1ToonName, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 240, 200, 18));
 
         p2ToonName.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         p2ToonName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         p2ToonName.setText("Player 2");
+        getContentPane().add(p2ToonName, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 240, 200, 20));
 
         userInput.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         userInput.addActionListener(new java.awt.event.ActionListener() {
@@ -222,132 +373,48 @@ public class MainGUI extends javax.swing.JFrame {
                 userInputActionPerformed(evt);
             }
         });
+        getContentPane().add(userInput, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 720, 720, -1));
 
         enterButton.setFont(new java.awt.Font("Lucida Console", 0, 11)); // NOI18N
         enterButton.setText("Enter");
+        getContentPane().add(enterButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 720, 70, -1));
 
-        p1AInfo.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        p1AInfo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        p1AInfo.setText("Alignment");
-        p1AInfo.setFocusable(false);
+        p2Text.setEditable(false);
+        p2Text.setContentType("text/html"); // NOI18N
+        p2Text.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
+        p2Text.setFocusable(false);
+        p2Pane.setViewportView(p2Text);
 
-        p2AInfo.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        p2AInfo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        p2AInfo.setText("Alignment");
-        p2AInfo.setFocusable(false);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(p1Toon, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(820, 820, 820)
-                        .addComponent(p2Toon, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(p1ToonName, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)
-                        .addComponent(p1Select, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(400, 400, 400)
-                        .addComponent(p2Select, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)
-                        .addComponent(p2ToonName, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(p1Info, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)
-                        .addComponent(test1Button)
-                        .addGap(686, 686, 686)
-                        .addComponent(test2Button)
-                        .addGap(10, 10, 10)
-                        .addComponent(p2Info, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(p1Pane, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(10, 10, 10))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(p1AInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(battlePane, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(userInput, javax.swing.GroupLayout.PREFERRED_SIZE, 720, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(10, 10, 10)
-                                .addComponent(enterButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(10, 10, 10)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(p2Pane, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(p2AInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(p1Toon, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(p2Toon, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(p1ToonName, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(p1Select, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(p2Select, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(p2ToonName)))
-                .addGap(4, 4, 4)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(p1Info, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(test1Button)
-                    .addComponent(test2Button)
-                    .addComponent(p2Info, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addComponent(battlePane, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(6, 6, 6)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(userInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(enterButton)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(p1AInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(p1Pane, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(2, 2, 2)
-                        .addComponent(p2AInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(p2Pane, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE))))
-        );
+        getContentPane().add(p2Pane, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 332, 200, 370));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //<editor-fold defaultstate="collapsed" desc="Swing Item Actions">
     private void test1ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_test1ButtonActionPerformed
         try {
             changeP(1);
-        } catch (SQLException ex) {
+        } catch (SQLException | BadLocationException ex) {
             ex.printStackTrace();
         }
         lockSelect(p1Select);
+        test1Button.setVisible(false);
     }//GEN-LAST:event_test1ButtonActionPerformed
 
     private void test2ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_test2ButtonActionPerformed
         try {
             changeP(2);
-        } catch (SQLException ex) {
+        } catch (SQLException | BadLocationException ex) {
             ex.printStackTrace();
         }
         lockSelect(p2Select);
+        test2Button.setVisible(false);
     }//GEN-LAST:event_test2ButtonActionPerformed
 
     private void p1SelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_p1SelectActionPerformed
         try {
             changeP(1);
-        } catch (SQLException ex) {
+        } catch (SQLException | BadLocationException ex) {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_p1SelectActionPerformed
@@ -355,7 +422,7 @@ public class MainGUI extends javax.swing.JFrame {
     private void p2SelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_p2SelectActionPerformed
         try {
             changeP(2);
-        } catch (SQLException ex) {
+        } catch (SQLException | BadLocationException ex) {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_p2SelectActionPerformed
@@ -364,6 +431,8 @@ public class MainGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_userInputActionPerformed
 
+//</editor-fold>    
+    
     public static void main(String args[]) {
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -400,10 +469,9 @@ public class MainGUI extends javax.swing.JFrame {
                 + "  This is just filler text for something greater, much, much"
                 + " later.\n\nEnjoy. - Geoff";
         new TypeEffect(battleText,text).start();
-//        hideDDArrow(p1Select);
-//        hideDDArrow(p2Select);
     }
     
+    //<editor-fold defaultstate="collapsed" desc="db Methods">
     private void dbCheck() throws IOException {
         //String ogPath = "/db/default.dat";
         String ogPath = "db/data.accdb";
@@ -429,34 +497,34 @@ public class MainGUI extends javax.swing.JFrame {
         List<String> convertedList = Arrays.asList(stringList);
         return convertedList;
     }
+    //</editor-fold>
     
-    private void testFill() throws SQLException {
-        //fills Toon boxes
-        List<String> toonList = dbQuery("*","dbToons","toonName","","", true);
-        DefaultComboBoxModel dml1 = new DefaultComboBoxModel();
-        DefaultComboBoxModel dml2 = new DefaultComboBoxModel();
+    private void popSelect() throws SQLException {
+        toonList = dbQuery("*","dbToons","toonName","","", true);
         fillSelect(p1Select,(toonList),dml1);
         fillSelect(p2Select,(toonList),dml2);
     }
     
-//    private void test2() throws SQLException {
-//        List<String> toonStats = dbQuery("*","dbToons","toonName","toonName","The Man Of Iron", false);
-//        String[] vars = ((toonStats.toString()).substring(1,(toonStats.toString()).length())).split(",");
-//        System.out.println("First Pre: " + vars[0]);
-//        System.out.println("First Post:" + removeSpace(vars[0]));
-//        
-//        System.out.println("SecondPre: " + vars[1]);
-//        System.out.println("SecondPost:" + removeSpace(vars[1]));
-//        
-//        System.out.println();
-//    }
-    
-    public void setP1(String toonname) throws SQLException {
-        List<String> toonStats = dbQuery("*","dbToons","toonName","toonName",
+    private void fillSelect(JComboBox<String> player, List<String> list, 
+            DefaultComboBoxModel dml) {
+        Font font = player.getFont();
+        DefaultListCellRenderer lrCenter;
+        lrCenter = new DefaultListCellRenderer();
+        lrCenter.setHorizontalAlignment(DefaultListCellRenderer.CENTER);
+        lrCenter.setFont(font.deriveFont(Font.BOLD));
+        for(int i = 0; i < list.size(); i++) {
+            dml.addElement((list.get(i)));
+        }
+        player.setModel(dml);
+        player.setRenderer(lrCenter);
+    }
+
+    //<editor-fold defaultstate="collapsed" desc="Set Players Code">
+    public void setP1(String toonname) throws SQLException, BadLocationException {
+        List<String> listP1Stats = dbQuery("*","dbToons","toonName","toonName",
                 toonname, false);
-        String[] p1Field = ((toonStats.toString()).substring(1,(toonStats.
+        String[] p1Field = ((listP1Stats.toString()).substring(1,(listP1Stats.
                 toString()).length())).split(",");
-        System.out.println(p1Field[0] + " " + p1Field[1]);
         p1Index = Integer.parseInt(removeSpace(p1Field[0]));
         p1Name = removeSpace(p1Field[1]);
         p1Race = removeSpace(p1Field[2]);
@@ -478,33 +546,39 @@ public class MainGUI extends javax.swing.JFrame {
         p1Chm = Integer.parseInt(removeSpace(p1Field[18]));
         p1Int = Integer.parseInt(removeSpace(p1Field[19]));
         p1Age = Integer.parseInt(removeSpace(p1Field[25]));
-        plLv = Integer.parseInt(removeSpace(p1Field[26]));
+        p1Lv = Integer.parseInt(removeSpace(p1Field[26]));
         p1Exp = Integer.parseInt(removeSpace(p1Field[27]));
         p1Rep = Integer.parseInt(removeSpace(p1Field[28]));
         p1Bio = removeSpace(p1Field[29]);
         p1Image = removeSpace(p1Field[30]).replace("]","");        
         p1Select.setSelectedIndex(p1Index - 1);
-        p1ToonName.setText(p1Name);
-        p1Text.setText(p1Align + " / " + p1Rep + "\n\nStatus:  " + p1Status 
-                + "\n\nLevel: \t " + plLv + "\n\nHP: \t " + p1HP + "/" + p1HP 
-                + "\nAP: \t " + p1AP + "/" + p1AP + "\nMP: \t " + p1MP + "/" +
-                p1MP + "\n\nAttack:\t\t" + p1Att + "\nStrength: \t" + p1Str + 
-                "\nDefense:\t" + p1Def + "\nStamina:  \t" + p1Sta + "\nSpeed:\t\t"
-                + p1Spd + "\nEvade:\t\t" + p1Eva + "\nDexterity:\t" + p1Dex + 
-                "\nMystic:\t\t" + p1Mys + "\nWillpower: \t" + p1Wil + 
-                "\nLuck:\t\t" + p1Lck + "\nCharm:\t\t" + p1Chm + "\nIntellect:\t"
-                + p1Int + "\n\nExperience:  \t" + p1Exp + "/" + p1Exp + "\n\n" 
-                + p1Bio);
-        p1Info.setText(p1Race + " - " + p1Class + " - " + "Age " + p1Age);
+        p1ToonName.setText(p1Name + " (Lv. " + p1Lv + ")");
+        getR1(p1Race);
+        getC1(p1Class);
+        getAlign1(p1Align);
+        p1Info1.setText("(Age Modifier " + p1Age + ")");
+        p1Info2.setText(r1Name + " " + c1Name);
+        p1Info3.setText(align1Name + " (Rep: " + p1Rep + ")");
+        p1TextString = ("<center>Status: &nbsp;" + p1Status + "<br><br>Exp: &nb"
+                + "sp;" + p1Exp + "/" + p1Exp + "<br><br>HP: &nbsp;" + p1HP + ""
+                + "/" + p1HP  + "<br>AP: &nbsp;" + p1AP + "/" + p1AP + "<br>MP:"
+                + " &nbsp;" + p1MP + "/" + p1MP + "<br><br>Attack: &nbsp;" + 
+                p1Att + "<br>Strength: &nbsp;" + p1Str + "<br>Defense" + ": &nb"
+                + "sp;" + p1Def + "<br>Stamina: &nbsp;"+ p1Sta + "<br>Speed: &n"
+                + "bsp;"+ p1Spd +"<br>Evade: &nbsp;" + p1Eva + "<br>Dexterity: "
+                + "&nbsp;" + p1Dex + "<br>Mystic: &nbsp;" + p1Mys + "<br>Willpo"
+                + "wer: &nbsp;" + p1Wil + "<br>Luck: &nbsp;" + p1Lck + "<br>Cha"
+                + "rm: &nbsp;" + p1Chm + "<br>Intellect: &nbsp;" + p1Int + "</c"
+                + "enter><br><br>" + p1Bio);
+        p1Text.setText(p1TextString);
         new ToonImage().setImage(p1Toon,p1Image);
     }
     
     public void setP2(String toonname) throws SQLException {
-        List<String> toonStats = dbQuery("*","dbToons","toonName","toonName",
+        List<String> listP2Stats = dbQuery("*","dbToons","toonName","toonName",
                 toonname, false);
-        String[] p2Field = ((toonStats.toString()).substring(1,(toonStats.
+        String[] p2Field = ((listP2Stats.toString()).substring(1,(listP2Stats.
                 toString()).length())).split(",");
-        System.out.println(p2Field[0] + " " + p2Field[1]);
         p2Index = Integer.parseInt(removeSpace(p2Field[0]));
         p2Name = removeSpace(p2Field[1]);
         p2Race = removeSpace(p2Field[2]);
@@ -526,56 +600,194 @@ public class MainGUI extends javax.swing.JFrame {
         p2Chm = Integer.parseInt(removeSpace(p2Field[18]));
         p2Int = Integer.parseInt(removeSpace(p2Field[19]));
         p2Age = Integer.parseInt(removeSpace(p2Field[25]));
-        plLv = Integer.parseInt(removeSpace(p2Field[26]));
+        p2Lv = Integer.parseInt(removeSpace(p2Field[26]));
         p2Exp = Integer.parseInt(removeSpace(p2Field[27]));
         p2Rep = Integer.parseInt(removeSpace(p2Field[28]));
         p2Bio = removeSpace(p2Field[29]);
         p2Image = removeSpace(p2Field[30]).replace("]","");        
         p2Select.setSelectedIndex(p2Index - 1);
-        p2ToonName.setText(p2Name);
-        p2Text.setText(p2Align + " / " + p2Rep + "\n\nStatus:  " + p2Status 
-                + "\n\nLevel: \t " + plLv + "\n\nHP: \t " + p2HP + "/" + p2HP 
-                + "\nAP:\t " + p2AP + "/" + p2AP + "\nMP: \t " + p2MP + "/" +
-                p2MP + "\n\nAttack:\t\t" + p2Att + "\nStrength: \t" + p2Str + 
-                "\nDefense:\t" + p2Def + "\nStamina:  \t" + p2Sta + "\nSpeed:\t\t"
-                + p2Spd + "\nEvade:\t\t" + p2Eva + "\nDexterity:\t" + p2Dex + 
-                "\nMystic:\t\t" + p2Mys + "\nWillpower: \t" + p2Wil + 
-                "\nLuck:\t\t" + p2Lck + "\nCharm:\t\t" + p2Chm + "\nIntellect:\t"
-                + p2Int + "\n\nExperience:  \t" + p2Exp + "/" + p2Exp + "\n\n" 
-                + p2Bio);
-        p2Info.setText(p2Race + " - " + p2Class + " - " + "Age " + p2Age);
+        p2ToonName.setText(p2Name + " (Lv. " + p2Lv + ")");
+        getR2(p2Race);
+        getC2(p2Class);
+        getAlign2(p2Align);
+        p2Info1.setText(" (Age Modifier " + p2Age + ") ");
+        p2Info2.setText(r2Name + " " + c2Name);
+        p2Info3.setText(align2Name + " (Rep: " + p2Rep + ")");
+                p2TextString = ("<center>Status: &nbsp;" + p2Status + "<br><br>Exp: &nb"
+                + "sp;" + p2Exp + "/" + p2Exp + "<br><br>HP: &nbsp;" + p2HP + ""
+                + "/" + p2HP  + "<br>AP: &nbsp;" + p2AP + "/" + p2AP + "<br>MP:"
+                + " &nbsp;" + p2MP + "/" + p2MP + "<br><br>Attack: &nbsp;" + 
+                p2Att + "<br>Strength: &nbsp;" + p2Str + "<br>Defense" + ": &nb"
+                + "sp;" + p2Def + "<br>Stamina: &nbsp;"+ p2Sta + "<br>Speed: &n"
+                + "bsp;"+ p2Spd +"<br>Evade: &nbsp;" + p2Eva + "<br>Dexterity: "
+                + "&nbsp;" + p2Dex + "<br>Mystic: &nbsp;" + p2Mys + "<br>Willpo"
+                + "wer: &nbsp;" + p2Wil + "<br>Luck: &nbsp;" + p2Lck + "<br>Cha"
+                + "rm: &nbsp;" + p2Chm + "<br>Intellect: &nbsp;" + p2Int + "</c"
+                + "enter><br><br>" + p2Bio);
+        p2Text.setText(p2TextString);
         new ToonImage().setImage(p2Toon,p2Image);
     }
     
-    private void changeP(int p) throws SQLException {
+    private void changeP(int p) throws SQLException, BadLocationException {
         if(p == 1)
             setP1((String) p1Select.getSelectedItem());
         if(p == 2)
             setP2((String) p2Select.getSelectedItem());
     }
     
-    private void fillSelect(JComboBox<String> player, List<String> list, 
-            DefaultComboBoxModel dml) {
-        System.out.println("Before: " + (player.getFont()));
-        Font font = player.getFont();
-        DefaultListCellRenderer lrCenter;
-        lrCenter = new DefaultListCellRenderer();
-        lrCenter.setHorizontalAlignment(DefaultListCellRenderer.CENTER);
-        lrCenter.setFont(font.deriveFont(Font.BOLD));
-        for(int i = 0; i < list.size(); i++) {
-            dml.addElement((list.get(i)));
-        }
-        player.setModel(dml);
-        player.setRenderer(lrCenter);
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Get Race/Class/Align Code">    
+    public void getR1(String raceid) throws SQLException {
+        List<String> r1Stats = dbQuery("*","dbRace","raceName","raceID ",
+                raceid, false);
+        String[] r1Field = ((r1Stats.toString()).substring(1,(r1Stats.
+                toString()).length())).split(",");
+        r1Index = Integer.parseInt(removeSpace(r1Field[0]));
+        r1Name = removeSpace(r1Field[1]);
+        r1Desc = removeSpace(r1Field[2]);
+        r1HPx = Integer.parseInt(removeSpace(r1Field[3]));
+        r1MPx = Integer.parseInt(removeSpace(r1Field[4]));
+        r1APx = Integer.parseInt(removeSpace(r1Field[5]));
+        r1Attx = Integer.parseInt(removeSpace(r1Field[6]));
+        r1Strx = Integer.parseInt(removeSpace(r1Field[7]));
+        r1Defx = Integer.parseInt(removeSpace(r1Field[8]));
+        r1Stax = Integer.parseInt(removeSpace(r1Field[9]));
+        r1Spdx = Integer.parseInt(removeSpace(r1Field[10]));
+        r1Evax = Integer.parseInt(removeSpace(r1Field[11]));
+        r1Dexx = Integer.parseInt(removeSpace(r1Field[12]));
+        r1Mysx = Integer.parseInt(removeSpace(r1Field[13]));
+        r1Wilx = Integer.parseInt(removeSpace(r1Field[14]));
+        r1Lckx = Integer.parseInt(removeSpace(r1Field[15]));
+        r1Chmx = Integer.parseInt(removeSpace(r1Field[16]));
+        r1Intx = Integer.parseInt(removeSpace(r1Field[17]));
+        r1Agecap = Integer.parseInt(removeSpace(r1Field[23]));
+        r1Lvcap = Integer.parseInt(removeSpace(r1Field[24]));
+        r1Expx = Integer.parseInt(removeSpace(r1Field[25]));
+        r1Repx = Integer.parseInt(removeSpace(r1Field[26]));
+        r1Bio = removeSpace(r1Field[27]).replace("]","");
+    }
+    
+    public void getR2(String raceid) throws SQLException {
+        List<String> r2Stats = dbQuery("*","dbRace","raceName","raceID ",
+                raceid, false);
+        String[] r2Field = ((r2Stats.toString()).substring(1,(r2Stats.
+                toString()).length())).split(",");
+        r2Index = Integer.parseInt(removeSpace(r2Field[0]));
+        r2Name = removeSpace(r2Field[1]);
+        r2Desc = removeSpace(r2Field[2]);
+        r2HPx = Integer.parseInt(removeSpace(r2Field[3]));
+        r2MPx = Integer.parseInt(removeSpace(r2Field[4]));
+        r2APx = Integer.parseInt(removeSpace(r2Field[5]));
+        r2Attx = Integer.parseInt(removeSpace(r2Field[6]));
+        r2Strx = Integer.parseInt(removeSpace(r2Field[7]));
+        r2Defx = Integer.parseInt(removeSpace(r2Field[8]));
+        r2Stax = Integer.parseInt(removeSpace(r2Field[9]));
+        r2Spdx = Integer.parseInt(removeSpace(r2Field[10]));
+        r2Evax = Integer.parseInt(removeSpace(r2Field[11]));
+        r2Dexx = Integer.parseInt(removeSpace(r2Field[12]));
+        r2Mysx = Integer.parseInt(removeSpace(r2Field[13]));
+        r2Wilx = Integer.parseInt(removeSpace(r2Field[14]));
+        r2Lckx = Integer.parseInt(removeSpace(r2Field[15]));
+        r2Chmx = Integer.parseInt(removeSpace(r2Field[16]));
+        r2Intx = Integer.parseInt(removeSpace(r2Field[17]));
+        r2Agecap = Integer.parseInt(removeSpace(r2Field[23]));
+        r2Lvcap = Integer.parseInt(removeSpace(r2Field[24]));
+        r2Expx = Integer.parseInt(removeSpace(r2Field[25]));
+        r2Repx = Integer.parseInt(removeSpace(r2Field[26]));
+        r2Bio = removeSpace(r2Field[27]).replace("]","");
+    }
+
+    public void getC1(String classid) throws SQLException {
+        List<String> c1Stats = dbQuery("*","dbClass","className","classID ",
+                classid, false);
+        String[] c1Field = ((c1Stats.toString()).substring(1,(c1Stats.
+                toString()).length())).split(",");
+        c1Index = Integer.parseInt(removeSpace(c1Field[0]));
+        c1Name = removeSpace(c1Field[1]);
+        c1Desc = removeSpace(c1Field[2]);
+        c1HPx = Integer.parseInt(removeSpace(c1Field[3]));
+        c1MPx = Integer.parseInt(removeSpace(c1Field[4]));
+        c1APx = Integer.parseInt(removeSpace(c1Field[5]));
+        c1Attx = Integer.parseInt(removeSpace(c1Field[6]));
+        c1Strx = Integer.parseInt(removeSpace(c1Field[7]));
+        c1Defx = Integer.parseInt(removeSpace(c1Field[8]));
+        c1Stax = Integer.parseInt(removeSpace(c1Field[9]));
+        c1Spdx = Integer.parseInt(removeSpace(c1Field[10]));
+        c1Evax = Integer.parseInt(removeSpace(c1Field[11]));
+        c1Dexx = Integer.parseInt(removeSpace(c1Field[12]));
+        c1Mysx = Integer.parseInt(removeSpace(c1Field[13]));
+        c1Wilx = Integer.parseInt(removeSpace(c1Field[14]));
+        c1Lckx = Integer.parseInt(removeSpace(c1Field[15]));
+        c1Chmx = Integer.parseInt(removeSpace(c1Field[16]));
+        c1Intx = Integer.parseInt(removeSpace(c1Field[17]));
+        c1Agecap = Integer.parseInt(removeSpace(c1Field[23]));
+        c1Lvcap = Integer.parseInt(removeSpace(c1Field[24]));
+        c1Expx = Integer.parseInt(removeSpace(c1Field[25]));
+        c1Repx = Integer.parseInt(removeSpace(c1Field[26]));
+        c1Bio = removeSpace(c1Field[27]).replace("]","");
+    }
+    
+    public void getC2(String classid) throws SQLException {
+        List<String> c2Stats = dbQuery("*","dbClass","className","classID ",
+                classid, false);
+        String[] c2Field = ((c2Stats.toString()).substring(1,(c2Stats.
+                toString()).length())).split(",");
+        c2Index = Integer.parseInt(removeSpace(c2Field[0]));
+        c2Name = removeSpace(c2Field[1]);
+        c2Desc = removeSpace(c2Field[2]);
+        c2HPx = Integer.parseInt(removeSpace(c2Field[3]));
+        c2MPx = Integer.parseInt(removeSpace(c2Field[4]));
+        c2APx = Integer.parseInt(removeSpace(c2Field[5]));
+        c2Attx = Integer.parseInt(removeSpace(c2Field[6]));
+        c2Strx = Integer.parseInt(removeSpace(c2Field[7]));
+        c2Defx = Integer.parseInt(removeSpace(c2Field[8]));
+        c2Stax = Integer.parseInt(removeSpace(c2Field[9]));
+        c2Spdx = Integer.parseInt(removeSpace(c2Field[10]));
+        c2Evax = Integer.parseInt(removeSpace(c2Field[11]));
+        c2Dexx = Integer.parseInt(removeSpace(c2Field[12]));
+        c2Mysx = Integer.parseInt(removeSpace(c2Field[13]));
+        c2Wilx = Integer.parseInt(removeSpace(c2Field[14]));
+        c2Lckx = Integer.parseInt(removeSpace(c2Field[15]));
+        c2Chmx = Integer.parseInt(removeSpace(c2Field[16]));
+        c2Intx = Integer.parseInt(removeSpace(c2Field[17]));
+        c2Agecap = Integer.parseInt(removeSpace(c2Field[23]));
+        c2Lvcap = Integer.parseInt(removeSpace(c2Field[24]));
+        c2Expx = Integer.parseInt(removeSpace(c2Field[25]));
+        c2Repx = Integer.parseInt(removeSpace(c2Field[26]));
+        c2Bio = removeSpace(c2Field[27]).replace("]","");
+    }
+
+    public void getAlign1(String alignid) throws SQLException {
+        List<String> align1Stats = dbQuery("*","dbAlign","alignName","alignID ",
+                alignid, false);
+        String[] align1Field = ((align1Stats.toString()).substring(1,(align1Stats.
+                toString()).length())).split(",");
+        align1Index = Integer.parseInt(removeSpace(align1Field[0]));
+        align1Name = removeSpace(align1Field[1]);
+        align1Desc = removeSpace(align1Field[2]);
+        align1Score = Integer.parseInt(removeSpace(align1Field[3]));
+        align1Bio = removeSpace(align1Field[27]).replace("]","");
+        System.out.println("Align1 Test: " + align1Name + " " + align1Score);
+    }
+    
+    public void getAlign2(String alignid) throws SQLException {
+        List<String> align2Stats = dbQuery("*","dbAlign","alignName","alignID ",
+                alignid, false);
+        String[] align2Field = ((align2Stats.toString()).substring(1,(align2Stats.
+                toString()).length())).split(",");
+        align2Index = Integer.parseInt(removeSpace(align2Field[0]));
+        align2Name = removeSpace(align2Field[1]);
+        align2Desc = removeSpace(align2Field[2]);
+        align2Score = Integer.parseInt(removeSpace(align2Field[3]));
+        align2Bio = removeSpace(align2Field[27]).replace("]","");
+        System.out.println("Align2 Test: " + align2Name + " " + align2Score);
     }
 
     
-    private void lockSelect(JComboBox<String> dropdown) {
-        dropOff(dropdown);
-    }
+    //</editor-fold>
     
-    
-    // <editor-fold defaultstate="collapsed" desc="hideDDArrow"> 
+    // <editor-fold defaultstate="collapsed" desc="hideDDArrow (inactive)"> 
 //    private void hideDDArrow(JComboBox<String> box) {
 //        box.setUI(new BasicComboBoxUI() { 
 //        protected JButton createArrowButton() {
@@ -593,21 +805,23 @@ public class MainGUI extends javax.swing.JFrame {
 //    }
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="dropOn"> 
+    //<editor-fold defaultstate="collapsed" desc="Drop Effects"> 
     private void dropOn(JComboBox<String> box) {
         box.setEnabled(true);
         box.setBackground(new Color(214,217,223));
         box.setFont((box.getFont().deriveFont(Font.PLAIN)));
     }
-    // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="dropOff"> 
     private void dropOff(JComboBox<String> box) {
         box.setVisible(false);
         
     
     }
-    // </editor-fold>
+
+    private void lockSelect(JComboBox<String> dropdown) {
+        dropOff(dropdown);
+    }
+    //</editor-fold>
     
     private String removeSpace(String s) {
         char c = s.charAt(0);
@@ -617,27 +831,31 @@ public class MainGUI extends javax.swing.JFrame {
         return s;
     }
 
+    //<editor-fold defaultstate="collapsed" desc="Swing Variables">
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane battlePane;
     private javax.swing.JTextArea battleText;
     private javax.swing.JButton enterButton;
-    private javax.swing.JLabel p1AInfo;
-    private javax.swing.JLabel p1Info;
+    private javax.swing.JLabel p1Info1;
+    private javax.swing.JLabel p1Info2;
+    private javax.swing.JLabel p1Info3;
     private javax.swing.JScrollPane p1Pane;
     private javax.swing.JComboBox<String> p1Select;
-    private javax.swing.JTextArea p1Text;
+    private javax.swing.JTextPane p1Text;
     private javax.swing.JLabel p1Toon;
     private javax.swing.JLabel p1ToonName;
-    private javax.swing.JLabel p2AInfo;
-    private javax.swing.JLabel p2Info;
+    private javax.swing.JLabel p2Info1;
+    private javax.swing.JLabel p2Info2;
+    private javax.swing.JLabel p2Info3;
     private javax.swing.JScrollPane p2Pane;
     private javax.swing.JComboBox<String> p2Select;
-    private javax.swing.JTextArea p2Text;
+    private javax.swing.JTextPane p2Text;
     private javax.swing.JLabel p2Toon;
     private javax.swing.JLabel p2ToonName;
     private javax.swing.JButton test1Button;
     private javax.swing.JButton test2Button;
     private javax.swing.JTextField userInput;
     // End of variables declaration//GEN-END:variables
-
+    //</editor-fold>
+    
 }
