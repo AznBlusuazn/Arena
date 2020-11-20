@@ -1,5 +1,13 @@
 How many AP/MP/HP?
 
+ability damaged - temp lost of 1+ points.  returns after x amount of time
+ability drained - perm lost of 1+ points.
+cowering - -def -dex -luck -char -strength
+
+unconscious
+dying
+dead
+
 draining AP/MP/HP?
 undead (reverse)
 regen (slow gain)
@@ -12,6 +20,7 @@ time
 darkness
 paralysis
 charmed
+exhausted ( 75% speed, stren, stam, dex pentality)
 
 
 
@@ -35,7 +44,6 @@ Myst - Unlimited MP for (X) number of turn (figure out balance)
 Try Hard - Exp is multipled by (figure out balance)
 Icy - +Ice -Fire
 On Fire - +Fire -water -ice
-
 
 NEUTRAL
 
@@ -68,3 +76,4 @@ Heavy - -Speed
 Toad - Turns to Frog - Cannot do anything but "Tongue Attack" and "Croak" - all stats dropped
 Pig - Becomes Pig -- can still use weapons, no other major abilities, no armor, -def drop
 Animal - Turns into random from animal race
+helpless - when strength = 0

@@ -1,6 +1,6 @@
 =====================================
 SAVE THE WORLD by Geoff Clark
-VERSION ALPHA 0.0.4 / 2020.11.19.2304
+VERSION ALPHA 0.0.5 / 2020.11.20.XXXX
 =====================================
 
 This program was written with JDK 1.8.  It does require a minimum of JRE 52 to run.
@@ -31,6 +31,13 @@ Contact the author:  gclark82@gmail.com
 ====================================
 
 DEVELOPMENT NOTES
+
+ALPHA 0.0.5 / 2020.11.20.XXXX
+
+- added Fatigue, Soul, Decay, Weight Modifier, Size, and Gender to Toon, Race, Class, Abilities
+- added unique field for Toon, Race, Class, and Abilities
+- added Genders
+- added importing of Gender to profile, moved around display for Gender box
 
 ALPHA 0.0.4 / 2020.11.19.2304
 

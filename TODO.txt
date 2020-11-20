@@ -8,6 +8,18 @@ TO DO'S/IDEAS (DEVELOPING)
 [CREATED BUT IN PROGRESS] create statuses table
 [IN PROGRESS] create baseline statuses
 - link toon status to status
+- race ability table
+- class ability table
+- split out race class and age boxes
+- add size box
+- status table for each ability
+- size stat?
+- weight stat
+- fatigue meter
+- status target?
+- ability - grappling?
+- soul stat (hidden)
+- decay stat (hidden)?
 - separate bio box into its own text box?
 - config enter key to act as submit button
 - set current stats after import
@@ -18,6 +30,7 @@ TO DO'S/IDEAS (DEVELOPING)
 - status feature and logic
 - fatal blow concept (intentional and accidental)
 - add fatal attribute to ability
+- mercy ability
 - strengths/weaknesses (status?)
 - randomizer engine
 - battle gui
@@ -42,6 +55,7 @@ TO DO'S/IDEAS (DEVELOPING)
 - import/export db
 - training with faction logic
 - training logic
+- inventory
 - items
 - loot
 - magic logic
@@ -112,3 +126,15 @@ TO DO'S/IDEAS (DEVELOPING)
 - battle scripts per toon?
 - option for randomized attacks instead of scripts?
 - timer for bitten status (to turn into ?)
+- similar to
+- offspring/family
+- "talk to" scenarios
+- status to temp change alignment 
+- add is identity secret
+- add who knows identity table?
+- alter ego table
+- pregnant status
+- kids as inventory to parents until age
+- mechanic that if kid inventory is lost, the new owner can raise the kid
+- currency
+- for hire logic
