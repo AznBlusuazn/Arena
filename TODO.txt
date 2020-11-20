@@ -5,7 +5,8 @@ TO DO'S/IDEAS (DEVELOPING)
 [COMPLETE] text space for user input / submit button
 [COMPLETE] separate tables for toon abl and toon status
 [COMPLETE] link toon abl to abl
-- create statuses table
+[CREATED BUT IN PROGRESS] create statuses table
+[IN PROGRESS] create baseline statuses
 - link toon status to status
 - separate bio box into its own text box?
 - config enter key to act as submit button
@@ -103,3 +104,11 @@ TO DO'S/IDEAS (DEVELOPING)
 - turn meter
 - specific body damage
 - body part / melee modifiers (e.g. captain hook or baracka from MK)
+- genders
+- orientation
+- relationships
+- mating / mutations / reproduction
+- relationships based on decisions (kill, alliances, dating, etc.)
+- battle scripts per toon?
+- option for randomized attacks instead of scripts?
+- timer for bitten status (to turn into ?)

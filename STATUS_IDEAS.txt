@@ -1,0 +1,70 @@
+How many AP/MP/HP?
+
+draining AP/MP/HP?
+undead (reverse)
+regen (slow gain)
+fire
+ice
+earth
+wind
+water
+time
+darkness
+paralysis
+charmed
+
+
+
+POS
+
+Dispel - Nullifies all statuses
+Image - +Evade 
+Brave - +PhysAttack
+Bubble - +Max HP Double
+Faith - +Mystic
+Float - xEarth
+Haste - +Speed
+Invin - +Def +MDef
+Vanish - xPhysAttacks -MagicAttacks
+Relife - Revival when knocked out
+Runic - Absorb Magic Attack -> MP
+Regen - Restore HP over time
+Immortal - Can't be killed unless special item (defined)
+Shell - +MagDef
+Myst - Unlimited MP for (X) number of turn (figure out balance)
+Try Hard - Exp is multipled by (figure out balance)
+Icy - +Ice -Fire
+On Fire - +Fire -water -ice
+
+
+NEUTRAL
+
+Wild - +PhysAttack +Speed -- only attacks for X turns
+Split - Create a double of character; splits stats
+Merge - Only works on a split -- combines back together
+
+
+NEG
+
+Blind - -Accuracy
+Mind - Confusion/Attack Self?
+Last Wind - under 5% -- changes for crit multiples?
+Condemned - Has X number of turns before KO
+Confusion - Random Attacks
+Curse - drops all stats and random number of neg effects
+Disease - gives draining effect and drops stats
+Paralyzed - Speed and Dex to 0 for X number of turns
+Freeze - like para but fire attack can recover unless Icy
+Numb - -Speed and decrease is incremental
+Oil - Takes extra damage from fire unless On Fire
+Poison - HP and Stamina drain every turn
+Taunt - based on charisma - angers opponent (what does this mean?) and increases +luck and ?
+Undead - Cure causes deal, poison causes regen, etc.  survives battles at 1 HP until critical
+Silence - disables Mystic for X number of turns
+Shrink - -PhysAttack -Defense
+Sleep - Like Paralyzed but until physically attacked
+Bitten - Zombie/Vamp/Were etc.  If reversed/cured, race changes to what it was bitten by
+Heavy - -Speed 
+Toad - Turns to Frog - Cannot do anything but "Tongue Attack" and "Croak" - all stats dropped
+Pig - Becomes Pig -- can still use weapons, no other major abilities, no armor, -def drop
+Animal - Turns into random from animal race

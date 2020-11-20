@@ -1,6 +1,6 @@
 =====================================
 SAVE THE WORLD by Geoff Clark
-VERSION ALPHA 0.0.3 / 2020.11.18.2210
+VERSION ALPHA 0.0.4 / 2020.11.19.2304
 =====================================
 
 This program was written with JDK 1.8.  It does require a minimum of JRE 52 to run.
@@ -31,6 +31,12 @@ Contact the author:  gclark82@gmail.com
 ====================================
 
 DEVELOPMENT NOTES
+
+ALPHA 0.0.4 / 2020.11.19.2304
+
+- added statuses table
+- started brainstorming various baseline statuses for game -- see STATUS_IDEAS.txt
+- more ideas added to TODO.txt
 
 ALPHA 0.0.3 / 2020.11.18.2210
 
