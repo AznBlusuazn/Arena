@@ -17,10 +17,29 @@ earth
 wind
 water
 time
-darkness
+blind
 paralysis
 charmed
 exhausted ( 75% speed, stren, stam, dex pentality)
+darkness
+light
+indifferent
+tired ( 50% speed stren stam dex pentality)
+fear ( 50% -att, -mystic, -def, -intel, -luck )
+grappling (disables all except melee attacks?)
+helpless (mercy or fatal option for opponent)
+incorporeal (immune from phys attack -- except from other incorporeals)
+invisible (xPhysAttacks xevade to 100%  -MagicAttacks)
+panick ( 75% fear)
+shaken ( 25% fear)
+paralyzed ( dex -0 str -0 , only can do mental attacks)
+on fire
+frozen
+stone
+prone
+healthy
+stunned
+turned
 
 
 
