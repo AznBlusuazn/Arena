@@ -1,19 +1,7 @@
 TO DO'S/IDEAS (DEVELOPING)
 
-[COMPLETE] import stats on character select 
-[COMPLETE] change alignment/rep to jlabels
-[COMPLETE] text space for user input / submit button
-[COMPLETE] separate tables for toon abl and toon status
-[COMPLETE] link toon abl to abl
-[CREATED BUT IN PROGRESS] create statuses table
 [IN PROGRESS] create baseline statuses
 - link toon status to status
-- add effect table
-- race ability table
-- class ability table
-- split out race class and age boxes
-- add size box
-- status table for each ability
 - size stat?
 - weight stat
 - fatigue meter
@@ -139,3 +127,23 @@ TO DO'S/IDEAS (DEVELOPING)
 - mechanic that if kid inventory is lost, the new owner can raise the kid
 - currency
 - for hire logic
+- spell/ability to turn toons into items for collection
+- prisoners
+- different arenas that only allow certain types of battle?
+- credits (money)
+
+COMPLETED
+
+[COMPLETE] import stats on character select 
+[COMPLETE] change alignment/rep to jlabels
+[COMPLETE] text space for user input / submit button
+[COMPLETE] separate tables for toon abl and toon status
+[COMPLETE] link toon abl to abl
+[COMPLETE] create statuses table
+[COMPLETE] add effect table
+[COMPLETE] race ability table
+[COMPLETE] class ability table
+[COMPLETE]  need universal sorter method
+[COMPLETE] split out race class and age boxes
+[COMPLETE] add size box
+[COMPLETE] status table for each ability

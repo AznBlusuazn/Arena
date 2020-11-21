@@ -1,6 +1,6 @@
 =====================================
 THE ARENA GAME by Geoff Clark
-VERSION ALPHA 0.0.5 / 2020.11.20.2342
+VERSION ALPHA 0.0.6 / 2020.11.21.XXXX
 =====================================
 
 This program was written with JDK 1.8.  It does require a minimum of JRE 52 to run.
@@ -31,6 +31,15 @@ Contact the author:  gclark82@gmail.com
 ====================================
 
 DEVELOPMENT NOTES
+
+ALPHA 0.0.6 / 2020.11.21.XXXX
+
+- coded logic to extract toons race/class/unique effects and combine them into a unique "code"
+- effects code then translates to status, every status will have a unique identifier
+- split bio off into its own window -- prep for auto generated bios
+- moved status out of text box and coded in colors for statuses
+- added Array Sorter method
+- test statuses are Normal, Knocked Out, Dead
 
 ALPHA 0.0.5 / 2020.11.20.2342
 

@@ -9,10 +9,13 @@ import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import static javax.swing.GroupLayout.Alignment.CENTER;
@@ -338,73 +341,46 @@ public class MainGUI extends javax.swing.JFrame {
     
     //Player 1 Toon Effect Vars
     int tEff1Index = 0;
-    int tEff1001 = 0;
-    int tEff1002 = 0;
-    int tEff1003 = 0;
-    int tEff1004 = 0;
-    int tEff1005 = 0;
-    int tEff1006 = 0;
-    int tEff1007 = 0;
-    int tEff1008 = 0;
-    int tEff1009 = 0;
-    int tEff1010 = 0;
-    int tEff1011 = 0;
-    int tEff1012 = 0;
-    int tEff1013 = 0;
-    int tEff1014 = 0;
-    int tEff1015 = 0;
-    int tEff1016 = 0;
-    int tEff1017 = 0;
-    int tEff1018 = 0;
-    int tEff1019 = 0;
-    int tEff1020 = 0;
-    int tEff1021 = 0;
-    int tEff1022 = 0;
-    int tEff1023 = 0;
-    int tEff1024 = 0;
-    int tEff1025 = 0;
-    int tEff1026 = 0;
-    int tEff1027 = 0;
-    int tEff1028 = 0;
-    int tEff1029 = 0;
-    int tEff1030 = 0;
     String tEff1Code = "";
     
-     //Player 2 Toon Effect Vars
+    //Player 2 Toon Effect Vars
     int tEff2Index = 0;
-    int tEff2001 = 0;
-    int tEff2002 = 0;
-    int tEff2003 = 0;
-    int tEff2004 = 0;
-    int tEff2005 = 0;
-    int tEff2006 = 0;
-    int tEff2007 = 0;
-    int tEff2008 = 0;
-    int tEff2009 = 0;
-    int tEff2010 = 0;
-    int tEff2011 = 0;
-    int tEff2012 = 0;
-    int tEff2013 = 0;
-    int tEff2014 = 0;
-    int tEff2015 = 0;
-    int tEff2016 = 0;
-    int tEff2017 = 0;
-    int tEff2018 = 0;
-    int tEff2019 = 0;
-    int tEff2020 = 0;
-    int tEff2021 = 0;
-    int tEff2022 = 0;
-    int tEff2023 = 0;
-    int tEff2024 = 0;
-    int tEff2025 = 0;
-    int tEff2026 = 0;
-    int tEff2027 = 0;
-    int tEff2028 = 0;
-    int tEff2029 = 0;
-    int tEff2030 = 0;
     String tEff2Code = "";
     
+    //Player 1 Race Effect Vars
+    int rEff1Index = 0;
+    String rEff1Code = "";
     
+     //Player 2 Race Effect Vars
+    int rEff2Index = 0;
+    String rEff2Code = "";
+    
+    //Player 1 Class Effect Vars
+    int cEff1Index = 0;
+    String cEff1Code = "";
+    
+     //Player 2 Race Effect Vars
+    int cEff2Index = 0;
+    String cEff2Code = "";
+    
+    
+    //Status List Vars
+    List<String> statusList = null;
+    String comb1Code = "";
+    String status1Info = "";
+    String[] status1Field = null;
+    String status1Name = "";
+    String status1Color = "";
+    String status1Desc = "";
+    String status1Bio = "";
+    String comb2Code = "";
+    String status2Info = "";
+    String[] status2Field = null;
+    String status2Name = "";
+    String status2Color = "";
+    String status2Desc = "";
+    String status2Bio = "";
+
     // </editor-fold>
     
     public MainGUI() throws InterruptedException, SQLException, IOException, URISyntaxException {
@@ -420,29 +396,35 @@ public class MainGUI extends javax.swing.JFrame {
     private void initComponents() {
 
         p1Toon = new javax.swing.JLabel();
+        p1ToonName = new javax.swing.JLabel();
         p1Info1 = new javax.swing.JLabel();
         p1Info2 = new javax.swing.JLabel();
         p1Info3 = new javax.swing.JLabel();
         p1Info4 = new javax.swing.JLabel();
+        p1Info5 = new javax.swing.JLabel();
         p1Select = new javax.swing.JComboBox<>();
         p1Pane = new javax.swing.JScrollPane();
         p1Text = new javax.swing.JTextPane();
+        p1Pane2 = new javax.swing.JScrollPane();
+        p1Text2 = new javax.swing.JTextPane();
         battlePane = new javax.swing.JScrollPane();
         battleText = new javax.swing.JTextArea();
         p2Toon = new javax.swing.JLabel();
+        p2ToonName = new javax.swing.JLabel();
         p2Info1 = new javax.swing.JLabel();
         p2Info2 = new javax.swing.JLabel();
         p2Info3 = new javax.swing.JLabel();
+        p2Info4 = new javax.swing.JLabel();
+        p2Info5 = new javax.swing.JLabel();
         p2Select = new javax.swing.JComboBox<>();
-        test1Button = new javax.swing.JButton();
-        test2Button = new javax.swing.JButton();
-        p1ToonName = new javax.swing.JLabel();
-        p2ToonName = new javax.swing.JLabel();
-        userInput = new javax.swing.JTextField();
-        enterButton = new javax.swing.JButton();
         p2Pane = new javax.swing.JScrollPane();
         p2Text = new javax.swing.JTextPane();
-        p2Info4 = new javax.swing.JLabel();
+        p2Pane2 = new javax.swing.JScrollPane();
+        p2Text2 = new javax.swing.JTextPane();
+        test1Button = new javax.swing.JButton();
+        test2Button = new javax.swing.JButton();
+        userInput = new javax.swing.JTextField();
+        enterButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Arena Game [Alpha]");
@@ -457,6 +439,11 @@ public class MainGUI extends javax.swing.JFrame {
         p1Toon.setText("[Player 1 Image Here]");
         p1Toon.setFocusable(false);
         getContentPane().add(p1Toon, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 200, 200));
+
+        p1ToonName.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        p1ToonName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        p1ToonName.setText("Player 1");
+        getContentPane().add(p1ToonName, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 240, 200, 18));
 
         p1Info1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         p1Info1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -477,6 +464,10 @@ public class MainGUI extends javax.swing.JFrame {
         p1Info4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         getContentPane().add(p1Info4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 200, 20));
 
+        p1Info5.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
+        p1Info5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        getContentPane().add(p1Info5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, 200, 20));
+
         p1Select.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
         p1Select.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Player 1" }));
         p1Select.addActionListener(new java.awt.event.ActionListener() {
@@ -492,7 +483,15 @@ public class MainGUI extends javax.swing.JFrame {
         p1Text.setFocusable(false);
         p1Pane.setViewportView(p1Text);
 
-        getContentPane().add(p1Pane, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 342, 200, 360));
+        getContentPane().add(p1Pane, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 362, 200, 280));
+
+        p1Text2.setEditable(false);
+        p1Text2.setContentType("text/html"); // NOI18N
+        p1Text2.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
+        p1Text2.setFocusable(false);
+        p1Pane2.setViewportView(p1Text2);
+
+        getContentPane().add(p1Pane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 640, 200, 110));
 
         battleText.setEditable(false);
         battleText.setColumns(20);
@@ -510,6 +509,11 @@ public class MainGUI extends javax.swing.JFrame {
         p2Toon.setFocusable(false);
         getContentPane().add(p2Toon, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 20, 200, 200));
 
+        p2ToonName.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        p2ToonName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        p2ToonName.setText("Player 2");
+        getContentPane().add(p2ToonName, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 240, 200, 20));
+
         p2Info1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         p2Info1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         p2Info1.setFocusable(false);
@@ -525,6 +529,14 @@ public class MainGUI extends javax.swing.JFrame {
         p2Info3.setFocusable(false);
         getContentPane().add(p2Info3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 300, 200, 20));
 
+        p2Info4.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        p2Info4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        getContentPane().add(p2Info4, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 320, 200, 20));
+
+        p2Info5.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
+        p2Info5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        getContentPane().add(p2Info5, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 340, 200, 20));
+
         p2Select.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
         p2Select.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Player 2" }));
         p2Select.addActionListener(new java.awt.event.ActionListener() {
@@ -533,6 +545,22 @@ public class MainGUI extends javax.swing.JFrame {
             }
         });
         getContentPane().add(p2Select, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 240, 200, -1));
+
+        p2Text.setEditable(false);
+        p2Text.setContentType("text/html"); // NOI18N
+        p2Text.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
+        p2Text.setFocusable(false);
+        p2Pane.setViewportView(p2Text);
+
+        getContentPane().add(p2Pane, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 362, 200, 280));
+
+        p2Text2.setEditable(false);
+        p2Text2.setContentType("text/html"); // NOI18N
+        p2Text2.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
+        p2Text2.setFocusable(false);
+        p2Pane2.setViewportView(p2Text2);
+
+        getContentPane().add(p2Pane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 640, 200, 110));
 
         test1Button.setText("test1");
         test1Button.addActionListener(new java.awt.event.ActionListener() {
@@ -550,16 +578,6 @@ public class MainGUI extends javax.swing.JFrame {
         });
         getContentPane().add(test2Button, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 240, -1, -1));
 
-        p1ToonName.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        p1ToonName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        p1ToonName.setText("Player 1");
-        getContentPane().add(p1ToonName, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 240, 200, 18));
-
-        p2ToonName.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        p2ToonName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        p2ToonName.setText("Player 2");
-        getContentPane().add(p2ToonName, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 240, 200, 20));
-
         userInput.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         userInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -571,18 +589,6 @@ public class MainGUI extends javax.swing.JFrame {
         enterButton.setFont(new java.awt.Font("Lucida Console", 0, 11)); // NOI18N
         enterButton.setText("Enter");
         getContentPane().add(enterButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 720, 70, -1));
-
-        p2Text.setEditable(false);
-        p2Text.setContentType("text/html"); // NOI18N
-        p2Text.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        p2Text.setFocusable(false);
-        p2Pane.setViewportView(p2Text);
-
-        getContentPane().add(p2Pane, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 342, 200, 360));
-
-        p2Info4.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        p2Info4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        getContentPane().add(p2Info4, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 320, 200, 20));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -763,11 +769,18 @@ public class MainGUI extends javax.swing.JFrame {
         getG1(p1Gen);
         getTAbl1(p1Index);
         getTEff1(p1Index);
+        getREff1(r1Index);
+        getCEff1(c1Index);
+        comb1Code = s2i2sSorted(tEff1Code + "-" + rEff1Code + "-" + cEff1Code);
+        getStatus1(comb1Code);
+        System.out.println("Status Toon 1 Code: " + status1Name + " " + status1Color + " " + status1Desc + " " + status1Bio);
+        p1Status = ("<html><b><font color=" + status1Color + ">"+ status1Name + "</font></b></html>");
         p1Info1.setText("(Age Modifier " + p1Age + ")");
         p1Info2.setText(r1Name + " " + c1Name);
         p1Info3.setText(align1Name + " (Rep: " + p1Rep + ")");
         p1Info4.setText("Size" + p1Sze +  " " + gender1Name);
-        p1TextString = ("<center>Status: &nbsp;" + p1Status + "<br><br>Exp: &nb"
+        p1Info5.setText(p1Status);
+        p1TextString = ("<center>Exp: &nb"
                 + "sp;" + p1Exp + "/" + p1Exp + "<br><br>HP: &nbsp;" + p1HP + ""
                 + "/" + p1HP  + "<br>AP: &nbsp;" + p1AP + "/" + p1AP + "<br>MP:"
                 + " &nbsp;" + p1MP + "/" + p1MP + "<br><br>Attack: &nbsp;" + 
@@ -777,8 +790,9 @@ public class MainGUI extends javax.swing.JFrame {
                 + "&nbsp;" + p1Dex + "<br>Mystic: &nbsp;" + p1Mys + "<br>Willpo"
                 + "wer: &nbsp;" + p1Wil + "<br>Luck: &nbsp;" + p1Lck + "<br>Cha"
                 + "rm: &nbsp;" + p1Chm + "<br>Intellect: &nbsp;" + p1Int + "<br>Fatigue: &nbsp;" + p1Fat + "<br>Soul/Decay (hide): &nbsp;" + p1Dcy + "/" + p1Sol
-                + "<center><br><br>" + p1Bio);
+                + "</center>");
         p1Text.setText(p1TextString);
+        p1Text2.setText(p1Bio);
         new ToonImage().setImage(p1Toon,p1Image);
     }
     
@@ -828,11 +842,18 @@ public class MainGUI extends javax.swing.JFrame {
         getG2(p2Gen);
         getTAbl2(p2Index);
         getTEff2(p2Index);
+        getREff2(r2Index);        
+        getCEff2(c2Index);
+        comb2Code = s2i2sSorted(tEff2Code + "-" + rEff2Code + "-" + cEff2Code);
+        getStatus2(comb2Code);
+        System.out.println("Status Toon 2 Code: " + status2Name + " " + status2Color + " " + status2Desc + " " + status2Bio);
+        p2Status = ("<html><b><font color=" + status2Color + ">"+ status2Name + "</font></b></html>");
         p2Info1.setText(" (Age Modifier " + p2Age + ") ");
         p2Info2.setText(r2Name + " " + c2Name);
         p2Info3.setText(align2Name + " (Rep: " + p2Rep + ")");
         p2Info4.setText("Size" + p2Sze +  " " + gender2Name);
-                p2TextString = ("<center>Status: &nbsp;" + p2Status + "<br><br>Exp: &nb"
+        p2Info5.setText(p2Status);
+                p2TextString = ("<center>Exp: &nb"
                 + "sp;" + p2Exp + "/" + p2Exp + "<br><br>HP: &nbsp;" + p2HP + ""
                 + "/" + p2HP  + "<br>AP: &nbsp;" + p2AP + "/" + p2AP + "<br>MP:"
                 + " &nbsp;" + p2MP + "/" + p2MP + "<br><br>Attack: &nbsp;" + 
@@ -842,7 +863,8 @@ public class MainGUI extends javax.swing.JFrame {
                 + "&nbsp;" + p2Dex + "<br>Mystic: &nbsp;" + p2Mys + "<br>Willpo"
                 + "wer: &nbsp;" + p2Wil + "<br>Luck: &nbsp;" + p2Lck + "<br>Cha"
                  + "rm: &nbsp;" + p2Chm + "<br>Intellect: &nbsp;" + p2Int + "<br>Fatigue: &nbsp;" + p2Fat + "<br>Soul/Decay (hide): &nbsp;" + p2Dcy + "/" + p2Sol
-                + "<center><br><br>" + p2Bio);
+                + "</center>");
+        p2Text2.setText(p2Bio);
         p2Text.setText(p2TextString);
         new ToonImage().setImage(p2Toon,p2Image);
     }
@@ -1126,6 +1148,10 @@ public class MainGUI extends javax.swing.JFrame {
         tAbl2029 = processInt(tAbl2Field[29]);
         tAbl2030 = processInt(tAbl2Field[30]);
     }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Get Effect Code">    
+
     
     public void getTEff1(int toonid) throws SQLException {
         List<String> tEff1Stats = dbQuery("*","dbToonEffects","toonID","toonID ",
@@ -1133,40 +1159,7 @@ public class MainGUI extends javax.swing.JFrame {
         String[] tEff1Field = ((tEff1Stats.toString()).substring(1,(tEff1Stats.
                 toString()).length())).split(",");
         tEff1Index = Integer.parseInt(removeSpace(tEff1Field[0]));
-        tEff1001 = processInt(tEff1Field[1]);
-        tEff1002 = processInt(tEff1Field[2]);
-        tEff1003 = processInt(tEff1Field[3]);
-        tEff1004 = processInt(tEff1Field[4]);
-        tEff1005 = processInt(tEff1Field[5]);
-        tEff1006 = processInt(tEff1Field[6]);
-        tEff1007 = processInt(tEff1Field[7]);
-        tEff1008 = processInt(tEff1Field[8]);
-        tEff1009 = processInt(tEff1Field[9]);
-        tEff1010 = processInt(tEff1Field[10]);
-        tEff1011 = processInt(tEff1Field[11]);
-        tEff1012 = processInt(tEff1Field[12]);
-        tEff1013 = processInt(tEff1Field[13]);
-        tEff1014 = processInt(tEff1Field[14]);
-        tEff1015 = processInt(tEff1Field[15]);
-        tEff1016 = processInt(tEff1Field[16]);
-        tEff1017 = processInt(tEff1Field[17]);
-        tEff1018 = processInt(tEff1Field[18]);
-        tEff1019 = processInt(tEff1Field[19]);
-        tEff1020 = processInt(tEff1Field[20]);
-        tEff1021 = processInt(tEff1Field[21]);
-        tEff1022 = processInt(tEff1Field[22]);
-        tEff1023 = processInt(tEff1Field[23]);
-        tEff1024 = processInt(tEff1Field[24]);
-        tEff1025 = processInt(tEff1Field[25]);
-        tEff1026 = processInt(tEff1Field[26]);
-        tEff1027 = processInt(tEff1Field[27]);
-        tEff1028 = processInt(tEff1Field[28]);
-        tEff1029 = processInt(tEff1Field[29]);
-        tEff1030 = processInt(tEff1Field[30]); 
-        
         tEff1Code = getEffCode(tEff1Field);
-        System.out.println(tEff1Code);
-                
     }    
     
     public void getTEff2(int toonid) throws SQLException {
@@ -1175,45 +1168,43 @@ public class MainGUI extends javax.swing.JFrame {
         String[] tEff2Field = ((tEff2Stats.toString()).substring(1,(tEff2Stats.
                 toString()).length())).split(",");
         tEff2Index = Integer.parseInt(removeSpace(tEff2Field[0]));
-        tEff2001 = processInt(tEff2Field[1]);
-        tEff2002 = processInt(tEff2Field[2]);
-        tEff2003 = processInt(tEff2Field[3]);
-        tEff2004 = processInt(tEff2Field[4]);
-        tEff2005 = processInt(tEff2Field[5]);
-        tEff2006 = processInt(tEff2Field[6]);
-        tEff2007 = processInt(tEff2Field[7]);
-        tEff2008 = processInt(tEff2Field[8]);
-        tEff2009 = processInt(tEff2Field[9]);
-        tEff2010 = processInt(tEff2Field[10]);
-        tEff2011 = processInt(tEff2Field[11]);
-        tEff2012 = processInt(tEff2Field[12]);
-        tEff2013 = processInt(tEff2Field[13]);
-        tEff2014 = processInt(tEff2Field[14]);
-        tEff2015 = processInt(tEff2Field[15]);
-        tEff2016 = processInt(tEff2Field[16]);
-        tEff2017 = processInt(tEff2Field[17]);
-        tEff2018 = processInt(tEff2Field[18]);
-        tEff2019 = processInt(tEff2Field[19]);
-        tEff2020 = processInt(tEff2Field[20]);
-        tEff2021 = processInt(tEff2Field[21]);
-        tEff2022 = processInt(tEff2Field[22]);
-        tEff2023 = processInt(tEff2Field[23]);
-        tEff2024 = processInt(tEff2Field[24]);
-        tEff2025 = processInt(tEff2Field[25]);
-        tEff2026 = processInt(tEff2Field[26]);
-        tEff2027 = processInt(tEff2Field[27]);
-        tEff2028 = processInt(tEff2Field[28]);
-        tEff2029 = processInt(tEff2Field[29]);
-        tEff2030 = processInt(tEff2Field[30]);
+        tEff2Code = getEffCode(tEff2Field);
     }
 
-    private int processInt(String s) {
-        if (s == null || s.isEmpty() || removeSpace(s) == null || 
-                (removeSpace(s).equalsIgnoreCase("null"))) {
-            return 0;
-        } else {
-            return (Integer.parseInt(removeSpace(s)));
-        }
+    public void getREff1(int raceid) throws SQLException {
+        List<String> rEff1Stats = dbQuery("*","dbRaceEffects","raceID","raceID ",
+                String.valueOf(raceid), false);
+        String[] rEff1Field = ((rEff1Stats.toString()).substring(1,(rEff1Stats.
+                toString()).length())).split(",");
+        rEff1Index = Integer.parseInt(removeSpace(rEff1Field[0]));
+        rEff1Code = getEffCode(rEff1Field);
+    }    
+    
+    public void getREff2(int raceid) throws SQLException {
+        List<String> rEff2Stats = dbQuery("*","dbRaceEffects","raceID","raceID ",
+                String.valueOf(raceid), false);
+        String[] rEff2Field = ((rEff2Stats.toString()).substring(1,(rEff2Stats.
+                toString()).length())).split(",");
+        rEff2Index = Integer.parseInt(removeSpace(rEff2Field[0]));
+        rEff2Code = getEffCode(rEff2Field);
+    }
+  
+    public void getCEff1(int classid) throws SQLException {
+        List<String> cEff1Stats = dbQuery("*","dbClassEffects","classID","classID ",
+                String.valueOf(classid), false);
+        String[] cEff1Field = ((cEff1Stats.toString()).substring(1,(cEff1Stats.
+                toString()).length())).split(",");
+        cEff1Index = Integer.parseInt(removeSpace(cEff1Field[0]));
+        cEff1Code = getEffCode(cEff1Field);
+    }    
+    
+    public void getCEff2(int classid) throws SQLException {
+        List<String> cEff2Stats = dbQuery("*","dbClassEffects","classID","classID ",
+                String.valueOf(classid), false);
+        String[] cEff2Field = ((cEff2Stats.toString()).substring(1,(cEff2Stats.
+                toString()).length())).split(",");
+        cEff2Index = Integer.parseInt(removeSpace(cEff2Field[0]));
+        cEff2Code = getEffCode(cEff2Field);
     }
     
     private String getEffCode(String [] array) {
@@ -1221,7 +1212,87 @@ public class MainGUI extends javax.swing.JFrame {
         for(int i = 1; i < (array.length - 1); i++) {
              code += (processInt(array[i])) + "-";
         }
-        return code.substring(0, code.length() - 1);
+        String preCode = code.substring(0, code.length() - 1);
+        String finalCode = preCode.replaceAll("-0", "");
+        return finalCode;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Get Status Code">        
+    public void getStatus1(String effectcode) throws SQLException {
+        status1Info = getStatusInfo(effectcode);
+        status1Field = (status1Info.split(","));
+        status1Name = removeSpace(status1Field[0]);
+        status1Color = removeSpace(status1Field[1]);
+        status1Desc = removeSpace(status1Field[2]);
+        status1Bio = removeSpace(status1Field[3]);
+    } 
+    
+    public void getStatus2(String effectcode) throws SQLException {
+        status2Info = getStatusInfo(effectcode);
+        status2Field = (status2Info.split(","));
+        status2Name = removeSpace(status2Field[0]);
+        status2Color = removeSpace(status2Field[1]);
+        status2Desc = removeSpace(status2Field[2]);
+        status2Bio = removeSpace(status2Field[3]);
+    }
+
+    private String getStatusInfo(String effectcode) throws SQLException {
+        List<String> tempStatusArray = new ArrayList<>();
+        int totalLines = (((dbQuery("*","dbStatus","statusID","","", true)).
+                toString()).split(",")).length;
+        for (int i = 0; i < (totalLines); i++) {
+            List<String> tempStats = dbQuery("*","dbStatus","statusID","statusI"
+                    + "D ",String.valueOf(i+1), false);
+            String[] tempField = ((tempStats.toString()).substring(1,(tempStats.
+                toString()).length())).split(",");
+            int tempID = processInt(tempField[0]);
+            String tempRate = removeSpace(tempField[5]);
+            String tempCode = getStatusCode(tempField);
+            int tempCheck = effectcode.indexOf(tempCode);
+            if(tempCheck == 0) {
+                int tempLength = tempStatusArray.size();
+                tempStatusArray.add(tempLength,(tempID + "," + tempRate));
+            }   
+        }
+        String[] tempStatusArray2 = ((tempStatusArray.toString()).substring(1,
+                (tempStatusArray.toString()).length()-1)).split(",");
+        int tempNewLeng = (tempStatusArray2.length-1) * 2;
+        List<Integer> tempFinalArray = new ArrayList<>();
+        int max = 0;
+        int lineno = 0;
+        for (int j = 0; j < tempNewLeng; j++) {
+            if(j%2 == 0) {
+                tempFinalArray.add(processInt(tempStatusArray2[j+1]));
+            }
+            for(int k = 0; k < tempFinalArray.size(); k++) {
+                if(tempFinalArray.get(k) > max) {
+                    max = tempFinalArray.get(k);
+                    lineno = k;
+                }
+            }
+        }
+        List<String> finalStats = dbQuery("*","dbStatus","statusID","statusID ",
+                    String.valueOf(tempStatusArray2[lineno]), false);
+            String[] finalField = ((finalStats.toString()).substring(1,
+                    (finalStats.toString()).length())).split(",");
+            String finalName = removeSpace(finalField[1]);
+            String finalColor = removeSpace(finalField[2]);
+            String finalDesc = removeSpace(finalField[3]);
+            String finalBio = removeSpace(finalField[4]);
+        String finalStatus = (finalName + "," + finalColor + "," + finalDesc + 
+                "," + finalBio);
+        return finalStatus;
+    }
+
+    private String getStatusCode(String [] array) {
+        String code = "";
+        for(int i = 6; i < (array.length - 1); i++) {
+             code += (processInt(array[i])) + "-";
+        }
+        String preCode = code.substring(0, code.length() - 1);
+        String finalCode = preCode.replaceAll("-0", "");
+        return finalCode;
     }
     
     //</editor-fold>
@@ -1269,6 +1340,33 @@ public class MainGUI extends javax.swing.JFrame {
         }
         return s;
     }
+    
+    private int processInt(String s) {
+        if (s == null || s.isEmpty() || removeSpace(s) == null || 
+                (removeSpace(s).equalsIgnoreCase("null"))) {
+            return 0;
+        } else {
+            return (Integer.parseInt(removeSpace(s)));
+        }
+    }
+    
+    private String s2i2sSorted(String string) {
+        String[] readyConvert = (string).split("-");
+        int[] intArray = new int[readyConvert.length];
+        for(int i = 0; i < readyConvert.length; i++) {
+            intArray[i] = Integer.parseInt(readyConvert[i]);
+        }
+        List<Integer> sortedList = new ArrayList<Integer>(intArray.length);
+        for(int j : intArray) {
+            sortedList.add(j);
+        }
+        Collections.reverse(sortedList);
+        String[] finalList = ((sortedList.toString()).substring(1,
+                    (sortedList.toString()).length() - 1)).split("-");
+        String prepString = Arrays.toString(finalList);
+        String finalString = prepString.replaceAll(", ","-");
+        return (finalString.substring(1,((finalString.length()) - 1)));
+    }
 
     //<editor-fold defaultstate="collapsed" desc="Swing Variables">
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1279,18 +1377,24 @@ public class MainGUI extends javax.swing.JFrame {
     private javax.swing.JLabel p1Info2;
     private javax.swing.JLabel p1Info3;
     private javax.swing.JLabel p1Info4;
+    private javax.swing.JLabel p1Info5;
     private javax.swing.JScrollPane p1Pane;
+    private javax.swing.JScrollPane p1Pane2;
     private javax.swing.JComboBox<String> p1Select;
     private javax.swing.JTextPane p1Text;
+    private javax.swing.JTextPane p1Text2;
     private javax.swing.JLabel p1Toon;
     private javax.swing.JLabel p1ToonName;
     private javax.swing.JLabel p2Info1;
     private javax.swing.JLabel p2Info2;
     private javax.swing.JLabel p2Info3;
     private javax.swing.JLabel p2Info4;
+    private javax.swing.JLabel p2Info5;
     private javax.swing.JScrollPane p2Pane;
+    private javax.swing.JScrollPane p2Pane2;
     private javax.swing.JComboBox<String> p2Select;
     private javax.swing.JTextPane p2Text;
+    private javax.swing.JTextPane p2Text2;
     private javax.swing.JLabel p2Toon;
     private javax.swing.JLabel p2ToonName;
     private javax.swing.JButton test1Button;
