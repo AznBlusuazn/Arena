@@ -34,6 +34,7 @@ DEVELOPMENT NOTES
 
 ALPHA 0.0.5 / 2020.11.20.2342
 
+- corrected the title of the readme.txt
 - added Fatigue, Soul, Decay, Weight Modifier, Size, and Gender to Toon, Race, Class, Abilities
 - added unique field for Toon, Race, Class, and Abilities
 - added Genders
