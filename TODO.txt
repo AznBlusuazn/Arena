@@ -8,6 +8,7 @@ TO DO'S/IDEAS (DEVELOPING)
 [CREATED BUT IN PROGRESS] create statuses table
 [IN PROGRESS] create baseline statuses
 - link toon status to status
+- add effect table
 - race ability table
 - class ability table
 - split out race class and age boxes

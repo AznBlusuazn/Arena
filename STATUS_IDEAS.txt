@@ -7,6 +7,9 @@ cowering - -def -dex -luck -char -strength
 unconscious
 dying
 dead
++
+±
+-
 
 draining AP/MP/HP?
 undead (reverse)

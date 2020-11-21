@@ -1,6 +1,6 @@
 =====================================
-SAVE THE WORLD by Geoff Clark
-VERSION ALPHA 0.0.5 / 2020.11.20.XXXX
+THE ARENA GAME by Geoff Clark
+VERSION ALPHA 0.0.5 / 2020.11.20.2342
 =====================================
 
 This program was written with JDK 1.8.  It does require a minimum of JRE 52 to run.
@@ -32,12 +32,16 @@ Contact the author:  gclark82@gmail.com
 
 DEVELOPMENT NOTES
 
-ALPHA 0.0.5 / 2020.11.20.XXXX
+ALPHA 0.0.5 / 2020.11.20.2342
 
 - added Fatigue, Soul, Decay, Weight Modifier, Size, and Gender to Toon, Race, Class, Abilities
 - added unique field for Toon, Race, Class, and Abilities
 - added Genders
 - added importing of Gender to profile, moved around display for Gender box
+- added Status (names) and Effects tables
+- added tables for Abls and Effs for Align, Race, Class, and Toons
+- created a way to collect Toon Effect Code -- to be replicated for Align/Reace/Class Effect
+- developed text coding for strong(+), neutral(±) and weak(-) in relation to statuses
 
 ALPHA 0.0.4 / 2020.11.19.2304
 

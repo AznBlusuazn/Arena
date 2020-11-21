@@ -150,7 +150,7 @@ public class MainGUI extends javax.swing.JFrame {
     int r1Repx = 0;
     String r1Bio = "";
     
-        //Player 2 Race Vars
+    //Player 2 Race Vars
     int r2Index = 0;
     String r2Name = "";
     String r2Desc = "";
@@ -269,6 +269,141 @@ public class MainGUI extends javax.swing.JFrame {
     String gender2Name = "";
     String gender2Desc = "";
     String gender2Bio = "";
+    
+    //Player 1 Toon Ability Vars
+    int tAbl1Index = 0;
+    int tAbl1001 = 0;
+    int tAbl1002 = 0;
+    int tAbl1003 = 0;
+    int tAbl1004 = 0;
+    int tAbl1005 = 0;
+    int tAbl1006 = 0;
+    int tAbl1007 = 0;
+    int tAbl1008 = 0;
+    int tAbl1009 = 0;
+    int tAbl1010 = 0;
+    int tAbl1011 = 0;
+    int tAbl1012 = 0;
+    int tAbl1013 = 0;
+    int tAbl1014 = 0;
+    int tAbl1015 = 0;
+    int tAbl1016 = 0;
+    int tAbl1017 = 0;
+    int tAbl1018 = 0;
+    int tAbl1019 = 0;
+    int tAbl1020 = 0;
+    int tAbl1021 = 0;
+    int tAbl1022 = 0;
+    int tAbl1023 = 0;
+    int tAbl1024 = 0;
+    int tAbl1025 = 0;
+    int tAbl1026 = 0;
+    int tAbl1027 = 0;
+    int tAbl1028 = 0;
+    int tAbl1029 = 0;
+    int tAbl1030 = 0;
+    
+    //Player 2 Toon Ability Vars
+    int tAbl2Index = 0;
+    int tAbl2001 = 0;
+    int tAbl2002 = 0;
+    int tAbl2003 = 0;
+    int tAbl2004 = 0;
+    int tAbl2005 = 0;
+    int tAbl2006 = 0;
+    int tAbl2007 = 0;
+    int tAbl2008 = 0;
+    int tAbl2009 = 0;
+    int tAbl2010 = 0;
+    int tAbl2011 = 0;
+    int tAbl2012 = 0;
+    int tAbl2013 = 0;
+    int tAbl2014 = 0;
+    int tAbl2015 = 0;
+    int tAbl2016 = 0;
+    int tAbl2017 = 0;
+    int tAbl2018 = 0;
+    int tAbl2019 = 0;
+    int tAbl2020 = 0;
+    int tAbl2021 = 0;
+    int tAbl2022 = 0;
+    int tAbl2023 = 0;
+    int tAbl2024 = 0;
+    int tAbl2025 = 0;
+    int tAbl2026 = 0;
+    int tAbl2027 = 0;
+    int tAbl2028 = 0;
+    int tAbl2029 = 0;
+    int tAbl2030 = 0;
+    
+    //Player 1 Toon Effect Vars
+    int tEff1Index = 0;
+    int tEff1001 = 0;
+    int tEff1002 = 0;
+    int tEff1003 = 0;
+    int tEff1004 = 0;
+    int tEff1005 = 0;
+    int tEff1006 = 0;
+    int tEff1007 = 0;
+    int tEff1008 = 0;
+    int tEff1009 = 0;
+    int tEff1010 = 0;
+    int tEff1011 = 0;
+    int tEff1012 = 0;
+    int tEff1013 = 0;
+    int tEff1014 = 0;
+    int tEff1015 = 0;
+    int tEff1016 = 0;
+    int tEff1017 = 0;
+    int tEff1018 = 0;
+    int tEff1019 = 0;
+    int tEff1020 = 0;
+    int tEff1021 = 0;
+    int tEff1022 = 0;
+    int tEff1023 = 0;
+    int tEff1024 = 0;
+    int tEff1025 = 0;
+    int tEff1026 = 0;
+    int tEff1027 = 0;
+    int tEff1028 = 0;
+    int tEff1029 = 0;
+    int tEff1030 = 0;
+    String tEff1Code = "";
+    
+     //Player 2 Toon Effect Vars
+    int tEff2Index = 0;
+    int tEff2001 = 0;
+    int tEff2002 = 0;
+    int tEff2003 = 0;
+    int tEff2004 = 0;
+    int tEff2005 = 0;
+    int tEff2006 = 0;
+    int tEff2007 = 0;
+    int tEff2008 = 0;
+    int tEff2009 = 0;
+    int tEff2010 = 0;
+    int tEff2011 = 0;
+    int tEff2012 = 0;
+    int tEff2013 = 0;
+    int tEff2014 = 0;
+    int tEff2015 = 0;
+    int tEff2016 = 0;
+    int tEff2017 = 0;
+    int tEff2018 = 0;
+    int tEff2019 = 0;
+    int tEff2020 = 0;
+    int tEff2021 = 0;
+    int tEff2022 = 0;
+    int tEff2023 = 0;
+    int tEff2024 = 0;
+    int tEff2025 = 0;
+    int tEff2026 = 0;
+    int tEff2027 = 0;
+    int tEff2028 = 0;
+    int tEff2029 = 0;
+    int tEff2030 = 0;
+    String tEff2Code = "";
+    
     
     // </editor-fold>
     
@@ -593,31 +728,31 @@ public class MainGUI extends javax.swing.JFrame {
         p1Class = removeSpace(p1Field[3]);
         p1Align = removeSpace(p1Field[4]);
         //0
-        p1HP = Integer.parseInt(removeSpace(p1Field[6]));   // 1
-        p1MP = Integer.parseInt(removeSpace(p1Field[7]));   // 2
-        p1AP = Integer.parseInt(removeSpace(p1Field[8]));   // 3
-        p1Att = Integer.parseInt(removeSpace(p1Field[9]));  // 4
-        p1Str = Integer.parseInt(removeSpace(p1Field[10])); // 5
-        p1Def = Integer.parseInt(removeSpace(p1Field[11])); // 6
-        p1Sta = Integer.parseInt(removeSpace(p1Field[12])); // 7
-        p1Spd = Integer.parseInt(removeSpace(p1Field[13])); // 8
-        p1Eva = Integer.parseInt(removeSpace(p1Field[14])); // 9
-        p1Dex = Integer.parseInt(removeSpace(p1Field[15])); //10
-        p1Mys = Integer.parseInt(removeSpace(p1Field[16])); //11
-        p1Wil = Integer.parseInt(removeSpace(p1Field[17])); //12
-        p1Lck = Integer.parseInt(removeSpace(p1Field[18])); //13
-        p1Chm = Integer.parseInt(removeSpace(p1Field[19])); //14
-        p1Int = Integer.parseInt(removeSpace(p1Field[20])); //15
-        p1Fat = Integer.parseInt(removeSpace(p1Field[21])); //16
-        p1Sol = Integer.parseInt(removeSpace(p1Field[22])); //17
-        p1Dcy = Integer.parseInt(removeSpace(p1Field[23])); //18
-        p1WtM = Integer.parseInt(removeSpace(p1Field[24])); //19
-        p1Sze = Integer.parseInt(removeSpace(p1Field[25])); //20
-        p1Gen = Integer.parseInt(removeSpace(p1Field[26])); //21
-        p1Age = Integer.parseInt(removeSpace(p1Field[27])); //22
-        p1Lv = Integer.parseInt(removeSpace(p1Field[28]));  //23
-        p1Exp = Integer.parseInt(removeSpace(p1Field[29])); //24
-        p1Rep = Integer.parseInt(removeSpace(p1Field[30])); //25
+        p1HP = processInt(p1Field[6]);   // 1
+        p1MP = processInt(p1Field[7]);   // 2
+        p1AP = processInt(p1Field[8]);   // 3
+        p1Att = processInt(p1Field[9]);  // 4
+        p1Str = processInt(p1Field[10]); // 5
+        p1Def = processInt(p1Field[11]); // 6
+        p1Sta = processInt(p1Field[12]); // 7
+        p1Spd = processInt(p1Field[13]); // 8
+        p1Eva = processInt(p1Field[14]); // 9
+        p1Dex = processInt(p1Field[15]); //10
+        p1Mys = processInt(p1Field[16]); //11
+        p1Wil = processInt(p1Field[17]); //12
+        p1Lck = processInt(p1Field[18]); //13
+        p1Chm = processInt(p1Field[19]); //14
+        p1Int = processInt(p1Field[20]); //15
+        p1Fat = processInt(p1Field[21]); //16
+        p1Sol = processInt(p1Field[22]); //17
+        p1Dcy = processInt(p1Field[23]); //18
+        p1WtM = processInt(p1Field[24]); //19
+        p1Sze = processInt(p1Field[25]); //20
+        p1Gen = processInt(p1Field[26]); //21
+        p1Age = processInt(p1Field[27]); //22
+        p1Lv = processInt(p1Field[28]);  //23
+        p1Exp = processInt(p1Field[29]); //24
+        p1Rep = processInt(p1Field[30]); //25
         p1Bio = removeSpace(p1Field[31]);
         p1Image = removeSpace(p1Field[32]).replace("]","");       
         p1Select.setSelectedIndex(p1Index - 1);
@@ -626,6 +761,8 @@ public class MainGUI extends javax.swing.JFrame {
         getC1(p1Class);
         getAlign1(p1Align);
         getG1(p1Gen);
+        getTAbl1(p1Index);
+        getTEff1(p1Index);
         p1Info1.setText("(Age Modifier " + p1Age + ")");
         p1Info2.setText(r1Name + " " + c1Name);
         p1Info3.setText(align1Name + " (Rep: " + p1Rep + ")");
@@ -656,31 +793,31 @@ public class MainGUI extends javax.swing.JFrame {
         p2Class = removeSpace(p2Field[3]);
         p2Align = removeSpace(p2Field[4]);
         //0
-        p2HP = Integer.parseInt(removeSpace(p2Field[6]));   // 1
-        p2MP = Integer.parseInt(removeSpace(p2Field[7]));   // 2
-        p2AP = Integer.parseInt(removeSpace(p2Field[8]));   // 3
-        p2Att = Integer.parseInt(removeSpace(p2Field[9]));  // 4
-        p2Str = Integer.parseInt(removeSpace(p2Field[10])); // 5
-        p2Def = Integer.parseInt(removeSpace(p2Field[11])); // 6
-        p2Sta = Integer.parseInt(removeSpace(p2Field[12])); // 7
-        p2Spd = Integer.parseInt(removeSpace(p2Field[13])); // 8
-        p2Eva = Integer.parseInt(removeSpace(p2Field[14])); // 9
-        p2Dex = Integer.parseInt(removeSpace(p2Field[15])); //10
-        p2Mys = Integer.parseInt(removeSpace(p2Field[16])); //11
-        p2Wil = Integer.parseInt(removeSpace(p2Field[17])); //12
-        p2Lck = Integer.parseInt(removeSpace(p2Field[18])); //13
-        p2Chm = Integer.parseInt(removeSpace(p2Field[19])); //14
-        p2Int = Integer.parseInt(removeSpace(p2Field[20])); //15
-        p2Fat = Integer.parseInt(removeSpace(p2Field[21])); //16
-        p2Sol = Integer.parseInt(removeSpace(p2Field[22])); //17
-        p2Dcy = Integer.parseInt(removeSpace(p2Field[23])); //18
-        p2WtM = Integer.parseInt(removeSpace(p2Field[24])); //19
-        p2Sze = Integer.parseInt(removeSpace(p2Field[25])); //20
-        p2Gen = Integer.parseInt(removeSpace(p2Field[26])); //21
-        p2Age = Integer.parseInt(removeSpace(p2Field[27])); //22
-        p2Lv = Integer.parseInt(removeSpace(p2Field[28]));  //23
-        p2Exp = Integer.parseInt(removeSpace(p2Field[29])); //24
-        p2Rep = Integer.parseInt(removeSpace(p2Field[30])); //25
+        p2HP = processInt(p2Field[6]);   // 1
+        p2MP = processInt(p2Field[7]);   // 2
+        p2AP = processInt(p2Field[8]);   // 3
+        p2Att = processInt(p2Field[9]);  // 4
+        p2Str = processInt(p2Field[10]); // 5
+        p2Def = processInt(p2Field[11]); // 6
+        p2Sta = processInt(p2Field[12]); // 7
+        p2Spd = processInt(p2Field[13]); // 8
+        p2Eva = processInt(p2Field[14]); // 9
+        p2Dex = processInt(p2Field[15]); //10
+        p2Mys = processInt(p2Field[16]); //11
+        p2Wil = processInt(p2Field[17]); //12
+        p2Lck = processInt(p2Field[18]); //13
+        p2Chm = processInt(p2Field[19]); //14
+        p2Int = processInt(p2Field[20]); //15
+        p2Fat = processInt(p2Field[21]); //16
+        p2Sol = processInt(p2Field[22]); //17
+        p2Dcy = processInt(p2Field[23]); //18
+        p2WtM = processInt(p2Field[24]); //19
+        p2Sze = processInt(p2Field[25]); //20
+        p2Gen = processInt(p2Field[26]); //21
+        p2Age = processInt(p2Field[27]); //22
+        p2Lv = processInt(p2Field[28]);  //23
+        p2Exp = processInt(p2Field[29]); //24
+        p2Rep = processInt(p2Field[30]); //25
         p2Bio = removeSpace(p2Field[31]);
         p2Image = removeSpace(p2Field[32]).replace("]","");        
         p2Select.setSelectedIndex(p2Index - 1);
@@ -689,6 +826,8 @@ public class MainGUI extends javax.swing.JFrame {
         getC2(p2Class);
         getAlign2(p2Align);
         getG2(p2Gen);
+        getTAbl2(p2Index);
+        getTEff2(p2Index);
         p2Info1.setText(" (Age Modifier " + p2Age + ") ");
         p2Info2.setText(r2Name + " " + c2Name);
         p2Info3.setText(align2Name + " (Rep: " + p2Rep + ")");
@@ -702,7 +841,7 @@ public class MainGUI extends javax.swing.JFrame {
                 + "bsp;"+ p2Spd +"<br>Evade: &nbsp;" + p2Eva + "<br>Dexterity: "
                 + "&nbsp;" + p2Dex + "<br>Mystic: &nbsp;" + p2Mys + "<br>Willpo"
                 + "wer: &nbsp;" + p2Wil + "<br>Luck: &nbsp;" + p2Lck + "<br>Cha"
-                 + "rm: &nbsp;" + p2Chm + "<br>Intellect: &nbsp;" + p2Int + "<br>Fatigue: &nbsp;" + p2Fat +  "<br>Size " + p2Sze +  " " + gender2Name + "<br>Soul/Decay (hide): &nbsp;" + p2Dcy + "/" + p2Sol
+                 + "rm: &nbsp;" + p2Chm + "<br>Intellect: &nbsp;" + p2Int + "<br>Fatigue: &nbsp;" + p2Fat + "<br>Soul/Decay (hide): &nbsp;" + p2Dcy + "/" + p2Sol
                 + "<center><br><br>" + p2Bio);
         p2Text.setText(p2TextString);
         new ToonImage().setImage(p2Toon,p2Image);
@@ -727,31 +866,31 @@ public class MainGUI extends javax.swing.JFrame {
         r1Name = removeSpace(r1Field[1]);
         r1Desc = removeSpace(r1Field[2]);
         //0
-        r1HPx = Integer.parseInt(removeSpace(r1Field[4]));
-        r1MPx = Integer.parseInt(removeSpace(r1Field[5]));
-        r1APx = Integer.parseInt(removeSpace(r1Field[6]));
-        r1Attx = Integer.parseInt(removeSpace(r1Field[7]));
-        r1Strx = Integer.parseInt(removeSpace(r1Field[8]));
-        r1Defx = Integer.parseInt(removeSpace(r1Field[9]));
-        r1Stax = Integer.parseInt(removeSpace(r1Field[10]));
-        r1Spdx = Integer.parseInt(removeSpace(r1Field[11]));
-        r1Evax = Integer.parseInt(removeSpace(r1Field[12]));
-        r1Dexx = Integer.parseInt(removeSpace(r1Field[13]));
-        r1Mysx = Integer.parseInt(removeSpace(r1Field[14]));
-        r1Wilx = Integer.parseInt(removeSpace(r1Field[15]));
-        r1Lckx = Integer.parseInt(removeSpace(r1Field[16]));
-        r1Chmx = Integer.parseInt(removeSpace(r1Field[17]));
-        r1Intx = Integer.parseInt(removeSpace(r1Field[18]));
-        r1Fatx = Integer.parseInt(removeSpace(r1Field[19]));
-        r1Solx = Integer.parseInt(removeSpace(r1Field[20]));
-        r1Dcyx = Integer.parseInt(removeSpace(r1Field[21]));
-        r1WtMx = Integer.parseInt(removeSpace(r1Field[22]));
-        r1Szex = Integer.parseInt(removeSpace(r1Field[23]));
-        r1Genx = Integer.parseInt(removeSpace(r1Field[24]));
-        r1Agecap = Integer.parseInt(removeSpace(r1Field[25]));
-        r1Lvcap = Integer.parseInt(removeSpace(r1Field[26]));
-        r1Expx = Integer.parseInt(removeSpace(r1Field[27]));
-        r1Repx = Integer.parseInt(removeSpace(r1Field[28]));
+        r1HPx = processInt(r1Field[4]);
+        r1MPx = processInt(r1Field[5]);
+        r1APx = processInt(r1Field[6]);
+        r1Attx = processInt(r1Field[7]);
+        r1Strx = processInt(r1Field[8]);
+        r1Defx = processInt(r1Field[9]);
+        r1Stax = processInt(r1Field[10]);
+        r1Spdx = processInt(r1Field[11]);
+        r1Evax = processInt(r1Field[12]);
+        r1Dexx = processInt(r1Field[13]);
+        r1Mysx = processInt(r1Field[14]);
+        r1Wilx = processInt(r1Field[15]);
+        r1Lckx = processInt(r1Field[16]);
+        r1Chmx = processInt(r1Field[17]);
+        r1Intx = processInt(r1Field[18]);
+        r1Fatx = processInt(r1Field[19]);
+        r1Solx = processInt(r1Field[20]);
+        r1Dcyx = processInt(r1Field[21]);
+        r1WtMx = processInt(r1Field[22]);
+        r1Szex = processInt(r1Field[23]);
+        r1Genx = processInt(r1Field[24]);
+        r1Agecap = processInt(r1Field[25]);
+        r1Lvcap = processInt(r1Field[26]);
+        r1Expx = processInt(r1Field[27]);
+        r1Repx = processInt(r1Field[28]);
         r1Bio = removeSpace(r1Field[29]).replace("]","");
     }
     
@@ -764,31 +903,31 @@ public class MainGUI extends javax.swing.JFrame {
         r2Name = removeSpace(r2Field[1]);
         r2Desc = removeSpace(r2Field[2]);
         //0
-        r2HPx = Integer.parseInt(removeSpace(r2Field[4]));
-        r2MPx = Integer.parseInt(removeSpace(r2Field[5]));
-        r2APx = Integer.parseInt(removeSpace(r2Field[6]));
-        r2Attx = Integer.parseInt(removeSpace(r2Field[7]));
-        r2Strx = Integer.parseInt(removeSpace(r2Field[8]));
-        r2Defx = Integer.parseInt(removeSpace(r2Field[9]));
-        r2Stax = Integer.parseInt(removeSpace(r2Field[10]));
-        r2Spdx = Integer.parseInt(removeSpace(r2Field[11]));
-        r2Evax = Integer.parseInt(removeSpace(r2Field[12]));
-        r2Dexx = Integer.parseInt(removeSpace(r2Field[13]));
-        r2Mysx = Integer.parseInt(removeSpace(r2Field[14]));
-        r2Wilx = Integer.parseInt(removeSpace(r2Field[15]));
-        r2Lckx = Integer.parseInt(removeSpace(r2Field[16]));
-        r2Chmx = Integer.parseInt(removeSpace(r2Field[17]));
-        r2Intx = Integer.parseInt(removeSpace(r2Field[18]));
-        r2Fatx = Integer.parseInt(removeSpace(r2Field[19]));
-        r2Solx = Integer.parseInt(removeSpace(r2Field[20]));
-        r2Dcyx = Integer.parseInt(removeSpace(r2Field[21]));
-        r2WtMx = Integer.parseInt(removeSpace(r2Field[22]));
-        r2Szex = Integer.parseInt(removeSpace(r2Field[23]));
-        r2Genx = Integer.parseInt(removeSpace(r2Field[24]));
-        r2Agecap = Integer.parseInt(removeSpace(r2Field[25]));
-        r2Lvcap = Integer.parseInt(removeSpace(r2Field[26]));
-        r2Expx = Integer.parseInt(removeSpace(r2Field[27]));
-        r2Repx = Integer.parseInt(removeSpace(r2Field[28]));
+        r2HPx = processInt(r2Field[4]);
+        r2MPx = processInt(r2Field[5]);
+        r2APx = processInt(r2Field[6]);
+        r2Attx = processInt(r2Field[7]);
+        r2Strx = processInt(r2Field[8]);
+        r2Defx = processInt(r2Field[9]);
+        r2Stax = processInt(r2Field[10]);
+        r2Spdx = processInt(r2Field[11]);
+        r2Evax = processInt(r2Field[12]);
+        r2Dexx = processInt(r2Field[13]);
+        r2Mysx = processInt(r2Field[14]);
+        r2Wilx = processInt(r2Field[15]);
+        r2Lckx = processInt(r2Field[16]);
+        r2Chmx = processInt(r2Field[17]);
+        r2Intx = processInt(r2Field[18]);
+        r2Fatx = processInt(r2Field[19]);
+        r2Solx = processInt(r2Field[20]);
+        r2Dcyx = processInt(r2Field[21]);
+        r2WtMx = processInt(r2Field[22]);
+        r2Szex = processInt(r2Field[23]);
+        r2Genx = processInt(r2Field[24]);
+        r2Agecap = processInt(r2Field[25]);
+        r2Lvcap = processInt(r2Field[26]);
+        r2Expx = processInt(r2Field[27]);
+        r2Repx = processInt(r2Field[28]);
         r2Bio = removeSpace(r2Field[29]).replace("]","");
     }
 
@@ -801,31 +940,31 @@ public class MainGUI extends javax.swing.JFrame {
         c1Name = removeSpace(c1Field[1]);
         c1Desc = removeSpace(c1Field[2]);
         //0
-        c1HPx = Integer.parseInt(removeSpace(c1Field[4]));
-        c1MPx = Integer.parseInt(removeSpace(c1Field[5]));
-        c1APx = Integer.parseInt(removeSpace(c1Field[6]));
-        c1Attx = Integer.parseInt(removeSpace(c1Field[7]));
-        c1Strx = Integer.parseInt(removeSpace(c1Field[8]));
-        c1Defx = Integer.parseInt(removeSpace(c1Field[9]));
-        c1Stax = Integer.parseInt(removeSpace(c1Field[10]));
-        c1Spdx = Integer.parseInt(removeSpace(c1Field[11]));
-        c1Evax = Integer.parseInt(removeSpace(c1Field[12]));
-        c1Dexx = Integer.parseInt(removeSpace(c1Field[13]));
-        c1Mysx = Integer.parseInt(removeSpace(c1Field[14]));
-        c1Wilx = Integer.parseInt(removeSpace(c1Field[15]));
-        c1Lckx = Integer.parseInt(removeSpace(c1Field[16]));
-        c1Chmx = Integer.parseInt(removeSpace(c1Field[17]));
-        c1Intx = Integer.parseInt(removeSpace(c1Field[18]));
-        c1Fatx = Integer.parseInt(removeSpace(c1Field[19]));
-        c1Solx = Integer.parseInt(removeSpace(c1Field[20]));
-        c1Dcyx = Integer.parseInt(removeSpace(c1Field[21]));
-        c1WtMx = Integer.parseInt(removeSpace(c1Field[22]));
-        c1Szex = Integer.parseInt(removeSpace(c1Field[23]));
-        c1Genx = Integer.parseInt(removeSpace(c1Field[24]));
-        c1Agecap = Integer.parseInt(removeSpace(c1Field[25]));
-        c1Lvcap = Integer.parseInt(removeSpace(c1Field[26]));
-        c1Expx = Integer.parseInt(removeSpace(c1Field[27]));
-        c1Repx = Integer.parseInt(removeSpace(c1Field[28]));
+        c1HPx = processInt(c1Field[4]);
+        c1MPx = processInt(c1Field[5]);
+        c1APx = processInt(c1Field[6]);
+        c1Attx = processInt(c1Field[7]);
+        c1Strx = processInt(c1Field[8]);
+        c1Defx = processInt(c1Field[9]);
+        c1Stax = processInt(c1Field[10]);
+        c1Spdx = processInt(c1Field[11]);
+        c1Evax = processInt(c1Field[12]);
+        c1Dexx = processInt(c1Field[13]);
+        c1Mysx = processInt(c1Field[14]);
+        c1Wilx = processInt(c1Field[15]);
+        c1Lckx = processInt(c1Field[16]);
+        c1Chmx = processInt(c1Field[17]);
+        c1Intx = processInt(c1Field[18]);
+        c1Fatx = processInt(c1Field[19]);
+        c1Solx = processInt(c1Field[20]);
+        c1Dcyx = processInt(c1Field[21]);
+        c1WtMx = processInt(c1Field[22]);
+        c1Szex = processInt(c1Field[23]);
+        c1Genx = processInt(c1Field[24]);
+        c1Agecap = processInt(c1Field[25]);
+        c1Lvcap = processInt(c1Field[26]);
+        c1Expx = processInt(c1Field[27]);
+        c1Repx = processInt(c1Field[28]);
         c1Bio = removeSpace(c1Field[29]).replace("]","");
     }
     
@@ -838,31 +977,31 @@ public class MainGUI extends javax.swing.JFrame {
         c2Name = removeSpace(c2Field[1]);
         c2Desc = removeSpace(c2Field[2]);
          //0
-        c2HPx = Integer.parseInt(removeSpace(c2Field[4]));
-        c2MPx = Integer.parseInt(removeSpace(c2Field[5]));
-        c2APx = Integer.parseInt(removeSpace(c2Field[6]));
-        c2Attx = Integer.parseInt(removeSpace(c2Field[7]));
-        c2Strx = Integer.parseInt(removeSpace(c2Field[8]));
-        c2Defx = Integer.parseInt(removeSpace(c2Field[9]));
-        c2Stax = Integer.parseInt(removeSpace(c2Field[10]));
-        c2Spdx = Integer.parseInt(removeSpace(c2Field[11]));
-        c2Evax = Integer.parseInt(removeSpace(c2Field[12]));
-        c2Dexx = Integer.parseInt(removeSpace(c2Field[13]));
-        c2Mysx = Integer.parseInt(removeSpace(c2Field[14]));
-        c2Wilx = Integer.parseInt(removeSpace(c2Field[15]));
-        c2Lckx = Integer.parseInt(removeSpace(c2Field[16]));
-        c2Chmx = Integer.parseInt(removeSpace(c2Field[17]));
-        c2Intx = Integer.parseInt(removeSpace(c2Field[18]));
-        c2Fatx = Integer.parseInt(removeSpace(c2Field[19]));
-        c2Solx = Integer.parseInt(removeSpace(c2Field[20]));
-        c2Dcyx = Integer.parseInt(removeSpace(c2Field[21]));
-        c2WtMx = Integer.parseInt(removeSpace(c2Field[22]));
-        c2Szex = Integer.parseInt(removeSpace(c2Field[23]));
-        c2Genx = Integer.parseInt(removeSpace(c2Field[24]));
-        c2Agecap = Integer.parseInt(removeSpace(c2Field[25]));
-        c2Lvcap = Integer.parseInt(removeSpace(c2Field[26]));
-        c2Expx = Integer.parseInt(removeSpace(c2Field[27]));
-        c2Repx = Integer.parseInt(removeSpace(c2Field[28]));
+        c2HPx = processInt(c2Field[4]);
+        c2MPx = processInt(c2Field[5]);
+        c2APx = processInt(c2Field[6]);
+        c2Attx = processInt(c2Field[7]);
+        c2Strx = processInt(c2Field[8]);
+        c2Defx = processInt(c2Field[9]);
+        c2Stax = processInt(c2Field[10]);
+        c2Spdx = processInt(c2Field[11]);
+        c2Evax = processInt(c2Field[12]);
+        c2Dexx = processInt(c2Field[13]);
+        c2Mysx = processInt(c2Field[14]);
+        c2Wilx = processInt(c2Field[15]);
+        c2Lckx = processInt(c2Field[16]);
+        c2Chmx = processInt(c2Field[17]);
+        c2Intx = processInt(c2Field[18]);
+        c2Fatx = processInt(c2Field[19]);
+        c2Solx = processInt(c2Field[20]);
+        c2Dcyx = processInt(c2Field[21]);
+        c2WtMx = processInt(c2Field[22]);
+        c2Szex = processInt(c2Field[23]);
+        c2Genx = processInt(c2Field[24]);
+        c2Agecap = processInt(c2Field[25]);
+        c2Lvcap = processInt(c2Field[26]);
+        c2Expx = processInt(c2Field[27]);
+        c2Repx = processInt(c2Field[28]);
         c2Bio = removeSpace(c2Field[29]).replace("]","");
     }
 
@@ -874,9 +1013,8 @@ public class MainGUI extends javax.swing.JFrame {
         align1Index = Integer.parseInt(removeSpace(align1Field[0]));
         align1Name = removeSpace(align1Field[1]);
         align1Desc = removeSpace(align1Field[2]);
-        align1Score = Integer.parseInt(removeSpace(align1Field[3]));
+        align1Score = processInt(removeSpace(align1Field[3]));
         align1Bio = removeSpace(align1Field[27]).replace("]","");
-        System.out.println("Align1 Test: " + align1Name + " " + align1Score);
     }
     
     public void getAlign2(String alignid) throws SQLException {
@@ -887,12 +1025,11 @@ public class MainGUI extends javax.swing.JFrame {
         align2Index = Integer.parseInt(removeSpace(align2Field[0]));
         align2Name = removeSpace(align2Field[1]);
         align2Desc = removeSpace(align2Field[2]);
-        align2Score = Integer.parseInt(removeSpace(align2Field[3]));
+        align2Score = processInt(removeSpace(align2Field[3]));
         align2Bio = removeSpace(align2Field[27]).replace("]","");
-        System.out.println("Align2 Test: " + align2Name + " " + align2Score);
     }
     
-        public void getG1(int genderid) throws SQLException {
+    public void getG1(int genderid) throws SQLException {
         List<String> gender1Stats = dbQuery("*","dbGender","genderName","genderID ",
                 (String.valueOf(genderid)), false);
         String[] gender1Field = ((gender1Stats.toString()).substring(1,(gender1Stats.
@@ -901,10 +1038,9 @@ public class MainGUI extends javax.swing.JFrame {
         gender1Name = removeSpace(gender1Field[1]);
         gender1Desc = removeSpace(gender1Field[2]);
         gender1Bio = removeSpace(gender1Field[29]).replace("]","");
-        System.out.println("gender1 Test: " + gender1Name);
     }
     
-        public void getG2(int genderid) throws SQLException {
+    public void getG2(int genderid) throws SQLException {
         List<String> gender2Stats = dbQuery("*","dbGender","genderName","genderID ",
                 String.valueOf(genderid) , false);
         String[] gender2Field = ((gender2Stats.toString()).substring(1,(gender2Stats.
@@ -913,9 +1049,180 @@ public class MainGUI extends javax.swing.JFrame {
         gender2Name = removeSpace(gender2Field[1]);
         gender2Desc = removeSpace(gender2Field[2]);
         gender2Bio = removeSpace(gender2Field[29]).replace("]","");
-        System.out.println("gender2 Test: " + gender2Name);
+    }
+    
+    public void getTAbl1(int toonid) throws SQLException {
+        List<String> tAbl1Stats = dbQuery("*","dbToonAbl","toonID","toonID ",
+                String.valueOf(toonid), false);
+        String[] tAbl1Field = ((tAbl1Stats.toString()).substring(1,(tAbl1Stats.
+                toString()).length())).split(",");
+        tAbl1Index = Integer.parseInt(removeSpace(tAbl1Field[0]));
+        tAbl1001 = processInt(tAbl1Field[1]);
+        tAbl1002 = processInt(tAbl1Field[2]);
+        tAbl1003 = processInt(tAbl1Field[3]);
+        tAbl1004 = processInt(tAbl1Field[4]);
+        tAbl1005 = processInt(tAbl1Field[5]);
+        tAbl1006 = processInt(tAbl1Field[6]);
+        tAbl1007 = processInt(tAbl1Field[7]);
+        tAbl1008 = processInt(tAbl1Field[8]);
+        tAbl1009 = processInt(tAbl1Field[9]);
+        tAbl1010 = processInt(tAbl1Field[10]);
+        tAbl1011 = processInt(tAbl1Field[11]);
+        tAbl1012 = processInt(tAbl1Field[12]);
+        tAbl1013 = processInt(tAbl1Field[13]);
+        tAbl1014 = processInt(tAbl1Field[14]);
+        tAbl1015 = processInt(tAbl1Field[15]);
+        tAbl1016 = processInt(tAbl1Field[16]);
+        tAbl1017 = processInt(tAbl1Field[17]);
+        tAbl1018 = processInt(tAbl1Field[18]);
+        tAbl1019 = processInt(tAbl1Field[19]);
+        tAbl1020 = processInt(tAbl1Field[20]);
+        tAbl1021 = processInt(tAbl1Field[21]);
+        tAbl1022 = processInt(tAbl1Field[22]);
+        tAbl1023 = processInt(tAbl1Field[23]);
+        tAbl1024 = processInt(tAbl1Field[24]);
+        tAbl1025 = processInt(tAbl1Field[25]);
+        tAbl1026 = processInt(tAbl1Field[26]);
+        tAbl1027 = processInt(tAbl1Field[27]);
+        tAbl1028 = processInt(tAbl1Field[28]);
+        tAbl1029 = processInt(tAbl1Field[29]);
+        tAbl1030 = processInt(tAbl1Field[30]);
+    }    
+    
+    public void getTAbl2(int toonid) throws SQLException {
+        List<String> tAbl2Stats = dbQuery("*","dbToonAbl","toonID","toonID ",
+                String.valueOf(toonid), false);
+        String[] tAbl2Field = ((tAbl2Stats.toString()).substring(1,(tAbl2Stats.
+                toString()).length())).split(",");
+        tAbl2Index = Integer.parseInt(removeSpace(tAbl2Field[0]));
+        tAbl2001 = processInt(tAbl2Field[1]);
+        tAbl2002 = processInt(tAbl2Field[2]);
+        tAbl2003 = processInt(tAbl2Field[3]);
+        tAbl2004 = processInt(tAbl2Field[4]);
+        tAbl2005 = processInt(tAbl2Field[5]);
+        tAbl2006 = processInt(tAbl2Field[6]);
+        tAbl2007 = processInt(tAbl2Field[7]);
+        tAbl2008 = processInt(tAbl2Field[8]);
+        tAbl2009 = processInt(tAbl2Field[9]);
+        tAbl2010 = processInt(tAbl2Field[10]);
+        tAbl2011 = processInt(tAbl2Field[11]);
+        tAbl2012 = processInt(tAbl2Field[12]);
+        tAbl2013 = processInt(tAbl2Field[13]);
+        tAbl2014 = processInt(tAbl2Field[14]);
+        tAbl2015 = processInt(tAbl2Field[15]);
+        tAbl2016 = processInt(tAbl2Field[16]);
+        tAbl2017 = processInt(tAbl2Field[17]);
+        tAbl2018 = processInt(tAbl2Field[18]);
+        tAbl2019 = processInt(tAbl2Field[19]);
+        tAbl2020 = processInt(tAbl2Field[20]);
+        tAbl2021 = processInt(tAbl2Field[21]);
+        tAbl2022 = processInt(tAbl2Field[22]);
+        tAbl2023 = processInt(tAbl2Field[23]);
+        tAbl2024 = processInt(tAbl2Field[24]);
+        tAbl2025 = processInt(tAbl2Field[25]);
+        tAbl2026 = processInt(tAbl2Field[26]);
+        tAbl2027 = processInt(tAbl2Field[27]);
+        tAbl2028 = processInt(tAbl2Field[28]);
+        tAbl2029 = processInt(tAbl2Field[29]);
+        tAbl2030 = processInt(tAbl2Field[30]);
+    }
+    
+    public void getTEff1(int toonid) throws SQLException {
+        List<String> tEff1Stats = dbQuery("*","dbToonEffects","toonID","toonID ",
+                String.valueOf(toonid), false);
+        String[] tEff1Field = ((tEff1Stats.toString()).substring(1,(tEff1Stats.
+                toString()).length())).split(",");
+        tEff1Index = Integer.parseInt(removeSpace(tEff1Field[0]));
+        tEff1001 = processInt(tEff1Field[1]);
+        tEff1002 = processInt(tEff1Field[2]);
+        tEff1003 = processInt(tEff1Field[3]);
+        tEff1004 = processInt(tEff1Field[4]);
+        tEff1005 = processInt(tEff1Field[5]);
+        tEff1006 = processInt(tEff1Field[6]);
+        tEff1007 = processInt(tEff1Field[7]);
+        tEff1008 = processInt(tEff1Field[8]);
+        tEff1009 = processInt(tEff1Field[9]);
+        tEff1010 = processInt(tEff1Field[10]);
+        tEff1011 = processInt(tEff1Field[11]);
+        tEff1012 = processInt(tEff1Field[12]);
+        tEff1013 = processInt(tEff1Field[13]);
+        tEff1014 = processInt(tEff1Field[14]);
+        tEff1015 = processInt(tEff1Field[15]);
+        tEff1016 = processInt(tEff1Field[16]);
+        tEff1017 = processInt(tEff1Field[17]);
+        tEff1018 = processInt(tEff1Field[18]);
+        tEff1019 = processInt(tEff1Field[19]);
+        tEff1020 = processInt(tEff1Field[20]);
+        tEff1021 = processInt(tEff1Field[21]);
+        tEff1022 = processInt(tEff1Field[22]);
+        tEff1023 = processInt(tEff1Field[23]);
+        tEff1024 = processInt(tEff1Field[24]);
+        tEff1025 = processInt(tEff1Field[25]);
+        tEff1026 = processInt(tEff1Field[26]);
+        tEff1027 = processInt(tEff1Field[27]);
+        tEff1028 = processInt(tEff1Field[28]);
+        tEff1029 = processInt(tEff1Field[29]);
+        tEff1030 = processInt(tEff1Field[30]); 
+        
+        tEff1Code = getEffCode(tEff1Field);
+        System.out.println(tEff1Code);
+                
+    }    
+    
+    public void getTEff2(int toonid) throws SQLException {
+        List<String> tEff2Stats = dbQuery("*","dbToonEffects","toonID","toonID ",
+                String.valueOf(toonid), false);
+        String[] tEff2Field = ((tEff2Stats.toString()).substring(1,(tEff2Stats.
+                toString()).length())).split(",");
+        tEff2Index = Integer.parseInt(removeSpace(tEff2Field[0]));
+        tEff2001 = processInt(tEff2Field[1]);
+        tEff2002 = processInt(tEff2Field[2]);
+        tEff2003 = processInt(tEff2Field[3]);
+        tEff2004 = processInt(tEff2Field[4]);
+        tEff2005 = processInt(tEff2Field[5]);
+        tEff2006 = processInt(tEff2Field[6]);
+        tEff2007 = processInt(tEff2Field[7]);
+        tEff2008 = processInt(tEff2Field[8]);
+        tEff2009 = processInt(tEff2Field[9]);
+        tEff2010 = processInt(tEff2Field[10]);
+        tEff2011 = processInt(tEff2Field[11]);
+        tEff2012 = processInt(tEff2Field[12]);
+        tEff2013 = processInt(tEff2Field[13]);
+        tEff2014 = processInt(tEff2Field[14]);
+        tEff2015 = processInt(tEff2Field[15]);
+        tEff2016 = processInt(tEff2Field[16]);
+        tEff2017 = processInt(tEff2Field[17]);
+        tEff2018 = processInt(tEff2Field[18]);
+        tEff2019 = processInt(tEff2Field[19]);
+        tEff2020 = processInt(tEff2Field[20]);
+        tEff2021 = processInt(tEff2Field[21]);
+        tEff2022 = processInt(tEff2Field[22]);
+        tEff2023 = processInt(tEff2Field[23]);
+        tEff2024 = processInt(tEff2Field[24]);
+        tEff2025 = processInt(tEff2Field[25]);
+        tEff2026 = processInt(tEff2Field[26]);
+        tEff2027 = processInt(tEff2Field[27]);
+        tEff2028 = processInt(tEff2Field[28]);
+        tEff2029 = processInt(tEff2Field[29]);
+        tEff2030 = processInt(tEff2Field[30]);
     }
 
+    private int processInt(String s) {
+        if (s == null || s.isEmpty() || removeSpace(s) == null || 
+                (removeSpace(s).equalsIgnoreCase("null"))) {
+            return 0;
+        } else {
+            return (Integer.parseInt(removeSpace(s)));
+        }
+    }
+    
+    private String getEffCode(String [] array) {
+        String code = "";
+        for(int i = 1; i < (array.length - 1); i++) {
+             code += (processInt(array[i])) + "-";
+        }
+        return code.substring(0, code.length() - 1);
+    }
     
     //</editor-fold>
     
