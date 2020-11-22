@@ -1,6 +1,6 @@
 =====================================
 THE ARENA GAME by Geoff Clark
-VERSION ALPHA 0.0.6 / 2020.11.21.2255
+VERSION ALPHA 0.0.7 / 2020.11.22.XXXX
 =====================================
 
 This program was written with JDK 1.8.  It does require a minimum of JRE 52 to run.
@@ -31,6 +31,10 @@ Contact the author:  gclark82@gmail.com
 ====================================
 
 DEVELOPMENT NOTES
+
+ALPHA 0.0.7 / 2020.11.22.XXXX
+
+- added several baseline statuses to db
 
 ALPHA 0.0.6 / 2020.11.21.2255
 
