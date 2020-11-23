@@ -99,3 +99,123 @@ Toad - Turns to Frog - Cannot do anything but "Tongue Attack" and "Croak" - all 
 Pig - Becomes Pig -- can still use weapons, no other major abilities, no armor, -def drop
 Animal - Turns into random from animal race
 helpless - when strength = 0
+
+
+from ff6
+
+Regular statuses
+KO
+Petrify
+Imp
+Invisible
+Magitek
+Poison
+Zombie
+Darkness
+Sleep
+Sap
+Confuse
+Berserk
+Silence
+Image
+Critical
+Doom
+Reflect
+Protect
+Shell
+Stop
+Haste
+Slow
+Regen
+Dance
+Float
+Interceptor Guard
+Hidden
+Chanting
+Trance
+Reraise
+Frozen
+Rage
+Normal
+
+Specialized statuses
+Death
+Charm
+HP Leak
+Heat
+Runic
+Grab
+Invincible
+Cover
+Golem
+
+from ff4 
+List of statuses
+KO
+Petrify
+Toad
+Mini
+Pig
+Silence
+Blind
+Poison
+Curse
+Float
+Paralyze
+Sleep
+Confuse
+Berserk
+Gradual Petrify (2/3)
+Gradual Petrify (1/3)
+Magnetize
+Stop
+Egg
+Defend
+Charging
+Twincast
+Jump
+Doom
+Hide
+Sap
+Reflect
+Barrier
+Blink (2)
+Blink (1)
+Cover
+Critical
+Regen
+
+from ff7
+
+List of statuses
+Death / Sudden Death
+Poison
+Petrify
+Darkness
+Silence
+Berserk
+Zombie
+Sleep
+Slow
+Stop
+Doom
+Petrifying
+Confuse
+Drain
+Eject
+Curse
+Vit 0
+Gravity
+The End
+Aura
+Protect
+Shell
+Haste
+Reflect
+Float
+Regen
+Double
+Triple
+Defend
+Angel Wing
+Invincible

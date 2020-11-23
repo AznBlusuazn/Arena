@@ -1,6 +1,8 @@
 TO DO'S/IDEAS (DEVELOPING)
 
 [IN PROGRESS] create baseline statuses
+- redo effects fields -- add + ± and -
+- remove generic labels of fields throughout db -- theres no point to do this
 - link toon status to status
 - size stat?
 - weight stat
@@ -131,6 +133,8 @@ TO DO'S/IDEAS (DEVELOPING)
 - prisoners
 - different arenas that only allow certain types of battle?
 - credits (money)
+- combining elements to create new ones (fire + earth = magma // air + earth = gravity)
+- magnetism
 
 COMPLETED
 
