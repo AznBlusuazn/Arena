@@ -1,5 +1,5 @@
 // <editor-fold defaultstate="collapsed" desc="Header Items">
-package com.clarktribe.arena;
+package clarktribegames.limitless;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -31,9 +31,9 @@ import javax.swing.text.StyledDocument;
 /**
  * 
  * @author  Geoff Clark
- * @e-mail  gclark82@gmail.com
- * @game    Arena Game
- * @version ALPHA 0.0.2 / 2020.11.18.0019
+ * @e-mail  info@clarktribegames.com
+ * @game    Limitless
+ * @version IN DEVELOPMENT
  * 
  */
 //</editor-fold>
@@ -78,6 +78,7 @@ public class MainGUI extends javax.swing.JFrame {
     String p1Image = "";
     String p1Status = "<font color=green>Healthy</font>";
     String p1TextString = "";
+    String p1fullBio = "";
     
     //Player 2 Vars
     int p2Index = 0;
@@ -115,6 +116,7 @@ public class MainGUI extends javax.swing.JFrame {
     String p2Image = "";
     String p2Status = "<font color=green>Healthy</font>";
     String p2TextString = "";
+    String p2fullBio = "";
     
     //ToonList Vars
     List<String> toonList = null;
@@ -266,12 +268,14 @@ public class MainGUI extends javax.swing.JFrame {
     String gender1Name = "";
     String gender1Desc = "";
     String gender1Bio = "";
+    String gender1Pro = "";
     
     //Player 2 Gender Vars
     int gender2Index = 0;
     String gender2Name = "";
     String gender2Desc = "";
     String gender2Bio = "";
+    String gender2Pro = "";
     
     //Player 1 Toon Ability Vars
     int tAbl1Index = 0;
@@ -427,11 +431,9 @@ public class MainGUI extends javax.swing.JFrame {
         enterButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Arena Game [Alpha]");
-        setMaximumSize(new java.awt.Dimension(1280, 800));
+        setTitle("LIMITLESS [Alpha]");
         setMinimumSize(new java.awt.Dimension(1280, 800));
         setName("mainGUI"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(1280, 800));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -667,7 +669,7 @@ public class MainGUI extends javax.swing.JFrame {
     
     private void welcomePlayer() {
         String text = 
-                "Welcome to the Arena Game.  This is an alpha version of the ga"
+                "Welcome to LIMITLESS.  This is an alpha version of the ga"
                 + "me, thus don't expect a whole lot.  It's a work in progress."
                 + "  This is just filler text for something greater, much, much"
                 + " later.\n\nEnjoy. - Geoff";
@@ -792,7 +794,9 @@ public class MainGUI extends javax.swing.JFrame {
                 + "rm: &nbsp;" + p1Chm + "<br>Intellect: &nbsp;" + p1Int + "<br>Fatigue: &nbsp;" + p1Fat + "<br>Soul/Decay (hide): &nbsp;" + p1Dcy + "/" + p1Sol
                 + "</center>");
         p1Text.setText(p1TextString);
-        p1Text2.setText(p1Bio);
+        p1fullBio = bioBuilder(p1Name, align1Bio, r1Bio, gender1Bio, c1Bio, 
+                gender1Pro, status1Bio, p1Bio);
+        p1Text2.setText(p1fullBio);
         new ToonImage().setImage(p1Toon,p1Image);
     }
     
@@ -864,7 +868,9 @@ public class MainGUI extends javax.swing.JFrame {
                 + "wer: &nbsp;" + p2Wil + "<br>Luck: &nbsp;" + p2Lck + "<br>Cha"
                  + "rm: &nbsp;" + p2Chm + "<br>Intellect: &nbsp;" + p2Int + "<br>Fatigue: &nbsp;" + p2Fat + "<br>Soul/Decay (hide): &nbsp;" + p2Dcy + "/" + p2Sol
                 + "</center>");
-        p2Text2.setText(p2Bio);
+        p2fullBio = bioBuilder(p2Name, align2Bio, r2Bio, gender2Bio, c2Bio, 
+                gender2Pro, status2Bio, p2Bio);
+        p2Text2.setText(p2fullBio);
         p2Text.setText(p2TextString);
         new ToonImage().setImage(p2Toon,p2Image);
     }
@@ -1036,7 +1042,7 @@ public class MainGUI extends javax.swing.JFrame {
         align1Name = removeSpace(align1Field[1]);
         align1Desc = removeSpace(align1Field[2]);
         align1Score = processInt(removeSpace(align1Field[3]));
-        align1Bio = removeSpace(align1Field[27]).replace("]","");
+        align1Bio = removeSpace(align1Field[29]).replace("]","");
     }
     
     public void getAlign2(String alignid) throws SQLException {
@@ -1048,7 +1054,7 @@ public class MainGUI extends javax.swing.JFrame {
         align2Name = removeSpace(align2Field[1]);
         align2Desc = removeSpace(align2Field[2]);
         align2Score = processInt(removeSpace(align2Field[3]));
-        align2Bio = removeSpace(align2Field[27]).replace("]","");
+        align2Bio = removeSpace(align2Field[29]).replace("]","");
     }
     
     public void getG1(int genderid) throws SQLException {
@@ -1059,7 +1065,8 @@ public class MainGUI extends javax.swing.JFrame {
         gender1Index = Integer.parseInt(removeSpace(gender1Field[0]));
         gender1Name = removeSpace(gender1Field[1]);
         gender1Desc = removeSpace(gender1Field[2]);
-        gender1Bio = removeSpace(gender1Field[29]).replace("]","");
+        gender1Bio = removeSpace(gender1Field[29]);
+        gender1Pro = removeSpace(gender1Field[30]).replace("]","");
     }
     
     public void getG2(int genderid) throws SQLException {
@@ -1070,7 +1077,8 @@ public class MainGUI extends javax.swing.JFrame {
         gender2Index = Integer.parseInt(removeSpace(gender2Field[0]));
         gender2Name = removeSpace(gender2Field[1]);
         gender2Desc = removeSpace(gender2Field[2]);
-        gender2Bio = removeSpace(gender2Field[29]).replace("]","");
+        gender2Bio = removeSpace(gender2Field[29]);
+        gender2Pro = removeSpace(gender2Field[30]).replace("]","");
     }
     
     public void getTAbl1(int toonid) throws SQLException {
@@ -1220,21 +1228,25 @@ public class MainGUI extends javax.swing.JFrame {
 
     //<editor-fold defaultstate="collapsed" desc="Get Status Code">        
     public void getStatus1(String effectcode) throws SQLException {
+        System.out.println("Effect Code 1 is: " + effectcode);
         status1Info = getStatusInfo(effectcode);
         status1Field = (status1Info.split(","));
         status1Name = removeSpace(status1Field[0]);
         status1Color = removeSpace(status1Field[1]);
         status1Desc = removeSpace(status1Field[2]);
         status1Bio = removeSpace(status1Field[3]);
+        System.out.println(status1Name + " " + status1Color + " " + status1Desc + " " + status1Bio);
     } 
     
     public void getStatus2(String effectcode) throws SQLException {
+        System.out.println("Effect Code 2 is: " + effectcode);
         status2Info = getStatusInfo(effectcode);
         status2Field = (status2Info.split(","));
         status2Name = removeSpace(status2Field[0]);
         status2Color = removeSpace(status2Field[1]);
         status2Desc = removeSpace(status2Field[2]);
         status2Bio = removeSpace(status2Field[3]);
+        System.out.println(status2Name + " " + status2Color + " " + status2Desc + " " + status2Bio);
     }
 
     private String getStatusInfo(String effectcode) throws SQLException {
@@ -1367,6 +1379,21 @@ public class MainGUI extends javax.swing.JFrame {
         String finalString = prepString.replaceAll(", ","-");
         return (finalString.substring(1,((finalString.length()) - 1)));
     }
+    
+    private String capIt(String lowerstring) {
+        return (lowerstring.substring(0, 1).toUpperCase() + 
+                lowerstring.substring(1));
+    }
+    
+    private String bioBuilder(String name, String align, String race, String
+            gender, String classname, String pronoun, String status, String bio)
+    {
+        String newbio = (name + " is " + gender + " " + align + " " + race + " "
+                + " " + classname + ". " + capIt(pronoun) + " " + status + ". " 
+                + bio);
+        return newbio;
+    }
+           
 
     //<editor-fold defaultstate="collapsed" desc="Swing Variables">
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -1,6 +1,18 @@
 =====================================
-THE ARENA GAME by Geoff Clark
-VERSION ALPHA 0.0.7 / 2020.11.23.0034
+LIMITLESS by Geoff Clark
+VERSION ALPHA 0.0.8 / 2020.11.23.2205
+=====================================
+
+SUPPORT THE DEVELOPMENT OF THIS GAME @ 
+
+	https://www.patreon.com/clarktribegames
+	https://paypal.me/aznblusuazn
+
+JOIN THE COMMUNITY ON FACEBOOK OR DISCORD
+
+	https://facebook.com/clarktribe.games
+	https://discord.gg/6kW4der
+
 =====================================
 
 This program was written with JDK 1.8.  It does require a minimum of JRE 52 to run.
@@ -11,7 +23,7 @@ Java can be downloaded from:  https://www.java.com/en/
 
 ABOUT THIS APPLICATION
 
-This is an arena game that will be completely customizable.  It is a homage to the
+LIMITLESS is an arena game that will be completely customizable.  It is a homage to the
 old school late 80's-90's RPG games, specifically the turn based battle.  This
 game will be completely customizable.  Some of the features will include the
 ability to "level up" your chosen character, the NPC players to "level up", and
@@ -26,11 +38,18 @@ See the TODO.txt for developing ideas/features on https://github.com/AznBlusuazn
 
 Copy of this code without the content of the Author is prohibited.
 
-Contact the author:  gclark82@gmail.com
+Contact the author:  info@clarktribegames.com
 
 ====================================
 
 DEVELOPMENT NOTES
+
+ALPHA 0.0.8 / 2020.11.23.2205
+
+- named the game "LIMITLESS" -- from the idea that there are no limits to the game
+- converted many "numbered" fields to actually descriptors in the db.
+- created bio builder -- still need to add status and effects into bio builder, but framework is there
+- updated readme.txt and todo.txt -- included patreon, paypal, discord, and facebook info
 
 ALPHA 0.0.7 / 2020.11.23.0034
 

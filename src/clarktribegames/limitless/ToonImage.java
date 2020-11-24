@@ -1,4 +1,4 @@
-package com.clarktribe.arena;
+package clarktribegames.limitless;
 
 import javax.swing.JLabel;
 

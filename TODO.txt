@@ -1,8 +1,10 @@
 TO DO'S/IDEAS (DEVELOPING)
 
 [IN PROGRESS] create baseline statuses
+[IN PROGRESS] remove generic labels of fields throughout db -- theres no point to do this
+[PARTIAL COM] bio builder -- need to include effects?
+- fix comparing in status when effects are the same
 - redo effects fields -- add + ± and -
-- remove generic labels of fields throughout db -- theres no point to do this
 - link toon status to status
 - size stat?
 - weight stat
@@ -14,7 +16,6 @@ TO DO'S/IDEAS (DEVELOPING)
 - separate bio box into its own text box?
 - config enter key to act as submit button
 - set current stats after import
-- bio builder
 - translate specifics on character select
 - develop write to tables
 - condense ability options
@@ -135,6 +136,8 @@ TO DO'S/IDEAS (DEVELOPING)
 - credits (money)
 - combining elements to create new ones (fire + earth = magma // air + earth = gravity)
 - magnetism
+- team determiner
+
 
 COMPLETED
 
@@ -151,3 +154,4 @@ COMPLETED
 [COMPLETE] split out race class and age boxes
 [COMPLETE] add size box
 [COMPLETE] status table for each ability
+
