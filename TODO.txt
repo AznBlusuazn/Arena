@@ -3,7 +3,6 @@ TO DO'S/IDEAS (DEVELOPING)
 [IN PROGRESS] create baseline statuses
 [IN PROGRESS] remove generic labels of fields throughout db -- theres no point to do this
 [PARTIAL COM] bio builder -- need to include effects?
-- fix comparing in status when effects are the same
 - redo effects fields -- add + ± and -
 - link toon status to status
 - size stat?
@@ -137,7 +136,8 @@ TO DO'S/IDEAS (DEVELOPING)
 - combining elements to create new ones (fire + earth = magma // air + earth = gravity)
 - magnetism
 - team determiner
-
+- generic music?
+- custom music option
 
 COMPLETED
 
@@ -154,4 +154,5 @@ COMPLETED
 [COMPLETE] split out race class and age boxes
 [COMPLETE] add size box
 [COMPLETE] status table for each ability
-
+[COMPLETE] fix comparing in status when effects are the same
+[COMPLETE] separated active stats from OG stats

@@ -43,6 +43,43 @@ public class MainGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="initialized variables">
     
     //Player 1 Vars
+    int p1OGIndex = 0;
+    String p1OGName = "";
+    String p1OGRace = "";
+    String p1OGClass = "";
+    String p1OGAlign = "";
+    //0
+    int p1OGHP = 0;
+    int p1OGAP = 0;
+    int p1OGMP = 0;
+    int p1OGAtt = 0;
+    int p1OGStr = 0;
+    int p1OGDef = 0;
+    int p1OGSta = 0;
+    int p1OGSpd = 0;
+    int p1OGEva = 0;
+    int p1OGDex = 0;
+    int p1OGMys = 0;
+    int p1OGWil = 0;
+    int p1OGLck = 0;
+    int p1OGChm = 0;
+    int p1OGInt = 0;
+    int p1OGFat = 0;
+    int p1OGSol = 0;
+    int p1OGDcy = 0;
+    int p1OGWtM = 0;
+    int p1OGSze = 0;
+    int p1OGGen = 0;
+    int p1OGAge = 0;
+    int p1OGLv = 0;
+    int p1OGExp = 0;
+    int p1OGRep = 0;
+    String p1OGBio = "";
+    String p1OGImage = "";
+    String p1OGStatus = "";
+    String p1OGTextString = "";
+    String p1OGfullBio = "";    
+    
     int p1Index = 0;
     String p1Name = "";
     String p1Race = "";
@@ -76,11 +113,49 @@ public class MainGUI extends javax.swing.JFrame {
     int p1Rep = 0;
     String p1Bio = "";
     String p1Image = "";
-    String p1Status = "<font color=green>Healthy</font>";
+    String p1Status = "";
     String p1TextString = "";
     String p1fullBio = "";
     
     //Player 2 Vars
+    
+    int p2OGIndex = 0;
+    String p2OGName = "";
+    String p2OGRace = "";
+    String p2OGClass = "";
+    String p2OGAlign = "";
+    //0
+    int p2OGHP = 0;
+    int p2OGAP = 0;
+    int p2OGMP = 0;
+    int p2OGAtt = 0;
+    int p2OGStr = 0;
+    int p2OGDef = 0;
+    int p2OGSta = 0;
+    int p2OGSpd = 0;
+    int p2OGEva = 0;
+    int p2OGDex = 0;
+    int p2OGMys = 0;
+    int p2OGWil = 0;
+    int p2OGLck = 0;
+    int p2OGChm = 0;
+    int p2OGInt = 0;
+    int p2OGFat = 0;
+    int p2OGSol = 0;
+    int p2OGDcy = 0;
+    int p2OGWtM = 0;
+    int p2OGSze = 0;
+    int p2OGGen = 0;
+    int p2OGAge = 0;
+    int p2OGLv = 0;
+    int p2OGExp = 0;
+    int p2OGRep = 0;
+    String p2OGBio = "";
+    String p2OGImage = "";
+    String p2OGStatus = "";
+    String p2OGTextString = "";
+    String p2OGfullBio = "";
+    
     int p2Index = 0;
     String p2Name = "";
     String p2Race = "";
@@ -114,7 +189,7 @@ public class MainGUI extends javax.swing.JFrame {
     int p2Rep = 0;
     String p2Bio = "";
     String p2Image = "";
-    String p2Status = "<font color=green>Healthy</font>";
+    String p2Status = "";
     String p2TextString = "";
     String p2fullBio = "";
     
@@ -689,12 +764,12 @@ public class MainGUI extends javax.swing.JFrame {
             SQLException {
         String list = "";
         if (!isitSingle) {
-            System.out.println("IT IS NOTTRUE");
+//            System.out.println("IT IS NOTTRUE");
                 list = (new RunQuery().getSpecificRecord(search, table, column,
                         matchcol, matchstr))
                 .replaceAll("\\[", "").replaceAll("\\]","");
             } else {
-            System.out.println("IT IS TRUE");
+//            System.out.println("IT IS TRUE");
         list = (new RunQuery().getSingleList(search, table, column))
                 .replaceAll("\\[", "").replaceAll("\\]","");
         }
@@ -705,7 +780,7 @@ public class MainGUI extends javax.swing.JFrame {
     //</editor-fold>
     
     private void popSelect() throws SQLException {
-        toonList = dbQuery("*","dbToons","toonName","","", true);
+        toonList = dbQuery("*","dbToonGame","toonName","","", true);
         fillSelect(p1Select,(toonList),dml1);
         fillSelect(p2Select,(toonList),dml2);
     }
@@ -726,10 +801,48 @@ public class MainGUI extends javax.swing.JFrame {
 
     //<editor-fold defaultstate="collapsed" desc="Set Players Code">
     public void setP1(String toonname) throws SQLException, BadLocationException {
-        List<String> listP1Stats = dbQuery("*","dbToons","toonName","toonName",
+        List<String> listP1OGStats = dbQuery("*","dbToons","toonOGName",
+                "toonOGName",toonname, false);
+        String[] p1OGField = ((listP1OGStats.toString()).substring(1,(listP1OGStats.
+                toString()).length())).split(",");
+        List<String> listP1Stats = dbQuery("*","dbToonGame","toonName","toonName",
                 toonname, false);
         String[] p1Field = ((listP1Stats.toString()).substring(1,(listP1Stats.
                 toString()).length())).split(",");
+        p1OGIndex = Integer.parseInt(removeSpace(p1OGField[0]));
+        p1OGName = removeSpace(p1OGField[1]);
+        p1OGRace = removeSpace(p1OGField[2]);
+        p1OGClass = removeSpace(p1OGField[3]);
+        p1OGAlign = removeSpace(p1OGField[4]);
+        //0
+        p1OGHP = processInt(p1OGField[6]);   // 1
+        p1OGMP = processInt(p1OGField[7]);   // 2
+        p1OGAP = processInt(p1OGField[8]);   // 3
+        p1OGAtt = processInt(p1OGField[9]);  // 4
+        p1OGStr = processInt(p1OGField[10]); // 5
+        p1OGDef = processInt(p1OGField[11]); // 6
+        p1OGSta = processInt(p1OGField[12]); // 7
+        p1OGSpd = processInt(p1OGField[13]); // 8
+        p1OGEva = processInt(p1OGField[14]); // 9
+        p1OGDex = processInt(p1OGField[15]); //10
+        p1OGMys = processInt(p1OGField[16]); //11
+        p1OGWil = processInt(p1OGField[17]); //12
+        p1OGLck = processInt(p1OGField[18]); //13
+        p1OGChm = processInt(p1OGField[19]); //14
+        p1OGInt = processInt(p1OGField[20]); //15
+        p1OGFat = processInt(p1OGField[21]); //16
+        p1OGSol = processInt(p1OGField[22]); //17
+        p1OGDcy = processInt(p1OGField[23]); //18
+        p1OGWtM = processInt(p1OGField[24]); //19
+        p1OGSze = processInt(p1OGField[25]); //20
+        p1OGGen = processInt(p1OGField[26]); //21
+        p1OGAge = processInt(p1OGField[27]); //22
+        p1OGLv = processInt(p1OGField[28]);  //23
+        p1OGExp = processInt(p1OGField[29]); //24
+        p1OGRep = processInt(p1OGField[30]); //25
+        p1OGBio = removeSpace(p1OGField[31]);
+        p1OGImage = removeSpace(p1OGField[32]).replace("]",""); 
+        
         p1Index = Integer.parseInt(removeSpace(p1Field[0]));
         p1Name = removeSpace(p1Field[1]);
         p1Race = removeSpace(p1Field[2]);
@@ -775,24 +888,28 @@ public class MainGUI extends javax.swing.JFrame {
         getCEff1(c1Index);
         comb1Code = s2i2sSorted(tEff1Code + "-" + rEff1Code + "-" + cEff1Code);
         getStatus1(comb1Code);
-        System.out.println("Status Toon 1 Code: " + status1Name + " " + status1Color + " " + status1Desc + " " + status1Bio);
+//        System.out.println("Status Toon 1 Code: " + status1Name + " " + status1Color + " " + status1Desc + " " + status1Bio);
         p1Status = ("<html><b><font color=" + status1Color + ">"+ status1Name + "</font></b></html>");
         p1Info1.setText("(Age Modifier " + p1Age + ")");
         p1Info2.setText(r1Name + " " + c1Name);
         p1Info3.setText(align1Name + " (Rep: " + p1Rep + ")");
         p1Info4.setText("Size" + p1Sze +  " " + gender1Name);
         p1Info5.setText(p1Status);
-        p1TextString = ("<center>Exp: &nb"
-                + "sp;" + p1Exp + "/" + p1Exp + "<br><br>HP: &nbsp;" + p1HP + ""
-                + "/" + p1HP  + "<br>AP: &nbsp;" + p1AP + "/" + p1AP + "<br>MP:"
-                + " &nbsp;" + p1MP + "/" + p1MP + "<br><br>Attack: &nbsp;" + 
-                p1Att + "<br>Strength: &nbsp;" + p1Str + "<br>Defense" + ": &nb"
-                + "sp;" + p1Def + "<br>Stamina: &nbsp;"+ p1Sta + "<br>Speed: &n"
-                + "bsp;"+ p1Spd +"<br>Evade: &nbsp;" + p1Eva + "<br>Dexterity: "
-                + "&nbsp;" + p1Dex + "<br>Mystic: &nbsp;" + p1Mys + "<br>Willpo"
-                + "wer: &nbsp;" + p1Wil + "<br>Luck: &nbsp;" + p1Lck + "<br>Cha"
-                + "rm: &nbsp;" + p1Chm + "<br>Intellect: &nbsp;" + p1Int + "<br>Fatigue: &nbsp;" + p1Fat + "<br>Soul/Decay (hide): &nbsp;" + p1Dcy + "/" + p1Sol
-                + "</center>");
+        p1TextString = ("<center>Exp: &nbsp;" + p1Exp + "/" + ("MAX EXP"
+                + " VALUE") + "<br><br>HP: &nbsp;" + p1HP + "/" + p1OGHP  + "<b"
+                + "r>AP: &nbsp;" + p1AP + "/" + p1OGAP + "<br>MP: &nbsp;" + p1MP
+                + "/" + p1OGMP + "<br><br>Attack: &nbsp;" + p1Att + "/" + 
+                p1OGAtt + "<br>Strength: &nbsp;" + p1Str + "/" + p1OGStr + "<br"
+                + ">Defense" + ": &nbsp;" + p1Def + "/" + p1OGDef + "<br>Stamin"
+                + "a: &nbsp;"+ p1Sta + "/" + p1OGSta + "<br>Speed: &nbsp;" + 
+                p1Spd + "/" + p1OGSpd +"<br>Evade: &nbsp;" + p1Eva + "/" + 
+                p1OGEva + "<br>Dexterity: " + "&nbsp;" + p1Dex + "/" + p1OGDex +
+                "<br>Mystic: &nbsp;" + p1Mys + "/" + p1OGMys + "<br>Willpower: "
+                + "&nbsp;" + p1Wil + "/" + p1OGWil + "<br>Luck: &nbsp;" + p1Lck 
+                + "/" + p1OGLck + "<br>Charm: &nbsp;" + p1Chm + "/" + p1OGChm + 
+                "<br>Intellect: &nbsp;" + p1Int + "/" + p1OGInt + "<br>Fatigue:"
+                + " &nbsp;" + p1Fat + "/" + p1OGFat + "<br>S&D (hidden): &"
+                + "nbsp;" + p1Dcy + "/" + p1Sol + "</center>");
         p1Text.setText(p1TextString);
         p1fullBio = bioBuilder(p1Name, align1Bio, r1Bio, gender1Bio, c1Bio, 
                 gender1Pro, status1Bio, p1Bio);
@@ -801,10 +918,48 @@ public class MainGUI extends javax.swing.JFrame {
     }
     
     public void setP2(String toonname) throws SQLException {
-        List<String> listP2Stats = dbQuery("*","dbToons","toonName","toonName",
-                toonname, false);
+        List<String> listP1OGStats = dbQuery("*","dbToons","toonOGName",
+                "toonOGName",toonname, false);
+        String[] p2OGField = ((listP1OGStats.toString()).substring(1,
+                (listP1OGStats.toString()).length())).split(",");
+        List<String> listP2Stats = dbQuery("*","dbToonGame","toonName",
+                "toonName",toonname, false);
         String[] p2Field = ((listP2Stats.toString()).substring(1,(listP2Stats.
                 toString()).length())).split(",");
+        p2OGIndex = Integer.parseInt(removeSpace(p2OGField[0]));
+        p2OGName = removeSpace(p2OGField[1]);
+        p2OGRace = removeSpace(p2OGField[2]);
+        p2OGClass = removeSpace(p2OGField[3]);
+        p2OGAlign = removeSpace(p2OGField[4]);
+        //0
+        p2OGHP = processInt(p2OGField[6]);   // 1
+        p2OGMP = processInt(p2OGField[7]);   // 2
+        p2OGAP = processInt(p2OGField[8]);   // 3
+        p2OGAtt = processInt(p2OGField[9]);  // 4
+        p2OGStr = processInt(p2OGField[10]); // 5
+        p2OGDef = processInt(p2OGField[11]); // 6
+        p2OGSta = processInt(p2OGField[12]); // 7
+        p2OGSpd = processInt(p2OGField[13]); // 8
+        p2OGEva = processInt(p2OGField[14]); // 9
+        p2OGDex = processInt(p2OGField[15]); //10
+        p2OGMys = processInt(p2OGField[16]); //11
+        p2OGWil = processInt(p2OGField[17]); //12
+        p2OGLck = processInt(p2OGField[18]); //13
+        p2OGChm = processInt(p2OGField[19]); //14
+        p2OGInt = processInt(p2OGField[20]); //15
+        p2OGFat = processInt(p2OGField[21]); //16
+        p2OGSol = processInt(p2OGField[22]); //17
+        p2OGDcy = processInt(p2OGField[23]); //18
+        p2OGWtM = processInt(p2OGField[24]); //19
+        p2OGSze = processInt(p2OGField[25]); //20
+        p2OGGen = processInt(p2OGField[26]); //21
+        p2OGAge = processInt(p2OGField[27]); //22
+        p2OGLv = processInt(p2OGField[28]);  //23
+        p2OGExp = processInt(p2OGField[29]); //24
+        p2OGRep = processInt(p2OGField[30]); //25
+        p2OGBio = removeSpace(p2OGField[31]);
+        p2OGImage = removeSpace(p2OGField[32]).replace("]",""); 
+        
         p2Index = Integer.parseInt(removeSpace(p2Field[0]));
         p2Name = removeSpace(p2Field[1]);
         p2Race = removeSpace(p2Field[2]);
@@ -850,24 +1005,28 @@ public class MainGUI extends javax.swing.JFrame {
         getCEff2(c2Index);
         comb2Code = s2i2sSorted(tEff2Code + "-" + rEff2Code + "-" + cEff2Code);
         getStatus2(comb2Code);
-        System.out.println("Status Toon 2 Code: " + status2Name + " " + status2Color + " " + status2Desc + " " + status2Bio);
+//        System.out.println("Status Toon 2 Code: " + status2Name + " " + status2Color + " " + status2Desc + " " + status2Bio);
         p2Status = ("<html><b><font color=" + status2Color + ">"+ status2Name + "</font></b></html>");
         p2Info1.setText(" (Age Modifier " + p2Age + ") ");
         p2Info2.setText(r2Name + " " + c2Name);
         p2Info3.setText(align2Name + " (Rep: " + p2Rep + ")");
         p2Info4.setText("Size" + p2Sze +  " " + gender2Name);
         p2Info5.setText(p2Status);
-                p2TextString = ("<center>Exp: &nb"
-                + "sp;" + p2Exp + "/" + p2Exp + "<br><br>HP: &nbsp;" + p2HP + ""
-                + "/" + p2HP  + "<br>AP: &nbsp;" + p2AP + "/" + p2AP + "<br>MP:"
-                + " &nbsp;" + p2MP + "/" + p2MP + "<br><br>Attack: &nbsp;" + 
-                p2Att + "<br>Strength: &nbsp;" + p2Str + "<br>Defense" + ": &nb"
-                + "sp;" + p2Def + "<br>Stamina: &nbsp;"+ p2Sta + "<br>Speed: &n"
-                + "bsp;"+ p2Spd +"<br>Evade: &nbsp;" + p2Eva + "<br>Dexterity: "
-                + "&nbsp;" + p2Dex + "<br>Mystic: &nbsp;" + p2Mys + "<br>Willpo"
-                + "wer: &nbsp;" + p2Wil + "<br>Luck: &nbsp;" + p2Lck + "<br>Cha"
-                 + "rm: &nbsp;" + p2Chm + "<br>Intellect: &nbsp;" + p2Int + "<br>Fatigue: &nbsp;" + p2Fat + "<br>Soul/Decay (hide): &nbsp;" + p2Dcy + "/" + p2Sol
-                + "</center>");
+        p2TextString = ("<center>Exp: &nbsp;" + p2Exp + "/" + ("MAX EXP"
+                + " VALUE") + "<br><br>HP: &nbsp;" + p2HP + "/" + p2OGHP  + "<b"
+                + "r>AP: &nbsp;" + p2AP + "/" + p2OGAP + "<br>MP: &nbsp;" + p2MP
+                + "/" + p2OGMP + "<br><br>Attack: &nbsp;" + p2Att + "/" + 
+                p2OGAtt + "<br>Strength: &nbsp;" + p2Str + "/" + p2OGStr + "<br"
+                + ">Defense" + ": &nbsp;" + p2Def + "/" + p2OGDef + "<br>Stamin"
+                + "a: &nbsp;"+ p2Sta + "/" + p2OGSta + "<br>Speed: &nbsp;" + 
+                p2Spd + "/" + p2OGSpd +"<br>Evade: &nbsp;" + p2Eva + "/" + 
+                p2OGEva + "<br>Dexterity: " + "&nbsp;" + p2Dex + "/" + p2OGDex +
+                "<br>Mystic: &nbsp;" + p2Mys + "/" + p2OGMys + "<br>Willpower: "
+                + "&nbsp;" + p2Wil + "/" + p2OGWil + "<br>Luck: &nbsp;" + p2Lck 
+                + "/" + p2OGLck + "<br>Charm: &nbsp;" + p2Chm + "/" + p2OGChm + 
+                "<br>Intellect: &nbsp;" + p2Int + "/" + p2OGInt + "<br>Fatigue:"
+                + " &nbsp;" + p2Fat + "/" + p2OGFat + "<br>S&D (hidden): &"
+                + "nbsp;" + p2Dcy + "/" + p2Sol + "</center>");
         p2fullBio = bioBuilder(p2Name, align2Bio, r2Bio, gender2Bio, c2Bio, 
                 gender2Pro, status2Bio, p2Bio);
         p2Text2.setText(p2fullBio);
@@ -1235,7 +1394,7 @@ public class MainGUI extends javax.swing.JFrame {
         status1Color = removeSpace(status1Field[1]);
         status1Desc = removeSpace(status1Field[2]);
         status1Bio = removeSpace(status1Field[3]);
-        System.out.println(status1Name + " " + status1Color + " " + status1Desc + " " + status1Bio);
+//        System.out.println(status1Name + " " + status1Color + " " + status1Desc + " " + status1Bio);
     } 
     
     public void getStatus2(String effectcode) throws SQLException {
@@ -1246,7 +1405,7 @@ public class MainGUI extends javax.swing.JFrame {
         status2Color = removeSpace(status2Field[1]);
         status2Desc = removeSpace(status2Field[2]);
         status2Bio = removeSpace(status2Field[3]);
-        System.out.println(status2Name + " " + status2Color + " " + status2Desc + " " + status2Bio);
+//        System.out.println(status2Name + " " + status2Color + " " + status2Desc + " " + status2Bio);
     }
 
     private String getStatusInfo(String effectcode) throws SQLException {
@@ -1269,7 +1428,8 @@ public class MainGUI extends javax.swing.JFrame {
         }
         String[] tempStatusArray2 = ((tempStatusArray.toString()).substring(1,
                 (tempStatusArray.toString()).length()-1)).split(",");
-        int tempNewLeng = (tempStatusArray2.length-1) * 2;
+//        int tempNewLeng = (tempStatusArray2.length-1) * 2;
+        int tempNewLeng = tempStatusArray2.length;
         List<Integer> tempFinalArray = new ArrayList<>();
         int max = 0;
         int lineno = 0;
@@ -1277,7 +1437,7 @@ public class MainGUI extends javax.swing.JFrame {
             if(j%2 == 0) {
                 tempFinalArray.add(processInt(tempStatusArray2[j+1]));
             }
-            for(int k = 0; k < tempFinalArray.size(); k++) {
+            for(int k = 0; k < tempFinalArray.size() ; k++) {
                 if(tempFinalArray.get(k) > max) {
                     max = tempFinalArray.get(k);
                     lineno = k;
@@ -1376,8 +1536,10 @@ public class MainGUI extends javax.swing.JFrame {
         String[] finalList = ((sortedList.toString()).substring(1,
                     (sortedList.toString()).length() - 1)).split("-");
         String prepString = Arrays.toString(finalList);
-        String finalString = prepString.replaceAll(", ","-");
-        return (finalString.substring(1,((finalString.length()) - 1)));
+        String semiString = prepString.replaceAll(", ","-");
+        String finalString = (semiString.substring(1,((semiString.length()) 
+                - 1))).replaceAll("0-", "");
+        return finalString;
     }
     
     private String capIt(String lowerstring) {

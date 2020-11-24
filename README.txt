@@ -1,6 +1,6 @@
 =====================================
 LIMITLESS by Geoff Clark
-VERSION ALPHA 0.0.8 / 2020.11.23.2205
+VERSION ALPHA 0.0.9 / 2020.11.24.XXXX
 =====================================
 
 SUPPORT THE DEVELOPMENT OF THIS GAME @ 
@@ -43,6 +43,11 @@ Contact the author:  info@clarktribegames.com
 ====================================
 
 DEVELOPMENT NOTES
+
+ALPHA 0.0.9 / 2020.11.24.XXXX
+
+- fixed method for comparing statuses to determine which status is primary
+- separated active stats from OG stats
 
 ALPHA 0.0.8 / 2020.11.23.2205
 

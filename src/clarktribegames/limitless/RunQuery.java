@@ -72,7 +72,7 @@ class RunQuery {
         st.close();
         con.close();
         result = result.substring(1,result.length());
-        System.out.println("Before Send: " + result);
+//        System.out.println("Before Send: " + result);
         return result;
     }
 }
