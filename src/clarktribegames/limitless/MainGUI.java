@@ -60,6 +60,8 @@ public class MainGUI extends javax.swing.JFrame {
     int p1OGEva = 0;
     int p1OGDex = 0;
     int p1OGMys = 0;
+    int p1OGMDf = 0;
+    int p1OGMEv = 0;
     int p1OGWil = 0;
     int p1OGLck = 0;
     int p1OGChm = 0;
@@ -97,6 +99,8 @@ public class MainGUI extends javax.swing.JFrame {
     int p1Eva = 0;
     int p1Dex = 0;
     int p1Mys = 0;
+    int p1MDf = 0;
+    int p1MEv = 0;
     int p1Wil = 0;
     int p1Lck = 0;
     int p1Chm = 0;
@@ -136,6 +140,8 @@ public class MainGUI extends javax.swing.JFrame {
     int p2OGEva = 0;
     int p2OGDex = 0;
     int p2OGMys = 0;
+    int p2OGMDf = 0;
+    int p2OGMEv = 0;
     int p2OGWil = 0;
     int p2OGLck = 0;
     int p2OGChm = 0;
@@ -173,6 +179,8 @@ public class MainGUI extends javax.swing.JFrame {
     int p2Eva = 0;
     int p2Dex = 0;
     int p2Mys = 0;
+    int p2MDf = 0;
+    int p2MEv = 0;
     int p2Wil = 0;
     int p2Lck = 0;
     int p2Chm = 0;
@@ -759,14 +767,14 @@ public class MainGUI extends javax.swing.JFrame {
         new FileCheck().dbCheck(ogPath,dbPath);
     }
             
-    private List<String> dbQuery(String search,String table,String column,
-            String matchcol, String matchstr, boolean isitSingle) throws 
+    private List<String> dbQuery(String search,String table,String column, 
+            String matchstr, boolean isitSingle) throws 
             SQLException {
         String list = "";
         if (!isitSingle) {
 //            System.out.println("IT IS NOTTRUE");
                 list = (new RunQuery().getSpecificRecord(search, table, column,
-                        matchcol, matchstr))
+                        matchstr))
                 .replaceAll("\\[", "").replaceAll("\\]","");
             } else {
 //            System.out.println("IT IS TRUE");
@@ -780,7 +788,7 @@ public class MainGUI extends javax.swing.JFrame {
     //</editor-fold>
     
     private void popSelect() throws SQLException {
-        toonList = dbQuery("*","dbToonGame","toonName","","", true);
+        toonList = dbQuery("*","dbToonGame","toonName","", true);
         fillSelect(p1Select,(toonList),dml1);
         fillSelect(p2Select,(toonList),dml2);
     }
@@ -801,11 +809,11 @@ public class MainGUI extends javax.swing.JFrame {
 
     //<editor-fold defaultstate="collapsed" desc="Set Players Code">
     public void setP1(String toonname) throws SQLException, BadLocationException {
-        List<String> listP1OGStats = dbQuery("*","dbToons","toonOGName",
+        List<String> listP1OGStats = dbQuery("*","dbToons",
                 "toonOGName",toonname, false);
         String[] p1OGField = ((listP1OGStats.toString()).substring(1,(listP1OGStats.
                 toString()).length())).split(",");
-        List<String> listP1Stats = dbQuery("*","dbToonGame","toonName","toonName",
+        List<String> listP1Stats = dbQuery("*","dbToonGame","toonName",
                 toonname, false);
         String[] p1Field = ((listP1Stats.toString()).substring(1,(listP1Stats.
                 toString()).length())).split(",");
@@ -815,33 +823,35 @@ public class MainGUI extends javax.swing.JFrame {
         p1OGClass = removeSpace(p1OGField[3]);
         p1OGAlign = removeSpace(p1OGField[4]);
         //0
-        p1OGHP = processInt(p1OGField[6]);   // 1
-        p1OGMP = processInt(p1OGField[7]);   // 2
-        p1OGAP = processInt(p1OGField[8]);   // 3
-        p1OGAtt = processInt(p1OGField[9]);  // 4
-        p1OGStr = processInt(p1OGField[10]); // 5
-        p1OGDef = processInt(p1OGField[11]); // 6
-        p1OGSta = processInt(p1OGField[12]); // 7
-        p1OGSpd = processInt(p1OGField[13]); // 8
-        p1OGEva = processInt(p1OGField[14]); // 9
-        p1OGDex = processInt(p1OGField[15]); //10
-        p1OGMys = processInt(p1OGField[16]); //11
-        p1OGWil = processInt(p1OGField[17]); //12
-        p1OGLck = processInt(p1OGField[18]); //13
-        p1OGChm = processInt(p1OGField[19]); //14
-        p1OGInt = processInt(p1OGField[20]); //15
-        p1OGFat = processInt(p1OGField[21]); //16
-        p1OGSol = processInt(p1OGField[22]); //17
-        p1OGDcy = processInt(p1OGField[23]); //18
-        p1OGWtM = processInt(p1OGField[24]); //19
-        p1OGSze = processInt(p1OGField[25]); //20
-        p1OGGen = processInt(p1OGField[26]); //21
-        p1OGAge = processInt(p1OGField[27]); //22
-        p1OGLv = processInt(p1OGField[28]);  //23
-        p1OGExp = processInt(p1OGField[29]); //24
-        p1OGRep = processInt(p1OGField[30]); //25
-        p1OGBio = removeSpace(p1OGField[31]);
-        p1OGImage = removeSpace(p1OGField[32]).replace("]",""); 
+        p1OGHP = processInt(p1OGField[6]);   
+        p1OGMP = processInt(p1OGField[7]);   
+        p1OGAP = processInt(p1OGField[8]);   
+        p1OGAtt = processInt(p1OGField[9]);  
+        p1OGStr = processInt(p1OGField[10]); 
+        p1OGDef = processInt(p1OGField[11]); 
+        p1OGSta = processInt(p1OGField[12]); 
+        p1OGSpd = processInt(p1OGField[13]); 
+        p1OGEva = processInt(p1OGField[14]); 
+        p1OGDex = processInt(p1OGField[15]); 
+        p1OGMys = processInt(p1OGField[16]); 
+        p1OGMDf = processInt(p1OGField[17]); 
+        p1OGMEv = processInt(p1OGField[18]); 
+        p1OGWil = processInt(p1OGField[19]); 
+        p1OGLck = processInt(p1OGField[20]); 
+        p1OGChm = processInt(p1OGField[21]); 
+        p1OGInt = processInt(p1OGField[22]); 
+        p1OGFat = processInt(p1OGField[23]); 
+        p1OGSol = processInt(p1OGField[24]); 
+        p1OGDcy = processInt(p1OGField[25]); 
+        p1OGWtM = processInt(p1OGField[26]); 
+        p1OGSze = processInt(p1OGField[27]); 
+        p1OGGen = processInt(p1OGField[28]); 
+        p1OGAge = processInt(p1OGField[29]); 
+        p1OGLv = processInt(p1OGField[30]);  
+        p1OGExp = processInt(p1OGField[31]); 
+        p1OGRep = processInt(p1OGField[32]); 
+        p1OGBio = removeSpace(p1OGField[33]);
+        p1OGImage = removeSpace(p1OGField[34]).replace("]","");  
         
         p1Index = Integer.parseInt(removeSpace(p1Field[0]));
         p1Name = removeSpace(p1Field[1]);
@@ -849,33 +859,35 @@ public class MainGUI extends javax.swing.JFrame {
         p1Class = removeSpace(p1Field[3]);
         p1Align = removeSpace(p1Field[4]);
         //0
-        p1HP = processInt(p1Field[6]);   // 1
-        p1MP = processInt(p1Field[7]);   // 2
-        p1AP = processInt(p1Field[8]);   // 3
-        p1Att = processInt(p1Field[9]);  // 4
-        p1Str = processInt(p1Field[10]); // 5
-        p1Def = processInt(p1Field[11]); // 6
-        p1Sta = processInt(p1Field[12]); // 7
-        p1Spd = processInt(p1Field[13]); // 8
-        p1Eva = processInt(p1Field[14]); // 9
-        p1Dex = processInt(p1Field[15]); //10
-        p1Mys = processInt(p1Field[16]); //11
-        p1Wil = processInt(p1Field[17]); //12
-        p1Lck = processInt(p1Field[18]); //13
-        p1Chm = processInt(p1Field[19]); //14
-        p1Int = processInt(p1Field[20]); //15
-        p1Fat = processInt(p1Field[21]); //16
-        p1Sol = processInt(p1Field[22]); //17
-        p1Dcy = processInt(p1Field[23]); //18
-        p1WtM = processInt(p1Field[24]); //19
-        p1Sze = processInt(p1Field[25]); //20
-        p1Gen = processInt(p1Field[26]); //21
-        p1Age = processInt(p1Field[27]); //22
-        p1Lv = processInt(p1Field[28]);  //23
-        p1Exp = processInt(p1Field[29]); //24
-        p1Rep = processInt(p1Field[30]); //25
-        p1Bio = removeSpace(p1Field[31]);
-        p1Image = removeSpace(p1Field[32]).replace("]","");       
+        p1HP = processInt(p1Field[6]);   
+        p1MP = processInt(p1Field[7]);   
+        p1AP = processInt(p1Field[8]);   
+        p1Att = processInt(p1Field[9]);  
+        p1Str = processInt(p1Field[10]); 
+        p1Def = processInt(p1Field[11]); 
+        p1Sta = processInt(p1Field[12]); 
+        p1Spd = processInt(p1Field[13]); 
+        p1Eva = processInt(p1Field[14]); 
+        p1Dex = processInt(p1Field[15]); 
+        p1Mys = processInt(p1Field[16]); 
+        p1MDf = processInt(p1Field[17]); 
+        p1MEv = processInt(p1Field[18]); 
+        p1Wil = processInt(p1Field[19]); 
+        p1Lck = processInt(p1Field[20]); 
+        p1Chm = processInt(p1Field[21]); 
+        p1Int = processInt(p1Field[22]); 
+        p1Fat = processInt(p1Field[23]); 
+        p1Sol = processInt(p1Field[24]); 
+        p1Dcy = processInt(p1Field[25]); 
+        p1WtM = processInt(p1Field[26]); 
+        p1Sze = processInt(p1Field[27]); 
+        p1Gen = processInt(p1Field[28]); 
+        p1Age = processInt(p1Field[29]); 
+        p1Lv = processInt(p1Field[30]);  
+        p1Exp = processInt(p1Field[31]); 
+        p1Rep = processInt(p1Field[32]); 
+        p1Bio = removeSpace(p1Field[33]);
+        p1Image = removeSpace(p1Field[34]).replace("]","");       
         p1Select.setSelectedIndex(p1Index - 1);
         p1ToonName.setText(p1Name + " (Lv. " + p1Lv + ")");
         getR1(p1Race);
@@ -904,7 +916,7 @@ public class MainGUI extends javax.swing.JFrame {
                 + "a: &nbsp;"+ p1Sta + "/" + p1OGSta + "<br>Speed: &nbsp;" + 
                 p1Spd + "/" + p1OGSpd +"<br>Evade: &nbsp;" + p1Eva + "/" + 
                 p1OGEva + "<br>Dexterity: " + "&nbsp;" + p1Dex + "/" + p1OGDex +
-                "<br>Mystic: &nbsp;" + p1Mys + "/" + p1OGMys + "<br>Willpower: "
+                "<br>Mystic: &nbsp;" + p1Mys + ":" + p1MDf + ":" + p1MEv + "/" + p1OGMys + ":" + p1OGMDf + ":" + p1OGMEv + "<br>Willpower: "
                 + "&nbsp;" + p1Wil + "/" + p1OGWil + "<br>Luck: &nbsp;" + p1Lck 
                 + "/" + p1OGLck + "<br>Charm: &nbsp;" + p1Chm + "/" + p1OGChm + 
                 "<br>Intellect: &nbsp;" + p1Int + "/" + p1OGInt + "<br>Fatigue:"
@@ -916,13 +928,13 @@ public class MainGUI extends javax.swing.JFrame {
         p1Text2.setText(p1fullBio);
         new ToonImage().setImage(p1Toon,p1Image);
     }
-    
+
     public void setP2(String toonname) throws SQLException {
-        List<String> listP1OGStats = dbQuery("*","dbToons","toonOGName",
+        List<String> listP1OGStats = dbQuery("*","dbToons",
                 "toonOGName",toonname, false);
         String[] p2OGField = ((listP1OGStats.toString()).substring(1,
                 (listP1OGStats.toString()).length())).split(",");
-        List<String> listP2Stats = dbQuery("*","dbToonGame","toonName",
+        List<String> listP2Stats = dbQuery("*","dbToonGame",
                 "toonName",toonname, false);
         String[] p2Field = ((listP2Stats.toString()).substring(1,(listP2Stats.
                 toString()).length())).split(",");
@@ -932,33 +944,35 @@ public class MainGUI extends javax.swing.JFrame {
         p2OGClass = removeSpace(p2OGField[3]);
         p2OGAlign = removeSpace(p2OGField[4]);
         //0
-        p2OGHP = processInt(p2OGField[6]);   // 1
-        p2OGMP = processInt(p2OGField[7]);   // 2
-        p2OGAP = processInt(p2OGField[8]);   // 3
-        p2OGAtt = processInt(p2OGField[9]);  // 4
-        p2OGStr = processInt(p2OGField[10]); // 5
-        p2OGDef = processInt(p2OGField[11]); // 6
-        p2OGSta = processInt(p2OGField[12]); // 7
-        p2OGSpd = processInt(p2OGField[13]); // 8
-        p2OGEva = processInt(p2OGField[14]); // 9
-        p2OGDex = processInt(p2OGField[15]); //10
-        p2OGMys = processInt(p2OGField[16]); //11
-        p2OGWil = processInt(p2OGField[17]); //12
-        p2OGLck = processInt(p2OGField[18]); //13
-        p2OGChm = processInt(p2OGField[19]); //14
-        p2OGInt = processInt(p2OGField[20]); //15
-        p2OGFat = processInt(p2OGField[21]); //16
-        p2OGSol = processInt(p2OGField[22]); //17
-        p2OGDcy = processInt(p2OGField[23]); //18
-        p2OGWtM = processInt(p2OGField[24]); //19
-        p2OGSze = processInt(p2OGField[25]); //20
-        p2OGGen = processInt(p2OGField[26]); //21
-        p2OGAge = processInt(p2OGField[27]); //22
-        p2OGLv = processInt(p2OGField[28]);  //23
-        p2OGExp = processInt(p2OGField[29]); //24
-        p2OGRep = processInt(p2OGField[30]); //25
-        p2OGBio = removeSpace(p2OGField[31]);
-        p2OGImage = removeSpace(p2OGField[32]).replace("]",""); 
+        p2OGHP = processInt(p2OGField[6]);   
+        p2OGMP = processInt(p2OGField[7]);   
+        p2OGAP = processInt(p2OGField[8]);   
+        p2OGAtt = processInt(p2OGField[9]);  
+        p2OGStr = processInt(p2OGField[10]); 
+        p2OGDef = processInt(p2OGField[11]); 
+        p2OGSta = processInt(p2OGField[12]); 
+        p2OGSpd = processInt(p2OGField[13]); 
+        p2OGEva = processInt(p2OGField[14]); 
+        p2OGDex = processInt(p2OGField[15]); 
+        p2OGMys = processInt(p2OGField[16]); 
+        p2OGMDf = processInt(p2OGField[17]); 
+        p2OGMEv = processInt(p2OGField[18]); 
+        p2OGWil = processInt(p2OGField[19]); 
+        p2OGLck = processInt(p2OGField[20]); 
+        p2OGChm = processInt(p2OGField[21]); 
+        p2OGInt = processInt(p2OGField[22]); 
+        p2OGFat = processInt(p2OGField[23]); 
+        p2OGSol = processInt(p2OGField[24]); 
+        p2OGDcy = processInt(p2OGField[25]); 
+        p2OGWtM = processInt(p2OGField[26]); 
+        p2OGSze = processInt(p2OGField[27]); 
+        p2OGGen = processInt(p2OGField[28]); 
+        p2OGAge = processInt(p2OGField[29]); 
+        p2OGLv = processInt(p2OGField[30]);  
+        p2OGExp = processInt(p2OGField[31]); 
+        p2OGRep = processInt(p2OGField[32]); 
+        p2OGBio = removeSpace(p2OGField[33]);
+        p2OGImage = removeSpace(p2OGField[34]).replace("]","");  
         
         p2Index = Integer.parseInt(removeSpace(p2Field[0]));
         p2Name = removeSpace(p2Field[1]);
@@ -966,33 +980,35 @@ public class MainGUI extends javax.swing.JFrame {
         p2Class = removeSpace(p2Field[3]);
         p2Align = removeSpace(p2Field[4]);
         //0
-        p2HP = processInt(p2Field[6]);   // 1
-        p2MP = processInt(p2Field[7]);   // 2
-        p2AP = processInt(p2Field[8]);   // 3
-        p2Att = processInt(p2Field[9]);  // 4
-        p2Str = processInt(p2Field[10]); // 5
-        p2Def = processInt(p2Field[11]); // 6
-        p2Sta = processInt(p2Field[12]); // 7
-        p2Spd = processInt(p2Field[13]); // 8
-        p2Eva = processInt(p2Field[14]); // 9
-        p2Dex = processInt(p2Field[15]); //10
-        p2Mys = processInt(p2Field[16]); //11
-        p2Wil = processInt(p2Field[17]); //12
-        p2Lck = processInt(p2Field[18]); //13
-        p2Chm = processInt(p2Field[19]); //14
-        p2Int = processInt(p2Field[20]); //15
-        p2Fat = processInt(p2Field[21]); //16
-        p2Sol = processInt(p2Field[22]); //17
-        p2Dcy = processInt(p2Field[23]); //18
-        p2WtM = processInt(p2Field[24]); //19
-        p2Sze = processInt(p2Field[25]); //20
-        p2Gen = processInt(p2Field[26]); //21
-        p2Age = processInt(p2Field[27]); //22
-        p2Lv = processInt(p2Field[28]);  //23
-        p2Exp = processInt(p2Field[29]); //24
-        p2Rep = processInt(p2Field[30]); //25
-        p2Bio = removeSpace(p2Field[31]);
-        p2Image = removeSpace(p2Field[32]).replace("]","");        
+        p2HP = processInt(p2Field[6]);   
+        p2MP = processInt(p2Field[7]);   
+        p2AP = processInt(p2Field[8]);   
+        p2Att = processInt(p2Field[9]);  
+        p2Str = processInt(p2Field[10]); 
+        p2Def = processInt(p2Field[11]); 
+        p2Sta = processInt(p2Field[12]); 
+        p2Spd = processInt(p2Field[13]); 
+        p2Eva = processInt(p2Field[14]); 
+        p2Dex = processInt(p2Field[15]); 
+        p2Mys = processInt(p2Field[16]); 
+        p2MDf = processInt(p2Field[17]); 
+        p2MEv = processInt(p2Field[18]); 
+        p2Wil = processInt(p2Field[19]); 
+        p2Lck = processInt(p2Field[20]); 
+        p2Chm = processInt(p2Field[21]); 
+        p2Int = processInt(p2Field[22]); 
+        p2Fat = processInt(p2Field[23]); 
+        p2Sol = processInt(p2Field[24]); 
+        p2Dcy = processInt(p2Field[25]); 
+        p2WtM = processInt(p2Field[26]); 
+        p2Sze = processInt(p2Field[27]); 
+        p2Gen = processInt(p2Field[28]); 
+        p2Age = processInt(p2Field[29]); 
+        p2Lv = processInt(p2Field[30]);  
+        p2Exp = processInt(p2Field[31]); 
+        p2Rep = processInt(p2Field[32]); 
+        p2Bio = removeSpace(p2Field[33]);
+        p2Image = removeSpace(p2Field[34]).replace("]","");        
         p2Select.setSelectedIndex(p2Index - 1);
         p2ToonName.setText(p2Name + " (Lv. " + p2Lv + ")");
         getR2(p2Race);
@@ -1021,7 +1037,7 @@ public class MainGUI extends javax.swing.JFrame {
                 + "a: &nbsp;"+ p2Sta + "/" + p2OGSta + "<br>Speed: &nbsp;" + 
                 p2Spd + "/" + p2OGSpd +"<br>Evade: &nbsp;" + p2Eva + "/" + 
                 p2OGEva + "<br>Dexterity: " + "&nbsp;" + p2Dex + "/" + p2OGDex +
-                "<br>Mystic: &nbsp;" + p2Mys + "/" + p2OGMys + "<br>Willpower: "
+                "<br>Mystic: &nbsp;" + p2Mys + ":" + p2MDf + ":" + p2MEv + "/" + p2OGMys + ":" + p2OGMDf + ":" + p2OGMEv + "<br>Willpower: "
                 + "&nbsp;" + p2Wil + "/" + p2OGWil + "<br>Luck: &nbsp;" + p2Lck 
                 + "/" + p2OGLck + "<br>Charm: &nbsp;" + p2Chm + "/" + p2OGChm + 
                 "<br>Intellect: &nbsp;" + p2Int + "/" + p2OGInt + "<br>Fatigue:"
@@ -1045,7 +1061,7 @@ public class MainGUI extends javax.swing.JFrame {
 
     //<editor-fold defaultstate="collapsed" desc="Get Race/Class/Align Code">    
     public void getR1(String raceid) throws SQLException {
-        List<String> r1Stats = dbQuery("*","dbRace","raceName","raceID ",
+        List<String> r1Stats = dbQuery("*","dbRace","raceID",
                 raceid, false);
         String[] r1Field = ((r1Stats.toString()).substring(1,(r1Stats.
                 toString()).length())).split(",");
@@ -1082,7 +1098,7 @@ public class MainGUI extends javax.swing.JFrame {
     }
     
     public void getR2(String raceid) throws SQLException {
-        List<String> r2Stats = dbQuery("*","dbRace","raceName","raceID ",
+        List<String> r2Stats = dbQuery("*","dbRace","raceID",
                 raceid, false);
         String[] r2Field = ((r2Stats.toString()).substring(1,(r2Stats.
                 toString()).length())).split(",");
@@ -1119,7 +1135,7 @@ public class MainGUI extends javax.swing.JFrame {
     }
 
     public void getC1(String classid) throws SQLException {
-        List<String> c1Stats = dbQuery("*","dbClass","className","classID ",
+        List<String> c1Stats = dbQuery("*","dbClass","classID ",
                 classid, false);
         String[] c1Field = ((c1Stats.toString()).substring(1,(c1Stats.
                 toString()).length())).split(",");
@@ -1156,7 +1172,7 @@ public class MainGUI extends javax.swing.JFrame {
     }
     
     public void getC2(String classid) throws SQLException {
-        List<String> c2Stats = dbQuery("*","dbClass","className","classID ",
+        List<String> c2Stats = dbQuery("*","dbClass","classID ",
                 classid, false);
         String[] c2Field = ((c2Stats.toString()).substring(1,(c2Stats.
                 toString()).length())).split(",");
@@ -1193,7 +1209,7 @@ public class MainGUI extends javax.swing.JFrame {
     }
 
     public void getAlign1(String alignid) throws SQLException {
-        List<String> align1Stats = dbQuery("*","dbAlign","alignName","alignID ",
+        List<String> align1Stats = dbQuery("*","dbAlign","alignID",
                 alignid, false);
         String[] align1Field = ((align1Stats.toString()).substring(1,(align1Stats.
                 toString()).length())).split(",");
@@ -1205,7 +1221,7 @@ public class MainGUI extends javax.swing.JFrame {
     }
     
     public void getAlign2(String alignid) throws SQLException {
-        List<String> align2Stats = dbQuery("*","dbAlign","alignName","alignID ",
+        List<String> align2Stats = dbQuery("*","dbAlign","alignID",
                 alignid, false);
         String[] align2Field = ((align2Stats.toString()).substring(1,(align2Stats.
                 toString()).length())).split(",");
@@ -1217,7 +1233,7 @@ public class MainGUI extends javax.swing.JFrame {
     }
     
     public void getG1(int genderid) throws SQLException {
-        List<String> gender1Stats = dbQuery("*","dbGender","genderName","genderID ",
+        List<String> gender1Stats = dbQuery("*","dbGender","genderID ",
                 (String.valueOf(genderid)), false);
         String[] gender1Field = ((gender1Stats.toString()).substring(1,(gender1Stats.
                 toString()).length())).split(",");
@@ -1229,7 +1245,7 @@ public class MainGUI extends javax.swing.JFrame {
     }
     
     public void getG2(int genderid) throws SQLException {
-        List<String> gender2Stats = dbQuery("*","dbGender","genderName","genderID ",
+        List<String> gender2Stats = dbQuery("*","dbGender","genderID ",
                 String.valueOf(genderid) , false);
         String[] gender2Field = ((gender2Stats.toString()).substring(1,(gender2Stats.
                 toString()).length())).split(",");
@@ -1241,7 +1257,7 @@ public class MainGUI extends javax.swing.JFrame {
     }
     
     public void getTAbl1(int toonid) throws SQLException {
-        List<String> tAbl1Stats = dbQuery("*","dbToonAbl","toonID","toonID ",
+        List<String> tAbl1Stats = dbQuery("*","dbToonAbl","toonID",
                 String.valueOf(toonid), false);
         String[] tAbl1Field = ((tAbl1Stats.toString()).substring(1,(tAbl1Stats.
                 toString()).length())).split(",");
@@ -1279,7 +1295,7 @@ public class MainGUI extends javax.swing.JFrame {
     }    
     
     public void getTAbl2(int toonid) throws SQLException {
-        List<String> tAbl2Stats = dbQuery("*","dbToonAbl","toonID","toonID ",
+        List<String> tAbl2Stats = dbQuery("*","dbToonAbl","toonID",
                 String.valueOf(toonid), false);
         String[] tAbl2Field = ((tAbl2Stats.toString()).substring(1,(tAbl2Stats.
                 toString()).length())).split(",");
@@ -1321,7 +1337,7 @@ public class MainGUI extends javax.swing.JFrame {
 
     
     public void getTEff1(int toonid) throws SQLException {
-        List<String> tEff1Stats = dbQuery("*","dbToonEffects","toonID","toonID ",
+        List<String> tEff1Stats = dbQuery("*","dbToonEffects","toonID",
                 String.valueOf(toonid), false);
         String[] tEff1Field = ((tEff1Stats.toString()).substring(1,(tEff1Stats.
                 toString()).length())).split(",");
@@ -1330,7 +1346,7 @@ public class MainGUI extends javax.swing.JFrame {
     }    
     
     public void getTEff2(int toonid) throws SQLException {
-        List<String> tEff2Stats = dbQuery("*","dbToonEffects","toonID","toonID ",
+        List<String> tEff2Stats = dbQuery("*","dbToonEffects","toonID",
                 String.valueOf(toonid), false);
         String[] tEff2Field = ((tEff2Stats.toString()).substring(1,(tEff2Stats.
                 toString()).length())).split(",");
@@ -1339,7 +1355,7 @@ public class MainGUI extends javax.swing.JFrame {
     }
 
     public void getREff1(int raceid) throws SQLException {
-        List<String> rEff1Stats = dbQuery("*","dbRaceEffects","raceID","raceID ",
+        List<String> rEff1Stats = dbQuery("*","dbRaceEffects","raceID",
                 String.valueOf(raceid), false);
         String[] rEff1Field = ((rEff1Stats.toString()).substring(1,(rEff1Stats.
                 toString()).length())).split(",");
@@ -1348,7 +1364,7 @@ public class MainGUI extends javax.swing.JFrame {
     }    
     
     public void getREff2(int raceid) throws SQLException {
-        List<String> rEff2Stats = dbQuery("*","dbRaceEffects","raceID","raceID ",
+        List<String> rEff2Stats = dbQuery("*","dbRaceEffects","raceID",
                 String.valueOf(raceid), false);
         String[] rEff2Field = ((rEff2Stats.toString()).substring(1,(rEff2Stats.
                 toString()).length())).split(",");
@@ -1357,7 +1373,7 @@ public class MainGUI extends javax.swing.JFrame {
     }
   
     public void getCEff1(int classid) throws SQLException {
-        List<String> cEff1Stats = dbQuery("*","dbClassEffects","classID","classID ",
+        List<String> cEff1Stats = dbQuery("*","dbClassEffects","classID",
                 String.valueOf(classid), false);
         String[] cEff1Field = ((cEff1Stats.toString()).substring(1,(cEff1Stats.
                 toString()).length())).split(",");
@@ -1366,7 +1382,7 @@ public class MainGUI extends javax.swing.JFrame {
     }    
     
     public void getCEff2(int classid) throws SQLException {
-        List<String> cEff2Stats = dbQuery("*","dbClassEffects","classID","classID ",
+        List<String> cEff2Stats = dbQuery("*","dbClassEffects","classID",
                 String.valueOf(classid), false);
         String[] cEff2Field = ((cEff2Stats.toString()).substring(1,(cEff2Stats.
                 toString()).length())).split(",");
@@ -1410,11 +1426,10 @@ public class MainGUI extends javax.swing.JFrame {
 
     private String getStatusInfo(String effectcode) throws SQLException {
         List<String> tempStatusArray = new ArrayList<>();
-        int totalLines = (((dbQuery("*","dbStatus","statusID","","", true)).
+        int totalLines = (((dbQuery("*","dbStatus","statusID","",true)).
                 toString()).split(",")).length;
         for (int i = 0; i < (totalLines); i++) {
-            List<String> tempStats = dbQuery("*","dbStatus","statusID","statusI"
-                    + "D ",String.valueOf(i+1), false);
+            List<String> tempStats = dbQuery("*","dbStatus","statusID",String.valueOf(i+1), false);
             String[] tempField = ((tempStats.toString()).substring(1,(tempStats.
                 toString()).length())).split(",");
             int tempID = processInt(tempField[0]);
@@ -1444,7 +1459,7 @@ public class MainGUI extends javax.swing.JFrame {
                 }
             }
         }
-        List<String> finalStats = dbQuery("*","dbStatus","statusID","statusID ",
+        List<String> finalStats = dbQuery("*","dbStatus","statusID",
                     String.valueOf(tempStatusArray2[lineno]), false);
             String[] finalField = ((finalStats.toString()).substring(1,
                     (finalStats.toString()).length())).split(",");

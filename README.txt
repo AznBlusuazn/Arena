@@ -1,6 +1,6 @@
 =====================================
 LIMITLESS by Geoff Clark
-VERSION ALPHA 0.0.9 / 2020.11.24.XXXX
+VERSION ALPHA 0.0.9 / 2020.11.24.1719
 =====================================
 
 SUPPORT THE DEVELOPMENT OF THIS GAME @ 
@@ -44,10 +44,14 @@ Contact the author:  info@clarktribegames.com
 
 DEVELOPMENT NOTES
 
-ALPHA 0.0.9 / 2020.11.24.XXXX
+ALPHA 0.0.9 / 2020.11.24.1719
 
 - fixed method for comparing statuses to determine which status is primary
 - separated active stats from OG stats
+- updated some of the query coding for optimization
+- redid effects fields with add +(Absorb) ±(Strong) and -(Weak)
+- added about 50 effects to the effect table
+- added "OG" status for toons as baseline/max points -- temporarily added in text box for testing
 
 ALPHA 0.0.8 / 2020.11.23.2205
 

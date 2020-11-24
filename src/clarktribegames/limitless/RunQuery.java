@@ -47,14 +47,13 @@ class RunQuery {
     }
     
     String getSpecificRecord(String search,String table, String column, String 
-            matchcol, String matchstr) throws SQLException {
+            matchstr) throws SQLException {
         this.search = search;
         this.table = table;
         this.column = column;
-        this.matchcol = matchcol;
         this.matchstr = matchstr;
         
-        String match = (matchcol + "=\"" + matchstr + "\"");
+        String match = (column + "=\"" + matchstr + "\"");
         String result = "";
         
         Connection con = DriverManager.getConnection(db1, db2, db3);
