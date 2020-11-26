@@ -1,25 +1,25 @@
-=====================================
+=======================================
 LIMITLESS by Geoff Clark
-VERSION ALPHA 0.0.9 / 2020.11.24.1719
-=====================================
+VERSION ALPHA 0.0.010 / 2020.11.25.2146
+=======================================
 
 SUPPORT THE DEVELOPMENT OF THIS GAME @ 
 
-	https://www.patreon.com/clarktribegames
-	https://paypal.me/aznblusuazn
+ https://www.patreon.com/clarktribegames
+ https://paypal.me/aznblusuazn
 
 JOIN THE COMMUNITY ON FACEBOOK OR DISCORD
 
-	https://facebook.com/clarktribe.games
-	https://discord.gg/6kW4der
+  https://facebook.com/clarktribe.games
+  https://discord.gg/6kW4der
 
-=====================================
+=======================================
 
 This program was written with JDK 1.8.  It does require a minimum of JRE 52 to run.
 
 Java can be downloaded from:  https://www.java.com/en/
 
-====================================
+======================================
 
 ABOUT THIS APPLICATION
 
@@ -44,7 +44,13 @@ Contact the author:  info@clarktribegames.com
 
 DEVELOPMENT NOTES
 
-ALPHA 0.0.9 / 2020.11.24.1719
+ALPHA 0.0.010 / 2020.11.25.2146
+
+- separated bio box into its own text box
+- adjusted package name
+- created baseline randomizer method
+
+ALPHA 0.0.009 / 2020.11.24.1719
 
 - fixed method for comparing statuses to determine which status is primary
 - separated active stats from OG stats
@@ -53,20 +59,20 @@ ALPHA 0.0.9 / 2020.11.24.1719
 - added about 50 effects to the effect table
 - added "OG" status for toons as baseline/max points -- temporarily added in text box for testing
 
-ALPHA 0.0.8 / 2020.11.23.2205
+ALPHA 0.0.008 / 2020.11.23.2205
 
 - named the game "LIMITLESS" -- from the idea that there are no limits to the game
 - converted many "numbered" fields to actually descriptors in the db.
 - created bio builder -- still need to add status and effects into bio builder, but framework is there
 - updated readme.txt and todo.txt -- included patreon, paypal, discord, and facebook info
 
-ALPHA 0.0.7 / 2020.11.23.0034
+ALPHA 0.0.007 / 2020.11.23.0034
 
 - added several baseline statuses to db
 - planned out additions to effects
 - added more ideas to TODO
 
-ALPHA 0.0.6 / 2020.11.21.2255
+ALPHA 0.0.006 / 2020.11.21.2255
 
 - coded logic to extract toons race/class/unique effects and combine them into a unique "code"
 - effects code then translates to status, every status will have a unique identifier
@@ -75,7 +81,7 @@ ALPHA 0.0.6 / 2020.11.21.2255
 - added Array Sorter method
 - test statuses are Normal, Knocked Out, Dead
 
-ALPHA 0.0.5 / 2020.11.20.2342
+ALPHA 0.0.005 / 2020.11.20.2342
 
 - corrected the title of the readme.txt
 - added Fatigue, Soul, Decay, Weight Modifier, Size, and Gender to Toon, Race, Class, Abilities
@@ -87,13 +93,13 @@ ALPHA 0.0.5 / 2020.11.20.2342
 - created a way to collect Toon Effect Code -- to be replicated for Align/Reace/Class Effect
 - developed text coding for strong(+), neutral(±) and weak(-) in relation to statuses
 
-ALPHA 0.0.4 / 2020.11.19.2304
+ALPHA 0.0.004 / 2020.11.19.2304
 
 - added statuses table
 - started brainstorming various baseline statuses for game -- see STATUS_IDEAS.txt
 - more ideas added to TODO.txt
 
-ALPHA 0.0.3 / 2020.11.18.2210
+ALPHA 0.0.003 / 2020.11.18.2210
 
 - cleaned up interface for character selection dropdown
 - renamed dbcheck to filecheck
@@ -103,7 +109,7 @@ ALPHA 0.0.3 / 2020.11.18.2210
 - added table for toon abilities and statuses
 - linked toon abilities to abilities table
 
-ALPHA 0.0.2 / 2020.11.18.0019
+ALPHA 0.0.002 / 2020.11.18.0019
 
 - added TODO.txt to GitHub for progress
 - added multiple values to abilities, ability types, linked tables
@@ -116,7 +122,7 @@ ALPHA 0.0.2 / 2020.11.18.0019
 - created test methods to populate player 1 and player 2 with db data (success)
 
 
-ALPHA 0.0.1 / 2020.11.17.0149
+ALPHA 0.0.001 / 2020.11.17.0149
 
 - initial build
 - got accdb working

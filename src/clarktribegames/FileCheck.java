@@ -1,4 +1,4 @@
-package clarktribegames.limitless;
+package clarktribegames;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -7,12 +7,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 
-    // <editor-fold defaultstate="collapsed" desc="credits">
+// <editor-fold defaultstate="collapsed" desc="credits">
 /**
  * 
  * @author  Geoff Clark
- * @e-mail  gclark82@gmail.com
- * @game    Arena Game
+ * @e-mail  info@clarktribegames.com
+ * @game    Limitless
  * 
  */
 // </editor-fold>

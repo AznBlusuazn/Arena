@@ -11,7 +11,6 @@ TO DO'S/IDEAS (DEVELOPING)
 - ability - grappling?
 - soul stat (hidden) math
 - decay stat (hidden) math
-- separate bio box into its own text box?
 - config enter key to act as submit button
 - set current stats after import
 - translate specifics on character select
@@ -156,3 +155,4 @@ COMPLETED
 [COMPLETE] fix comparing in status when effects are the same
 [COMPLETE] separated active stats from OG stats
 [COMPLETE] redo effects fields -- add + ± and -
+[COMPLETE] separate bio box into its own text box?

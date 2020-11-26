@@ -1,5 +1,5 @@
 // <editor-fold defaultstate="collapsed" desc="Header Items">
-package clarktribegames.limitless;
+package clarktribegames;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -476,6 +476,7 @@ public class MainGUI extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         welcomePlayer();
         popSelect();
+//        new Randomizer().getRandom(100000);
     }
     
     @SuppressWarnings("unchecked")

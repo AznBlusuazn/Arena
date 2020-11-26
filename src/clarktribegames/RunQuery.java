@@ -1,4 +1,4 @@
-package clarktribegames.limitless;
+package clarktribegames;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,12 +7,12 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-    // <editor-fold defaultstate="collapsed" desc="credits">
+// <editor-fold defaultstate="collapsed" desc="credits">
 /**
  * 
  * @author  Geoff Clark
- * @e-mail  gclark82@gmail.com
- * @game    Arena Game
+ * @e-mail  info@clarktribegames.com
+ * @game    Limitless
  * 
  */
 // </editor-fold>

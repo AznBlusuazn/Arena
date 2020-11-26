@@ -1,4 +1,4 @@
-package clarktribegames.limitless;
+package clarktribegames;
 
 import javax.swing.JLabel;
 
@@ -6,8 +6,8 @@ import javax.swing.JLabel;
 /**
  * 
  * @author  Geoff Clark
- * @e-mail  gclark82@gmail.com
- * @game    Arena Game
+ * @e-mail  info@clarktribegames.com
+ * @game    Limitless
  * 
  */
 // </editor-fold>

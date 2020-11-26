@@ -1,16 +1,16 @@
-package clarktribegames.limitless;
+package clarktribegames;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JTextArea;
 import javax.swing.Timer;
 
-    // <editor-fold defaultstate="collapsed" desc="credits">
+// <editor-fold defaultstate="collapsed" desc="credits">
 /**
  * 
  * @author  Geoff Clark
- * @e-mail  gclark82@gmail.com
- * @game    Arena Game
+ * @e-mail  info@clarktribegames.com
+ * @game    Limitless
  * 
  */
 // </editor-fold>
