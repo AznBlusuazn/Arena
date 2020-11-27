@@ -513,6 +513,11 @@ public class MainGUI extends javax.swing.JFrame {
         test2Button = new javax.swing.JButton();
         userInput = new javax.swing.JTextField();
         enterButton = new javax.swing.JButton();
+        menuBar = new javax.swing.JMenuBar();
+        menuOptions = new javax.swing.JMenu();
+        menuDonate = new javax.swing.JMenuItem();
+        menuAbout = new javax.swing.JMenuItem();
+        menuExit = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("LIMITLESS [Alpha]");
@@ -676,6 +681,32 @@ public class MainGUI extends javax.swing.JFrame {
         enterButton.setText("Enter");
         getContentPane().add(enterButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 720, 70, -1));
 
+        menuOptions.setText("Options");
+
+        menuDonate.setText("Donate");
+        menuDonate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuDonateActionPerformed(evt);
+            }
+        });
+        menuOptions.add(menuDonate);
+
+        menuAbout.setText("About");
+        menuAbout.setEnabled(false);
+        menuOptions.add(menuAbout);
+
+        menuExit.setText("Exit");
+        menuExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuExitActionPerformed(evt);
+            }
+        });
+        menuOptions.add(menuExit);
+
+        menuBar.add(menuOptions);
+
+        setJMenuBar(menuBar);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -719,6 +750,16 @@ public class MainGUI extends javax.swing.JFrame {
     private void userInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userInputActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_userInputActionPerformed
+
+    private void menuDonateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuDonateActionPerformed
+        openWeb("https://www.paypal.me/AznBlusuazn");
+    }//GEN-LAST:event_menuDonateActionPerformed
+
+    private void menuExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuExitActionPerformed
+        System.gc();
+        dispose();
+        System.exit(0);
+    }//GEN-LAST:event_menuExitActionPerformed
 
 //</editor-fold>    
     
@@ -1571,6 +1612,15 @@ public class MainGUI extends javax.swing.JFrame {
                 + bio);
         return newbio;
     }
+    
+    private void openWeb(String website) {
+        String command = "rundll32 url.dll,FileProtocolHandler " + website;
+            try {
+                Process p = Runtime.getRuntime().exec(command);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+    }
            
 
     //<editor-fold defaultstate="collapsed" desc="Swing Variables">
@@ -1578,6 +1628,11 @@ public class MainGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane battlePane;
     private javax.swing.JTextArea battleText;
     private javax.swing.JButton enterButton;
+    private javax.swing.JMenuItem menuAbout;
+    private javax.swing.JMenuBar menuBar;
+    private javax.swing.JMenuItem menuDonate;
+    private javax.swing.JMenuItem menuExit;
+    private javax.swing.JMenu menuOptions;
     private javax.swing.JLabel p1Info1;
     private javax.swing.JLabel p1Info2;
     private javax.swing.JLabel p1Info3;

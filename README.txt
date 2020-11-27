@@ -1,6 +1,6 @@
 =======================================
 LIMITLESS by Geoff Clark
-VERSION ALPHA 0.0.010 / 2020.11.25.2146
+VERSION ALPHA 0.0.011 / 2020.11.26.2212
 =======================================
 
 SUPPORT THE DEVELOPMENT OF THIS GAME @ 
@@ -43,6 +43,12 @@ Contact the author:  info@clarktribegames.com
 ====================================
 
 DEVELOPMENT NOTES
+
+ALPHA 0.0.011 / 2020.11.26.2212
+
+- happy thanksgiving!
+- added menu bar with options
+- added donate, about (not functional), and exit options in menu
 
 ALPHA 0.0.010 / 2020.11.25.2146
 
