@@ -1,8 +1,14 @@
 TO DO'S/IDEAS (DEVELOPING)
 
+
+Redo interface
+Figure out complexities of save game
+[IN PROGRESS] Start / Welcome Screen with options
+Save / Character Select screen
 [IN PROGRESS] create baseline statuses
 [IN PROGRESS] remove generic labels of fields throughout db -- theres no point to do this
 [PARTIAL COM] bio builder -- need to include effects?
+[PARTIAL COM] menu bar
 - link toon status to status
 - size stat?
 - weight stat

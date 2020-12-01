@@ -18,7 +18,7 @@ import java.sql.Statement;
 // </editor-fold>
 
 class RunQuery {
-    String db1 = "jdbc:ucanaccess://data.accdb";
+    String db1 = "jdbc:ucanaccess://data//default.limit";
     String db2 = "";
     String db3 = "";
     String search = "";

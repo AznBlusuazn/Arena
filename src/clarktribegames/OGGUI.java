@@ -38,7 +38,7 @@ import javax.swing.text.StyledDocument;
  */
 //</editor-fold>
 
-public class MainGUI extends javax.swing.JFrame {
+public class OGGUI extends javax.swing.JFrame {
 
     // <editor-fold defaultstate="collapsed" desc="initialized variables">
     
@@ -470,7 +470,7 @@ public class MainGUI extends javax.swing.JFrame {
 
     // </editor-fold>
     
-    public MainGUI() throws InterruptedException, SQLException, IOException, URISyntaxException {
+    public OGGUI() throws InterruptedException, SQLException, IOException, URISyntaxException, Exception {
         initComponents();
         dbCheck();
         setLocationRelativeTo(null);
@@ -783,10 +783,12 @@ public class MainGUI extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new MainGUI().setVisible(true);
+                    new OGGUI().setVisible(true);
                 } catch (InterruptedException | SQLException | IOException | 
                         URISyntaxException ex) {
                     ex.printStackTrace();
+                } catch (Exception ex) {
+                    Logger.getLogger(OGGUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
@@ -802,11 +804,12 @@ public class MainGUI extends javax.swing.JFrame {
     }
     
     //<editor-fold defaultstate="collapsed" desc="db Methods">
-    private void dbCheck() throws IOException {
-        //String ogPath = "/db/default.dat";
-        String ogPath = "db/data.accdb";
-        String dbPath = "data.accdb";
-        new FileCheck().dbCheck(ogPath,dbPath);
+    private void dbCheck() throws IOException, Exception {
+//        String ogPath = "/db/default.dat";
+        new FileCheck().newdirCheck("./data/", false);
+        String ogPath = "data.accdb";
+        String dbPath = "data/default.limit";
+        new FileCheck().fileCheck(ogPath,dbPath,true);
     }
             
     private List<String> dbQuery(String search,String table,String column, 

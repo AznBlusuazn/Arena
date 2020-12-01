@@ -1,6 +1,6 @@
 =======================================
 LIMITLESS by Geoff Clark
-VERSION ALPHA 0.0.011 / 2020.11.26.2212
+VERSION ALPHA 0.0.012 / 2020.11.27.1803
 =======================================
 
 SUPPORT THE DEVELOPMENT OF THIS GAME @ 
@@ -43,6 +43,20 @@ Contact the author:  info@clarktribegames.com
 ====================================
 
 DEVELOPMENT NOTES
+
+ALPHA 0.0.012 / 2020.11.30.2345
+
+- added main menu with options - new game, load game, editor, options, about, donate, and exit
+- load, edit, and options not functional
+- new game currently just launches ALPHA 0.0.011 and earlier GUI (as placeholder)
+- added about info -- fb, yt, and discord
+- added donate info - patreon, paypal
+- exit button functional with checks
+- added error log feature for troubleshooting
+- added update checker to see if user has latest version
+- encrypted db to proprietary .limit file type
+- default db now copies from within the exe to the local machine if it doesn't exist
+- required libs copy to local machine into folder if it doesn't exist
 
 ALPHA 0.0.011 / 2020.11.26.2212
 
