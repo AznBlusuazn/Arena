@@ -818,12 +818,12 @@ public class OGGUI extends javax.swing.JFrame {
         String list = "";
         if (!isitSingle) {
 //            System.out.println("IT IS NOTTRUE");
-                list = (new RunQuery().getSpecificRecord(search, table, column,
+                list = (new RunQuery().getSpecificRecord("default", search, table, column,
                         matchstr))
                 .replaceAll("\\[", "").replaceAll("\\]","");
             } else {
 //            System.out.println("IT IS TRUE");
-        list = (new RunQuery().getSingleList(search, table, column))
+        list = (new RunQuery().getSingleList("default", search, table, column))
                 .replaceAll("\\[", "").replaceAll("\\]","");
         }
         String[] stringList = list.split(",");

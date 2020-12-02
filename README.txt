@@ -1,6 +1,6 @@
 =======================================
 LIMITLESS by Geoff Clark
-VERSION ALPHA 0.0.012 / 2020.11.27.1803
+VERSION ALPHA 0.0.013 / 2020.12.01-1953
 =======================================
 
 SUPPORT THE DEVELOPMENT OF THIS GAME @ 
@@ -43,6 +43,15 @@ Contact the author:  info@clarktribegames.com
 ====================================
 
 DEVELOPMENT NOTES
+
+ALPHA 0.0.013 / 2020.12.01-1953
+
+- built new game GUI, porting modifeid items over from the OG GUI
+- added optimization to start up process
+- added are you sure messages for exiting in any window created so far
+- added feature to switch databases/save games from the character selection
+- added "last used" db/save feature -- if none, will select default db
+- worked on skeleton for character selection screen
 
 ALPHA 0.0.012 / 2020.11.30.2345
 

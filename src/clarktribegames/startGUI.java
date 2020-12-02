@@ -4,8 +4,6 @@ package clarktribegames;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -21,13 +19,12 @@ import javax.swing.JOptionPane;
 public class startGUI extends javax.swing.JFrame {
 
     String appName = "Limitless";
-    String appVer = "0.0.012";
+    String appVer = "0.0.013";
     
-    public startGUI() throws IOException {
+    public startGUI() throws IOException, Exception {
         initComponents();
         setLocationRelativeTo(null);
-        checkVersion(appName,appVer);
-        checkLibs();
+        startupChecks();
     }
     
     @SuppressWarnings("unchecked")
@@ -43,7 +40,9 @@ public class startGUI extends javax.swing.JFrame {
         donateButton = new javax.swing.JButton();
         exitButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle(appName + " [ALPHA v" + appVer + "]");
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -214,7 +213,7 @@ public class startGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_exitButtonActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        exitButton();
+        //exitButton();
     }//GEN-LAST:event_formWindowClosing
     
     //<editor-fold defaultstate="collapsed" desc="Main Void">
@@ -230,7 +229,7 @@ public class startGUI extends javax.swing.JFrame {
         } catch (ClassNotFoundException | InstantiationException | 
                 IllegalAccessException | 
                 javax.swing.UnsupportedLookAndFeelException ex) {
-            logFile("severe","Main Void Exception Error.\nException: " + ex.
+            logFile("severe","ST Main Void Exception Error.\nException: " + ex.
                     toString());
         }
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -244,6 +243,8 @@ public class startGUI extends javax.swing.JFrame {
                     } catch (IOException ex1) {
                         ex1.printStackTrace();
                     }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
             }
         });
@@ -273,7 +274,8 @@ public class startGUI extends javax.swing.JFrame {
             IOException, URISyntaxException, Exception {
         //dispose();
         try {
-            new OGGUI().setVisible(true);
+            cleanUp();
+            new NewGameGUI().setVisible(true);
         } catch(Exception ex) {
             logFile("severe","New Button Error.  Exception: " + ex);
         }
@@ -411,8 +413,31 @@ public class startGUI extends javax.swing.JFrame {
                 exitProcess();
             }
         } catch(IOException ex) {
-            ex.printStackTrace();
+            logFile("severe",("checkLib IOException: " + ex.toString()));
         }
+    }
+    
+    private void checkSaves() throws IOException, Exception {
+        try {
+            new FileCheck().newdirCheck("./saves/", false);
+            String ogPath = "data.accdb";
+            String dbPath = "saves/default.limit";
+            new FileCheck().fileCheck(ogPath,dbPath,true);
+            new FileCheck().newfileCheck("saves/.lastused", true);
+        } catch(Exception ex) {
+            logFile("severe",("Saves Check Exception: " + ex.toString()));
+        }
+    }
+    
+    private void startupChecks() throws IOException, Exception {
+        try {
+            checkVersion(appName,appVer);
+            checkLibs();
+            checkSaves();
+        } catch(IOException ex) {
+            logFile("severe",("Startup Check IOException: " + ex.toString()));
+        }
+        
     }
     
     private void cleanUp() {
