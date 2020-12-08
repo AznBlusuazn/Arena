@@ -9,6 +9,7 @@ Save / Character Select screen
 [IN PROGRESS] remove generic labels of fields throughout db -- theres no point to do this
 [PARTIAL COM] bio builder -- need to include effects?
 [PARTIAL COM] menu bar
+- variable count with for loop for players
 - link toon status to status
 - size stat?
 - weight stat

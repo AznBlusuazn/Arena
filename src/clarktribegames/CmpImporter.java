@@ -12,42 +12,43 @@ import java.io.IOException;
  * 
  */
 // </editor-fold>
-public class LibImport {
-    private boolean libCheck(String libDir) throws IOException {
+public class CmpImporter {
+    
+    private static boolean cmpCheck(String dir) throws IOException {
         boolean retVal = false;
         try {
-            File dirname = new File(libDir);
+            File dirname = new File(dir);
             boolean exists = dirname.exists();
             if(!exists) { //if there is no dir, then make one...
                 retVal = true; //this means dir was made
             }
-            new FileCheck().newdirCheck(libDir, true);
+            ChecksBalances.newdirCheck(dir, true);
         } catch(IOException ex) {
-            logFile("severe","LibCheck.  IOEx: " + ex.toString());
+            logFile("severe","CMP Check.  IOEx: " + ex.toString());
         }
         return retVal;
     }
     
-    private void libCopy(String zip, String dir) throws IOException {
+    private static void cmpCopy(String cmp, String dir) throws IOException {
         try {
-            Unzipper unzipper = new Unzipper();
-            unzipper.unzip(zip, dir);
+            CmpManager unzipper = new CmpManager();
+            unzipper.openCmp(cmp, dir);
         } catch(IOException ex) {
-            logFile("severe","LibCopy.  IOEx: " + ex.toString());
+            logFile("severe","CMP Copy.  IOEx: " + ex.toString());
         }
     }
     
-    public boolean libImport() throws IOException {
+    public static boolean cmpImport(String name) throws IOException {
         boolean importVal = false;
         try {
-            if(!libCheck (".\\lib\\")) { //this means dir was not made
+            if(!cmpCheck (".\\" + name + "\\")) { //this means dir was not made
                 importVal = true;
             } else {
-                libCopy("lib.zip", "./"); 
+                cmpCopy(name + ".cmp", "./"); 
                 importVal = false;
             }
         } catch(IOException ex) {
-            logFile("severe","LibImport.  IOEx: " + ex.toString());
+            logFile("severe","CMP Import.  IOEx: " + ex.toString());
         }
         return importVal;
     }

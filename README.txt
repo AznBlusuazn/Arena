@@ -1,6 +1,6 @@
 =======================================
 LIMITLESS by Geoff Clark
-VERSION ALPHA 0.0.013 / 2020.12.01-1953
+VERSION ALPHA 0.0.014 / 2020.12.07-2239
 =======================================
 
 SUPPORT THE DEVELOPMENT OF THIS GAME @ 
@@ -34,6 +34,9 @@ This is very early development, not playable at this time.
 This game was inspired by the author's kids and their love for arena/simulation
 games and the author's enjoyment of late 80's-90's RPG games.
 
+Music in this game is provided by BenSound.com -- Please check out their site for
+awesome free music! -- https://www.bensound.com
+
 See the TODO.txt for developing ideas/features on https://github.com/AznBlusuazn/Arena/
 
 Copy of this code without the content of the Author is prohibited.
@@ -43,6 +46,19 @@ Contact the author:  info@clarktribegames.com
 ====================================
 
 DEVELOPMENT NOTES
+
+ALPHA 0.0.014 / 2020.12.07-2239
+
+- added backend controller class to handle directing of other classes
+- restructured start up processes to the controller
+- added media player to control music using zoom modules
+- combined popup methods into one class, imported some converter and checksandbalances methods from other CTG apps into classes for this one
+- added intro music for the game
+- added settings.ini and activated "options" button in the main menu -- ini updates as user changes options
+- added music option in settings (on/off)
+- added placeholder sound option in settings (on/off)
+- added various popups notices in the main menu options
+- added xp/level math to calculate infinite number of levels
 
 ALPHA 0.0.013 / 2020.12.01-1953
 

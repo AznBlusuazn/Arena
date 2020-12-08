@@ -19,44 +19,44 @@ import java.util.zip.ZipInputStream;
  */
 // </editor-fold>
 
-public class Unzipper {
+public class CmpManager {
     
     private static final int BUFFER_SIZE = 4096;
     
-    public void unzip(String zipPath, String destPath) throws 
+    public void openCmp(String cmpPath, String destPath) throws 
             IOException {
         File destDir = new File(destPath);
         if (!destDir.exists()) {
             destDir.mkdir();
         }
         Class unzipClass = this.getClass();   
-        InputStream inStream = unzipClass.getResourceAsStream(zipPath);
-        try (ZipInputStream zipIn = new ZipInputStream(inStream)) {
-            ZipEntry entry = zipIn.getNextEntry();
+        InputStream inStream = unzipClass.getResourceAsStream(cmpPath);
+        try (ZipInputStream cmpIn = new ZipInputStream(inStream)) {
+            ZipEntry entry = cmpIn.getNextEntry();
             while (entry != null) {
                 String filePath = destPath + File.separator + entry.getName();
                 if (!entry.isDirectory()) {
-                    extractFile(zipIn, filePath);
+                    extractFile(cmpIn, filePath);
                 } else {
                     File dir = new File(filePath);
                     dir.mkdirs();
                 }
-                zipIn.closeEntry();
-                entry = zipIn.getNextEntry();
+                cmpIn.closeEntry();
+                entry = cmpIn.getNextEntry();
             }
         } catch (IOException ex) {
             logFile("severe","Unzip Method.  Exception: " + ex.toString());
         }
     }   
     
-    private void extractFile(ZipInputStream zipIn, String filePath) throws 
+    private void extractFile(ZipInputStream cmpIn, String filePath) throws 
             IOException {
         try {
             BufferedOutputStream bos = new BufferedOutputStream(new 
                 FileOutputStream(filePath));
             byte[] bytesIn = new byte[BUFFER_SIZE];
             int read = 0;
-            while ((read = zipIn.read(bytesIn)) != -1) {
+            while ((read = cmpIn.read(bytesIn)) != -1) {
                 bos.write(bytesIn, 0, read);
             }
             bos.close();

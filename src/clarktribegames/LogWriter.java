@@ -18,13 +18,14 @@ import java.util.logging.FileHandler;
  * 
  */
 // </editor-fold>
+
 public class LogWriter {
     
     public void writeLog(String type, String loginfo) throws IOException {
         String logDir = (".\\logs\\");
         String logFile = ("error_" + (logDateTime(0)) + ".log");
-        new FileCheck().newdirCheck(logDir, false);
-        new FileCheck().newfileCheck(logDir + logFile, false);
+        ChecksBalances.newdirCheck(logDir, false);
+        ChecksBalances.newfileCheck(logDir + logFile,false,null,false);
         boolean append = true;
         FileHandler logHandler = new FileHandler(logDir + logFile, append);
         Logger logger = Logger.getLogger(logFile);

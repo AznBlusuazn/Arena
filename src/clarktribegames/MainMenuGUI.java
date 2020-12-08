@@ -1,10 +1,16 @@
 // <editor-fold defaultstate="collapsed" desc="Header Info">
 package clarktribegames;
 
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
-import javax.swing.JOptionPane;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JCheckBox;
+import javazoom.jl.decoder.JavaLayerException;
 
 /**
  * 
@@ -16,15 +22,17 @@ import javax.swing.JOptionPane;
  */
 //</editor-fold>
 
-public class startGUI extends javax.swing.JFrame {
+public class MainMenuGUI extends javax.swing.JFrame {
 
-    String appName = "Limitless";
-    String appVer = "0.0.013";
+    String appName;
+    String appVer;
     
-    public startGUI() throws IOException, Exception {
+    public MainMenuGUI() throws IOException, Exception {
+        this.appName = MainControls.appName;
+        this.appVer = MainControls.appVer;
         initComponents();
         setLocationRelativeTo(null);
-        startupChecks();
+
     }
     
     @SuppressWarnings("unchecked")
@@ -41,9 +49,12 @@ public class startGUI extends javax.swing.JFrame {
         exitButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle(appName + " [ALPHA v" + appVer + "]");
+        setTitle(this.appName + " [ALPHA v" + this.appVer + "]");
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
             }
@@ -81,8 +92,7 @@ public class startGUI extends javax.swing.JFrame {
         });
 
         optButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        optButton.setText("Disabled (Future Options)");
-        optButton.setEnabled(false);
+        optButton.setText("Game Options");
         optButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 optButtonActionPerformed(evt);
@@ -181,7 +191,17 @@ public class startGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_editButtonActionPerformed
 
     private void optButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optButtonActionPerformed
-        optButton();
+        try {
+            optButton();
+        } catch (IOException ex) {
+            try {
+                logFile("severe","Opt Button Error.  EX: " + ex.toString());
+            } catch (IOException ex1) {
+                ex1.printStackTrace();
+            }
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_optButtonActionPerformed
 
     private void aboutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutButtonActionPerformed
@@ -213,8 +233,22 @@ public class startGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_exitButtonActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        //exitButton();
+        try {
+            MPlayer.stopM();
+        } catch (Exception ex) {
+            //
+        }
     }//GEN-LAST:event_formWindowClosing
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+//        try {
+//            MainControls.playMusic();
+//        } catch (IOException ex) {
+//            //
+//        } catch (JavaLayerException ex) {
+//            //
+//        }
+    }//GEN-LAST:event_formWindowActivated
     
     //<editor-fold defaultstate="collapsed" desc="Main Void">
     public static void main(String args[]) throws IOException {
@@ -235,7 +269,7 @@ public class startGUI extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new startGUI().setVisible(true);
+                    new MainMenuGUI().setVisible(true);
                 } catch (IOException ex) {
                     try {
                         logFile("severe","Main Void Exception Error.\nException"
@@ -262,19 +296,12 @@ public class startGUI extends javax.swing.JFrame {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Check Version Method">
-    private static void checkVersion (String name, String ver) throws IOException {
-        boolean needUpdate = new verCheck().checkVersion(name, ver);
-        if(needUpdate == true)
-            new Updater().updateMessage(name, ver);
-    }
-    //</editor-fold>
-    
     private void newButton() throws InterruptedException, SQLException, 
             IOException, URISyntaxException, Exception {
         //dispose();
         try {
             cleanUp();
+            MPlayer.stopM();
             new NewGameGUI().setVisible(true);
         } catch(Exception ex) {
             logFile("severe","New Button Error.  Exception: " + ex);
@@ -290,8 +317,8 @@ public class startGUI extends javax.swing.JFrame {
     }
 
 
-    private void optButton() {
-        
+    private void optButton() throws IOException, InterruptedException {
+        optionPopup();
     }
 
 
@@ -312,37 +339,89 @@ public class startGUI extends javax.swing.JFrame {
     }
     
     private void exitButton() {
-        boolean exitChoice = yesorNo("Are you sure you want to exit?","Exit the"
-                + " Game?");
+        String title = ("Exit the Game?");
+        String message = "Are you sure you want to exit?";
+        boolean exitChoice = Popups.yesnoPopup(title, message);
         if(exitChoice == true)
             exitProcess();
     }
     
+    private void optionPopup() throws IOException, InterruptedException{
+        String title = "Limitless Options";
+        String message = "Limitless Options\n\n";
+        boolean musicNotice = false;
+        if(!MainControls.musicOn) {
+            musicNotice = true;
+        }
+        JCheckBox music = new JCheckBox("Play Music");
+        music.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+            if(!(e.getStateChange() == ItemEvent.SELECTED)) {
+                try {
+                    MPlayer.stopM();
+                } catch (Exception ex) {
+                    //
+                }
+            };
+            }
+        });
+        JCheckBox sound = new JCheckBox("Play Sound");
+        if(MainControls.musicOn) {
+            music.setSelected(true);
+        }
+        if(MainControls.soundOn) {
+            sound.setSelected(true);
+        }
+        Object[] popup = {message, music, sound, "\n"};
+        Popups.checkboxPopup(title, message, popup);
+        if(musicNotice) {
+            Popups.warnPopup("Music Notice", "You may need to restart the game "
+                + "to reactivate the music.");
+        }
+        if(music.isSelected()) {
+            MainControls.musicOn = true;
+        } else {
+            MainControls.musicOn = false;
+        }
+        if(sound.isSelected()) {
+            MainControls.soundOn = true;
+        } else {
+            MainControls.soundOn = false;
+        }
+        MainControls.updateSettings();
+    }
+    
     private void aboutPopup() throws IOException {
         try {
-            String[] options = new String[] {"Facebook","Discord","YouTube","OK"
-                    };
+            String[] options = new String[] {"Facebook","Discord","YouTube","Be"
+                + "nsound.com","OK"};
+            String title = "About This Game";
             String message = ("<html>This application was created by ClarkTribe"
-                    + "Games.<br><br>It was the development of basically a one "
-                    + "man team<br>with advice, suggestions, and feedback from "
-                    + "friends<br>and colleagues.<br><br>This game is dedicated"
-                    + " to the kids of the creator.<br><br>Please consider supp"
-                    + "orting the cause with a donation<br>via the <font color="
-                    + "red><b>Donate To The Cause</b></font> button.<br><br>Tha"
-                    + "nk you for your continued support!<br><br>- Geoff @ Clar"
-                    + "kTribeGames<br><br></html>");
-            int aboutChoice = popupResponse(options, "About This Game",message);
-
-            switch(aboutChoice) {
+                + "Games.<br><br>It was the development of basically a one man "
+                + "team with advice, suggestions, and feedback<br>from friends "
+                + "and colleagues.<br><br>This game is dedicated to the kids of"
+                + " the creator.<br><br>Please consider supporting the cause wi"
+                + "th a donation via the <font color=red><b>Donate To The Cause"
+                + "</b></font> button.<br><br><b>The music was provided by BenS"
+                + "ound.com. Please visit their site for awesome tracks!</b>   "
+                + "<br><br>Thank you for your continued support!<br><br>- Geoff"
+                + " @ ClarkTribeGames<br><br></html>");
+            int choice = Popups.optPopup(options, title, message);
+            switch(choice) {
                 case 0:
-                    openWeb("https://www.facebook.com/clarktribe.games");
+                    GoToWeb.openWeb("https://www.facebook.com/clarktribe.games")
+                        ;
                     break;
                 case 1:
-                    openWeb("https://discord.gg/6kW4der");
+                    GoToWeb.openWeb("https://discord.gg/6kW4der");
                     break;
                 case 2:
-                    openWeb("https://www.youtube.com/channel/UCjcPw3ApuFduiETId"
-                            + "mAhFAQ");
+                    GoToWeb.openWeb("https://www.youtube.com/channel/UCjcPw3Apu"
+                        + "FduiETIdmAhFAQ");
+                    break;
+                case 3:
+                    GoToWeb.openWeb("https://www.bensound.com/");
                     break;
                 default:
                     break;
@@ -352,94 +431,32 @@ public class startGUI extends javax.swing.JFrame {
         }
     }
     
-    private void donatePopup() throws IOException {
+    private static void donatePopup() throws IOException {
         try {
             String[] options = new String[] {"Patreon","PayPal","Maybe Later"};
+            String title = "Please Donate. :)";
             String message = ("<html><b>This application was created by ClarkTr"
                     + "ibeGames.</b><br><br>If you found this game fun and/or w"
                     + "ant to help with the<br>development of this game, please"
                     + " consider a donation,<br>even if it is $1 to keep projec"
                     + "ts like this alive.\n\nThank you! - Geoff @ ClarkTribeGa"
                     + "mes");
-        int donateChoice = popupResponse(options, "Please Donate. :)", message);
-        switch(donateChoice) {
-            case 0:
-                openWeb("https://www.patreon.com/clarktribegames");
-                break;
-            case 1:
-                openWeb("https://www.paypal.me/aznblusuazn");
-                break;
-            default:
-                break;
+            int choice = Popups.optPopup(options, title, message);
+            switch(choice) {
+                case 0:
+                    GoToWeb.openWeb("https://www.patreon.com/clarktribegames");
+                    break;
+                case 1:
+                    GoToWeb.openWeb("https://www.paypal.me/aznblusuazn");
+                    break;
+                default:
+                    break;
             }
         } catch(IOException ex) {
             logFile("severe","Donate Popup Error.  Exception: " + ex);
         }
     }
-    
-    private void openWeb(String website) throws IOException {
-        String command = "rundll32 url.dll,FileProtocolHandler " + website;
-            try {
-                Process p = Runtime.getRuntime().exec(command);
-            } catch (IOException ex) {
-                logFile("severe",("Cannot access website.  " + ex.toString()));
-            }
-    }
-    
-    private int popupResponse(String[] options, String title, String message) {
-        int response = JOptionPane.showOptionDialog(null, message, title, 
-                JOptionPane.DEFAULT_OPTION, JOptionPane.
-                PLAIN_MESSAGE,null, options, options[0]);
-        return response;
-    }
-    
-    private boolean yesorNo(String message, String popup) {
-        int answer = JOptionPane.showConfirmDialog(null,message,popup,
-                JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
-            if(answer == JOptionPane.NO_OPTION) {
-                return false;
-            } else {
-                return true;
-            }
-    }
-    
-    private void checkLibs() throws IOException {
-        try {
-            boolean result = (new CmpImporter().cmpImport("lib"));
-            if(!result) {
-                JOptionPane.showMessageDialog(null,"Initializing Default Databa"
-                        + "se.\n\nPlease restart the game.","Alert!",JOptionPane
-                        .WARNING_MESSAGE);
-                exitProcess();
-            }
-        } catch(IOException ex) {
-            logFile("severe",("checkLib IOException: " + ex.toString()));
-        }
-    }
-    
-    private void checkSaves() throws IOException, Exception {
-        try {
-            ChecksBalances.newdirCheck("./saves/", false);
-            String ogPath = "data.accdb";
-            String dbPath = "saves/default.limit";
-            ChecksBalances.fileCheck(ogPath,dbPath,true,true);
-            ChecksBalances.newfileCheck("saves/.lastused", true,null,true);
-        } catch(Exception ex) {
-            logFile("severe",("Saves Check Exception: " + ex.toString()));
-        }
-    }
-    
-    private void startupChecks() throws IOException, Exception {
-        try {
-            checkVersion(appName,appVer);
-            checkLibs();
-            checkSaves();
-        } catch(IOException ex) {
-            logFile("severe",("Startup Check IOException: " + ex.toString()));
-        }
-        
-    }
-    
+
     private void cleanUp() {
         System.gc();
         dispose();

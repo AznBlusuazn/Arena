@@ -37,8 +37,8 @@ public class NewGameGUI extends javax.swing.JFrame {
     DefaultComboBoxModel toonDml = new DefaultComboBoxModel();
     
     public NewGameGUI() throws IOException, Exception {
-        this.appName = new startGUI().appName;
-        this.appVer = new startGUI().appVer;
+        this.appName = MainControls.appName;
+        this.appVer = MainControls.appVer;
         initComponents();
         setLocationRelativeTo(null);
         popcharDrop(saveName);
@@ -257,7 +257,7 @@ public class NewGameGUI extends javax.swing.JFrame {
     
     private void menuOption() throws IOException, Exception {
         try {
-            new startGUI().setVisible(true);
+            new MainMenuGUI().setVisible(true);
         } catch(IOException ex) {
             logFile("severe","MenuOption Error.\nIOEx: " + ex.toString());
         }

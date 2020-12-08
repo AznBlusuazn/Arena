@@ -806,10 +806,10 @@ public class OGGUI extends javax.swing.JFrame {
     //<editor-fold defaultstate="collapsed" desc="db Methods">
     private void dbCheck() throws IOException, Exception {
 //        String ogPath = "/db/default.dat";
-        new FileCheck().newdirCheck("./data/", false);
+        ChecksBalances.newdirCheck("./data/", false);
         String ogPath = "data.accdb";
         String dbPath = "data/default.limit";
-        new FileCheck().fileCheck(ogPath,dbPath,true);
+        ChecksBalances.fileCheck(ogPath,dbPath,true,true);
     }
             
     private List<String> dbQuery(String search,String table,String column, 
