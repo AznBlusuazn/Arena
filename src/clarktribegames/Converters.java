@@ -1,7 +1,9 @@
 package clarktribegames;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -102,6 +104,34 @@ public class Converters {
         String filename = (absolutepath.getAbsolutePath().substring(absolutepath.
             getAbsolutePath().lastIndexOf("\\")+1,absEnd));
         return filename;
+    }
+    
+    public static String getfromFile(String gffPath, boolean gffJustfirstline, boolean 
+            gffFirstcap) throws IOException {
+        String text = "";
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(gffPath));
+            text = br.readLine();
+            if(gffJustfirstline == false) {
+                StringBuilder sb = new StringBuilder();
+                text = br.readLine();
+                while(text != null) {
+                    sb.append(text).append("\n");
+                    text = br.readLine();
+                }
+            } else {
+                br.close();
+            }
+        } catch(IOException ex) {
+            logFile("severe","1stLine Error.\nIOEx: " + ex.toString());
+        }
+        if(gffFirstcap == true) {
+            text = capFirstLetter(text);
+        }
+        if(text == null || text.isEmpty() || text == "") {
+            text = "default";
+        }
+        return text;
     }
     
     //<editor-fold defaultstate="collapsed" desc="Log File Method">

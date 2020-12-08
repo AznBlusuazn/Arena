@@ -14,7 +14,7 @@ import javax.swing.JLabel;
 
 class ToonImage {
     void setImage(JLabel box, String path) {
-        String newpath = ("/avatars/" + path);
+        String newpath = ("/" + MainControls.imageDir + path);
         box.setIcon(new javax.swing.ImageIcon(getClass().getResource(newpath)));
         box.setText("");
     }

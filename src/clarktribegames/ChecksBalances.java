@@ -201,9 +201,9 @@ public class ChecksBalances {
     
     private static void removeBlanks(String filepath) throws 
         FileNotFoundException {
-        String temppath = "data/temp.txt";    
+        String temppath = MainControls.tempDir + "tempremoveblanks.txt";    
         Scanner file = new Scanner(new File(filepath));
-            PrintWriter writer = new PrintWriter("data/temp.txt");
+            PrintWriter writer = new PrintWriter(temppath);
             while (file.hasNext()) {
                 String line = file.nextLine();
                 if (!line.isEmpty()) {

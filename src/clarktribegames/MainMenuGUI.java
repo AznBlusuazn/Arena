@@ -50,6 +50,7 @@ public class MainMenuGUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle(this.appName + " [ALPHA v" + this.appVer + "]");
+        setIconImage(new MainControls().imageIcon.getImage());
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
@@ -62,8 +63,7 @@ public class MainMenuGUI extends javax.swing.JFrame {
 
         titleLogo.setFont(new java.awt.Font("Lucida Console", 1, 48)); // NOI18N
         titleLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        titleLogo.setText("[Limitless Logo Here]");
-        titleLogo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        titleLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/clarktribegames/logo.png"))); // NOI18N
 
         newButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         newButton.setText("Exhibition (Future New Game)");
@@ -229,7 +229,11 @@ public class MainMenuGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_donateButtonActionPerformed
 
     private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonActionPerformed
-        exitButton();
+        try {
+            exitButton();
+        } catch (IOException | InterruptedException ex) {
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_exitButtonActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -338,7 +342,7 @@ public class MainMenuGUI extends javax.swing.JFrame {
         }
     }
     
-    private void exitButton() {
+    private void exitButton() throws IOException, InterruptedException {
         String title = ("Exit the Game?");
         String message = "Are you sure you want to exit?";
         boolean exitChoice = Popups.yesnoPopup(title, message);
@@ -457,13 +461,14 @@ public class MainMenuGUI extends javax.swing.JFrame {
         }
     }
 
-    private void cleanUp() {
+    private void cleanUp() throws IOException, InterruptedException {
         System.gc();
         dispose();
     }
     
-    private void exitProcess() {
+    private void exitProcess() throws IOException, InterruptedException {
         cleanUp();
+        MainControls.clearTemp();
         System.exit(0);
     }
 

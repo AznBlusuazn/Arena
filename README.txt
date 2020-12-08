@@ -1,6 +1,6 @@
 =======================================
 LIMITLESS by Geoff Clark
-VERSION ALPHA 0.0.014 / 2020.12.07-2239
+VERSION ALPHA 0.0.015 / 2020.12.08-1434
 =======================================
 
 SUPPORT THE DEVELOPMENT OF THIS GAME @ 
@@ -46,6 +46,17 @@ Contact the author:  info@clarktribegames.com
 ====================================
 
 DEVELOPMENT NOTES
+
+ALPHA 0.0.015 / 2020.12.08-1434 [IN PROGRESS]
+
+- centralized paths as variables in MainControls class
+- added the ability to change databases from new game
+- merged some old classes into the newer versions (clean up)
+- simplified some calling to the db
+- fixed rare issue with game not exiting from character select screen
+- added limitless game logo banner
+- added limitless game icon
+
 
 ALPHA 0.0.014 / 2020.12.07-2239
 

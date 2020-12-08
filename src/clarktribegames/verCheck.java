@@ -18,8 +18,8 @@ import java.net.URL;
 
 public class verCheck {
     
-    public boolean checkVersion(String installedName, String installedVersion) 
-            throws IOException {
+    public static boolean checkVersion(String installedName, String 
+        installedVersion) throws IOException {
         URL webCheck = new URL("http://svr.clarktribegames.com:19762/" + 
                 installedName + ".txt");
         try {

@@ -18,7 +18,8 @@ import java.sql.Statement;
 // </editor-fold>
 
 class RunQuery {
-    String db1 = "jdbc:ucanaccess://saves//default.limit";
+    String db1 = "jdbc:ucanaccess://" + MainControls.savesDir + "/" + 
+        MainControls.defaultSave;
     String db2 = "";
     String db3 = "";
     String search = "";
@@ -29,7 +30,8 @@ class RunQuery {
     
     String getSingleList(String save, String search,String table,String column) 
             throws SQLException {
-        db1 = "jdbc:ucanaccess://saves//" + save + ".limit";
+        db1 = "jdbc:ucanaccess://" + MainControls.savesDir + "/" + save + "." + 
+            MainControls.saveExt;
         this.search = search;
         this.table = table;
         this.column = column;
@@ -49,7 +51,8 @@ class RunQuery {
     
     String getSpecificRecord(String save, String search,String table, String 
             column, String matchstr) throws SQLException {
-        db1 = "jdbc:ucanaccess://saves//" + save + ".limit";
+        db1 = "jdbc:ucanaccess://" + MainControls.savesDir + "/" + save + "." + 
+            MainControls.saveExt;
         this.search = search;
         this.table = table;
         this.column = column;

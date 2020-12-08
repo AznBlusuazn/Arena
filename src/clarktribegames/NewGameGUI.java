@@ -2,18 +2,16 @@
 package clarktribegames;
 
 import java.awt.Font;
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 import javax.swing.text.BadLocationException;
 
 
@@ -31,16 +29,18 @@ public class NewGameGUI extends javax.swing.JFrame {
 
     String appName;
     String appVer;
-    String saveName = new ListFromFile().getfromFile("saves/.lastused", true, 
-            false);
+    String saveName;
     List<String> toonList = null;
     DefaultComboBoxModel toonDml = new DefaultComboBoxModel();
+    DefaultComboBoxModel saveDml = new DefaultComboBoxModel();
     
     public NewGameGUI() throws IOException, Exception {
         this.appName = MainControls.appName;
         this.appVer = MainControls.appVer;
         initComponents();
         setLocationRelativeTo(null);
+        saveName = getSave();        
+        popsaveDrop();
         popcharDrop(saveName);
         changeChar();
     }
@@ -60,6 +60,7 @@ public class NewGameGUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle(this.appName + " [ALPHA v" + this.appVer + "]");
+        setIconImage(new MainControls().imageIcon.getImage());
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -73,8 +74,7 @@ public class NewGameGUI extends javax.swing.JFrame {
 
         titleLogo.setFont(new java.awt.Font("Lucida Console", 1, 48)); // NOI18N
         titleLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        titleLogo.setText("[Limitless Logo Here]");
-        titleLogo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        titleLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/clarktribegames/logo.png"))); // NOI18N
 
         saveLabel.setFont(new java.awt.Font("Lucida Console", 1, 12)); // NOI18N
         saveLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -83,6 +83,11 @@ public class NewGameGUI extends javax.swing.JFrame {
 
         saveDrop.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         saveDrop.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Testing the name" }));
+        saveDrop.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveDropActionPerformed(evt);
+            }
+        });
 
         charToon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         charToon.setText("[Player 1 Image Here]");
@@ -110,7 +115,7 @@ public class NewGameGUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(titleLogo, javax.swing.GroupLayout.DEFAULT_SIZE, 1180, Short.MAX_VALUE)
+                    .addComponent(titleLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(newgameLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -176,6 +181,14 @@ public class NewGameGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_charDropActionPerformed
 
+    private void saveDropActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveDropActionPerformed
+        try {
+            savedropChange();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_saveDropActionPerformed
+
     //<editor-fold defaultstate="collapsed" desc="Main Void">
     public static void main(String args[]) throws IOException {
 
@@ -220,7 +233,6 @@ public class NewGameGUI extends javax.swing.JFrame {
                 + " Game?");
         if(exitchoice == true) {
             menuchoice = popupResponse(options, "Exit the Game?", text);
-            System.out.println(menuchoice);
             switch(menuchoice) {
             case 0:
                 try {
@@ -232,6 +244,7 @@ public class NewGameGUI extends javax.swing.JFrame {
                 }
                 break;
             default:
+                MainControls.clearTemp();
                 exitProcess();
                 break;
             }
@@ -257,6 +270,8 @@ public class NewGameGUI extends javax.swing.JFrame {
     
     private void menuOption() throws IOException, Exception {
         try {
+            System.gc();
+            this.dispose();
             new MainMenuGUI().setVisible(true);
         } catch(IOException ex) {
             logFile("severe","MenuOption Error.\nIOEx: " + ex.toString());
@@ -277,6 +292,34 @@ public class NewGameGUI extends javax.swing.JFrame {
         List<String> convertedList = Arrays.asList(stringList);
         System.gc();
         return convertedList;
+    }
+    
+    private void popsaveDrop() throws IOException {
+        try {
+            List<String> savelist = (Converters.foldertoList
+                (MainControls.savesDir, MainControls.saveExt)).stream()
+                .map(Object::toString).collect(Collectors.toList());
+            fillSave(saveDrop,savelist,saveDml);
+            File lastused = new File(MainControls.lastusedSave);
+            String lastUsed = ChecksBalances.getLast(lastused);
+            String lastusedSave = lastUsed.substring(0,lastUsed.indexOf(","));
+            int lastusedChar = Integer.parseInt(lastUsed.substring(lastUsed
+                .indexOf(",") + 1,lastUsed.length()));
+            int found = 0;
+            for(int i = 0; i < saveDrop.getItemCount(); i ++) {
+                String x = saveDrop.getItemAt(i).toString().toLowerCase();
+                if (x.contains(lastusedSave)) {
+                    found = i;
+                }
+            }
+            saveDrop.setSelectedIndex(found);
+            if(charDrop.getItemCount() > 1) {
+                charDrop.setSelectedIndex(lastusedChar);
+                        }
+
+        } catch (IOException ex) {
+            logFile("severe","Save Select Error.\nEx: " + ex.toString());
+        }
     }
 
     private void popcharDrop(String save) throws SQLException, IOException {
@@ -302,26 +345,93 @@ public class NewGameGUI extends javax.swing.JFrame {
         player.setRenderer(lrCenter);
     }
     
-    private void setChar(String save, String toonname) throws SQLException, BadLocationException {
+    private String getSave() throws IOException {
+        String s1 = Converters.getfromFile(MainControls.lastusedSave, 
+            true, false);
+        String savename = s1.substring(0, s1.indexOf(","));
+        return savename;
+    }
+    
+    private void fillSave(JComboBox<String> save, List<String> list, 
+            DefaultComboBoxModel dml) {
+        Font font = save.getFont();
+        DefaultListCellRenderer lrCenter;
+        lrCenter = new DefaultListCellRenderer();
+        lrCenter.setHorizontalAlignment(DefaultListCellRenderer.LEFT);
+        lrCenter.setFont(font.deriveFont(Font.BOLD));
+        for(int i = 0; i < list.size(); i++) {
+            String x = (list.get(i));
+            String y = Converters.capFirstLetter(x.substring(x.indexOf("\\") + 1
+                , x.indexOf(".",x.indexOf(MainControls.saveExt) - 2)));
+            dml.addElement(y);
+        }
+        save.setModel(dml);
+        save.setRenderer(lrCenter);
+    }
+    
+    private void savedropChange() throws IOException, InterruptedException, 
+        SQLException, Exception {
+        if(this.isVisible()) {
+        try {
+            String oldsave = ChecksBalances.getLast(new File(MainControls
+                .lastusedSave));
+            String newsave=saveDrop.getSelectedItem().toString().toLowerCase();
+            System.gc();
+            ChecksBalances.ifexistDelete(MainControls.lastusedSave);
+            ChecksBalances.newfileCheck((MainControls.lastusedSave), true, 
+                (newsave  + "," + charDrop.getSelectedIndex()),true);
+            String title = "Change Saves?";
+            String message = "Are you sure you want to change to the " + 
+                (saveDrop.getSelectedItem()) + " save?";
+            boolean yesno = Popups.yesnoPopup(title, message);
+            if(yesno == true) {
+                Popups.plainPopup("To Change Saves", "To change to the " + 
+                    (saveDrop.getSelectedItem()) + " save,\nreturn to the Main "
+                    + "Menu and Start a New Game.");
+                menuOption();
+            } else {
+                System.gc();
+                ChecksBalances.ifexistDelete(MainControls.lastusedSave);
+                ChecksBalances.newfileCheck((MainControls.lastusedSave), true, 
+                    oldsave,true);
+                saveName = getSave();
+                File lastused = new File(MainControls.lastusedSave);
+                String lastUsed = ChecksBalances.getLast(lastused);
+                String lastusedSave = lastUsed.substring(0,lastUsed.indexOf(",")
+                    );
+                int found = 0;
+                for(int i = 0; i < saveDrop.getItemCount(); i ++) {
+                    String x = saveDrop.getItemAt(i).toString().toLowerCase();
+                    if (x.contains(lastusedSave)) {
+                        found = i;
+                    }
+                }
+                saveDrop.setSelectedIndex(found);
+                int lastusedChar = Integer.parseInt(lastUsed.substring(lastUsed
+                    .indexOf(",") + 1,lastUsed.length()));
+                charDrop.setSelectedIndex(lastusedChar);
+            }
+        }catch (IOException | InterruptedException  ex) {
+            logFile("severe","Save Change Box Error.\n Ex: " + ex.toString());
+        }
+        }
+    }
+    
+    private void setChar(String save, String toonname) throws SQLException, 
+        BadLocationException {
         List<String> listP1OGStats = dbQuery(save, "*","dbToons",
                 "toonOGName",toonname, false);
-        String[] p1OGField = ((listP1OGStats.toString()).substring(1,(listP1OGStats.
-                toString()).length())).split(",");
+        String[] p1OGField = ((listP1OGStats.toString()).substring(1,
+            (listP1OGStats.toString()).length())).split(",");
         List<String> listP1Stats = dbQuery(save, "*","dbToonGame","toonName",
                 toonname, false);
-        String[] p1Field = ((listP1Stats.toString()).substring(1,(listP1Stats.
-                toString()).length())).split(",");
-        String charImage = formatter(p1Field[34]); 
-        System.out.println(p1Field[0]);
-        new ToonImage().setImage(charToon,charImage);
-        //
-        
+        String charImage = listP1Stats.get(34);
+        new ToonImage().setImage(charToon,charImage);   
     }
     
     private void changeChar() throws SQLException, BadLocationException {
         setChar(saveName, (String) charDrop.getSelectedItem());
     }
-    
             
     private void cleanUp() {
         System.gc();

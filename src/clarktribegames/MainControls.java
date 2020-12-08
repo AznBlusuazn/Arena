@@ -1,9 +1,9 @@
 package clarktribegames;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
-import javazoom.jl.decoder.JavaLayerException;
+import javax.swing.ImageIcon;
 
 // <editor-fold defaultstate="collapsed" desc="credits">
 /**
@@ -18,11 +18,20 @@ import javazoom.jl.decoder.JavaLayerException;
 public class MainControls {
     
     static String appName = "Limitless";
-    static String appVer = "0.0.014";
+    static String appVer = "0.0.015";
     static String settingsFile = "settings.ini";
     static String musicPath = "sounds/intro.mp3";
+    static String defaultOGSave = "data.accdb";
+    static String saveExt = "limit";
+    static String defaultSave = "default" + "." + saveExt;
+    static String savesDir = "saves/";
+    static String imageDir = "avatars/";
+    static String tempDir = "temp/";
+    static String lastusedSave = savesDir + ".lastused";
     static boolean musicOn = true;
     static boolean soundOn = true;
+    public URL iconURL = getClass().getResource("/clarktribegames/icon.png");
+    public ImageIcon imageIcon = new ImageIcon(iconURL);
 
     public static void main(String[] args) throws Exception {
         lookandfeelSettings();
@@ -44,6 +53,8 @@ public class MainControls {
     
     private static void firstCheck() throws IOException, InterruptedException {
         try {
+            clearTemp();
+            ChecksBalances.newdirCheck(tempDir, true);
             boolean libResult = (CmpImporter.cmpImport("lib"));
             boolean soundsResult = (CmpImporter.cmpImport("sounds"));
             ChecksBalances.newfileCheck(settingsFile,false,defaultSettings(),
@@ -60,16 +71,20 @@ public class MainControls {
         } catch(IOException ex) {
             logFile("severe",("checkLib IOException: " + ex.toString()));
         }
-    }    
+    }
     
+    public static void clearTemp() throws IOException, InterruptedException {
+        System.gc();
+        ChecksBalances.ifexistDelete(tempDir);
+    }
     
     private static void checkSaves() throws IOException, Exception {
         try {
-            ChecksBalances.newdirCheck("./saves/", false);
-            String ogPath = "data.accdb";
-            String dbPath = "saves/default.limit";
+            ChecksBalances.newdirCheck("./" + savesDir, false);
+            String ogPath = defaultOGSave;
+            String dbPath = savesDir + defaultSave;
             ChecksBalances.fileCheck(ogPath,dbPath,true,true);
-            ChecksBalances.newfileCheck("saves/.lastused", true,"",false);
+            ChecksBalances.newfileCheck(lastusedSave, true,"default,0",false);
         } catch(Exception ex) {
             logFile("severe",("Saves Check Exception: " + ex.toString()));
         }
@@ -141,10 +156,11 @@ public class MainControls {
     }
     
     //<editor-fold defaultstate="collapsed" desc="Check Version Method">
-    private static void checkVersion (String name, String ver) throws IOException {
-        boolean needUpdate = new verCheck().checkVersion(name, ver);
-        if(needUpdate == true)
-            new Updater().updateMessage(name, ver);
+    private static void checkVersion (String name, String ver) throws 
+        IOException, InterruptedException {
+        if((verCheck.checkVersion(name, ver))) {
+            Updater.updateMessage(name, ver);
+        }
     }
     //</editor-fold>
     
