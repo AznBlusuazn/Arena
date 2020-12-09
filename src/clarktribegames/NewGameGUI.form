@@ -42,16 +42,17 @@
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="saveLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="saveDrop" min="-2" pref="150" max="-2" attributes="0"/>
+                      <Component id="limitLabel" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
                           <Component id="selectLabel" alignment="0" pref="200" max="32767" attributes="0"/>
                           <Component id="charToon" alignment="0" max="32767" attributes="0"/>
                           <Component id="charDrop" max="32767" attributes="0"/>
-                          <Component id="confirmButton" max="32767" attributes="0"/>
+                          <Component id="exitButton" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="780" max="-2" attributes="0"/>
+                      <Component id="confirmButton" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -62,12 +63,10 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="saveDrop" min="-2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="saveLabel" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
-                      <Component id="newgameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="saveLabel" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
+                  <Component id="newgameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="limitLabel" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="titleLogo" min="-2" pref="200" max="-2" attributes="0"/>
@@ -78,7 +77,10 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="charDrop" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="244" max="32767" attributes="0"/>
-              <Component id="confirmButton" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="exitButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="confirmButton" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -90,7 +92,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Lucida Console" size="12" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="New Game"/>
+        <Property name="text" type="java.lang.String" value="New Game &#x2022; Character Selection"/>
         <Property name="focusable" type="boolean" value="false"/>
       </Properties>
     </Component>
@@ -111,27 +113,9 @@
           <Font name="Lucida Console" size="12" style="1"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="4"/>
-        <Property name="text" type="java.lang.String" value="Current Save:"/>
+        <Property name="text" type="java.lang.String" value="Current Limitless Database:"/>
         <Property name="focusable" type="boolean" value="false"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JComboBox" name="saveDrop">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Lucida Console" size="12" style="0"/>
-        </Property>
-        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="1">
-            <StringItem index="0" value="Testing the name"/>
-          </StringArray>
-        </Property>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveDropActionPerformed"/>
-      </Events>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-      </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="charToon">
       <Properties>
@@ -167,12 +151,30 @@
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
     </Component>
+    <Component class="javax.swing.JButton" name="exitButton">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Lucida Console" size="12" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Back to Main Menu"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="limitLabel">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Lucida Console" size="12" style="0"/>
+        </Property>
+        <Property name="horizontalAlignment" type="int" value="2"/>
+        <Property name="text" type="java.lang.String" value="&lt;Limit File Name&gt;"/>
+        <Property name="focusable" type="boolean" value="false"/>
+      </Properties>
+    </Component>
     <Component class="javax.swing.JButton" name="confirmButton">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Lucida Console" size="12" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Confirm"/>
+        <Property name="text" type="java.lang.String" value="Start New Game"/>
       </Properties>
     </Component>
   </SubComponents>

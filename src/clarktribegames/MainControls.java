@@ -17,6 +17,8 @@ import javax.swing.ImageIcon;
 
 public class MainControls {
     
+    
+    //Main Controls Variables
     static String appName = "Limitless";
     static String appVer = "0.0.015";
     static String settingsFile = "settings.ini";
@@ -28,10 +30,17 @@ public class MainControls {
     static String imageDir = "avatars/";
     static String tempDir = "temp/";
     static String lastusedSave = savesDir + ".lastused";
-    static boolean musicOn = true;
-    static boolean soundOn = true;
+    static String selectedSave = defaultSave;
     public URL iconURL = getClass().getResource("/clarktribegames/icon.png");
     public ImageIcon imageIcon = new ImageIcon(iconURL);
+    
+    //Settings.ini
+    static boolean musicOn = true;
+    static boolean soundOn = true;
+    static boolean samedbOn = true;
+    static String defaultDB = defaultSave.substring(0,defaultSave.indexOf("." + 
+        saveExt));
+
 
     public static void main(String[] args) throws Exception {
         lookandfeelSettings();
@@ -91,7 +100,8 @@ public class MainControls {
     }
     
     private static String defaultSettings() {
-        return "<Limitless Game Options>\nMusic=ON\nSound=ON\n\n";
+        return "<Limitless Game Options>\nMusic=ON\nSound=ON\nSameDB=YES\nDefau"
+            + "ltDB=Default\n\n";
     }
     
     private static void checkSettings() throws IOException {
@@ -101,6 +111,10 @@ public class MainControls {
         if(getSettings("Sound").equals("off")) {
             soundOn = false;
         }
+        if(getSettings("SameDB").equals("no")) {
+            samedbOn = false;
+        }
+        defaultDB = getSettings("DefaultDB");
     }
     
     private static String getSettings(String type) throws IOException {
@@ -127,16 +141,32 @@ public class MainControls {
     private static List<String> rebuildSettings() throws IOException {
         String music = "Music=ON";
         String sound = "Sound=ON";
+        String samedb = "SameDB=YES";
+        String defaultdb = "DefaultDB=" + defaultDB;
         if(!musicOn) {
             music = "Music=OFF";
         }
         if(!soundOn) {
             sound = "Sound=OFF";
         }
-        List<String> list1=Converters.filelistToList(settingsFile,"\n");
-        List<String> list2=(ChecksBalances.findandRebuild(list1,"Music",music));
-        List<String> list3=(ChecksBalances.findandRebuild(list2,"Sound",sound));
-        return list3;
+        if(!samedbOn) {
+            samedb = "SameDB=NO";
+        }
+        if(defaultDB.equals(defaultSave.substring(0,defaultSave.indexOf("." + 
+        saveExt)))) {
+            defaultdb = "DefaultDB=Default";
+        } else {
+            if(!(ChecksBalances.searchdirList(defaultDB,savesDir,saveExt))) {
+                defaultdb = "DefaultDB=Default";
+            }
+        }
+        List<String> x1=Converters.filelistToList(settingsFile,"\n");
+        List<String> x2=(ChecksBalances.findandRebuild(x1,"Music",music));
+        List<String> x3=(ChecksBalances.findandRebuild(x2,"Sound",sound));
+        List<String> x4=(ChecksBalances.findandRebuild(x3,"SameDB",samedb));
+        List<String> finalList=(ChecksBalances.findandRebuild(x4,"DefaultDB",
+            defaultdb));
+        return finalList;
     }
     
     private static void lookandfeelSettings () {

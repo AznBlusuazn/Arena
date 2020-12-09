@@ -1,6 +1,7 @@
 package clarktribegames;
 
 import java.io.IOException;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
 // <editor-fold defaultstate="collapsed" desc="credits">
@@ -25,6 +26,12 @@ public class Popups {
     public static void checkboxPopup(String title, String msg, Object[] popup) {
         JOptionPane.showMessageDialog(null, popup, title,JOptionPane
             .PLAIN_MESSAGE);
+    }
+    
+    public static String comboboxPopup(String ttl,String msg,JComboBox box){
+        Object[] opts = {msg, box, "\n"};
+        JOptionPane.showMessageDialog(null,opts,ttl,JOptionPane.PLAIN_MESSAGE);
+        return box.getSelectedItem().toString();
     }
     
     public static boolean yesnoPopup(String title, String message) {

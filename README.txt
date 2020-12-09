@@ -56,6 +56,14 @@ ALPHA 0.0.015 / 2020.12.08-1434 [IN PROGRESS]
 - fixed rare issue with game not exiting from character select screen
 - added limitless game logo banner
 - added limitless game icon
+- removed switch db in new game character selection
+- added check if more than one db exist, prompt user to select at new game button
+- cleaned up current db text in new game window
+- nulled old save switch code for later use
+- added ini option for always use same db at new game
+- added ini option to select which db if always use same
+- added check if always use same db doesn't exist to switch to default
+- added check if always use same db is checked to skip pre new game db select
 
 
 ALPHA 0.0.014 / 2020.12.07-2239

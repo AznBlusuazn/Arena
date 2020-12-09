@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 // <editor-fold defaultstate="collapsed" desc="credits">
 /**
@@ -285,6 +286,19 @@ public class ChecksBalances {
                     }
                 }
         return finalList;
+    }
+    
+    public static boolean searchdirList (String search,String dir,String ext) 
+        throws IOException {
+        boolean retVal = false;
+        List<String> dirlist = (Converters.foldertoList(dir,ext)).stream()
+            .map(Object::toString).collect(Collectors.toList());
+        for(int i = 0; i > dirlist.size(); i++ ) {
+            if(dirlist.get(i).contains(search)) {
+                retVal = true;
+            }
+        }
+        return retVal;
     }
     
 //<editor-fold defaultstate="collapsed" desc="Log File Method">

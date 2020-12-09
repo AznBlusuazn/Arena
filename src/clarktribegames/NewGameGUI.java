@@ -2,12 +2,10 @@
 package clarktribegames;
 
 import java.awt.Font;
-import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
@@ -29,18 +27,16 @@ public class NewGameGUI extends javax.swing.JFrame {
 
     String appName;
     String appVer;
-    String saveName;
+    String saveName = Converters.capFirstLetter((MainControls.selectedSave).substring(0,(MainControls.selectedSave).indexOf("." + MainControls.saveExt)));
     List<String> toonList = null;
     DefaultComboBoxModel toonDml = new DefaultComboBoxModel();
-    DefaultComboBoxModel saveDml = new DefaultComboBoxModel();
+//    DefaultComboBoxModel saveDml = new DefaultComboBoxModel();
     
     public NewGameGUI() throws IOException, Exception {
         this.appName = MainControls.appName;
         this.appVer = MainControls.appVer;
         initComponents();
-        setLocationRelativeTo(null);
-        saveName = getSave();        
-        popsaveDrop();
+        setLocationRelativeTo(null);  
         popcharDrop(saveName);
         changeChar();
     }
@@ -52,10 +48,11 @@ public class NewGameGUI extends javax.swing.JFrame {
         newgameLabel = new javax.swing.JLabel();
         titleLogo = new javax.swing.JLabel();
         saveLabel = new javax.swing.JLabel();
-        saveDrop = new javax.swing.JComboBox<>();
         charToon = new javax.swing.JLabel();
         selectLabel = new javax.swing.JLabel();
         charDrop = new javax.swing.JComboBox<>();
+        exitButton = new javax.swing.JButton();
+        limitLabel = new javax.swing.JLabel();
         confirmButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -69,7 +66,7 @@ public class NewGameGUI extends javax.swing.JFrame {
         });
 
         newgameLabel.setFont(new java.awt.Font("Lucida Console", 1, 12)); // NOI18N
-        newgameLabel.setText("New Game");
+        newgameLabel.setText("New Game • Character Selection");
         newgameLabel.setFocusable(false);
 
         titleLogo.setFont(new java.awt.Font("Lucida Console", 1, 48)); // NOI18N
@@ -78,16 +75,8 @@ public class NewGameGUI extends javax.swing.JFrame {
 
         saveLabel.setFont(new java.awt.Font("Lucida Console", 1, 12)); // NOI18N
         saveLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        saveLabel.setText("Current Save:");
+        saveLabel.setText("Current Limitless Database:");
         saveLabel.setFocusable(false);
-
-        saveDrop.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        saveDrop.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Testing the name" }));
-        saveDrop.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveDropActionPerformed(evt);
-            }
-        });
 
         charToon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         charToon.setText("[Player 1 Image Here]");
@@ -105,8 +94,16 @@ public class NewGameGUI extends javax.swing.JFrame {
             }
         });
 
+        exitButton.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
+        exitButton.setText("Back to Main Menu");
+
+        limitLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
+        limitLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        limitLabel.setText("<Limit File Name>");
+        limitLabel.setFocusable(false);
+
         confirmButton.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        confirmButton.setText("Confirm");
+        confirmButton.setText("Start New Game");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -121,25 +118,25 @@ public class NewGameGUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(saveLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(saveDrop, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(limitLabel))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(selectLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                             .addComponent(charToon, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(charDrop, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(confirmButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addComponent(exitButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(780, 780, 780)
+                        .addComponent(confirmButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(saveDrop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(saveLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(newgameLabel)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(saveLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(newgameLabel)
+                    .addComponent(limitLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(titleLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -149,7 +146,9 @@ public class NewGameGUI extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(charDrop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 244, Short.MAX_VALUE)
-                .addComponent(confirmButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(exitButton)
+                    .addComponent(confirmButton))
                 .addContainerGap())
         );
 
@@ -180,14 +179,6 @@ public class NewGameGUI extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_charDropActionPerformed
-
-    private void saveDropActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveDropActionPerformed
-        try {
-            savedropChange();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }//GEN-LAST:event_saveDropActionPerformed
 
     //<editor-fold defaultstate="collapsed" desc="Main Void">
     public static void main(String args[]) throws IOException {
@@ -294,35 +285,36 @@ public class NewGameGUI extends javax.swing.JFrame {
         return convertedList;
     }
     
-    private void popsaveDrop() throws IOException {
-        try {
-            List<String> savelist = (Converters.foldertoList
-                (MainControls.savesDir, MainControls.saveExt)).stream()
-                .map(Object::toString).collect(Collectors.toList());
-            fillSave(saveDrop,savelist,saveDml);
-            File lastused = new File(MainControls.lastusedSave);
-            String lastUsed = ChecksBalances.getLast(lastused);
-            String lastusedSave = lastUsed.substring(0,lastUsed.indexOf(","));
-            int lastusedChar = Integer.parseInt(lastUsed.substring(lastUsed
-                .indexOf(",") + 1,lastUsed.length()));
-            int found = 0;
-            for(int i = 0; i < saveDrop.getItemCount(); i ++) {
-                String x = saveDrop.getItemAt(i).toString().toLowerCase();
-                if (x.contains(lastusedSave)) {
-                    found = i;
-                }
-            }
-            saveDrop.setSelectedIndex(found);
-            if(charDrop.getItemCount() > 1) {
-                charDrop.setSelectedIndex(lastusedChar);
-                        }
-
-        } catch (IOException ex) {
-            logFile("severe","Save Select Error.\nEx: " + ex.toString());
-        }
-    }
+//    private void popsaveDrop() throws IOException {
+//        try {
+//            List<String> savelist = (Converters.foldertoList
+//                (MainControls.savesDir, MainControls.saveExt)).stream()
+//                .map(Object::toString).collect(Collectors.toList());
+//            fillSave(saveDrop,savelist,saveDml);
+//            File lastused = new File(MainControls.lastusedSave);
+//            String lastUsed = ChecksBalances.getLast(lastused);
+//            String lastusedSave = lastUsed.substring(0,lastUsed.indexOf(","));
+//            int lastusedChar = Integer.parseInt(lastUsed.substring(lastUsed
+//                .indexOf(",") + 1,lastUsed.length()));
+//            int found = 0;
+//            for(int i = 0; i < saveDrop.getItemCount(); i ++) {
+//                String x = saveDrop.getItemAt(i).toString().toLowerCase();
+//                if (x.contains(lastusedSave)) {
+//                    found = i;
+//                }
+//            }
+//            saveDrop.setSelectedIndex(found);
+//            if(charDrop.getItemCount() > 1) {
+//                charDrop.setSelectedIndex(lastusedChar);
+//                        }
+//
+//        } catch (IOException ex) {
+//            logFile("severe","Save Select Error.\nEx: " + ex.toString());
+//        }
+//    }
 
     private void popcharDrop(String save) throws SQLException, IOException {
+        limitLabel.setText(saveName);
         try {
             toonList = dbQuery(save, "*","dbToonGame","toonName","", true);
             fillSelect(charDrop,(toonList),toonDml);
@@ -345,77 +337,77 @@ public class NewGameGUI extends javax.swing.JFrame {
         player.setRenderer(lrCenter);
     }
     
-    private String getSave() throws IOException {
-        String s1 = Converters.getfromFile(MainControls.lastusedSave, 
-            true, false);
-        String savename = s1.substring(0, s1.indexOf(","));
-        return savename;
-    }
+//    private String getSave() throws IOException {
+//        String s1 = Converters.getfromFile(MainControls.lastusedSave, 
+//            true, false);
+//        String savename = s1.substring(0, s1.indexOf(","));
+//        return savename;
+//    }
     
-    private void fillSave(JComboBox<String> save, List<String> list, 
-            DefaultComboBoxModel dml) {
-        Font font = save.getFont();
-        DefaultListCellRenderer lrCenter;
-        lrCenter = new DefaultListCellRenderer();
-        lrCenter.setHorizontalAlignment(DefaultListCellRenderer.LEFT);
-        lrCenter.setFont(font.deriveFont(Font.BOLD));
-        for(int i = 0; i < list.size(); i++) {
-            String x = (list.get(i));
-            String y = Converters.capFirstLetter(x.substring(x.indexOf("\\") + 1
-                , x.indexOf(".",x.indexOf(MainControls.saveExt) - 2)));
-            dml.addElement(y);
-        }
-        save.setModel(dml);
-        save.setRenderer(lrCenter);
-    }
+//    private void fillSave(JComboBox<String> save, List<String> list, 
+//            DefaultComboBoxModel dml) {
+//        Font font = save.getFont();
+//        DefaultListCellRenderer lrCenter;
+//        lrCenter = new DefaultListCellRenderer();
+//        lrCenter.setHorizontalAlignment(DefaultListCellRenderer.LEFT);
+//        lrCenter.setFont(font.deriveFont(Font.BOLD));
+//        for(int i = 0; i < list.size(); i++) {
+//            String x = (list.get(i));
+//            String y = Converters.capFirstLetter(x.substring(x.indexOf("\\") + 1
+//                , x.indexOf(".",x.indexOf(MainControls.saveExt) - 2)));
+//            dml.addElement(y);
+//        }
+//        save.setModel(dml);
+//        save.setRenderer(lrCenter);
+//    }
     
-    private void savedropChange() throws IOException, InterruptedException, 
-        SQLException, Exception {
-        if(this.isVisible()) {
-        try {
-            String oldsave = ChecksBalances.getLast(new File(MainControls
-                .lastusedSave));
-            String newsave=saveDrop.getSelectedItem().toString().toLowerCase();
-            System.gc();
-            ChecksBalances.ifexistDelete(MainControls.lastusedSave);
-            ChecksBalances.newfileCheck((MainControls.lastusedSave), true, 
-                (newsave  + "," + charDrop.getSelectedIndex()),true);
-            String title = "Change Saves?";
-            String message = "Are you sure you want to change to the " + 
-                (saveDrop.getSelectedItem()) + " save?";
-            boolean yesno = Popups.yesnoPopup(title, message);
-            if(yesno == true) {
-                Popups.plainPopup("To Change Saves", "To change to the " + 
-                    (saveDrop.getSelectedItem()) + " save,\nreturn to the Main "
-                    + "Menu and Start a New Game.");
-                menuOption();
-            } else {
-                System.gc();
-                ChecksBalances.ifexistDelete(MainControls.lastusedSave);
-                ChecksBalances.newfileCheck((MainControls.lastusedSave), true, 
-                    oldsave,true);
-                saveName = getSave();
-                File lastused = new File(MainControls.lastusedSave);
-                String lastUsed = ChecksBalances.getLast(lastused);
-                String lastusedSave = lastUsed.substring(0,lastUsed.indexOf(",")
-                    );
-                int found = 0;
-                for(int i = 0; i < saveDrop.getItemCount(); i ++) {
-                    String x = saveDrop.getItemAt(i).toString().toLowerCase();
-                    if (x.contains(lastusedSave)) {
-                        found = i;
-                    }
-                }
-                saveDrop.setSelectedIndex(found);
-                int lastusedChar = Integer.parseInt(lastUsed.substring(lastUsed
-                    .indexOf(",") + 1,lastUsed.length()));
-                charDrop.setSelectedIndex(lastusedChar);
-            }
-        }catch (IOException | InterruptedException  ex) {
-            logFile("severe","Save Change Box Error.\n Ex: " + ex.toString());
-        }
-        }
-    }
+//    private void savedropChange() throws IOException, InterruptedException, 
+//        SQLException, Exception {
+//        if(this.isVisible()) {
+//        try {
+//            String oldsave = ChecksBalances.getLast(new File(MainControls
+//                .lastusedSave));
+//            String newsave=saveDrop.getSelectedItem().toString().toLowerCase();
+//            System.gc();
+//            ChecksBalances.ifexistDelete(MainControls.lastusedSave);
+//            ChecksBalances.newfileCheck((MainControls.lastusedSave), true, 
+//                (newsave  + "," + charDrop.getSelectedIndex()),true);
+//            String title = "Change Saves?";
+//            String message = "Are you sure you want to change to the " + 
+//                (saveDrop.getSelectedItem()) + " save?";
+//            boolean yesno = Popups.yesnoPopup(title, message);
+//            if(yesno == true) {
+//                Popups.plainPopup("To Change Saves", "To change to the " + 
+//                    (saveDrop.getSelectedItem()) + " save,\nreturn to the Main "
+//                    + "Menu and Start a New Game.");
+//                menuOption();
+//            } else {
+//                System.gc();
+//                ChecksBalances.ifexistDelete(MainControls.lastusedSave);
+//                ChecksBalances.newfileCheck((MainControls.lastusedSave), true, 
+//                    oldsave,true);
+//                saveName = getSave();
+//                File lastused = new File(MainControls.lastusedSave);
+//                String lastUsed = ChecksBalances.getLast(lastused);
+//                String lastusedSave = lastUsed.substring(0,lastUsed.indexOf(",")
+//                    );
+//                int found = 0;
+//                for(int i = 0; i < saveDrop.getItemCount(); i ++) {
+//                    String x = saveDrop.getItemAt(i).toString().toLowerCase();
+//                    if (x.contains(lastusedSave)) {
+//                        found = i;
+//                    }
+//                }
+//                saveDrop.setSelectedIndex(found);
+//                int lastusedChar = Integer.parseInt(lastUsed.substring(lastUsed
+//                    .indexOf(",") + 1,lastUsed.length()));
+//                charDrop.setSelectedIndex(lastusedChar);
+//            }
+//        }catch (IOException | InterruptedException  ex) {
+//            logFile("severe","Save Change Box Error.\n Ex: " + ex.toString());
+//        }
+//        }
+//    }
     
     private void setChar(String save, String toonname) throws SQLException, 
         BadLocationException {
@@ -469,8 +461,9 @@ public class NewGameGUI extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> charDrop;
     private javax.swing.JLabel charToon;
     private javax.swing.JButton confirmButton;
+    private javax.swing.JButton exitButton;
+    private javax.swing.JLabel limitLabel;
     private javax.swing.JLabel newgameLabel;
-    private javax.swing.JComboBox<String> saveDrop;
     private javax.swing.JLabel saveLabel;
     private javax.swing.JLabel selectLabel;
     private javax.swing.JLabel titleLogo;

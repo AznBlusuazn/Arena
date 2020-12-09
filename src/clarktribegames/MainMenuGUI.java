@@ -1,15 +1,22 @@
 // <editor-fold defaultstate="collapsed" desc="Header Info">
 package clarktribegames;
 
+import java.awt.Font;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javazoom.jl.decoder.JavaLayerException;
 
 /**
@@ -305,6 +312,12 @@ public class MainMenuGUI extends javax.swing.JFrame {
         //dispose();
         try {
             cleanUp();
+            if(!MainControls.samedbOn) {
+                limitSelect();
+            } else {
+                MainControls.selectedSave = MainControls.defaultDB + "." + 
+                    MainControls.saveExt;
+            }
             MPlayer.stopM();
             new NewGameGUI().setVisible(true);
         } catch(Exception ex) {
@@ -350,6 +363,52 @@ public class MainMenuGUI extends javax.swing.JFrame {
             exitProcess();
     }
     
+    private void limitSelect() throws IOException {
+        String title = "New Game Database Selection";
+        String message = "Select a Database for the New Game:\n\n";
+        DefaultComboBoxModel limitdml = new DefaultComboBoxModel();
+        JComboBox dboptions = new JComboBox();
+        popLimit(dboptions,limitdml);
+        if(dboptions.getItemCount() > 1) {
+            String selection = Popups.comboboxPopup(title, message, dboptions);
+            MainControls.selectedSave = (selection.toLowerCase() + "." + 
+                MainControls.saveExt);
+            String confirmMessage = selection + " Loaded";
+            Popups.infoPopup(confirmMessage,confirmMessage + "!");
+        } else {
+            MainControls.selectedSave = (MainControls.defaultSave);
+        }
+    }
+    
+    private void popLimit(JComboBox box, DefaultComboBoxModel dml) throws 
+        IOException {
+        try {
+            List<String> savelist = (Converters.foldertoList(MainControls
+                .savesDir, MainControls.saveExt)).stream().map(Object::toString)
+                .collect(Collectors.toList());
+            fillLimit(box,savelist,dml);
+        } catch (IOException ex) {
+            logFile("severe","Save Select Error.\nEx: " + ex.toString());
+        }
+    }
+    
+    private void fillLimit(JComboBox<String> save, List<String> list, 
+            DefaultComboBoxModel dml) {
+        Font font = save.getFont();
+        DefaultListCellRenderer lrCenter;
+        lrCenter = new DefaultListCellRenderer();
+        lrCenter.setHorizontalAlignment(DefaultListCellRenderer.LEFT);
+        lrCenter.setFont(font.deriveFont(Font.BOLD));
+        for(int i = 0; i < list.size(); i++) {
+            String x = (list.get(i));
+            String y = Converters.capFirstLetter(x.substring(x.indexOf("\\") + 1
+                , x.indexOf(".",x.indexOf(MainControls.saveExt) - 2)));
+            dml.addElement(y);
+        }
+        save.setModel(dml);
+        save.setRenderer(lrCenter);
+    }
+    
     private void optionPopup() throws IOException, InterruptedException{
         String title = "Limitless Options";
         String message = "Limitless Options\n\n";
@@ -371,13 +430,42 @@ public class MainMenuGUI extends javax.swing.JFrame {
             }
         });
         JCheckBox sound = new JCheckBox("Play Sound");
+        JCheckBox samedb = new JCheckBox("Always Use Same Database");
+        JComboBox<String> defaultdb = new JComboBox();
+        samedb.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+            if(!(e.getStateChange() == ItemEvent.SELECTED)) {
+                try {
+                    defaultdb.setEnabled(false);
+                    defaultdbEnabled(defaultdb);
+                } catch (IOException ex) {
+                    //
+                }
+            } else {
+                defaultdb.setEnabled(true);
+                try {
+                    defaultdbEnabled(defaultdb);
+                } catch (IOException ex) {
+                    //
+                }
+            };
+            }
+        });
+        defaultdb.addItem("<Always Choose Your Database>");
         if(MainControls.musicOn) {
             music.setSelected(true);
         }
         if(MainControls.soundOn) {
             sound.setSelected(true);
         }
-        Object[] popup = {message, music, sound, "\n"};
+        if(MainControls.samedbOn) {
+            samedb.setSelected(true);
+            defaultdb.setEnabled(true);
+        } else {
+            defaultdb.setEnabled(false);
+        }
+        Object[] popup = {message, music, sound, samedb, defaultdb, "\n"};
         Popups.checkboxPopup(title, message, popup);
         if(musicNotice) {
             Popups.warnPopup("Music Notice", "You may need to restart the game "
@@ -393,7 +481,40 @@ public class MainMenuGUI extends javax.swing.JFrame {
         } else {
             MainControls.soundOn = false;
         }
-        MainControls.updateSettings();
+        if(samedb.isSelected()) { 
+            MainControls.samedbOn = true;
+            MainControls.defaultDB = defaultdb.getSelectedItem().toString();
+        } else {
+            MainControls.samedbOn = false;
+            MainControls.defaultDB = MainControls.defaultSave.substring(0,
+                MainControls.defaultSave.indexOf("." + MainControls.saveExt));
+        }
+       MainControls.updateSettings();
+    }
+    
+    private void defaultdbEnabled(JComboBox<String> dropdown)throws IOException {
+        if(dropdown.isEnabled()) {
+            dropdown.removeAllItems();
+            DefaultComboBoxModel dbdml = new DefaultComboBoxModel();
+            try {
+                List<String> savelist = (Converters.foldertoList(MainControls.
+                    savesDir, MainControls.saveExt)).stream()
+                    .map(Object::toString).collect(Collectors.toList());
+                for(int i = 0; i < savelist.size(); i++) {
+                    String x = (savelist.get(i));
+                    String y = Converters.capFirstLetter(x.substring(x.indexOf
+                        ("\\") + 1, x.indexOf(".",x.indexOf(MainControls.saveExt
+                        ) - 2)));
+                dbdml.addElement(y);
+                }
+            dropdown.setModel(dbdml);
+            } catch (IOException ex) {
+                logFile("severe","defDB Enabled Error.\nEx: " + ex.toString());
+            }
+        } else {
+            dropdown.removeAllItems();
+            dropdown.addItem("<Always Choose Your Database>");
+        }
     }
     
     private void aboutPopup() throws IOException {
