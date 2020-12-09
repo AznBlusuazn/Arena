@@ -6,35 +6,45 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Arrays;
+import java.util.List;
 
-// <editor-fold defaultstate="collapsed" desc="credits">
 /**
- * 
- * @author  Geoff Clark
- * @e-mail  info@clarktribegames.com
- * @game    Limitless
- * 
+ *
+ * @author admingec
  */
-// </editor-fold>
-
-class RunQuery {
-    String db1 = "jdbc:ucanaccess://" + MainControls.savesDir + "/" + 
-        MainControls.defaultSave;
-    String db2 = "";
-    String db3 = "";
-    String search = "";
-    String table = "";
-    String column = "";
-    String matchcol = "";
-    String matchstr = "";
+public class GetData {
     
-    String getSingleList(String save, String search,String table,String column) 
+    static String db1 = "jdbc:ucanaccess://" + MainControls.savesDir + "/" + 
+    MainControls.defaultSave;
+    static String db2 = "";
+    static String db3 = "";
+    static String dataSearch = "";
+    static String dataTable = "";
+    static String dataCol = "";
+    static String dataMatchcol = "";
+    static String dataMatchstr = "";
+
+    public static List<String> dbQuery(String save,String search,String table,String 
+            col,String matchstr,boolean isitSingle) throws SQLException {
+        String tempList = "";
+        if (!isitSingle) {
+            tempList = (getSpecificRecord(save, search, table, col,
+                    matchstr)).replaceAll("\\[", "").replaceAll("\\]","");
+        } else {
+            tempList = (getSingleList(save, search, table, col))
+                    .replaceAll("\\[", "").replaceAll("\\]","");
+        }
+        String[] stringList = tempList.split(",");
+        List<String> convertedList = Arrays.asList(stringList);
+        System.gc();
+        return convertedList;
+    }
+    
+    private static String getSingleList(String save, String search,String table,String column) 
             throws SQLException {
         db1 = "jdbc:ucanaccess://" + MainControls.savesDir + "/" + save + "." + 
             MainControls.saveExt;
-        this.search = search;
-        this.table = table;
-        this.column = column;
         String result = "";
         Connection con = DriverManager.getConnection(db1, db2, db3);
         Statement st = con.createStatement();
@@ -49,15 +59,10 @@ class RunQuery {
         return result;
     }
     
-    String getSpecificRecord(String save, String search,String table, String 
+    private static String getSpecificRecord(String save, String search,String table, String 
             column, String matchstr) throws SQLException {
         db1 = "jdbc:ucanaccess://" + MainControls.savesDir + "/" + save + "." + 
             MainControls.saveExt;
-        this.search = search;
-        this.table = table;
-        this.column = column;
-        this.matchstr = matchstr;
-        
         String match = (column + "=\"" + matchstr + "\"");
         String result = "";
         
@@ -78,4 +83,5 @@ class RunQuery {
         result = result.substring(1,result.length());
         return result;
     }
+    
 }

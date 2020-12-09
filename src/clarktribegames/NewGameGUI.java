@@ -1,3 +1,4 @@
+
 // <editor-fold defaultstate="collapsed" desc="Header Info">
 package clarktribegames;
 
@@ -6,11 +7,14 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.text.BadLocationException;
+import javazoom.jl.decoder.JavaLayerException;
 
 
 
@@ -27,14 +31,16 @@ public class NewGameGUI extends javax.swing.JFrame {
 
     String appName;
     String appVer;
-    String saveName = Converters.capFirstLetter((MainControls.selectedSave).substring(0,(MainControls.selectedSave).indexOf("." + MainControls.saveExt)));
+    String saveName = Converters.capFirstLetter((MainControls.selectedSave)
+        .substring(0,(MainControls.selectedSave).indexOf("." + 
+            MainControls.saveExt)));
     List<String> toonList = null;
     DefaultComboBoxModel toonDml = new DefaultComboBoxModel();
-//    DefaultComboBoxModel saveDml = new DefaultComboBoxModel();
     
     public NewGameGUI() throws IOException, Exception {
         this.appName = MainControls.appName;
         this.appVer = MainControls.appVer;
+
         initComponents();
         setLocationRelativeTo(null);  
         popcharDrop(saveName);
@@ -54,6 +60,12 @@ public class NewGameGUI extends javax.swing.JFrame {
         exitButton = new javax.swing.JButton();
         limitLabel = new javax.swing.JLabel();
         confirmButton = new javax.swing.JButton();
+        stat01Label = new javax.swing.JLabel();
+        stat02Label = new javax.swing.JLabel();
+        stat03Label = new javax.swing.JLabel();
+        stat04Label = new javax.swing.JLabel();
+        bioPane = new javax.swing.JScrollPane();
+        bioText = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle(this.appName + " [ALPHA v" + this.appVer + "]");
@@ -96,6 +108,11 @@ public class NewGameGUI extends javax.swing.JFrame {
 
         exitButton.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         exitButton.setText("Back to Main Menu");
+        exitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitButtonActionPerformed(evt);
+            }
+        });
 
         limitLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         limitLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -104,6 +121,34 @@ public class NewGameGUI extends javax.swing.JFrame {
 
         confirmButton.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         confirmButton.setText("Start New Game");
+
+        stat01Label.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
+        stat01Label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        stat01Label.setText("<Alignment>");
+
+        stat02Label.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
+        stat02Label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        stat02Label.setText("<Age> • <Race>");
+
+        stat03Label.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
+        stat03Label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        stat03Label.setText("Level <Lv> • <Class>");
+
+        stat04Label.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
+        stat04Label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        stat04Label.setText("<Status>");
+
+        bioPane.setBorder(null);
+        bioPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        bioPane.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
+
+        bioText.setColumns(20);
+        bioText.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
+        bioText.setLineWrap(true);
+        bioText.setRows(9);
+        bioText.setText("Player name is a <alignment> <age modifier> Level <lv> <race> <class> <status modifier>.  <Add bio info>");
+        bioText.setWrapStyleWord(true);
+        bioPane.setViewportView(bioText);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -121,12 +166,20 @@ public class NewGameGUI extends javax.swing.JFrame {
                         .addComponent(limitLabel))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(stat01Label, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(selectLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                             .addComponent(charToon, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(charDrop, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(exitButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(780, 780, 780)
-                        .addComponent(confirmButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(confirmButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(stat02Label, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(stat03Label, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                            .addComponent(stat04Label, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                            .addComponent(bioPane))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -145,7 +198,17 @@ public class NewGameGUI extends javax.swing.JFrame {
                 .addComponent(selectLabel)
                 .addGap(18, 18, 18)
                 .addComponent(charDrop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 244, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(stat01Label, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(stat02Label, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(stat03Label, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(stat04Label, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bioPane, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(exitButton)
                     .addComponent(confirmButton))
@@ -164,11 +227,21 @@ public class NewGameGUI extends javax.swing.JFrame {
                 exitProcess();
             } catch (IOException ex1) {
                 ex1.printStackTrace();
-                exitProcess();
+                try {
+                    exitProcess();
+                } catch (IOException | JavaLayerException ex2) {
+                    ex2.printStackTrace();
+                }
+            } catch (JavaLayerException ex1) {
+                ex1.printStackTrace();
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            exitProcess();
+            try {
+                exitProcess();
+            } catch (IOException | JavaLayerException ex1) {
+                ex1.printStackTrace();
+            }
         }   
     }//GEN-LAST:event_formWindowClosing
 
@@ -179,6 +252,33 @@ public class NewGameGUI extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_charDropActionPerformed
+
+    private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonActionPerformed
+        try {
+            exitButton();
+        } catch (IOException ex) {
+            try {
+                logFile("severe","NG Exit Error.\nIOEx: " + ex.toString());
+                exitProcess();
+            } catch (IOException ex1) {
+                ex1.printStackTrace();
+                try {
+                    exitProcess();
+                } catch (IOException | JavaLayerException ex2) {
+                    ex2.printStackTrace();
+                }
+            } catch (JavaLayerException ex1) {
+                ex1.printStackTrace();
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            try {
+                exitProcess();
+            } catch (IOException | JavaLayerException ex1) {
+                ex1.printStackTrace();
+            }
+        }  
+    }//GEN-LAST:event_exitButtonActionPerformed
 
     //<editor-fold defaultstate="collapsed" desc="Main Void">
     public static void main(String args[]) throws IOException {
@@ -268,55 +368,11 @@ public class NewGameGUI extends javax.swing.JFrame {
             logFile("severe","MenuOption Error.\nIOEx: " + ex.toString());
         }
     }
-    
-    private List<String> dbQuery(String save,String search,String table,String 
-            col,String matchstr,boolean isitSingle) throws SQLException {
-        String list = "";
-        if (!isitSingle) {
-            list = (new RunQuery().getSpecificRecord(save, search, table, col,
-                    matchstr)).replaceAll("\\[", "").replaceAll("\\]","");
-        } else {
-            list = (new RunQuery().getSingleList(save, search, table, col))
-                    .replaceAll("\\[", "").replaceAll("\\]","");
-        }
-        String[] stringList = list.split(",");
-        List<String> convertedList = Arrays.asList(stringList);
-        System.gc();
-        return convertedList;
-    }
-    
-//    private void popsaveDrop() throws IOException {
-//        try {
-//            List<String> savelist = (Converters.foldertoList
-//                (MainControls.savesDir, MainControls.saveExt)).stream()
-//                .map(Object::toString).collect(Collectors.toList());
-//            fillSave(saveDrop,savelist,saveDml);
-//            File lastused = new File(MainControls.lastusedSave);
-//            String lastUsed = ChecksBalances.getLast(lastused);
-//            String lastusedSave = lastUsed.substring(0,lastUsed.indexOf(","));
-//            int lastusedChar = Integer.parseInt(lastUsed.substring(lastUsed
-//                .indexOf(",") + 1,lastUsed.length()));
-//            int found = 0;
-//            for(int i = 0; i < saveDrop.getItemCount(); i ++) {
-//                String x = saveDrop.getItemAt(i).toString().toLowerCase();
-//                if (x.contains(lastusedSave)) {
-//                    found = i;
-//                }
-//            }
-//            saveDrop.setSelectedIndex(found);
-//            if(charDrop.getItemCount() > 1) {
-//                charDrop.setSelectedIndex(lastusedChar);
-//                        }
-//
-//        } catch (IOException ex) {
-//            logFile("severe","Save Select Error.\nEx: " + ex.toString());
-//        }
-//    }
 
     private void popcharDrop(String save) throws SQLException, IOException {
         limitLabel.setText(saveName);
         try {
-            toonList = dbQuery(save, "*","dbToonGame","toonName","", true);
+            toonList=GetData.dbQuery(save,"*","dbToonGame","toonName","",true);
             fillSelect(charDrop,(toonList),toonDml);
         } catch(Exception ex) {
             logFile("severe","Char Select Error.\nEx: " + ex.toString());
@@ -336,89 +392,30 @@ public class NewGameGUI extends javax.swing.JFrame {
         player.setModel(dml);
         player.setRenderer(lrCenter);
     }
-    
-//    private String getSave() throws IOException {
-//        String s1 = Converters.getfromFile(MainControls.lastusedSave, 
-//            true, false);
-//        String savename = s1.substring(0, s1.indexOf(","));
-//        return savename;
-//    }
-    
-//    private void fillSave(JComboBox<String> save, List<String> list, 
-//            DefaultComboBoxModel dml) {
-//        Font font = save.getFont();
-//        DefaultListCellRenderer lrCenter;
-//        lrCenter = new DefaultListCellRenderer();
-//        lrCenter.setHorizontalAlignment(DefaultListCellRenderer.LEFT);
-//        lrCenter.setFont(font.deriveFont(Font.BOLD));
-//        for(int i = 0; i < list.size(); i++) {
-//            String x = (list.get(i));
-//            String y = Converters.capFirstLetter(x.substring(x.indexOf("\\") + 1
-//                , x.indexOf(".",x.indexOf(MainControls.saveExt) - 2)));
-//            dml.addElement(y);
-//        }
-//        save.setModel(dml);
-//        save.setRenderer(lrCenter);
-//    }
-    
-//    private void savedropChange() throws IOException, InterruptedException, 
-//        SQLException, Exception {
-//        if(this.isVisible()) {
-//        try {
-//            String oldsave = ChecksBalances.getLast(new File(MainControls
-//                .lastusedSave));
-//            String newsave=saveDrop.getSelectedItem().toString().toLowerCase();
-//            System.gc();
-//            ChecksBalances.ifexistDelete(MainControls.lastusedSave);
-//            ChecksBalances.newfileCheck((MainControls.lastusedSave), true, 
-//                (newsave  + "," + charDrop.getSelectedIndex()),true);
-//            String title = "Change Saves?";
-//            String message = "Are you sure you want to change to the " + 
-//                (saveDrop.getSelectedItem()) + " save?";
-//            boolean yesno = Popups.yesnoPopup(title, message);
-//            if(yesno == true) {
-//                Popups.plainPopup("To Change Saves", "To change to the " + 
-//                    (saveDrop.getSelectedItem()) + " save,\nreturn to the Main "
-//                    + "Menu and Start a New Game.");
-//                menuOption();
-//            } else {
-//                System.gc();
-//                ChecksBalances.ifexistDelete(MainControls.lastusedSave);
-//                ChecksBalances.newfileCheck((MainControls.lastusedSave), true, 
-//                    oldsave,true);
-//                saveName = getSave();
-//                File lastused = new File(MainControls.lastusedSave);
-//                String lastUsed = ChecksBalances.getLast(lastused);
-//                String lastusedSave = lastUsed.substring(0,lastUsed.indexOf(",")
-//                    );
-//                int found = 0;
-//                for(int i = 0; i < saveDrop.getItemCount(); i ++) {
-//                    String x = saveDrop.getItemAt(i).toString().toLowerCase();
-//                    if (x.contains(lastusedSave)) {
-//                        found = i;
-//                    }
-//                }
-//                saveDrop.setSelectedIndex(found);
-//                int lastusedChar = Integer.parseInt(lastUsed.substring(lastUsed
-//                    .indexOf(",") + 1,lastUsed.length()));
-//                charDrop.setSelectedIndex(lastusedChar);
-//            }
-//        }catch (IOException | InterruptedException  ex) {
-//            logFile("severe","Save Change Box Error.\n Ex: " + ex.toString());
-//        }
-//        }
-//    }
-    
+ 
     private void setChar(String save, String toonname) throws SQLException, 
         BadLocationException {
-        List<String> listP1OGStats = dbQuery(save, "*","dbToons",
+        List<String> listP1OGStats = GetData.dbQuery(save, "*","dbToons",
                 "toonOGName",toonname, false);
         String[] p1OGField = ((listP1OGStats.toString()).substring(1,
             (listP1OGStats.toString()).length())).split(",");
-        List<String> listP1Stats = dbQuery(save, "*","dbToonGame","toonName",
-                toonname, false);
-        String charImage = listP1Stats.get(34);
-        new ToonImage().setImage(charToon,charImage);   
+        List<String> listP1Stats = GetData.dbQuery(save, "*","dbToonGame",
+            "toonName",toonname, false);
+        new ToonImage().setImage(charToon,listP1Stats.get(34));
+        stat01Label.setText((GetData.dbQuery(save, "*",
+            "dbAlign","alignID",listP1Stats.get(4), false)).get(1));
+        stat02Label.setText((Calculator.getAge(Integer.parseInt(listP1Stats
+            .get(29)),listP1Stats.get(2))) + " • " + (GetData.dbQuery(save, "*",
+            "dbRace","raceID",listP1Stats.get(2), false)).get(1));
+        stat03Label.setText("Level <lv#>" + " • " + (GetData.dbQuery(save, "*",
+            "dbClass","classID",listP1Stats.get(3), false)).get(1));
+        String bioInfo = charDrop.getSelectedItem() + " is a " + ((GetData.dbQuery(save, "*",
+            "dbAlign","alignID",listP1Stats.get(4), false)).get(29)) + " " + (Calculator.getAge(Integer.parseInt(listP1Stats
+            .get(29)),listP1Stats.get(2))) + " Level <lv> " + ((GetData.dbQuery(save, "*",
+            "dbRace","raceID",listP1Stats.get(2), false)).get(29)) + " " + ((GetData.dbQuery(save, "*",
+            "dbClass","classID",listP1Stats.get(3), false)).get(29)) + " in <health status here>.\n\n" + listP1Stats.get(33);
+        bioText.setText(bioInfo);
+        
     }
     
     private void changeChar() throws SQLException, BadLocationException {
@@ -430,19 +427,9 @@ public class NewGameGUI extends javax.swing.JFrame {
         dispose();
     }
     
-    private void exitProcess() {
+    private void exitProcess() throws IOException, JavaLayerException {
         cleanUp();
         System.exit(0);
-    }
-    
-    private String formatter(String s) {
-        char c = s.charAt(0);
-        if(c == ' ') {
-            s = s.substring(1);
-        }
-        s = s.replaceAll("\\[","");
-        s = s.replaceAll("\\]","");
-        return s;
     }
     
     //<editor-fold defaultstate="collapsed" desc="Log File Method">
@@ -458,6 +445,8 @@ public class NewGameGUI extends javax.swing.JFrame {
 
 //<editor-fold defaultstate="collapsed" desc="Footer Info">
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane bioPane;
+    private javax.swing.JTextArea bioText;
     private javax.swing.JComboBox<String> charDrop;
     private javax.swing.JLabel charToon;
     private javax.swing.JButton confirmButton;
@@ -466,6 +455,10 @@ public class NewGameGUI extends javax.swing.JFrame {
     private javax.swing.JLabel newgameLabel;
     private javax.swing.JLabel saveLabel;
     private javax.swing.JLabel selectLabel;
+    private javax.swing.JLabel stat01Label;
+    private javax.swing.JLabel stat02Label;
+    private javax.swing.JLabel stat03Label;
+    private javax.swing.JLabel stat04Label;
     private javax.swing.JLabel titleLogo;
     // End of variables declaration//GEN-END:variables
 //</editor-fold>

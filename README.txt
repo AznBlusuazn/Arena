@@ -1,6 +1,6 @@
 =======================================
 LIMITLESS by Geoff Clark
-VERSION ALPHA 0.0.015 / 2020.12.08-1434
+VERSION ALPHA 0.0.016 / 2020.12.09-1759
 =======================================
 
 SUPPORT THE DEVELOPMENT OF THIS GAME @ 
@@ -47,7 +47,18 @@ Contact the author:  info@clarktribegames.com
 
 DEVELOPMENT NOTES
 
-ALPHA 0.0.015 / 2020.12.08-1434 [IN PROGRESS]
+ALPHA 0.0.016 / 2020.12.09-1759 [in progress]
+
+- separated media player into its own thread to eliminate conflicts with memory
+- added player stats to character select gui
+- centralized old runquery code to new calculator method
+- removed OG GUI
+- added new GetData method
+- created future ability to define/edit age groups and an age definition decoder
+- created age modifier definer
+- added variables for alignment, age modifier, race, and class to character select
+
+ALPHA 0.0.015 / 2020.12.08-2019
 
 - centralized paths as variables in MainControls class
 - added the ability to change databases from new game
@@ -64,7 +75,6 @@ ALPHA 0.0.015 / 2020.12.08-1434 [IN PROGRESS]
 - added ini option to select which db if always use same
 - added check if always use same db doesn't exist to switch to default
 - added check if always use same db is checked to skip pre new game db select
-
 
 ALPHA 0.0.014 / 2020.12.07-2239
 

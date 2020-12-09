@@ -39,7 +39,6 @@ public class MainMenuGUI extends javax.swing.JFrame {
         this.appVer = MainControls.appVer;
         initComponents();
         setLocationRelativeTo(null);
-
     }
     
     @SuppressWarnings("unchecked")
@@ -244,21 +243,11 @@ public class MainMenuGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_exitButtonActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        try {
-            MPlayer.stopM();
-        } catch (Exception ex) {
-            //
-        }
+        MPlayer.mediaPlayer(false);
     }//GEN-LAST:event_formWindowClosing
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-//        try {
-//            MainControls.playMusic();
-//        } catch (IOException ex) {
-//            //
-//        } catch (JavaLayerException ex) {
-//            //
-//        }
+        MPlayer.mediaPlayer(true);
     }//GEN-LAST:event_formWindowActivated
     
     //<editor-fold defaultstate="collapsed" desc="Main Void">
@@ -318,7 +307,7 @@ public class MainMenuGUI extends javax.swing.JFrame {
                 MainControls.selectedSave = MainControls.defaultDB + "." + 
                     MainControls.saveExt;
             }
-            MPlayer.stopM();
+            MPlayer.stopMedia();
             new NewGameGUI().setVisible(true);
         } catch(Exception ex) {
             logFile("severe","New Button Error.  Exception: " + ex);
@@ -422,10 +411,10 @@ public class MainMenuGUI extends javax.swing.JFrame {
             public void itemStateChanged(ItemEvent e) {
             if(!(e.getStateChange() == ItemEvent.SELECTED)) {
                 try {
-                    MPlayer.stopM();
+                    MPlayer.mediaPlayer(false);
                 } catch (Exception ex) {
                     //
-                }
+                } 
             };
             }
         });

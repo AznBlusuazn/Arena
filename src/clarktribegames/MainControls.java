@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import javax.swing.ImageIcon;
+import javazoom.jl.decoder.JavaLayerException;
 
 // <editor-fold defaultstate="collapsed" desc="credits">
 /**
@@ -41,12 +42,11 @@ public class MainControls {
     static String defaultDB = defaultSave.substring(0,defaultSave.indexOf("." + 
         saveExt));
 
-
     public static void main(String[] args) throws Exception {
         lookandfeelSettings();
         startupChecks();
         MainMenuGUI.main(args);
-        MPlayer.playM();
+
     }
     
     private static void startupChecks() throws IOException, Exception {
@@ -206,3 +206,4 @@ public class MainControls {
     //</editor-fold>
     
 }
+

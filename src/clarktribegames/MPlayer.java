@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package clarktribegames;
 
 import java.io.FileInputStream;
@@ -11,22 +6,35 @@ import java.io.IOException;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
 
-// <editor-fold defaultstate="collapsed" desc="credits">
 /**
- * 
- * @author  Geoff Clark
- * @e-mail  info@clarktribegames.com
- * @game    Limitless
- * 
+ *
+ * @author admingec
  */
-// </editor-fold>
-
 public class MPlayer {
     
     public static Player mPlayer;
-    
-    public static void playM() throws FileNotFoundException, IOException, 
+    public static boolean mplayerOn;
+        
+    public static class mplayerRunnable implements Runnable {
+        @Override
+        public void run() {
+            try {
+                if(mplayerOn) {
+                    playMedia();
+                } else {
+                    stopMedia();
+                }
+            } catch (IOException | JavaLayerException ex) {
+                //
+            } catch (Exception ex) {
+                //
+            }
+        }
+    }
+
+    public static void playMedia() throws FileNotFoundException, IOException, 
         JavaLayerException {
+
         if(MainControls.musicOn) {
             try (FileInputStream fis = new FileInputStream
                 (MainControls.musicPath)) {
@@ -38,7 +46,7 @@ public class MPlayer {
         }
     }
         
-    public static void stopM() throws  Exception {
+    public static void stopMedia() throws  Exception {
         try {
             if(MainControls.musicOn) {
                 mPlayer.close();
@@ -48,15 +56,14 @@ public class MPlayer {
         }
     }
     
-    //<editor-fold defaultstate="collapsed" desc="Log File Method">
-    private static void logFile (String type, String loginfo) throws IOException {
-        try {
-            new LogWriter().writeLog(type,loginfo);
-        } catch(IOException ioex) {
-            logFile("severe","logFile Method error:  Cannot fine log file (infi"
-                    + "nite loop)!\nException:  " + ioex);
+    public static void mediaPlayer(boolean play) {
+        if(play) {
+            mplayerOn = true;
+        } else {
+            mplayerOn = false;
         }
+        Thread mplayerThread = new Thread(new mplayerRunnable());
+        mplayerThread.start();
     }
-    //</editor-fold>
     
 }
