@@ -395,26 +395,24 @@ public class NewGameGUI extends javax.swing.JFrame {
  
     private void setChar(String save, String toonname) throws SQLException, 
         BadLocationException {
-        List<String> listP1OGStats = GetData.dbQuery(save, "*","dbToons",
-                "toonOGName",toonname, false);
-        String[] p1OGField = ((listP1OGStats.toString()).substring(1,
-            (listP1OGStats.toString()).length())).split(",");
-        List<String> listP1Stats = GetData.dbQuery(save, "*","dbToonGame",
+        List<String> toonStats = GetData.dbQuery(save, "*","dbToons",
             "toonName",toonname, false);
-        new ToonImage().setImage(charToon,listP1Stats.get(34));
+        new Avatars().setAvatar(charToon, charDrop.getSelectedItem().toString(), toonStats.get(11));
         stat01Label.setText((GetData.dbQuery(save, "*",
-            "dbAlign","alignID",listP1Stats.get(4), false)).get(1));
-        stat02Label.setText((Calculator.getAge(Integer.parseInt(listP1Stats
-            .get(29)),listP1Stats.get(2))) + " • " + (GetData.dbQuery(save, "*",
-            "dbRace","raceID",listP1Stats.get(2), false)).get(1));
+            "dbAlign","alignID",toonStats.get(4), false)).get(1));
+        stat02Label.setText((Calculator.getAge(Integer.parseInt(toonStats
+            .get(8)),toonStats.get(2))) + " • " + (GetData.dbQuery(save, "*",
+            "dbRace","raceID",toonStats.get(2), false)).get(1));
+        
         stat03Label.setText("Level <lv#>" + " • " + (GetData.dbQuery(save, "*",
-            "dbClass","classID",listP1Stats.get(3), false)).get(1));
+            "dbClass","classID",toonStats.get(3), false)).get(1));
         String bioInfo = charDrop.getSelectedItem() + " is a " + ((GetData.dbQuery(save, "*",
-            "dbAlign","alignID",listP1Stats.get(4), false)).get(29)) + " " + (Calculator.getAge(Integer.parseInt(listP1Stats
-            .get(29)),listP1Stats.get(2))) + " Level <lv> " + ((GetData.dbQuery(save, "*",
-            "dbRace","raceID",listP1Stats.get(2), false)).get(29)) + " " + ((GetData.dbQuery(save, "*",
-            "dbClass","classID",listP1Stats.get(3), false)).get(29)) + " in <health status here>.\n\n" + listP1Stats.get(33);
+            "dbAlign","alignID",toonStats.get(4), false)).get(29)) + " " + (Calculator.getAge(Integer.parseInt(toonStats
+            .get(8)),toonStats.get(2))) + " Level <lv> " + ((GetData.dbQuery(save, "*",
+            "dbRace","raceID",toonStats.get(2), false)).get(29)) + " " + ((GetData.dbQuery(save, "*",
+            "dbClass","classID",toonStats.get(3), false)).get(29)) + " in <health status here>.\n\n" + toonStats.get(10);
         bioText.setText(bioInfo);
+        
         
     }
     

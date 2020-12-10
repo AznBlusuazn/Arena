@@ -60,25 +60,37 @@ public class MainControls {
         }
     }
     
-    private static void firstCheck() throws IOException, InterruptedException {
+    private static void firstCheck() throws IOException, InterruptedException, Exception {
         try {
             clearTemp();
             ChecksBalances.newdirCheck(tempDir, true);
+            ChecksBalances.newdirCheck(imageDir, false);
+            ChecksBalances.fileCheck("_empty_.png",(imageDir + "_empty_.png"),true,false);
             boolean libResult = (CmpImporter.cmpImport("lib"));
             boolean soundsResult = (CmpImporter.cmpImport("sounds"));
             ChecksBalances.newfileCheck(settingsFile,false,defaultSettings(),
                 true);
             if(!libResult || !soundsResult) {
+                String[] opts = new String[] {"Patreon","PayPal","Maybe Later"};
                 String title = "Alert!";
                 String message = "Welcome to Limitless!\n\nThis title is still "
-                    + "in development.  Please be patient.\n\nThis is your firs"
-                    + "t time initializing the game, please kindly restart the "
-                    + "game again.\n\nThanks! ~ Geoff @ ClarkTribeGames";
-                Popups.infoPopup(title, message);
-                System.exit(0);
+                    + "in development.  Please be patient.\n\nYou can become a "
+                    + "Patreon or Donate if you want to \nhelp support the caus"
+                    + "e.\n\nThanks! ~ Geoff @ ClarkTribeGames";
+                int choice = Popups.optPopup(opts, title, message);
+                switch(choice) {
+                    case 0:
+                        GoToWeb.openWeb("https://www.patreon.com/clarktribegames");
+                        break;
+                    case 1:
+                        GoToWeb.openWeb("https://www.paypal.me/aznblusuazn");
+                        break;
+                    default:
+                        break;
+                }
             }
         } catch(IOException ex) {
-            logFile("severe",("checkLib IOException: " + ex.toString()));
+            logFile("severe","Donate Popup Error.  Exception: " + ex);
         }
     }
     

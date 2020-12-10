@@ -1,6 +1,6 @@
 =======================================
 LIMITLESS by Geoff Clark
-VERSION ALPHA 0.0.016 / 2020.12.09-1759
+VERSION ALPHA 0.0.016 / 2020.12.09-2312
 =======================================
 
 SUPPORT THE DEVELOPMENT OF THIS GAME @ 
@@ -47,7 +47,7 @@ Contact the author:  info@clarktribegames.com
 
 DEVELOPMENT NOTES
 
-ALPHA 0.0.016 / 2020.12.09-1759 [in progress]
+ALPHA 0.0.016 / 2020.12.09-2312
 
 - separated media player into its own thread to eliminate conflicts with memory
 - added player stats to character select gui
@@ -57,6 +57,10 @@ ALPHA 0.0.016 / 2020.12.09-1759 [in progress]
 - created future ability to define/edit age groups and an age definition decoder
 - created age modifier definer
 - added variables for alignment, age modifier, race, and class to character select
+- created option for custom avatars in toon profiles - if custom does not exist, use default name, if default name does not exists, use generic blank avatar
+- changed wording of first time launch to reflect alpha testing
+- removed test avatars from the main package
+- added method to create avatar folder and place default blank avatar in it
 
 ALPHA 0.0.015 / 2020.12.08-2019
 

@@ -301,6 +301,12 @@ public class ChecksBalances {
         return retVal;
     }
     
+    public static boolean isNullOrEmpty(String str) {
+        if(str != null && !str.isEmpty())
+            return false;
+        return true;
+    }
+    
 //<editor-fold defaultstate="collapsed" desc="Log File Method">
     private static void logFile (String type, String loginfo) throws IOException {
         try {
