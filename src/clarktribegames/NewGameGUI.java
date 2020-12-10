@@ -2,6 +2,7 @@
 // <editor-fold defaultstate="collapsed" desc="Header Info">
 package clarktribegames;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -963,7 +964,12 @@ public class NewGameGUI extends javax.swing.JFrame {
         double ratioXP = charXP / nextXP;
         String alignName=(GetData.dbQuery(save,"*","dbAlign","align00",toonStats
             .get(4), false)).get(1);
+        Font stat01Font = new Font(stat01Label.getFont().getName(),Font.BOLD,
+            stat01Label.getFont().getSize());
+        String aligncolor = GetStats.getalignColor(alignName);
         stat01Label.setText(alignName);
+        stat01Label.setFont(stat01Font);
+        stat01Label.setForeground((Converters.figureoutColor(aligncolor)));
         stat01Label.setToolTipText(alignName + ": " + (GetData.dbQuery(save, "*"
             ,"dbAlign","align00",toonStats.get(4), false)).get(2));
         String ageName = (Calculator.getAge(Integer.parseInt(toonStats.get(8)), 
@@ -982,12 +988,42 @@ public class NewGameGUI extends javax.swing.JFrame {
             toonStats.get(3), false)).get(1);
         stat03Label.setText("Level " + toonStats.get(9) + " • " + className);
         stat03Label.setToolTipText("Level: Based on the amount of experience ga"
-            + "ined • " + className + ": " + (GetData.dbQuery(save, "*","dbClass"
-            + "","classID",toonStats.get(3), false)).get(2));
+            + "ined • " + className + ": " + (GetData.dbQuery(save, "*","dbClas"
+            + "s","classID",toonStats.get(3), false)).get(2));
         //add size somewhere
         //create size math
-        //add status info for stat04Label.setText();
-        stat04Label.setToolTipText("Status:  <Status info will go here>");
+        List<String> effStats = GetStats.getStats("Effects", charDrop.
+            getSelectedItem().toString(),0);
+        String statuscode = (((Arrays.toString(effStats.toArray())).replaceAll(
+            "MASTER, ", "").replaceAll(",", "-")).replaceAll("[^\\d+\\-]",""));
+        if(statuscode.length() <= 0) {
+            statuscode = "0";
+        }
+        // add in status decoder here (can be method in GetStats)
+        DefaultComboBoxModel effDml = new DefaultComboBoxModel();
+        GetStats.getitemsfromID(save,effStats,effDml,effBox,"dbEffects","effID",
+            "effName");
+        if(effBox.getItemAt(0).equals("<None>")) {
+            effDml.removeAllElements();
+            effDml.addElement("Normal Health");
+            effBox.setEnabled(true);
+        }
+        String statusname = (GetData.dbQuery(save,"*","dbStatus","statusName",""
+            + "Normal", false)).get(1);
+        String statuscolor = (GetData.dbQuery(save,"*","dbStatus","statusName",
+            "Normal", false)).get(2);
+        String statusdesc = (GetData.dbQuery(save,"*","dbStatus","statusName",""
+            + "Normal", false)).get(3);
+        String statusbio = (GetData.dbQuery(save,"*","dbStatus","statusName","N"
+            + "ormal", false)).get(4);
+//        if(ChecksBalances.isNullOrEmpty(statuscode) || statuscode.equals("0")) {
+//            //put normal status here
+//        }
+        Font stat04Font = new Font(stat04Label.getFont().getName(),Font.BOLD,
+            stat04Label.getFont().getSize());
+        stat04Label.setText(statusname);
+        stat04Label.setFont(stat04Font);
+        stat04Label.setForeground((Converters.figureoutColor(statuscolor)));
         String bioInfo = Converters.capFirstLetter((GetData.dbQuery(save,"*","d"
             + "bGender","genderID",toonStats.get(7),false)).get(32)) + " is " +
             (GetData.dbQuery(save, "*", "dbGender", "genderID",toonStats.get(7),
@@ -996,14 +1032,14 @@ public class NewGameGUI extends javax.swing.JFrame {
             (Integer.parseInt(toonStats.get(8)),toonStats.get(2))) + " " + (
             (GetData.dbQuery(save, "*","dbRace","raceID",toonStats.get(2), false
             )).get(31)) + " " + ((GetData.dbQuery(save, "*","dbClass","classID",
-            toonStats.get(3), false)).get(31)) + " in " + 
-                "<health status here>" 
-            + ".\n\n" + toonStats.get(10);
+            toonStats.get(3), false)).get(31)) + " and " + statusbio  + ".\n\n "
+            + toonStats.get(10);
+        stat04Label.setToolTipText(statusname + ": " + statusdesc);
             //add size somewhere
             //update health status above
         bioText.setText(bioInfo);
-        List<String> newStats = GetStats.getStats(charDrop.getSelectedItem().
-            toString(),ratioXP);
+        List<String>newStats=GetStats.getStats("Toon",charDrop.getSelectedItem()
+            .toString(),ratioXP);
         hpVal.setText(newStats.get(0));
         mpVal.setText(newStats.get(1));
         apVal.setText(newStats.get(2));
@@ -1044,8 +1080,8 @@ public class NewGameGUI extends javax.swing.JFrame {
         chVal.setToolTipText("CHA: How attractive the personality is");
         inVal.setToolTipText("INT: Ability to predict actions logically");
         ftVal.setToolTipText("FAT: To be hidden -- fatigue factor");
-        sdVal.setToolTipText("S-D: To be hidden -- how close the soul is attache"
-            + "d - how much body has decayed");
+        sdVal.setToolTipText("S-D: To be hidden -- how close the soul is attach"
+            + "ed - how much body has decayed");
         wmVal.setToolTipText("WTM: To be hidden -- modifier for how much weight"
             + " can be carried");
         rpVal.setToolTipText("REP: To be hidden -- reputation across the univer"
@@ -1074,11 +1110,10 @@ public class NewGameGUI extends javax.swing.JFrame {
         List<String> toonabllist = GetData.dbQuery(save, "*","dbToonAbl",
             "toonID",toonStats.get(0), false);
         DefaultComboBoxModel ablDml = new DefaultComboBoxModel();
-        GetStats.getitemsfromID(save,toonabllist,ablDml,ablBox,"dbAbl","ablID","ablName");
-        List<String> toonefflist = GetData.dbQuery(save, "*","dbToonEffects",
-            "toonID",toonStats.get(0), false);
-        DefaultComboBoxModel effDml = new DefaultComboBoxModel();
-        GetStats.getitemsfromID(save,toonefflist,effDml,effBox,"dbEffects","effID","effName");
+        GetStats.getitemsfromID(save,toonabllist,ablDml,ablBox,"dbAbl","ablID",
+            "ablName");
+
+
         //all below is temporary
         String tempEmpty = "<Empty>";
         leftVal.setText(tempEmpty);

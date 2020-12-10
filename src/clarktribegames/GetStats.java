@@ -3,6 +3,8 @@ package clarktribegames;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
@@ -23,14 +25,23 @@ import javax.swing.JComboBox;
 
 public class GetStats {
     
-    public static List<String> getStats(String toon, double XPratio) throws SQLException {
-        return getToonStats(toon,XPratio);
+    public static List<String> getStats(String type, String toon, double XPratio) throws SQLException {
+        String currentSavename = (Converters.capFirstLetter((MainControls.
+            selectedSave).substring(0,(MainControls.selectedSave).indexOf("." + 
+            MainControls.saveExt))));
+        switch(type) {
+            case "Toon" :
+                return getToonStats(currentSavename,toon,XPratio);
+            case "Effects" :
+                return getEffectStats(currentSavename, toon);
+                
+            default :
+                return null;
+        }
     }
     
-    private static List<String> getToonStats(String toon, double XPratio) throws SQLException {
-        String savename = (Converters.capFirstLetter((MainControls.selectedSave)
-            .substring(0,(MainControls.selectedSave).indexOf("." + MainControls.
-            saveExt))));
+    private static List<String> getToonStats(String savename, String toon,
+        double XPratio) throws SQLException {
         List<String> results = new ArrayList<>();
         List<String> toonstats = GetData.dbQuery(savename,"*","dbToons","toonNa"
             + "me",toon,false);
@@ -122,6 +133,107 @@ public class GetStats {
         box.setModel(dml);
     }
 
+    private static List<String> getEffectStats(String save, String toon) throws SQLException {
+        List<String> results = new ArrayList<>();
+        List<String> toonstats = GetData.dbQuery(save,"*","dbToons","toonName",toon,false);
+        List<String> toonefflist = GetData.dbQuery(save, "*","dbToonEffects",
+            "toonID",toonstats.get(0), false);
+        List<String> raceefflist = GetData.dbQuery(save, "*","dbRaceEffects",
+            "raceID",toonstats.get(0), false);
+        List<String> classefflist = GetData.dbQuery(save, "*","dbClassEffects",
+            "classID",toonstats.get(0), false);
+        //align effects to be added later
+//        List<String> alignefflist = GetData.dbQuery(save, "*","dbAlignEffects",
+//            "alignID",toonstats.get(0), false);
+        //
+        additemstolistfromList(toonefflist,results);
+        additemstolistfromList(raceefflist,results);
+        additemstolistfromList(classefflist,results);
+        Collections.sort(results);
+        results.add(0,"MASTER");
+        return results;
+    }
+    
+    private static List<String> additemstolistfromList(List<String> source, List<String> dest) {
+        if(source.size() > 0) {
+            for(int i = 1; i < source.size(); i++ ) {
+                String item = source.get(i);
+                if(!ChecksBalances.isNullOrEmpty(item) || !(item.equals("null"))) {
+                    dest.add(item);
+                }
+            }
+        }
+        dest.removeAll(Collections.singleton(null));
+        dest.removeAll(Collections.singleton("null"));
+        return dest;
+    }
+    
+    public static String getalignColor(String alignment) throws SQLException {
+        String currentSavename = (Converters.capFirstLetter((MainControls.
+            selectedSave).substring(0,(MainControls.selectedSave).indexOf("." + 
+            MainControls.saveExt))));
+        return alignColor(currentSavename,alignment);
+    }
+    
+    private static String alignColor(String save, String align) throws SQLException {
+        String retVal = "black";
+        int total = GetData.dbQuery(save,"*","dbAlign","align00","",true).size();
+        double firstvalue = (double) getvalueAlign(save,align);
+        double secondvalue = firstvalue / ((double) total) * 100;
+        int alignvalue = (int) secondvalue;
+        if(alignvalue < 15) {
+            retVal = "red";
+        }
+        if(alignvalue >= 15 && alignvalue < 30) {
+            retVal = "dark red";
+        }
+        if(alignvalue >= 30 && alignvalue < 50) {
+            retVal = "brown";
+        }
+        if(alignvalue == 50) {
+            retVal = "black";
+        }
+        if(alignvalue > 50 && alignvalue <= 60) {
+            retVal = "dark blue";
+        }
+        if(alignvalue >= 60 && alignvalue < 85) {
+            retVal = "blue";
+        }
+        if(alignvalue >= 85) {
+            retVal = "light blue";
+        }
+        return retVal;
+    }
+    
+    private static int getvalueAlign(String save, String align) throws SQLException {
+        int alignIndex = Integer.parseInt(GetData.dbQuery(save,"*","dbAlign","alignName",align,false).get(0));
+        List<String> alignNumbers =GetData.dbQuery(save,"*","dbAlign","align00","",true);
+        List<Integer> intList = new ArrayList<>();
+        for(String s : alignNumbers) intList.add(Integer.valueOf(s));
+        int[] minarray = intList.stream().mapToInt(i->i).toArray();
+        int minvalue = greatestNegative(minarray);
+        List<Integer> newalign = new ArrayList<>();
+        for(int i = 0; i < alignNumbers.size(); i++) {
+            if(minvalue < 0) {
+                int newminvalue = minvalue * -1;
+                newalign.add(Integer.parseInt(alignNumbers.get(i)) + newminvalue);
+            } else {
+            newalign.add(Integer.parseInt(alignNumbers.get(i)));
+            }
+        }
+        return newalign.get(alignIndex -1);
+    }
+    
+    public static int greatestNegative(int[] list) {
+        int result = 0;
+        for (int i = 0; i < list.length; i++) {
+            if (list[i] < 0) {
+                    result = list[i];
+            }
+        }
+        return result;
+    }
+    
 //<editor-fold defaultstate="collapsed" desc="Log File Method">
     private static void logFile (String type, String log) throws IOException {
         try {

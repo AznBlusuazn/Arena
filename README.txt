@@ -1,6 +1,6 @@
 =======================================
 LIMITLESS by Geoff Clark
-VERSION ALPHA 0.0.017 / 2020.12.10-1415
+VERSION ALPHA 0.0.017 / 2020.12.10-1741
 =======================================
 
 SUPPORT THE DEVELOPMENT OF THIS GAME @ 
@@ -47,12 +47,14 @@ Contact the author:  info@clarktribegames.com
 
 DEVELOPMENT NOTES
 
-ALPHA 0.0.017 / 2020.12.10-1415 (in progress)
+ALPHA 0.0.017 / 2020.12.10-1741 (in progress)
 
 - created algorithm for toon stat generation based on character race, class, age, gender, and starting exp(level) - the game will generate the rest
 - items and status effects will impact this number as well
 - added queries for starting abilities and starting effects
 - placeholders added for equipment and starting inventory
+- added status collector based on effects, returns color coded status based on status db
+- alignment detects type of alignment and returns color for it
 
 ALPHA 0.0.016 / 2020.12.09-2312
 

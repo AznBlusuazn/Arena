@@ -1,5 +1,6 @@
 package clarktribegames;
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -132,6 +133,44 @@ public class Converters {
             text = "default";
         }
         return text;
+    }
+    
+    public static Color figureoutColor(String color) {
+        Color retColor = Color.black;
+        if(color.toLowerCase().equals("red")) {
+            retColor = Color.red;
+        }
+        if(color.toLowerCase().equals("green")) {
+            retColor = new Color(0, 102, 0);
+        }
+        if(color.toLowerCase().equals("orange")) {
+            retColor = Color.orange;
+        }
+        if(color.toLowerCase().equals("purple")) {
+            retColor = Color.magenta;
+        }
+        if(color.toLowerCase().equals("blue")) {
+            retColor = Color.blue;
+        }
+        if(color.toLowerCase().equals("pink")) {
+            retColor = Color.pink;
+        }
+        if(color.toLowerCase().equals("brown")) {
+            retColor = new Color(102, 51, 0);
+        }
+        if(color.toLowerCase().equals("dark red")) {
+            retColor = new Color(153, 0, 0);
+        }
+        if(color.toLowerCase().equals("dark blue")) {
+            retColor = new Color(0, 0, 204);
+        }
+        if(color.toLowerCase().equals("light blue")) {
+            retColor = new Color(51, 153, 255);
+        }
+        if(color.toLowerCase().equals("cyan")) {
+            retColor = Color.cyan;
+        }
+        return retColor;
     }
     
     //<editor-fold defaultstate="collapsed" desc="Log File Method">
