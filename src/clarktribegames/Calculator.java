@@ -1,11 +1,11 @@
 package clarktribegames;
 
-// <editor-fold defaultstate="collapsed" desc="credits">
-
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+
+// <editor-fold defaultstate="collapsed" desc="credits">
 
 /**
  * 
@@ -21,13 +21,16 @@ public class Calculator {
     public static String getLevel(String type,String number) {
         
         switch(type) {
-            case "nxtlv":
-                return String.valueOf(nextlevel(Double.valueOf(number)));
+            case "stalv":
+                return String.valueOf(startxpLevel(Double.valueOf(number)));
                 // next level value
                 
             case "curlv":
                 // current level value
                 return String.valueOf(curlevel(number));
+            
+            case "ranxp":    
+                return String.valueOf(randxpStart(Long.parseLong(number)));
                 
             default:
                 //
@@ -37,10 +40,11 @@ public class Calculator {
     }
     
     private static String lvformula(double number) {
-        return (String.valueOf((long) (250 * (Math.pow(number,1.806392)) - (250 * number))));
+        return (String.valueOf((long) (250 * (Math.pow(number,1.806392)) - (250 
+            * number))));
     }
     
-    private static double curlevel (String exp) {
+    private static long curlevel (String exp) {
         long xp = Long.parseLong(exp);
         for (int i = 1; i > 0 ; i++ ) {
             if((long) (Long.parseLong(lvformula(i))) > xp) {
@@ -50,8 +54,14 @@ public class Calculator {
         return 0;
     }
     
-    private static double nextlevel(double level) {
+    private static long startxpLevel(double level) {
         return Long.parseLong(lvformula(level));
+    }
+    
+    private static long randxpStart(long level) {
+        long max = Long.parseLong(lvformula(level +1));
+        long min = Long.parseLong(lvformula(level));
+        return (long) ( (long) min + Math.random() * ((long)max - min + 1));
     }
     
     public static String getAge(int age, String race) throws SQLException {
@@ -62,15 +72,46 @@ public class Calculator {
         String save = Converters.capFirstLetter((MainControls.selectedSave)
         .substring(0,(MainControls.selectedSave).indexOf("." + 
             MainControls.saveExt)));
-        List<String> racelist = GetData.dbQuery(save, "*","dbRace","raceID",race, false);
-        return Integer.parseInt(racelist.get(25));
+        List<String> racelist = GetData.dbQuery(save,"*","dbRace","raceID",race,
+            false);
+        return Integer.parseInt(racelist.get(27));
+    }
+    
+    public static double getageAdjuster(double ratio) {
+        double ageadjustVal = 1;
+        if(ratio < .02) {
+            ageadjustVal = .005;
+        }
+        if(ratio >= .02 && ratio < .12) {
+            ageadjustVal = .5;
+        }
+        if(ratio >= .12 && ratio < .20) {
+            ageadjustVal = 1;
+        }
+        if(ratio >= .20 && ratio < .40) {
+            ageadjustVal = 1.25;
+        }
+        if(ratio >= .40 && ratio < .60) {
+            ageadjustVal = 2.25;
+        }
+        if(ratio >= .60 && ratio < .80) {
+            ageadjustVal = .75;
+        }
+        if(ratio >= .80 && ratio < .85) {
+            ageadjustVal = .50;
+        }
+        if(ratio >= .85) {
+            ageadjustVal = .05;
+        }
+        return ageadjustVal;
     }
     
     private static String analyzeAgemath(int age, int max) throws SQLException {
         String save = Converters.capFirstLetter((MainControls.selectedSave)
         .substring(0,(MainControls.selectedSave).indexOf("." + 
             MainControls.saveExt)));
-        List<String> agelist = GetData.dbQuery(save, "*","dbAge","ageCriteria",null, true);
+        List<String> agelist = GetData.dbQuery(save, "*","dbAge","ageCriteria",
+            null, true);
         List<Integer> results = new ArrayList();
         for (int i = 0; i < agelist.size(); i++) {
             String z = "";
@@ -82,7 +123,8 @@ public class Calculator {
             }
             String master = agelist.get(i);
             String s1 = master.substring(0,master.indexOf(" "));
-            String s2 = (master.substring(master.indexOf((" "),master.indexOf(" ") +1),master.length())).replace(" ","");
+            String s2 = (master.substring(master.indexOf((" "),master.indexOf(""
+                + " ") +1),master.length())).replace(" ","");
             String m1 = s1.replaceAll("[\\d.]", "");
             String x1 = "";
             if(m1.contains("%")) {
@@ -95,8 +137,10 @@ public class Calculator {
                 m2 = m2.replaceAll("%", "");
                 x2 = "%";
             }
-            int n1 = Integer.parseInt((s1.replaceAll("[^0-9]", " ")).replaceAll(" ", "")); // number1
-            int n2 = Integer.parseInt((s2.replaceAll("[^0-9]", " ")).replaceAll(" ", "")); // number2
+            int n1 = Integer.parseInt((s1.replaceAll("[^0-9]", " ")).replaceAll(
+                " ", "")); // number1
+            int n2 = Integer.parseInt((s2.replaceAll("[^0-9]", " ")).replaceAll(
+                " ", "")); // number2
             boolean addit = false;
             
             if(m1.equals("<") && m2.equals("<") && z.equals("or")) {
@@ -1261,5 +1305,15 @@ public class Calculator {
         return (finalResult.get(1));
     }
     
+//<editor-fold defaultstate="collapsed" desc="Log File Method">
+    private static void logFile (String type, String log) throws IOException {
+        try {
+            new LogWriter().writeLog(type,log);
+        } catch(IOException ioex) {
+            logFile("severe","logFile Method error:  Cannot fine log file (infi"
+                    + "nite loop)!\nException:  " + ioex);
+        }
+    }
+//</editor-fold>        
     
 }

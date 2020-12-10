@@ -15,11 +15,12 @@ import java.util.Random;
 
 public class Randomizer {
 
-    public void getRandom(int max) {
+    public static void getRandom(int max) {
         Random rand = new Random();
         int ex1 = rand.nextInt(max);
         double ex2 = rand.nextDouble();
         float ex3 = rand.nextFloat();
+        long ex4 = rand.nextLong();
         
         System.out.println(ex1 + "\n" + ex2 + "\n" + ex3);
     }
