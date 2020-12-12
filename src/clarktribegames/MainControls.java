@@ -21,7 +21,7 @@ public class MainControls {
     
     //Main Controls Variables
     static String appName = "Limitless";
-    static String appVer = "0.0.018";
+    static String appVer = "0.0.019";
     static String settingsFile = "settings.ini";
     static String musicPath = "sounds/intro.mp3";
     static String defaultOGSave = "data.accdb";

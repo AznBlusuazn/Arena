@@ -909,6 +909,24 @@ public class NewGameGUI extends javax.swing.JFrame {
         stat04Label.setToolTipText(className + ": " + (GetData.dbQuery(save, "*","dbClas"
             + "s","classID",toonStats.get(3), false)).get(2) + " • Level " + toonStats.get(8));
 
+        //toonheld 13 | toonwear 14 | tooncharms 15 | tooninv 16
+        DefaultListModel heldDml = new DefaultListModel();
+        DefaultListModel wearDml = new DefaultListModel();
+        DefaultListModel charmDml = new DefaultListModel();
+        DefaultListModel invDml = new DefaultListModel();
+        List<String> toonheldlist = Arrays.asList(toonStats.get(13).split("x"));
+        GetStats.getitemsfromIDtoJList(save,toonheldlist,heldDml,heldList,"dbItems","itemID",
+            "itemName");
+        List<String> toonwearlist = Arrays.asList(toonStats.get(14).split("x"));
+        GetStats.getitemsfromIDtoJList(save,toonwearlist,wearDml,wearList,"dbItems","itemID",
+            "itemName");
+        List<String> tooncharmslist = Arrays.asList(toonStats.get(15).split("x"));
+        GetStats.getitemsfromIDtoJList(save,tooncharmslist,charmDml,charmList,"dbItems","itemID",
+            "itemName");
+        List<String> tooninvlist = Arrays.asList(toonStats.get(16).split("x"));
+        GetStats.getitemsfromIDtoJList(save,tooninvlist,invDml,invList,"dbItems","itemID",
+            "itemName");
+        
         List<String> effStats = GetStats.getStats("Effects", charDrop.
             getSelectedItem().toString(),0);
         String statuscode = (((Arrays.toString(effStats.toArray())).replaceAll(
@@ -919,7 +937,7 @@ public class NewGameGUI extends javax.swing.JFrame {
 
         // add in status decoder here (can be method in GetStats)
         DefaultComboBoxModel effDml = new DefaultComboBoxModel();
-        GetStats.getitemsfromID(save,effStats,effDml,effBox,"dbEffects","effID",
+        GetStats.getitemsfromIDtoCBox(save,effStats,effDml,effBox,"dbEffects","effID",
             "effName");
 
 
@@ -956,7 +974,6 @@ public class NewGameGUI extends javax.swing.JFrame {
             + toonStats.get(9);
 
         stat05Label.setToolTipText(statusname + ": " + statusdesc);
-            //add size somewhere
             //update health status above
         bioText.setText(bioInfo);
 
@@ -984,6 +1001,7 @@ public class NewGameGUI extends javax.swing.JFrame {
         sdVal.setText(newStats.get(18) + "/" + (newStats.get(19)));
         wmVal.setText(newStats.get(20));
         rpVal.setText(newStats.get(21));
+
         hpVal.setToolTipText("HTP: Maximum amount of health -- the life force");
         mpVal.setToolTipText("MYP: Maximum amount of mystic -- magic points");
         apVal.setToolTipText("ABP: Maximum amount of ability -- points to do ab"
@@ -1032,20 +1050,18 @@ public class NewGameGUI extends javax.swing.JFrame {
         rpLabel.setToolTipText(rpVal.getToolTipText());
         List<String> toonabllist = GetStats.getStats("Abls", charDrop.
             getSelectedItem().toString(),0);
-        System.out.println(Arrays.toString(toonabllist.toArray()));
         
         // add in status decoder here (can be method in GetStats)
         DefaultComboBoxModel ablDml = new DefaultComboBoxModel();
-        GetStats.getitemsfromID(save,toonabllist,ablDml,ablBox,"dbAbl","ablID",
+        GetStats.getitemsfromIDtoCBox(save,toonabllist,ablDml,ablBox,"dbAbl","ablID",
             "ablName");
-        System.out.println("HERE");
         //all below is temporary
-        String tempEmpty = "<Empty>";
+//        String tempEmpty = "<Empty>";
 //add list for equip here
-        DefaultListModel<String> invDml = new DefaultListModel<>();
-        invDml.add(0,tempEmpty);
-        invList.setModel(invDml);
-        invList.setEnabled(false);
+//        DefaultListModel<String> invDml = new DefaultListModel<>();
+//        invDml.add(0,tempEmpty);
+//        invList.setModel(invDml);
+//        invList.setEnabled(false);
         //adjust in future with real queries
         
     }

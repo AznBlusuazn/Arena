@@ -176,6 +176,20 @@ public class Converters {
         return retColor;
     }
     
+    public static String convertstatSign(String status) {
+        String newstatus = status;
+        if(status.contains("+")) {
+            newstatus = status.replaceAll("+","<b>Strong Against ") + "</b>";
+        }
+        if(status.contains("-")) {
+            newstatus = status.replaceAll("-","<i>Strong Against ") + "</i>";
+        }
+        if(status.contains("±")) {
+            newstatus = status.replaceAll("±","<b>Absorbs ") + "</b>";
+        }
+        return newstatus;
+    }
+    
     //<editor-fold defaultstate="collapsed" desc="Log File Method">
     private static void logFile (String type, String loginfo) throws IOException {
         try {

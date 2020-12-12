@@ -3,7 +3,6 @@ package clarktribegames;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 // <editor-fold defaultstate="collapsed" desc="credits">
@@ -91,13 +90,13 @@ public class Calculator {
         if(ratio >= .12 && ratio < .20) {
             ageadjustVal = 1;
         }
-        if(ratio >= .20 && ratio < .40) {
+        if(ratio >= .20 && ratio < .30) {
             ageadjustVal = 1.25;
         }
-        if(ratio >= .40 && ratio < .60) {
+        if(ratio >= .30 && ratio < .50) {
             ageadjustVal = 2.25;
         }
-        if(ratio >= .60 && ratio < .80) {
+        if(ratio >= .50 && ratio < .80) {
             ageadjustVal = .75;
         }
         if(ratio >= .80 && ratio < .85) {
@@ -1335,19 +1334,19 @@ public class Calculator {
                     if((code <= alignval.get(3)) && (code > alignval.get(4))) {
                         return alignname.get(3);
                     } else {
-                        if((code <= alignval.get(4)) && (code > alignval.get(5))) {
+                        if((code == alignval.get(4))) {
                             return alignname.get(4);
                         } else {
-                            if((code <= alignval.get(5)) && (code > alignval.get(6))) {
+                            if((code < alignval.get(4)) && (code > alignval.get(5))) {
                                 return alignname.get(5);
                             } else {
-                                if((code <= alignval.get(6)) && (code > alignval.get(7))) {
+                                if((code <= alignval.get(5)) && (code > alignval.get(6))) {
                                     return alignname.get(6);
                                 } else {
-                                    if((code <= alignval.get(7)) && (code > alignval.get(8))) {
+                                    if((code <= alignval.get(6)) && (code > alignval.get(7))) {
                                         return alignname.get(7);
                                     } else {
-                                        if(code <= alignval.get(8)) {
+                                        if(code <= alignval.get(7)) {
                                             return alignname.get(8);
                                         } else {
                                             return alignname.get(4);
