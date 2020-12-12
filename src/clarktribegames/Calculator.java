@@ -3,6 +3,7 @@ package clarktribegames;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 // <editor-fold defaultstate="collapsed" desc="credits">
@@ -72,9 +73,11 @@ public class Calculator {
         String save = Converters.capFirstLetter((MainControls.selectedSave)
         .substring(0,(MainControls.selectedSave).indexOf("." + 
             MainControls.saveExt)));
-        List<String> racelist = GetData.dbQuery(save,"*","dbRace","raceID",race,
-            false);
-        return Integer.parseInt(racelist.get(27));
+        return Integer.parseInt(GetData.dbQuery(save,"*","dbRace","raceID",race,
+            false).get(5));
+//        List<String> racelist = GetData.dbQuery(save,"*","dbRace","raceID",race,
+//            false);
+//        return Integer.parseInt(racelist.get(27));
     }
     
     public static double getageAdjuster(double ratio) {
@@ -113,6 +116,7 @@ public class Calculator {
         List<String> agelist = GetData.dbQuery(save, "*","dbAge","ageCriteria",
             null, true);
         List<Integer> results = new ArrayList();
+
         for (int i = 0; i < agelist.size(); i++) {
             String z = "";
             if(agelist.get(i).contains("or")) {
@@ -1298,11 +1302,146 @@ public class Calculator {
                 }                    
             }
             if(addit) {
-               results.add(i+1);
+               results.add(i);
             }
         }
+
         List<String> finalResult = GetData.dbQuery(save, "*","dbAge","ageID",((results.get(0)).toString()), false);
         return (finalResult.get(1));
+    }
+    
+    public static String getAlign(int alignCode) throws SQLException {
+        return findAlign(alignCode);
+    }
+    
+    private static String findAlign(int code) throws SQLException {
+        String save = Converters.capFirstLetter((MainControls.selectedSave)
+        .substring(0,(MainControls.selectedSave).indexOf("." + 
+            MainControls.saveExt)));
+        List<String> alignname = GetData.dbQuery(save,"*","dbAlign","alignID","*",true);
+        List<Integer> alignval = new ArrayList<>();
+        for (String s : (GetData.dbQuery(save,"*","dbAlign","alignRank","*",true))) {
+            alignval.add(Integer.valueOf(s));
+        }
+        if(code > alignval.get(1)) {
+            return alignname.get(0);
+        } else {
+            if((code <= alignval.get(1)) && (code > alignval.get(2))) {
+                return alignname.get(1);
+            } else {
+                if((code <= alignval.get(2)) && (code > alignval.get(3))) {
+                    return alignname.get(2);
+                } else {
+                    if((code <= alignval.get(3)) && (code > alignval.get(4))) {
+                        return alignname.get(3);
+                    } else {
+                        if((code <= alignval.get(4)) && (code > alignval.get(5))) {
+                            return alignname.get(4);
+                        } else {
+                            if((code <= alignval.get(5)) && (code > alignval.get(6))) {
+                                return alignname.get(5);
+                            } else {
+                                if((code <= alignval.get(6)) && (code > alignval.get(7))) {
+                                    return alignname.get(6);
+                                } else {
+                                    if((code <= alignval.get(7)) && (code > alignval.get(8))) {
+                                        return alignname.get(7);
+                                    } else {
+                                        if(code <= alignval.get(8)) {
+                                            return alignname.get(8);
+                                        } else {
+                                            return alignname.get(4);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    public static String getSize(String raceName, String ageName) throws SQLException {
+        return findSize (raceName, ageName);
+    }
+    
+    private static String findSize(String race,String age) throws SQLException {
+        String save = Converters.capFirstLetter((MainControls.selectedSave)
+        .substring(0,(MainControls.selectedSave).indexOf("." + 
+            MainControls.saveExt)));
+        int racesize = Integer.parseInt(GetData.dbQuery(save,"*","dbRace","raceName",race,false).get(3));
+        int ageid = Integer.parseInt(GetData.dbQuery(save,"*","dbAge","ageName",age,false).get(0));
+        String sizeid = "0";
+        if(racesize > 0) {
+            if(racesize == 1 && ageid <= 1) {
+                sizeid = "0";
+            }
+            if(racesize == 1 && ageid >= 2) {
+                sizeid = "1";
+            }
+            if(racesize == 2 && ageid <= 1) {
+                sizeid = "1";
+            } 
+            if(racesize == 2 && ageid >= 2) {
+                sizeid = "2";
+            }
+            if(racesize == 3 && ageid == 0) {
+                sizeid = "1";
+            }
+            if(racesize == 3 && ageid == 1) {
+                sizeid = "2";
+            }
+            if(racesize == 3 && ageid >= 2) {
+                sizeid = "3";
+            }
+            if(racesize == 4 && ageid == 0) {
+                sizeid = "1";
+            }
+            if(racesize == 4 && ageid == 1) {
+                sizeid = "2";
+            }
+            if(racesize == 4 && ageid >= 2) {
+                sizeid = "4";
+            }
+            if(racesize == 5 && ageid == 0) {
+                sizeid = "2";
+            }
+            if(racesize == 5 && ageid == 1) {
+                sizeid = "3";
+            }
+            if(racesize == 5 && ageid >= 2) {
+                sizeid = "5";
+            }
+            if(racesize == 6 && ageid == 0) {
+                sizeid = "3";
+            }
+            if(racesize == 6 && ageid == 1) {
+                sizeid = "5";
+            }
+            if(racesize == 6 && ageid >= 2) {
+                sizeid = "6";
+            }
+            if(racesize == 7 && ageid == 0) {
+                sizeid = "4";
+            }
+            if(racesize == 7 && ageid == 1) {
+                sizeid = "6";
+            }
+            if(racesize == 7 && ageid >= 2) {
+                sizeid = "7";
+            }
+            if(racesize == 8 && ageid == 0) {
+                sizeid = "5";
+            }
+            if(racesize == 8 && ageid == 1) {
+                sizeid = "6";
+            }
+            if(racesize == 8 && ageid >= 2) {
+                sizeid = "8";
+            }
+        }
+        return GetData.dbQuery(save,"*","dbSize","sizeID",sizeid,false).get(1);
     }
     
 //<editor-fold defaultstate="collapsed" desc="Log File Method">

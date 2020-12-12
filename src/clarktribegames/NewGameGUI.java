@@ -2,14 +2,11 @@
 // <editor-fold defaultstate="collapsed" desc="Header Info">
 package clarktribegames;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
@@ -66,6 +63,7 @@ public class NewGameGUI extends javax.swing.JFrame {
         stat02Label = new javax.swing.JLabel();
         stat03Label = new javax.swing.JLabel();
         stat04Label = new javax.swing.JLabel();
+        stat05Label = new javax.swing.JLabel();
         bioPane = new javax.swing.JScrollPane();
         bioText = new javax.swing.JTextArea();
         hpLabel = new javax.swing.JLabel();
@@ -113,26 +111,17 @@ public class NewGameGUI extends javax.swing.JFrame {
         ablLabel = new javax.swing.JLabel();
         effLabel = new javax.swing.JLabel();
         leftLabel = new javax.swing.JLabel();
-        rightLabel = new javax.swing.JLabel();
         headLabel = new javax.swing.JLabel();
-        faceLabel = new javax.swing.JLabel();
-        bodyLabel = new javax.swing.JLabel();
-        armsLabel = new javax.swing.JLabel();
-        handsLabel = new javax.swing.JLabel();
-        legsLabel = new javax.swing.JLabel();
-        feeLabel = new javax.swing.JLabel();
+        feetLabel = new javax.swing.JLabel();
         invLabel = new javax.swing.JLabel();
         ablBox = new javax.swing.JComboBox<>();
         effBox = new javax.swing.JComboBox<>();
-        leftVal = new javax.swing.JLabel();
-        rightVal = new javax.swing.JLabel();
-        headVal = new javax.swing.JLabel();
-        faceVal = new javax.swing.JLabel();
-        bodyVal = new javax.swing.JLabel();
-        armsVal = new javax.swing.JLabel();
-        handsVal = new javax.swing.JLabel();
-        legsVal = new javax.swing.JLabel();
-        feetVal = new javax.swing.JLabel();
+        heldPane = new javax.swing.JScrollPane();
+        heldList = new javax.swing.JList<>();
+        wearPane = new javax.swing.JScrollPane();
+        wearList = new javax.swing.JList<>();
+        charmPane = new javax.swing.JScrollPane();
+        charmList = new javax.swing.JList<>();
         invPane = new javax.swing.JScrollPane();
         invList = new javax.swing.JList<>();
 
@@ -197,15 +186,19 @@ public class NewGameGUI extends javax.swing.JFrame {
 
         stat02Label.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         stat02Label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        stat02Label.setText("<Age> • <Race>");
+        stat02Label.setText("<Age> • <Gender>");
 
         stat03Label.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         stat03Label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        stat03Label.setText("Level <Lv> • <Class>");
+        stat03Label.setText("<Size> • <Race>");
 
         stat04Label.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         stat04Label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        stat04Label.setText("<Status>");
+        stat04Label.setText("<Class> • <Lv>");
+
+        stat05Label.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
+        stat05Label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        stat05Label.setText("<Status>");
 
         bioPane.setBorder(null);
         bioPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -397,39 +390,15 @@ public class NewGameGUI extends javax.swing.JFrame {
 
         leftLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         leftLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        leftLabel.setText("Left Hand Equipped:");
-
-        rightLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        rightLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        rightLabel.setText("Right Hand Equipped:");
+        leftLabel.setText("Equipment Held:");
 
         headLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         headLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        headLabel.setText("Head Equipped:");
+        headLabel.setText("Wearables Equipped:");
 
-        faceLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        faceLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        faceLabel.setText("Face Equipped:");
-
-        bodyLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        bodyLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        bodyLabel.setText("Body Equipped:");
-
-        armsLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        armsLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        armsLabel.setText("Arms Equipped:");
-
-        handsLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        handsLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        handsLabel.setText("Hands Equipped:");
-
-        legsLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        legsLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        legsLabel.setText("Legs Equipped:");
-
-        feeLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        feeLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        feeLabel.setText("Feet Equipped:");
+        feetLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
+        feetLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        feetLabel.setText("Charms Equipped:");
 
         invLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         invLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -441,41 +410,17 @@ public class NewGameGUI extends javax.swing.JFrame {
         effBox.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         effBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<value>" }));
 
-        leftVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        leftVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        leftVal.setText("<value>");
+        heldList.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
+        heldList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        heldPane.setViewportView(heldList);
 
-        rightVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        rightVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        rightVal.setText("<value>");
+        wearList.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
+        wearList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        wearPane.setViewportView(wearList);
 
-        headVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        headVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        headVal.setText("<value>");
-
-        faceVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        faceVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        faceVal.setText("<value>");
-
-        bodyVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        bodyVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        bodyVal.setText("<value>");
-
-        armsVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        armsVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        armsVal.setText("<value>");
-
-        handsVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        handsVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        handsVal.setText("<value>");
-
-        legsVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        legsVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        legsVal.setText("<value>");
-
-        feetVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        feetVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        feetVal.setText("<value>");
+        charmList.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
+        charmList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        charmPane.setViewportView(charmList);
 
         invList.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         invList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -488,7 +433,7 @@ public class NewGameGUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(titleLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(titleLogo, javax.swing.GroupLayout.DEFAULT_SIZE, 1190, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(newgameLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -505,9 +450,10 @@ public class NewGameGUI extends javax.swing.JFrame {
                                 .addComponent(exitButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(stat02Label, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(stat03Label, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                                 .addComponent(stat04Label, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                .addComponent(bioPane)))
+                                .addComponent(stat05Label, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                                .addComponent(bioPane)
+                                .addComponent(stat03Label, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(mpLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -532,82 +478,54 @@ public class NewGameGUI extends javax.swing.JFrame {
                             .addComponent(rpLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(hpLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(rpVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(meVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(wlVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(luVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(chVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(inVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(ftVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(sdVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(wmVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(hpVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(ablLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(mpVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(apVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGap(6, 6, 6)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(leftLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(effLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(hpVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ablLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(mpVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(rpVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(meVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(wlVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(luVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(chVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(inVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(ftVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(sdVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(wmVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(apVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(atVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(rightLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGroup(layout.createSequentialGroup()
                                     .addComponent(stVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(headLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGroup(layout.createSequentialGroup()
                                     .addComponent(dfVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(faceLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGroup(layout.createSequentialGroup()
                                     .addComponent(saVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(bodyLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGroup(layout.createSequentialGroup()
                                     .addComponent(spVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(armsLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGroup(layout.createSequentialGroup()
                                     .addComponent(evVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(handsLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGroup(layout.createSequentialGroup()
                                     .addComponent(dxVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(legsLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGroup(layout.createSequentialGroup()
                                     .addComponent(myVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(feeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(mdVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(mdVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(leftLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(effLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(headLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(feetLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(invLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(invPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(leftVal, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-                                .addComponent(ablBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(effBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(rightVal, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-                                .addComponent(headVal, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-                                .addComponent(faceVal, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-                                .addComponent(bodyVal, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-                                .addComponent(armsVal, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-                                .addComponent(handsVal, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-                                .addComponent(legsVal, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-                                .addComponent(feetVal, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(heldPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                    .addComponent(ablBox, javax.swing.GroupLayout.Alignment.LEADING, 0, 120, Short.MAX_VALUE)
+                                    .addComponent(effBox, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(wearPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(charmPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(confirmButton, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(confirmButton, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -620,25 +538,13 @@ public class NewGameGUI extends javax.swing.JFrame {
                     .addComponent(limitLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(titleLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(charToon, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(selectLabel)
-                        .addGap(18, 18, 18)
-                        .addComponent(charDrop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(stat01Label, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(stat02Label, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(stat03Label, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(stat04Label, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bioPane, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(182, 182, 182)
+                        .addComponent(bioPane, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(exitButton)
                             .addComponent(confirmButton)))
@@ -655,57 +561,40 @@ public class NewGameGUI extends javax.swing.JFrame {
                                     .addComponent(mpVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(effLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(effBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(apVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(leftLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(leftVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(atVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(rightLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(rightVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(stVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(headLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(headVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(dfVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(faceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(faceVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(saVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(bodyLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(bodyVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(spVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(armsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(armsVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(evVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(handsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(handsVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(dxVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(legsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(legsVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(myVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(feeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(feetVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGap(6, 6, 6)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(layout.createSequentialGroup()
+                                        .addComponent(heldPane, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(wearPane))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(apVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(leftLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(atVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(mdVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(invLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(stVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(headLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(dfVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(saVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(spVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(evVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(dxVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(myVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(feetLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(mdVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(meVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -726,8 +615,13 @@ public class NewGameGUI extends javax.swing.JFrame {
                                         .addComponent(rpVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(0, 0, Short.MAX_VALUE))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(6, 6, 6)
-                                        .addComponent(invPane))))
+                                        .addComponent(charmPane, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(invLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(0, 0, Short.MAX_VALUE))
+                                            .addComponent(invPane, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)))))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(hpLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -745,19 +639,33 @@ public class NewGameGUI extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(spLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(evLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(evLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(selectLabel))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(dxLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(dxLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(charDrop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(myLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(myLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(stat01Label, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(mdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(mdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(stat02Label, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(meLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(meLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(stat03Label, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(wlLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(wlLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(stat04Label, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(luLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(luLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(stat05Label, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(chLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -930,7 +838,7 @@ public class NewGameGUI extends javax.swing.JFrame {
     private void popcharDrop(String save) throws SQLException, IOException {
         limitLabel.setText(saveName);
         try {
-            toonList=GetData.dbQuery(save,"*","dbToonGame","toonName","",true);
+            toonList=GetData.dbQuery(save,"*","dbToons","toonName","",true);
             fillSelect(charDrop,(toonList),toonDml);
         } catch(Exception ex) {
             logFile("severe","Char Select Error.\nEx: " + ex.toString());
@@ -956,42 +864,51 @@ public class NewGameGUI extends javax.swing.JFrame {
         List<String> toonStats = GetData.dbQuery(save, "*","dbToons",
             "toonName",toonname, false);
         new Avatars().setAvatar(charToon, charDrop.getSelectedItem().toString(),
-            toonStats.get(11));
+            toonStats.get(10));
+
+
         double charXP=Double.parseDouble(Calculator.getLevel("ranxp",(toonStats.
-            get(9))));
+            get(8))));
         double nextXP = Double.parseDouble(Calculator.getLevel("stalv", String.
-            valueOf(Integer.parseInt(toonStats.get(9) + 1))));
+            valueOf(Integer.parseInt(toonStats.get(8) + 1))));
         double ratioXP = charXP / nextXP;
-        String alignName=(GetData.dbQuery(save,"*","dbAlign","align00",toonStats
-            .get(4), false)).get(1);
+        String alignID = Calculator.getAlign(Integer.parseInt(toonStats.get(4)));
+        String alignName=(GetData.dbQuery(save,"*","dbAlign","alignID",alignID, false)).get(1);
         Font stat01Font = new Font(stat01Label.getFont().getName(),Font.BOLD,
             stat01Label.getFont().getSize());
-        String aligncolor = GetStats.getalignColor(alignName);
+
+        String aligncolor = GetStats.getalignColor(Integer.parseInt((toonStats.get(4))));
         stat01Label.setText(alignName);
         stat01Label.setFont(stat01Font);
         stat01Label.setForeground((Converters.figureoutColor(aligncolor)));
         stat01Label.setToolTipText(alignName + ": " + (GetData.dbQuery(save, "*"
-            ,"dbAlign","align00",toonStats.get(4), false)).get(2));
-        String ageName = (Calculator.getAge(Integer.parseInt(toonStats.get(8)), 
+            ,"dbAlign","alignID",alignID, false)).get(2));
+
+        String ageName = (Calculator.getAge(Integer.parseInt(toonStats.get(7)), 
             toonStats.get(2)));
         String raceName = (GetData.dbQuery(save, "*","dbRace","raceID",toonStats
             .get(2), false)).get(1);
+
         String gendName = (GetData.dbQuery(save, "*", "dbGender", "genderID",
-            toonStats.get(7), false)).get(1);
-        stat02Label.setText(ageName + " • " + gendName + " " + raceName);
+            toonStats.get(6), false)).get(1);
+
+        stat02Label.setText(ageName + " • " + gendName);
         stat02Label.setToolTipText(ageName + ": " + (GetData.dbQuery(save, "*", 
             "dbAge","ageName",ageName, false)).get(3) + " • " + gendName + ": " 
-            + (GetData.dbQuery(save, "*","dbGender","genderID",toonStats.get(7),
-            false)).get(2) + " • " + raceName + ": " + (GetData.dbQuery(save,"*"
+            + (GetData.dbQuery(save, "*","dbGender","genderID",toonStats.get(6),
+            false)).get(2));
+
+        String sizeName = Calculator.getSize(raceName, ageName);
+        stat03Label.setText(sizeName + " • " + raceName);
+        stat03Label.setToolTipText(sizeName + ": " + (GetData.dbQuery(save, "*","dbSize","sizeName",sizeName,
+            false)).get(2) +  " • "  + raceName + ": " + (GetData.dbQuery(save,"*"
             ,"dbRace","raceID",toonStats.get(2), false)).get(2));
         String className = (GetData.dbQuery(save, "*", "dbClass", "classID",
             toonStats.get(3), false)).get(1);
-        stat03Label.setText("Level " + toonStats.get(9) + " • " + className);
-        stat03Label.setToolTipText("Level: Based on the amount of experience ga"
-            + "ined • " + className + ": " + (GetData.dbQuery(save, "*","dbClas"
-            + "s","classID",toonStats.get(3), false)).get(2));
-        //add size somewhere
-        //create size math
+        stat04Label.setText(className + " • Level " + toonStats.get(8));
+        stat04Label.setToolTipText(className + ": " + (GetData.dbQuery(save, "*","dbClas"
+            + "s","classID",toonStats.get(3), false)).get(2) + " • Level " + toonStats.get(8));
+
         List<String> effStats = GetStats.getStats("Effects", charDrop.
             getSelectedItem().toString(),0);
         String statuscode = (((Arrays.toString(effStats.toArray())).replaceAll(
@@ -999,10 +916,13 @@ public class NewGameGUI extends javax.swing.JFrame {
         if(statuscode.length() <= 0) {
             statuscode = "0";
         }
+
         // add in status decoder here (can be method in GetStats)
         DefaultComboBoxModel effDml = new DefaultComboBoxModel();
         GetStats.getitemsfromID(save,effStats,effDml,effBox,"dbEffects","effID",
             "effName");
+
+
         if(effBox.getItemAt(0).equals("<None>")) {
             effDml.removeAllElements();
             effDml.addElement("Normal Health");
@@ -1019,27 +939,30 @@ public class NewGameGUI extends javax.swing.JFrame {
 //        if(ChecksBalances.isNullOrEmpty(statuscode) || statuscode.equals("0")) {
 //            //put normal status here
 //        }
-        Font stat04Font = new Font(stat04Label.getFont().getName(),Font.BOLD,
-            stat04Label.getFont().getSize());
-        stat04Label.setText(statusname);
-        stat04Label.setFont(stat04Font);
-        stat04Label.setForeground((Converters.figureoutColor(statuscolor)));
+
+        Font stat05Font = new Font(stat05Label.getFont().getName(),Font.BOLD,
+            stat05Label.getFont().getSize());
+        stat05Label.setText(statusname);
+        stat05Label.setFont(stat05Font);
+        stat05Label.setForeground((Converters.figureoutColor(statuscolor)));
+
         String bioInfo = Converters.capFirstLetter((GetData.dbQuery(save,"*","d"
-            + "bGender","genderID",toonStats.get(7),false)).get(32)) + " is " +
-            (GetData.dbQuery(save, "*", "dbGender", "genderID",toonStats.get(7),
-            false)).get(31) + " " + ((GetData.dbQuery(save, "*","dbAlign","alig"
-            + "n00",toonStats.get(4),false)).get(31)) + " " + (Calculator.getAge
-            (Integer.parseInt(toonStats.get(8)),toonStats.get(2))) + " " + (
-            (GetData.dbQuery(save, "*","dbRace","raceID",toonStats.get(2), false
-            )).get(31)) + " " + ((GetData.dbQuery(save, "*","dbClass","classID",
-            toonStats.get(3), false)).get(31)) + " and " + statusbio  + ".\n\n "
-            + toonStats.get(10);
-        stat04Label.setToolTipText(statusname + ": " + statusdesc);
+            + "bGender","genderID",toonStats.get(6),false)).get(5)) + " is a " + ((GetData.dbQuery(save, "*","dbAlign","alig"
+            + "nID",alignID,false)).get(6)) + " " + ageName + " " +
+            (GetData.dbQuery(save, "*", "dbGender", "genderID",toonStats.get(6),
+            false)).get(1) + " that is " + (GetData.dbQuery(save, "*","dbSize","sizeName",sizeName,
+            false)).get(4) + " " + (GetData.dbQuery(save, "*","dbRace","raceID",toonStats.get(2), false)).get(7) 
+            + " " + ((GetData.dbQuery(save, "*","dbClass","classID",toonStats.get(3), false)).get(4)) + " and " + statusbio  + ".\n\n"
+            + toonStats.get(9);
+
+        stat05Label.setToolTipText(statusname + ": " + statusdesc);
             //add size somewhere
             //update health status above
         bioText.setText(bioInfo);
+
         List<String>newStats=GetStats.getStats("Toon",charDrop.getSelectedItem()
             .toString(),ratioXP);
+
         hpVal.setText(newStats.get(0));
         mpVal.setText(newStats.get(1));
         apVal.setText(newStats.get(2));
@@ -1107,24 +1030,18 @@ public class NewGameGUI extends javax.swing.JFrame {
         sdLabel.setToolTipText(sdVal.getToolTipText());
         wmLabel.setToolTipText(wmVal.getToolTipText());
         rpLabel.setToolTipText(rpVal.getToolTipText());
-        List<String> toonabllist = GetData.dbQuery(save, "*","dbToonAbl",
-            "toonID",toonStats.get(0), false);
+        List<String> toonabllist = GetStats.getStats("Abls", charDrop.
+            getSelectedItem().toString(),0);
+        System.out.println(Arrays.toString(toonabllist.toArray()));
+        
+        // add in status decoder here (can be method in GetStats)
         DefaultComboBoxModel ablDml = new DefaultComboBoxModel();
         GetStats.getitemsfromID(save,toonabllist,ablDml,ablBox,"dbAbl","ablID",
             "ablName");
-
-
+        System.out.println("HERE");
         //all below is temporary
         String tempEmpty = "<Empty>";
-        leftVal.setText(tempEmpty);
-        rightVal.setText(tempEmpty);
-        headVal.setText(tempEmpty);
-        faceVal.setText(tempEmpty);
-        bodyVal.setText(tempEmpty);
-        armsVal.setText(tempEmpty);
-        handsVal.setText(tempEmpty);
-        legsVal.setText(tempEmpty);
-        feetVal.setText(tempEmpty);
+//add list for equip here
         DefaultListModel<String> invDml = new DefaultListModel<>();
         invDml.add(0,tempEmpty);
         invList.setModel(invDml);
@@ -1164,18 +1081,16 @@ public class NewGameGUI extends javax.swing.JFrame {
     private javax.swing.JLabel ablLabel;
     private javax.swing.JLabel apLabel;
     private javax.swing.JLabel apVal;
-    private javax.swing.JLabel armsLabel;
-    private javax.swing.JLabel armsVal;
     private javax.swing.JLabel atLabel;
     private javax.swing.JLabel atVal;
     private javax.swing.JScrollPane bioPane;
     private javax.swing.JTextArea bioText;
-    private javax.swing.JLabel bodyLabel;
-    private javax.swing.JLabel bodyVal;
     private javax.swing.JLabel chLabel;
     private javax.swing.JLabel chVal;
     private javax.swing.JComboBox<String> charDrop;
     private javax.swing.JLabel charToon;
+    private javax.swing.JList<String> charmList;
+    private javax.swing.JScrollPane charmPane;
     private javax.swing.JButton confirmButton;
     private javax.swing.JLabel dfLabel;
     private javax.swing.JLabel dfVal;
@@ -1186,16 +1101,12 @@ public class NewGameGUI extends javax.swing.JFrame {
     private javax.swing.JLabel evLabel;
     private javax.swing.JLabel evVal;
     private javax.swing.JButton exitButton;
-    private javax.swing.JLabel faceLabel;
-    private javax.swing.JLabel faceVal;
-    private javax.swing.JLabel feeLabel;
-    private javax.swing.JLabel feetVal;
+    private javax.swing.JLabel feetLabel;
     private javax.swing.JLabel ftLabel;
     private javax.swing.JLabel ftVal;
-    private javax.swing.JLabel handsLabel;
-    private javax.swing.JLabel handsVal;
     private javax.swing.JLabel headLabel;
-    private javax.swing.JLabel headVal;
+    private javax.swing.JList<String> heldList;
+    private javax.swing.JScrollPane heldPane;
     private javax.swing.JLabel hpLabel;
     private javax.swing.JLabel hpVal;
     private javax.swing.JLabel inLabel;
@@ -1204,9 +1115,6 @@ public class NewGameGUI extends javax.swing.JFrame {
     private javax.swing.JList<String> invList;
     private javax.swing.JScrollPane invPane;
     private javax.swing.JLabel leftLabel;
-    private javax.swing.JLabel leftVal;
-    private javax.swing.JLabel legsLabel;
-    private javax.swing.JLabel legsVal;
     private javax.swing.JLabel limitLabel;
     private javax.swing.JLabel luLabel;
     private javax.swing.JLabel luVal;
@@ -1219,8 +1127,6 @@ public class NewGameGUI extends javax.swing.JFrame {
     private javax.swing.JLabel myLabel;
     private javax.swing.JLabel myVal;
     private javax.swing.JLabel newgameLabel;
-    private javax.swing.JLabel rightLabel;
-    private javax.swing.JLabel rightVal;
     private javax.swing.JLabel rpLabel;
     private javax.swing.JLabel rpVal;
     private javax.swing.JLabel saLabel;
@@ -1237,7 +1143,10 @@ public class NewGameGUI extends javax.swing.JFrame {
     private javax.swing.JLabel stat02Label;
     private javax.swing.JLabel stat03Label;
     private javax.swing.JLabel stat04Label;
+    private javax.swing.JLabel stat05Label;
     private javax.swing.JLabel titleLogo;
+    private javax.swing.JList<String> wearList;
+    private javax.swing.JScrollPane wearPane;
     private javax.swing.JLabel wlLabel;
     private javax.swing.JLabel wlVal;
     private javax.swing.JLabel wmLabel;

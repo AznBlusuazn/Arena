@@ -158,6 +158,9 @@ public class Converters {
         if(color.toLowerCase().equals("brown")) {
             retColor = new Color(102, 51, 0);
         }
+        if(color.toLowerCase().equals("dark brown")) {
+            retColor = new Color(51, 0, 0);
+        }
         if(color.toLowerCase().equals("dark red")) {
             retColor = new Color(153, 0, 0);
         }

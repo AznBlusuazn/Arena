@@ -1,6 +1,6 @@
 =======================================
 LIMITLESS by Geoff Clark
-VERSION ALPHA 0.0.017 / 2020.12.10-1741
+VERSION ALPHA 0.0.018 / 2020.12.11-2353
 =======================================
 
 SUPPORT THE DEVELOPMENT OF THIS GAME @ 
@@ -46,6 +46,19 @@ Contact the author:  info@clarktribegames.com
 ====================================
 
 DEVELOPMENT NOTES
+
+ALPHA 0.0.018 / 2020.12.11-2353
+
+- corrected potential db error with autonumbers, changed all to numbers and rebuild db
+- revamped how colors were assigned for alignments and the alignment values
+- added missing lawful neutral color of dark brown
+- rebuilt effects and abilities for toons, races, classes, genders to calculate at once
+- implemented sizes for races -- micro, mini, tiny, small, average, large, huge, enormous, ginormous
+- added more descriptions to "tooltip" hover overs in the character selection
+- for sizes took baby, child, and teen into account for smaller versions until they grow
+- revised db again for attributes for various areas
+- changed items to 4 categories : held, wearable, charms, and items
+
 
 ALPHA 0.0.017 / 2020.12.10-1741 (in progress)
 
