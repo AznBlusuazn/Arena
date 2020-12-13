@@ -5,6 +5,7 @@ package clarktribegames;
 import java.awt.Font;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
@@ -39,11 +40,11 @@ public class NewGameGUI extends javax.swing.JFrame {
     public NewGameGUI() throws IOException, Exception {
         this.appName = MainControls.appName;
         this.appVer = MainControls.appVer;
-
         initComponents();
         setLocationRelativeTo(null);  
         popcharDrop(saveName);
         changeChar();
+        worldinfoText(saveName);
     }
 
     @SuppressWarnings("unchecked")
@@ -108,14 +109,12 @@ public class NewGameGUI extends javax.swing.JFrame {
         sdVal = new javax.swing.JLabel();
         wmVal = new javax.swing.JLabel();
         rpVal = new javax.swing.JLabel();
-        ablLabel = new javax.swing.JLabel();
         effLabel = new javax.swing.JLabel();
-        leftLabel = new javax.swing.JLabel();
-        headLabel = new javax.swing.JLabel();
-        feetLabel = new javax.swing.JLabel();
+        ablLabel = new javax.swing.JLabel();
+        heldLabel = new javax.swing.JLabel();
+        wearLabel = new javax.swing.JLabel();
+        charmLabel = new javax.swing.JLabel();
         invLabel = new javax.swing.JLabel();
-        ablBox = new javax.swing.JComboBox<>();
-        effBox = new javax.swing.JComboBox<>();
         heldPane = new javax.swing.JScrollPane();
         heldList = new javax.swing.JList<>();
         wearPane = new javax.swing.JScrollPane();
@@ -124,37 +123,54 @@ public class NewGameGUI extends javax.swing.JFrame {
         charmList = new javax.swing.JList<>();
         invPane = new javax.swing.JScrollPane();
         invList = new javax.swing.JList<>();
+        effPane = new javax.swing.JScrollPane();
+        effList = new javax.swing.JList<>();
+        ablPane = new javax.swing.JScrollPane();
+        ablList = new javax.swing.JList<>();
+        startingworldLabel = new javax.swing.JLabel();
+        bottomPane = new javax.swing.JPanel();
+        welcomePane = new javax.swing.JScrollPane();
+        welcomeText = new javax.swing.JTextArea();
+        startingworldLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextPane1 = new javax.swing.JTextPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle(this.appName + " [ALPHA v" + this.appVer + "]");
         setIconImage(new MainControls().imageIcon.getImage());
-        setResizable(false);
+        setSize(new java.awt.Dimension(1200, 850));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
             }
         });
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         newgameLabel.setFont(new java.awt.Font("Lucida Console", 1, 12)); // NOI18N
         newgameLabel.setText("New Game • Character Selection");
         newgameLabel.setFocusable(false);
+        getContentPane().add(newgameLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 15, 600, -1));
 
         titleLogo.setFont(new java.awt.Font("Lucida Console", 1, 48)); // NOI18N
         titleLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         titleLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/clarktribegames/logo.png"))); // NOI18N
+        getContentPane().add(titleLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 43, 1200, 190));
 
         saveLabel.setFont(new java.awt.Font("Lucida Console", 1, 12)); // NOI18N
         saveLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         saveLabel.setText("Current Limitless Database:");
         saveLabel.setFocusable(false);
+        getContentPane().add(saveLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(616, 11, 434, 21));
 
         charToon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         charToon.setText("[Player 1 Image Here]");
         charToon.setFocusable(false);
+        getContentPane().add(charToon, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 275, 200, 200));
 
         selectLabel.setFont(new java.awt.Font("Lucida Console", 1, 12)); // NOI18N
         selectLabel.setText("Select Your Character:");
         selectLabel.setFocusable(false);
+        getContentPane().add(selectLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 475, 200, 19));
 
         charDrop.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         charDrop.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<Populated List>" }));
@@ -163,6 +179,7 @@ public class NewGameGUI extends javax.swing.JFrame {
                 charDropActionPerformed(evt);
             }
         });
+        getContentPane().add(charDrop, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 500, 200, 19));
 
         exitButton.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         exitButton.setText("Back to Main Menu");
@@ -171,34 +188,41 @@ public class NewGameGUI extends javax.swing.JFrame {
                 exitButtonActionPerformed(evt);
             }
         });
+        getContentPane().add(exitButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 760, 200, -1));
 
         limitLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        limitLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         limitLabel.setText("<Limit File Name>");
         limitLabel.setFocusable(false);
+        getContentPane().add(limitLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1056, 11, 134, 21));
 
         confirmButton.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         confirmButton.setText("Start New Game");
+        getContentPane().add(confirmButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 760, 200, -1));
 
         stat01Label.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         stat01Label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         stat01Label.setText("<Alignment>");
+        getContentPane().add(stat01Label, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 525, 200, 19));
 
         stat02Label.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         stat02Label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         stat02Label.setText("<Age> • <Gender>");
+        getContentPane().add(stat02Label, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 550, 200, 19));
 
         stat03Label.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         stat03Label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         stat03Label.setText("<Size> • <Race>");
+        getContentPane().add(stat03Label, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 575, 200, 19));
 
         stat04Label.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         stat04Label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         stat04Label.setText("<Class> • <Lv>");
+        getContentPane().add(stat04Label, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 600, 200, 19));
 
         stat05Label.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         stat05Label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         stat05Label.setText("<Status>");
+        getContentPane().add(stat05Label, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 625, 200, 19));
 
         bioPane.setBorder(null);
         bioPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -208,478 +232,330 @@ public class NewGameGUI extends javax.swing.JFrame {
         bioText.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         bioText.setLineWrap(true);
         bioText.setRows(9);
-        bioText.setText("Player name is a <alignment> <age modifier> Level <lv> <race> <class> <status modifier>.  <Add bio info>");
+        bioText.setText("This is where the player bio text goes.");
         bioText.setWrapStyleWord(true);
         bioPane.setViewportView(bioText);
+
+        getContentPane().add(bioPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 650, 200, 130));
 
         hpLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         hpLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         hpLabel.setText("Max Health Points:");
+        getContentPane().add(hpLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 250, 133, 19));
 
         mpLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         mpLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         mpLabel.setText("Max Mystic Points:");
+        getContentPane().add(mpLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 275, 133, 19));
 
         apLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         apLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         apLabel.setText("Max Ability Points:");
+        getContentPane().add(apLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 300, 133, 19));
 
         atLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         atLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         atLabel.setText("Attack Power:");
+        getContentPane().add(atLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 325, 133, 19));
 
         stLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         stLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         stLabel.setText("Strength:");
+        getContentPane().add(stLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 350, 133, 19));
 
         dfLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         dfLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         dfLabel.setText("Defense:");
+        getContentPane().add(dfLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 375, 133, 19));
 
         saLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         saLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         saLabel.setText("Stamina:");
+        getContentPane().add(saLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 400, 133, 19));
 
         spLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         spLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         spLabel.setText("Speed:");
+        getContentPane().add(spLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 425, 133, 19));
 
         evLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         evLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         evLabel.setText("Attack Evade:");
+        getContentPane().add(evLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 450, 133, 19));
 
         dxLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         dxLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         dxLabel.setText("Dexterity:");
+        getContentPane().add(dxLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 475, 133, 19));
 
         myLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         myLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         myLabel.setText("Mystic Power:");
+        getContentPane().add(myLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 500, 133, 19));
 
         mdLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         mdLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         mdLabel.setText("Mystic Defense:");
+        getContentPane().add(mdLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 525, 133, 19));
 
         meLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         meLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         meLabel.setText("Mystic Evade:");
+        getContentPane().add(meLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 550, 133, 19));
 
         wlLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         wlLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         wlLabel.setText("Willpower:");
+        getContentPane().add(wlLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 575, 133, 19));
 
         luLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         luLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         luLabel.setText("Luck:");
+        getContentPane().add(luLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 600, 133, 19));
 
         chLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         chLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         chLabel.setText("Charisma:");
+        getContentPane().add(chLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 625, 133, 19));
 
         inLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         inLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         inLabel.setText("Intelligence:");
+        getContentPane().add(inLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 650, 133, 19));
 
         ftLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         ftLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        ftLabel.setText("Fatigue(Hide):");
+        ftLabel.setText("FA-Test Val:");
+        getContentPane().add(ftLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 650, 98, 19));
 
         sdLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         sdLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        sdLabel.setText("Soul/Decay(Hide):");
+        sdLabel.setText("S&D-Test Val:");
+        getContentPane().add(sdLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 675, 98, 19));
 
         wmLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         wmLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        wmLabel.setText("Weight Mod(Hide):");
+        wmLabel.setText("WM-Test Val:");
+        getContentPane().add(wmLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 700, 98, 19));
 
         rpLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         rpLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        rpLabel.setText("Reputation(Hide):");
+        rpLabel.setText("RP-Test Value:");
+        getContentPane().add(rpLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 725, -1, 19));
 
         hpVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         hpVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         hpVal.setText("<value>");
+        getContentPane().add(hpVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 250, 120, 19));
 
         mpVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         mpVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         mpVal.setText("<value>");
+        getContentPane().add(mpVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 275, 120, 19));
 
         apVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         apVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         apVal.setText("<value>");
+        getContentPane().add(apVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 300, 120, 19));
 
         atVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         atVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         atVal.setText("<value>");
+        getContentPane().add(atVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 325, 120, 19));
 
         stVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         stVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         stVal.setText("<value>");
+        getContentPane().add(stVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 350, 120, 19));
 
         dfVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         dfVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         dfVal.setText("<value>");
+        getContentPane().add(dfVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 375, 120, 19));
 
         saVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         saVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         saVal.setText("<value>");
+        getContentPane().add(saVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 400, 120, 19));
 
         spVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         spVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         spVal.setText("<value>");
+        getContentPane().add(spVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 425, 120, 19));
 
         evVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         evVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         evVal.setText("<value>");
+        getContentPane().add(evVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 450, 120, 19));
 
         dxVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         dxVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         dxVal.setText("<value>");
+        getContentPane().add(dxVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 475, 120, 19));
 
         myVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         myVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         myVal.setText("<value>");
+        getContentPane().add(myVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 500, 120, 19));
 
         mdVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         mdVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         mdVal.setText("<value>");
+        getContentPane().add(mdVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 525, 120, 19));
 
         meVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         meVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         meVal.setText("<value>");
+        getContentPane().add(meVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 550, 120, 19));
 
         wlVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         wlVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         wlVal.setText("<value>");
+        getContentPane().add(wlVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 575, 120, 19));
 
         luVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         luVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         luVal.setText("<value>");
+        getContentPane().add(luVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 600, 120, 19));
 
         chVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         chVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         chVal.setText("<value>");
+        getContentPane().add(chVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 625, 120, 19));
 
         inVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         inVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         inVal.setText("<value>");
+        getContentPane().add(inVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 650, 120, 19));
 
         ftVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         ftVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         ftVal.setText("<value>");
+        getContentPane().add(ftVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 650, 75, 19));
 
         sdVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         sdVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         sdVal.setText("<value>");
+        getContentPane().add(sdVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 675, 75, 19));
 
         wmVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         wmVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         wmVal.setText("<value>");
+        getContentPane().add(wmVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 700, 75, 19));
 
         rpVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         rpVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         rpVal.setText("<value>");
-
-        ablLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        ablLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        ablLabel.setText("Starting Abilities:");
+        getContentPane().add(rpVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 725, 75, 19));
 
         effLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         effLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         effLabel.setText("Starting Effects:");
+        getContentPane().add(effLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 675, 133, 19));
 
-        leftLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        leftLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        leftLabel.setText("Equipment Held:");
+        ablLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
+        ablLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        ablLabel.setText("Starting Abilities:");
+        getContentPane().add(ablLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(485, 250, -1, 19));
 
-        headLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        headLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        headLabel.setText("Wearables Equipped:");
+        heldLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
+        heldLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        heldLabel.setText("Equipment Held:");
+        getContentPane().add(heldLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(485, 350, 133, 19));
 
-        feetLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        feetLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        feetLabel.setText("Charms Equipped:");
+        wearLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
+        wearLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        wearLabel.setText("Wearables Equipped:");
+        getContentPane().add(wearLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(485, 400, -1, 19));
+
+        charmLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
+        charmLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        charmLabel.setText("Charms Equipped:");
+        getContentPane().add(charmLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(485, 550, 133, 19));
 
         invLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         invLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         invLabel.setText("Starting Inventory:");
-
-        ablBox.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        ablBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<value>" }));
-
-        effBox.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        effBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<value>" }));
+        getContentPane().add(invLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(485, 600, -1, 19));
 
         heldList.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         heldList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         heldPane.setViewportView(heldList);
 
+        getContentPane().add(heldPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(625, 350, 120, 50));
+
         wearList.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         wearList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         wearPane.setViewportView(wearList);
+
+        getContentPane().add(wearPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(625, 400, 120, 150));
 
         charmList.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         charmList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         charmPane.setViewportView(charmList);
 
+        getContentPane().add(charmPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(625, 550, 120, 50));
+
         invList.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         invList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         invPane.setViewportView(invList);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(titleLogo, javax.swing.GroupLayout.DEFAULT_SIZE, 1190, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(newgameLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(saveLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(limitLabel))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(stat01Label, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(selectLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                .addComponent(charToon, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(charDrop, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(exitButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(stat02Label, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(stat04Label, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                .addComponent(stat05Label, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                .addComponent(bioPane)
-                                .addComponent(stat03Label, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(mpLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(apLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(atLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(stLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(dfLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(saLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(spLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(evLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(dxLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(myLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(mdLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(meLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(wlLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(luLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(chLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(inLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(ftLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(sdLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(wmLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(rpLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(hpLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(hpVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(ablLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(mpVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(rpVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(meVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(wlVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(luVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(chVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(inVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(ftVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(sdVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(wmVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(apVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(atVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(stVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(dfVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(saVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(spVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(evVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(dxVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(myVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(mdVal, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(leftLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(effLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(headLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(feetLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(invLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(invPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(heldPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                    .addComponent(ablBox, javax.swing.GroupLayout.Alignment.LEADING, 0, 120, Short.MAX_VALUE)
-                                    .addComponent(effBox, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(wearPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(charmPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(confirmButton, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)))
-                .addContainerGap())
+        getContentPane().add(invPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(625, 600, 120, 180));
+
+        effList.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
+        effList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        effPane.setViewportView(effList);
+
+        getContentPane().add(effPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 675, 120, 105));
+
+        ablList.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
+        ablList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        ablPane.setViewportView(ablList);
+
+        getContentPane().add(ablPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(625, 250, 120, 100));
+
+        startingworldLabel.setFont(new java.awt.Font("Lucida Console", 1, 12)); // NOI18N
+        startingworldLabel.setForeground(new java.awt.Color(255, 0, 0));
+        startingworldLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        startingworldLabel.setText("This game is in development");
+        getContentPane().add(startingworldLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 625, 430, 19));
+
+        bottomPane.setEnabled(false);
+        bottomPane.setFocusable(false);
+
+        javax.swing.GroupLayout bottomPaneLayout = new javax.swing.GroupLayout(bottomPane);
+        bottomPane.setLayout(bottomPaneLayout);
+        bottomPaneLayout.setHorizontalGroup(
+            bottomPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1200, Short.MAX_VALUE)
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(saveLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(newgameLabel)
-                    .addComponent(limitLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(titleLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(charToon, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(182, 182, 182)
-                        .addComponent(bioPane, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(exitButton)
-                            .addComponent(confirmButton)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(13, 13, 13)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(hpVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(ablLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(ablBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(mpVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(effLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(effBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(6, 6, 6)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(heldPane, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(wearPane))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(apVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(leftLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(atVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(stVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(headLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(dfVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(saVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(spVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(evVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(dxVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(myVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(feetLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(mdVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(meVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(wlVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(luVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(chVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(inVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(ftVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(sdVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(wmVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(rpVal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(charmPane, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(invLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(0, 0, Short.MAX_VALUE))
-                                            .addComponent(invPane, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(hpLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(mpLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(apLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(atLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(stLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(dfLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(saLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(spLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(evLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(selectLabel))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(dxLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(charDrop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(myLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(stat01Label, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(mdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(stat02Label, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(meLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(stat03Label, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(wlLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(stat04Label, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(luLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(stat05Label, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(chLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(inLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(ftLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(sdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(wmLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(rpLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap())
+        bottomPaneLayout.setVerticalGroup(
+            bottomPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 20, Short.MAX_VALUE)
         );
+
+        getContentPane().add(bottomPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 780, 1200, 20));
+
+        welcomeText.setColumns(20);
+        welcomeText.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
+        welcomeText.setLineWrap(true);
+        welcomeText.setRows(12);
+        welcomeText.setWrapStyleWord(true);
+        welcomePane.setViewportView(welcomeText);
+
+        getContentPane().add(welcomePane, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 275, 430, 320));
+
+        startingworldLabel1.setFont(new java.awt.Font("Lucida Console", 1, 12)); // NOI18N
+        startingworldLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        startingworldLabel1.setText("Starting Game World");
+        getContentPane().add(startingworldLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 250, 430, 19));
+
+        jTextPane1.setBorder(null);
+        jTextPane1.setFont(new java.awt.Font("Lucida Console", 1, 12)); // NOI18N
+        jTextPane1.setText("The values to the right are for testing only...");
+        jScrollPane1.setViewportView(jTextPane1);
+
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 675, 200, 40));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -865,25 +741,24 @@ public class NewGameGUI extends javax.swing.JFrame {
             "toonName",toonname, false);
         new Avatars().setAvatar(charToon, charDrop.getSelectedItem().toString(),
             toonStats.get(10));
-
-
         double charXP=Double.parseDouble(Calculator.getLevel("ranxp",(toonStats.
             get(8))));
         double nextXP = Double.parseDouble(Calculator.getLevel("stalv", String.
             valueOf(Integer.parseInt(toonStats.get(8) + 1))));
         double ratioXP = charXP / nextXP;
-        String alignID = Calculator.getAlign(Integer.parseInt(toonStats.get(4)));
-        String alignName=(GetData.dbQuery(save,"*","dbAlign","alignID",alignID, false)).get(1);
+        String alignID=Calculator.getAlign(Integer.parseInt(toonStats.get(4)));
+        String alignName=(GetData.dbQuery(save,"*","dbAlign","alignID",alignID, 
+            false)).get(1);
         Font stat01Font = new Font(stat01Label.getFont().getName(),Font.BOLD,
             stat01Label.getFont().getSize());
 
-        String aligncolor = GetStats.getalignColor(Integer.parseInt((toonStats.get(4))));
+        String aligncolor=GetStats.getalignColor(Integer.parseInt((toonStats.get
+            (4))));
         stat01Label.setText(alignName);
         stat01Label.setFont(stat01Font);
         stat01Label.setForeground((Converters.figureoutColor(aligncolor)));
         stat01Label.setToolTipText(alignName + ": " + (GetData.dbQuery(save, "*"
             ,"dbAlign","alignID",alignID, false)).get(2));
-
         String ageName = (Calculator.getAge(Integer.parseInt(toonStats.get(7)), 
             toonStats.get(2)));
         String raceName = (GetData.dbQuery(save, "*","dbRace","raceID",toonStats
@@ -900,35 +775,30 @@ public class NewGameGUI extends javax.swing.JFrame {
 
         String sizeName = Calculator.getSize(raceName, ageName);
         stat03Label.setText(sizeName + " • " + raceName);
-        stat03Label.setToolTipText(sizeName + ": " + (GetData.dbQuery(save, "*","dbSize","sizeName",sizeName,
-            false)).get(2) +  " • "  + raceName + ": " + (GetData.dbQuery(save,"*"
-            ,"dbRace","raceID",toonStats.get(2), false)).get(2));
+        stat03Label.setToolTipText(sizeName + ": " + (GetData.dbQuery(save, "*",
+            "dbSize","sizeName",sizeName,false)).get(2) +  " • "  + raceName + 
+            ": " + (GetData.dbQuery(save,"*","dbRace","raceID",toonStats.get(2),
+            false)).get(2));
         String className = (GetData.dbQuery(save, "*", "dbClass", "classID",
             toonStats.get(3), false)).get(1);
         stat04Label.setText(className + " • Level " + toonStats.get(8));
-        stat04Label.setToolTipText(className + ": " + (GetData.dbQuery(save, "*","dbClas"
-            + "s","classID",toonStats.get(3), false)).get(2) + " • Level " + toonStats.get(8));
-
+        stat04Label.setToolTipText(className + ": " + (GetData.dbQuery(save,"*",
+            "dbClass","classID",toonStats.get(3), false)).get(2) + " • Level " +
+            toonStats.get(8));
         //toonheld 13 | toonwear 14 | tooncharms 15 | tooninv 16
         DefaultListModel heldDml = new DefaultListModel();
         DefaultListModel wearDml = new DefaultListModel();
         DefaultListModel charmDml = new DefaultListModel();
         DefaultListModel invDml = new DefaultListModel();
-        List<String> toonheldlist = Arrays.asList(toonStats.get(13).split("x"));
-        GetStats.getitemsfromIDtoJList(save,toonheldlist,heldDml,heldList,"dbItems","itemID",
-            "itemName");
-        List<String> toonwearlist = Arrays.asList(toonStats.get(14).split("x"));
-        GetStats.getitemsfromIDtoJList(save,toonwearlist,wearDml,wearList,"dbItems","itemID",
-            "itemName");
-        List<String> tooncharmslist = Arrays.asList(toonStats.get(15).split("x"));
-        GetStats.getitemsfromIDtoJList(save,tooncharmslist,charmDml,charmList,"dbItems","itemID",
-            "itemName");
-        List<String> tooninvlist = Arrays.asList(toonStats.get(16).split("x"));
-        GetStats.getitemsfromIDtoJList(save,tooninvlist,invDml,invList,"dbItems","itemID",
-            "itemName");
-        
-        List<String> effStats = GetStats.getStats("Effects", charDrop.
-            getSelectedItem().toString(),0);
+        GetStats.getitemsfromIDtoJList(save,Arrays.asList(toonStats.get(13).
+            split("x")),heldDml,heldList,"dbItems","itemID","itemName");
+        GetStats.getitemsfromIDtoJList(save,Arrays.asList(toonStats.get(14).
+            split("x")),wearDml,wearList,"dbItems","itemID","itemName");
+        GetStats.getitemsfromIDtoJList(save,Arrays.asList(toonStats.get(15).
+            split("x")),charmDml,charmList,"dbItems","itemID","itemName");
+        GetStats.getitemsfromIDtoJList(save,Arrays.asList(toonStats.get(16).
+            split("x")),invDml,invList,"dbItems","itemID","itemName");
+        List<String> effStats = GetStats.getStats("Effects",toonStats,0);
         String statuscode = (((Arrays.toString(effStats.toArray())).replaceAll(
             "MASTER, ", "").replaceAll(",", "-")).replaceAll("[^\\d+\\-]",""));
         if(statuscode.length() <= 0) {
@@ -936,16 +806,15 @@ public class NewGameGUI extends javax.swing.JFrame {
         }
 
         // add in status decoder here (can be method in GetStats)
-        DefaultComboBoxModel effDml = new DefaultComboBoxModel();
-        GetStats.getitemsfromIDtoCBox(save,effStats,effDml,effBox,"dbEffects","effID",
-            "effName");
-
-
-        if(effBox.getItemAt(0).equals("<None>")) {
+        DefaultListModel effDml = new DefaultListModel();
+        GetStats.getitemsfromIDtoJList(save,effStats,effDml,effList,"dbEffects",
+            "effID","effName");
+        if(effList.getModel().getElementAt(0).equals("<None>")) {
             effDml.removeAllElements();
             effDml.addElement("Normal Health");
-            effBox.setEnabled(true);
+            effList.setEnabled(true);
         }
+
         String statusname = (GetData.dbQuery(save,"*","dbStatus","statusName",""
             + "Normal", false)).get(1);
         String statuscolor = (GetData.dbQuery(save,"*","dbStatus","statusName",
@@ -954,7 +823,8 @@ public class NewGameGUI extends javax.swing.JFrame {
             + "Normal", false)).get(3);
         String statusbio = (GetData.dbQuery(save,"*","dbStatus","statusName","N"
             + "ormal", false)).get(4);
-//        if(ChecksBalances.isNullOrEmpty(statuscode) || statuscode.equals("0")) {
+//        if(ChecksBalances.isNullOrEmpty(statuscode) || statuscode.equals("0"))
+//            {
 //            //put normal status here
 //        }
 
@@ -964,21 +834,21 @@ public class NewGameGUI extends javax.swing.JFrame {
         stat05Label.setFont(stat05Font);
         stat05Label.setForeground((Converters.figureoutColor(statuscolor)));
 
-        String bioInfo = Converters.capFirstLetter((GetData.dbQuery(save,"*","d"
-            + "bGender","genderID",toonStats.get(6),false)).get(5)) + " is a " + ((GetData.dbQuery(save, "*","dbAlign","alig"
-            + "nID",alignID,false)).get(6)) + " " + ageName + " " +
-            (GetData.dbQuery(save, "*", "dbGender", "genderID",toonStats.get(6),
-            false)).get(1) + " that is " + (GetData.dbQuery(save, "*","dbSize","sizeName",sizeName,
-            false)).get(4) + " " + (GetData.dbQuery(save, "*","dbRace","raceID",toonStats.get(2), false)).get(7) 
-            + " " + ((GetData.dbQuery(save, "*","dbClass","classID",toonStats.get(3), false)).get(4)) + " and " + statusbio  + ".\n\n"
-            + toonStats.get(9);
-
+        String bioInfo = Converters.capFirstLetter((GetData.dbQuery(save, "*",
+            "dbGender","genderID",toonStats.get(6),false)).get(5))+" is a "+((
+            GetData.dbQuery(save,"*","dbAlign","alignID",alignID,false)).get(6))
+            + " " + ageName +" " + (GetData.dbQuery(save, "*", "dbGender", 
+            "genderID",toonStats.get(6),false)).get(1) + " that is " + (GetData.
+            dbQuery(save, "*","dbSize","sizeName",sizeName,false)).get(4) + " " 
+            +(GetData.dbQuery(save,"*","dbRace","raceID",toonStats.get(2),false)
+            ).get(7) + " " + ((GetData.dbQuery(save, "*", "dbClass", "classID",
+            toonStats.get(3), false)).get(4)) + " and " + statusbio  + ".\n\n" +
+            toonStats.get(9);
         stat05Label.setToolTipText(statusname + ": " + statusdesc);
             //update health status above
         bioText.setText(bioInfo);
 
-        List<String>newStats=GetStats.getStats("Toon",charDrop.getSelectedItem()
-            .toString(),ratioXP);
+        List<String> newStats = GetStats.getStats("Toon",toonStats,ratioXP);
 
         hpVal.setText(newStats.get(0));
         mpVal.setText(newStats.get(1));
@@ -1048,13 +918,11 @@ public class NewGameGUI extends javax.swing.JFrame {
         sdLabel.setToolTipText(sdVal.getToolTipText());
         wmLabel.setToolTipText(wmVal.getToolTipText());
         rpLabel.setToolTipText(rpVal.getToolTipText());
-        List<String> toonabllist = GetStats.getStats("Abls", charDrop.
-            getSelectedItem().toString(),0);
-        
+        List<String> toonabllist = GetStats.getStats("Abls",toonStats,0);
         // add in status decoder here (can be method in GetStats)
-        DefaultComboBoxModel ablDml = new DefaultComboBoxModel();
-        GetStats.getitemsfromIDtoCBox(save,toonabllist,ablDml,ablBox,"dbAbl","ablID",
-            "ablName");
+        DefaultListModel ablDml = new DefaultListModel();
+        GetStats.getitemsfromIDtoJList(save,toonabllist,ablDml,ablList,"dbAbl",
+            "ablID","ablName");
         //all below is temporary
 //        String tempEmpty = "<Empty>";
 //add list for equip here
@@ -1068,6 +936,55 @@ public class NewGameGUI extends javax.swing.JFrame {
     
     private void changeChar() throws SQLException, BadLocationException {
         setChar(saveName, (String) charDrop.getSelectedItem());
+    }
+    
+    private void worldinfoText(String save) throws SQLException {
+        //add game date method here
+        String week = "1";
+        String month = "1";
+        String day = "1";
+        String year = "1";
+        //above it temp date
+        int count = ((GetData.dbQuery(save,"*","dbToons","toonName","",true)))
+            .size();
+        List<Integer> lvls = new ArrayList<>();
+        for(String lv : ((GetData.dbQuery(save,"*","dbToons","toonStartLv","",
+            true)))) lvls.add(Integer.valueOf(lv));
+        int toplv = Integer.MIN_VALUE;
+        int topidx = -1;
+        for (int l = 0; l < lvls.size(); l++) {
+            int val = lvls.get(l);
+            if (val > toplv) {
+                toplv = val;
+                topidx = l;
+            }
+        }
+        List<String> toptoon = GetData.dbQuery(save, "*", "dbToons", "toonID",
+            String.valueOf(topidx), false);
+        String topplayer = toptoon.get(1);
+        String alignment=((GetData.dbQuery(save, "*", "dbAlign", "alignID",
+            Calculator.getAlign(Integer.parseInt(toptoon.get(4))), false)).get(6
+            ));
+        String age = (Calculator.getAge(Integer.parseInt(toptoon.get(7)), 
+            toptoon.get(2)));
+        String gender = ((GetData.dbQuery(save,"*","dbGender","genderID",toptoon
+            .get(6),false)).get(1));
+        String race = (GetData.dbQuery(save,"*","dbRace","raceID",toptoon.get(2)
+            ,false)).get(7);
+        String clas = ((GetData.dbQuery(save, "*", "dbClass", "classID",toptoon.
+            get(3), false)).get(4));
+        String size = Calculator.getSize((GetData.dbQuery(save, "*", "dbRace",
+            "raceID",toptoon.get(2),false)).get(1), age);
+        
+        String text = "This world start at Week " + week + ", Month " + month 
+            + ", Day " + day + ", Year " + year + ".\n\nCurrently, there are " 
+            + count + " characters in the world.\n\nThe highest level character"
+            + " is " + topplayer + ", who is a " + alignment + " " + age + " " 
+            + gender + " that is " + size + " " + race + " " + clas + " at Leve"
+            + "l " + toplv + ".\n\nYour possiblities are Limitless!\n\nSelect y"
+            + "our character and then click Start New Game to begin your journe"
+            + "y.";
+        new TypeEffect(welcomeText,text,10).start();
     }
             
     private void cleanUp() {
@@ -1093,18 +1010,21 @@ public class NewGameGUI extends javax.swing.JFrame {
 
 //<editor-fold defaultstate="collapsed" desc="Footer Info">
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> ablBox;
     private javax.swing.JLabel ablLabel;
+    private javax.swing.JList<String> ablList;
+    private javax.swing.JScrollPane ablPane;
     private javax.swing.JLabel apLabel;
     private javax.swing.JLabel apVal;
     private javax.swing.JLabel atLabel;
     private javax.swing.JLabel atVal;
     private javax.swing.JScrollPane bioPane;
     private javax.swing.JTextArea bioText;
+    private javax.swing.JPanel bottomPane;
     private javax.swing.JLabel chLabel;
     private javax.swing.JLabel chVal;
     private javax.swing.JComboBox<String> charDrop;
     private javax.swing.JLabel charToon;
+    private javax.swing.JLabel charmLabel;
     private javax.swing.JList<String> charmList;
     private javax.swing.JScrollPane charmPane;
     private javax.swing.JButton confirmButton;
@@ -1112,15 +1032,15 @@ public class NewGameGUI extends javax.swing.JFrame {
     private javax.swing.JLabel dfVal;
     private javax.swing.JLabel dxLabel;
     private javax.swing.JLabel dxVal;
-    private javax.swing.JComboBox<String> effBox;
     private javax.swing.JLabel effLabel;
+    private javax.swing.JList<String> effList;
+    private javax.swing.JScrollPane effPane;
     private javax.swing.JLabel evLabel;
     private javax.swing.JLabel evVal;
     private javax.swing.JButton exitButton;
-    private javax.swing.JLabel feetLabel;
     private javax.swing.JLabel ftLabel;
     private javax.swing.JLabel ftVal;
-    private javax.swing.JLabel headLabel;
+    private javax.swing.JLabel heldLabel;
     private javax.swing.JList<String> heldList;
     private javax.swing.JScrollPane heldPane;
     private javax.swing.JLabel hpLabel;
@@ -1130,7 +1050,8 @@ public class NewGameGUI extends javax.swing.JFrame {
     private javax.swing.JLabel invLabel;
     private javax.swing.JList<String> invList;
     private javax.swing.JScrollPane invPane;
-    private javax.swing.JLabel leftLabel;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextPane jTextPane1;
     private javax.swing.JLabel limitLabel;
     private javax.swing.JLabel luLabel;
     private javax.swing.JLabel luVal;
@@ -1155,14 +1076,19 @@ public class NewGameGUI extends javax.swing.JFrame {
     private javax.swing.JLabel spVal;
     private javax.swing.JLabel stLabel;
     private javax.swing.JLabel stVal;
+    private javax.swing.JLabel startingworldLabel;
+    private javax.swing.JLabel startingworldLabel1;
     private javax.swing.JLabel stat01Label;
     private javax.swing.JLabel stat02Label;
     private javax.swing.JLabel stat03Label;
     private javax.swing.JLabel stat04Label;
     private javax.swing.JLabel stat05Label;
     private javax.swing.JLabel titleLogo;
+    private javax.swing.JLabel wearLabel;
     private javax.swing.JList<String> wearList;
     private javax.swing.JScrollPane wearPane;
+    private javax.swing.JScrollPane welcomePane;
+    private javax.swing.JTextArea welcomeText;
     private javax.swing.JLabel wlLabel;
     private javax.swing.JLabel wlVal;
     private javax.swing.JLabel wmLabel;

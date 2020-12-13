@@ -21,10 +21,8 @@ public class TypeEffect {
     private int index = 0;
     private final String in;
     private final JTextArea out;
-    private int rate;
     
-        public TypeEffect(JTextArea out, String in) {
-            this.rate = 25;
+        public TypeEffect(JTextArea out, String in, int rate) {
             this.out = out;
             this.in = in;
             timer = new Timer(rate, new ActionListener() {

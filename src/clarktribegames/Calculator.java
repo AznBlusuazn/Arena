@@ -74,9 +74,6 @@ public class Calculator {
             MainControls.saveExt)));
         return Integer.parseInt(GetData.dbQuery(save,"*","dbRace","raceID",race,
             false).get(5));
-//        List<String> racelist = GetData.dbQuery(save,"*","dbRace","raceID",race,
-//            false);
-//        return Integer.parseInt(racelist.get(27));
     }
     
     public static double getageAdjuster(double ratio) {
@@ -204,7 +201,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age < n1 * .01 * max) || (age > n2 * .01 * max)) {
+                            if((age < n1 * .01 * max) || (age > n2 * .01 * max))
+                            {
                                 addit = true;
                             }
                     } else {
@@ -227,7 +225,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age < n1 * .01 * max) && (age > n2 * .01 * max)) {
+                            if((age < n1 * .01 * max) && (age > n2 * .01 * max))
+                            {
                                 addit = true;
                             }
                     } else {
@@ -250,7 +249,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age < n1 * .01 * max) || (age == n2 * .01 * max)) {
+                            if((age < n1 * .01 * max) || (age == n2 * .01 * max)
+                                ) {
                                 addit = true;
                             }
                     } else {
@@ -273,7 +273,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age < n1 * .01 * max) && (age == n2 * .01 * max)) {
+                            if((age < n1 * .01 * max) && (age == n2 * .01 * max)
+                                ) {
                                 addit = true;
                             }
                     } else {
@@ -296,7 +297,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age < n1 * .01 * max) || (age <= n2 * .01 * max)) {
+                            if((age < n1 * .01 * max) || (age <= n2 * .01 * max)
+                                ) {
                                 addit = true;
                             }
                     } else {
@@ -319,7 +321,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age < n1 * .01 * max) && (age <= n2 * .01 * max)) {
+                            if((age < n1 * .01 * max) && (age <= n2 * .01 * max)
+                                ) {
                                 addit = true;
                             }
                     } else {
@@ -342,7 +345,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age < n1 * .01 * max) || (age >= n2 * .01 * max)) {
+                            if((age < n1 * .01 * max) || (age >= n2 * .01 * max)
+                                ) {
                                 addit = true;
                             }
                     } else {
@@ -365,7 +369,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age < n1 * .01 * max) && (age >= n2 * .01 * max)) {
+                            if((age < n1 * .01 * max) && (age >= n2 * .01 * max)
+                                ) {
                                 addit = true;
                             }
                     } else {
@@ -412,7 +417,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age > n1 * .01 * max) && (age < n2 * .01 * max)) {
+                            if((age > n1 * .01 * max) && (age < n2 * .01 * max))
+                            {
                                 addit = true;
                             }
                     } else {
@@ -435,7 +441,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age > n1 * .01 * max) || (age > n2 * .01 * max)) {
+                            if((age > n1 * .01 * max) || (age > n2 * .01 * max))
+                            {
                                 addit = true;
                             }
                     } else {
@@ -458,7 +465,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age > n1 * .01 * max) && (age > n2 * .01 * max)) {
+                            if((age > n1 * .01 * max) && (age > n2 * .01 * max))
+                            {
                                 addit = true;
                             }
                     } else {
@@ -481,7 +489,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age > n1 * .01 * max) || (age == n2 * .01 * max)) {
+                            if((age > n1 * .01 * max) || (age == n2 * .01 * max)
+                                ) {
                                 addit = true;
                             }
                     } else {
@@ -504,7 +513,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age > n1 * .01 * max) && (age == n2 * .01 * max)) {
+                            if((age > n1 * .01 * max) && (age == n2 * .01 * max)
+                                ) {
                                 addit = true;
                             }
                     } else {
@@ -527,7 +537,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age > n1 * .01 * max) || (age <= n2 * .01 * max)) {
+                            if((age > n1 * .01 * max) || (age <= n2 * .01 * max)
+                                ) {
                                 addit = true;
                             }
                     } else {
@@ -550,7 +561,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age > n1 * .01 * max) && (age <= n2 * .01 * max)) {
+                            if((age > n1 * .01 * max) && (age <= n2 * .01 * max)
+                                ) {
                                 addit = true;
                             }
                     } else {
@@ -573,7 +585,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age > n1 * .01 * max) || (age >= n2 * .01 * max)) {
+                            if((age > n1 * .01 * max) || (age >= n2 * .01 * max)
+                                ) {
                                 addit = true;
                             }
                     } else {
@@ -596,7 +609,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age > n1 * .01 * max) && (age >= n2 * .01 * max)) {
+                            if((age > n1 * .01 * max) && (age >= n2 * .01 * max)
+                                ) {
                                 addit = true;
                             }
                     } else {
@@ -643,7 +657,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age == n1 * .01 * max) && (age < n2 * .01 * max)) {
+                            if((age == n1 * .01 * max) && (age < n2 * .01 * max)
+                                ) {
                                 addit = true;
                             }
                     } else {
@@ -666,7 +681,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age == n1 * .01 * max) || (age > n2 * .01 * max)) {
+                            if((age == n1 * .01 * max) || (age > n2 * .01 * max)
+                                ) {
                                 addit = true;
                             }
                     } else {
@@ -689,7 +705,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age == n1 * .01 * max) && (age > n2 * .01 * max)) {
+                            if((age == n1 * .01 * max) && (age > n2 * .01 * max)
+                                ) {
                                 addit = true;
                             }
                     } else {
@@ -712,7 +729,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age == n1 * .01 * max) || (age == n2 * .01 * max)) {
+                            if((age == n1 * .01 * max) || (age == n2 * .01 * max
+                                )) {
                                 addit = true;
                             }
                     } else {
@@ -735,7 +753,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age ==n1 * .01 * max) && (age == n2 * .01 * max)) {
+                            if((age ==n1 * .01 * max) && (age == n2 * .01 * max)
+                                ) {
                                 addit = true;
                             }
                     } else {
@@ -758,7 +777,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age == n1 * .01 * max) || (age <= n2 * .01 * max)) {
+                            if((age == n1 * .01 * max) || (age <= n2 * .01 * max
+                                )) {
                                 addit = true;
                             }
                     } else {
@@ -781,7 +801,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age == n1 * .01 * max) && (age <= n2 * .01 * max)) {
+                            if((age == n1 * .01 * max) && (age <= n2 * .01 * max
+                                )) {
                                 addit = true;
                             }
                     } else {
@@ -804,7 +825,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age == n1 * .01 * max) || (age >= n2 * .01 * max)) {
+                            if((age == n1 * .01 * max) || (age >= n2 * .01 * max
+                                )) {
                                 addit = true;
                             }
                     } else {
@@ -827,7 +849,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age == n1 * .01 * max) && (age >= n2 * .01 * max)) {
+                            if((age == n1 * .01 * max) && (age >= n2 * .01 * max
+                                )) {
                                 addit = true;
                             }
                     } else {
@@ -874,7 +897,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age <= n1 * .01 * max) && (age < n2 * .01 * max)) {
+                            if((age <= n1 * .01 * max) && (age < n2 * .01 * max)
+                                ) {
                                 addit = true;
                             }
                     } else {
@@ -897,7 +921,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age <= n1 * .01 * max) || (age > n2 * .01 * max)) {
+                            if((age <= n1 * .01 * max) || (age > n2 * .01 * max)
+                                ) {
                                 addit = true;
                             }
                     } else {
@@ -920,7 +945,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age <= n1 * .01 * max) && (age > n2 * .01 * max)) {
+                            if((age <= n1 * .01 * max) && (age > n2 * .01 * max)
+                                ) {
                                 addit = true;
                             }
                     } else {
@@ -943,7 +969,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age <= n1 * .01 * max) || (age == n2 * .01 * max)) {
+                            if((age <= n1 * .01 * max) || (age == n2 * .01 * max
+                                )) {
                                 addit = true;
                             }
                     } else {
@@ -966,7 +993,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age <= n1 * .01 * max) && (age == n2 * .01 * max)) {
+                            if((age <= n1 * .01 * max) && (age == n2 * .01 * max
+                                )) {
                                 addit = true;
                             }
                     } else {
@@ -989,7 +1017,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age <= n1 * .01 * max) || (age <= n2 * .01 * max)) {
+                            if((age <= n1 * .01 * max) || (age <= n2 * .01 * max
+                                )) {
                                 addit = true;
                             }
                     } else {
@@ -1012,7 +1041,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age <= n1 * .01 * max) && (age <= n2 * .01 * max)) {
+                            if((age <= n1 * .01 * max) && (age <= n2 * .01 * max
+                                )) {
                                 addit = true;
                             }
                     } else {
@@ -1035,7 +1065,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age <= n1 * .01 * max) || (age >= n2 * .01 * max)) {
+                            if((age <= n1 * .01 * max) || (age >= n2 * .01 * max
+                                )) {
                                 addit = true;
                             }
                     } else {
@@ -1058,7 +1089,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age <= n1 * .01 * max) && (age >= n2 * .01 * max)) {
+                            if((age <= n1 * .01 * max) && (age >= n2 * .01 * max
+                                )) {
                                 addit = true;
                             }
                     } else {
@@ -1105,7 +1137,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age >= n1 * .01 * max) && (age < n2 * .01 * max)) {
+                            if((age >= n1 * .01 * max) && (age < n2 * .01 * max)
+                                ) {
                                 addit = true;
                             }
                     } else {
@@ -1128,7 +1161,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age >= n1 * .01 * max) || (age > n2 * .01 * max)) {
+                            if((age >= n1 * .01 * max) || (age > n2 * .01 * max)
+                                ) {
                                 addit = true;
                             }
                     } else {
@@ -1151,7 +1185,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age >= n1 * .01 * max) && (age > n2 * .01 * max)) {
+                            if((age >= n1 * .01 * max) && (age > n2 * .01 * max)
+                                ) {
                                 addit = true;
                             }
                     } else {
@@ -1174,7 +1209,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age >= n1 * .01 * max) || (age == n2 * .01 * max)) {
+                            if((age >= n1 * .01 * max) || (age == n2 * .01 * max
+                                )) {
                                 addit = true;
                             }
                     } else {
@@ -1197,7 +1233,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age >= n1 * .01 * max) && (age == n2 * .01 * max)) {
+                            if((age >= n1 * .01 * max) && (age == n2 * .01 * max
+                                )) {
                                 addit = true;
                             }
                     } else {
@@ -1220,7 +1257,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age >= n1 * .01 * max) || (age <= n2 * .01 * max)) {
+                            if((age >= n1 * .01 * max) || (age <= n2 * .01 * max
+                                )) {
                                 addit = true;
                             }
                     } else {
@@ -1243,7 +1281,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age >= n1 * .01 * max) && (age <= n2 * .01 * max)) {
+                            if((age >= n1 * .01 * max) && (age <= n2 * .01 * max
+                                )) {
                                 addit = true;
                             }
                     } else {
@@ -1266,7 +1305,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age >= n1 * .01 * max) || (age >= n2 * .01 * max)) {
+                            if((age >= n1 * .01 * max) || (age >= n2 * .01 * max
+                                )) {
                                 addit = true;
                             }
                     } else {
@@ -1289,7 +1329,8 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age >= n1 * .01 * max) && (age >= n2 * .01 * max)) {
+                            if((age >= n1 * .01 * max) && (age >= n2 * .01 * max
+                                )) {
                                 addit = true;
                             }
                     } else {
@@ -1304,9 +1345,8 @@ public class Calculator {
                results.add(i);
             }
         }
-
-        List<String> finalResult = GetData.dbQuery(save, "*","dbAge","ageID",((results.get(0)).toString()), false);
-        return (finalResult.get(1));
+        return (GetData.dbQuery(save,"*","dbAge","ageID",((
+            results.get(0)).toString()), false).get(1));
     }
     
     public static String getAlign(int alignCode) throws SQLException {
@@ -1317,9 +1357,11 @@ public class Calculator {
         String save = Converters.capFirstLetter((MainControls.selectedSave)
         .substring(0,(MainControls.selectedSave).indexOf("." + 
             MainControls.saveExt)));
-        List<String> alignname = GetData.dbQuery(save,"*","dbAlign","alignID","*",true);
+        List<String> alignname = GetData.dbQuery(save,"*","dbAlign","alignID",
+            "*",true);
         List<Integer> alignval = new ArrayList<>();
-        for (String s : (GetData.dbQuery(save,"*","dbAlign","alignRank","*",true))) {
+        for (String s : (GetData.dbQuery(save,"*","dbAlign","alignRank","*",true
+            ))) {
             alignval.add(Integer.valueOf(s));
         }
         if(code > alignval.get(1)) {
@@ -1337,13 +1379,16 @@ public class Calculator {
                         if((code == alignval.get(4))) {
                             return alignname.get(4);
                         } else {
-                            if((code < alignval.get(4)) && (code > alignval.get(5))) {
+                            if((code < alignval.get(4)) && (code > alignval.get
+                                (5))) {
                                 return alignname.get(5);
                             } else {
-                                if((code <= alignval.get(5)) && (code > alignval.get(6))) {
+                                if((code <= alignval.get(5)) && (code > alignval
+                                    .get(6))) {
                                     return alignname.get(6);
                                 } else {
-                                    if((code <= alignval.get(6)) && (code > alignval.get(7))) {
+                                    if((code <= alignval.get(6)) && (code > 
+                                        alignval.get(7))) {
                                         return alignname.get(7);
                                     } else {
                                         if(code <= alignval.get(7)) {
@@ -1361,7 +1406,8 @@ public class Calculator {
         }
     }
     
-    public static String getSize(String raceName, String ageName) throws SQLException {
+    public static String getSize(String raceName, String ageName) throws 
+        SQLException {
         return findSize (raceName, ageName);
     }
     
@@ -1369,8 +1415,10 @@ public class Calculator {
         String save = Converters.capFirstLetter((MainControls.selectedSave)
         .substring(0,(MainControls.selectedSave).indexOf("." + 
             MainControls.saveExt)));
-        int racesize = Integer.parseInt(GetData.dbQuery(save,"*","dbRace","raceName",race,false).get(3));
-        int ageid = Integer.parseInt(GetData.dbQuery(save,"*","dbAge","ageName",age,false).get(0));
+        int racesize = Integer.parseInt(GetData.dbQuery(save,"*","dbRace","race"
+            + "Name",race,false).get(3));
+        int ageid = Integer.parseInt(GetData.dbQuery(save,"*","dbAge","ageName",
+            age,false).get(0));
         String sizeid = "0";
         if(racesize > 0) {
             if(racesize == 1 && ageid <= 1) {

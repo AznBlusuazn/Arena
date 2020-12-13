@@ -25,8 +25,8 @@ public class GetData {
     static String dataMatchcol = "";
     static String dataMatchstr = "";
 
-    public static List<String> dbQuery(String save,String search,String table,String 
-            col,String matchstr,boolean isitSingle) throws SQLException {
+    public static List<String> dbQuery(String save,String search,String table,
+        String col,String matchstr,boolean isitSingle) throws SQLException {
         String tempList = "";
         if (!isitSingle) {
             tempList = (getSpecificRecord(save, search, table, col,
@@ -41,8 +41,8 @@ public class GetData {
         return convertedList;
     }
     
-    private static String getSingleList(String save, String search,String table,String column) 
-            throws SQLException {
+    private static String getSingleList(String save, String search,String table,
+        String column) throws SQLException {
         db1 = "jdbc:ucanaccess://" + MainControls.savesDir + "/" + save + "." + 
             MainControls.saveExt;
         String result = "";
@@ -59,8 +59,8 @@ public class GetData {
         return result;
     }
     
-    private static String getSpecificRecord(String save, String search,String table, String 
-            column, String matchstr) throws SQLException {
+    private static String getSpecificRecord(String save, String search,String 
+        table, String column, String matchstr) throws SQLException {
         db1 = "jdbc:ucanaccess://" + MainControls.savesDir + "/" + save + "." + 
             MainControls.saveExt;
         String match = (column + "=\"" + matchstr + "\"");

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import javax.swing.ImageIcon;
-import javazoom.jl.decoder.JavaLayerException;
 
 // <editor-fold defaultstate="collapsed" desc="credits">
 /**
