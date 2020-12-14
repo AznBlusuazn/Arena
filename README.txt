@@ -1,6 +1,6 @@
 =======================================
 LIMITLESS by Geoff Clark
-VERSION ALPHA 0.0.019 / 2020.12.13-1805
+VERSION ALPHA 0.0.019 / 2020.12.13-2216
 =======================================
 
 SUPPORT THE DEVELOPMENT OF THIS GAME @ 
@@ -47,7 +47,7 @@ Contact the author:  info@clarktribegames.com
 
 DEVELOPMENT NOTES
 
-ALPHA 0.0.019 / 2020.12.13-1805
+ALPHA 0.0.019 / 2020.12.13-2216
 
 - created a new sample character "The Prankster"
 - added a handful of inventory items to the db
@@ -59,6 +59,9 @@ ALPHA 0.0.019 / 2020.12.13-1805
 - added starting game world info on the character select
 - math to figure out who the top character is in the game -- text appears in the game world box
 - added some testing numbers for development purposes
+- condensed several lookups into universal variables to help with data times
+- removed unused code
+- successfully create new save data within db
 
 ALPHA 0.0.018 / 2020.12.11-2353
 

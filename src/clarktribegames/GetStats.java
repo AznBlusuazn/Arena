@@ -26,13 +26,13 @@ import javax.swing.JList;
 public class GetStats {
     
     public static List<String> getStats(String type, List<String> toonstats, 
-        double XPratio) throws SQLException {
+        double XPratio, boolean forNewGame) throws SQLException {
         String currentSavename = (Converters.capFirstLetter((MainControls.
             selectedSave).substring(0,(MainControls.selectedSave).indexOf("." + 
             MainControls.saveExt))));
         switch(type) {
             case "Toon" :
-                return getToonStats(currentSavename,toonstats,XPratio);
+                return getToonStats(currentSavename,toonstats,XPratio, forNewGame);
             case "Effects" :
                 return getEffectStats(currentSavename,toonstats);
             case "Abls" :
@@ -43,7 +43,7 @@ public class GetStats {
     }
     
     private static List<String> getToonStats(String savename, List<String> 
-        toonstats,double XPratio) throws SQLException {
+        toonstats,double XPratio, boolean forNewGame) throws SQLException {
         double lvl = Double.parseDouble(toonstats.get(8)) + XPratio;
         List<String> racestats = Arrays.asList((GetData.dbQuery(savename,"*","d"
             + "bRace","raceID",toonstats.get(2),false).get(6)).split("x"));
@@ -74,9 +74,13 @@ public class GetStats {
         }
         //the next line is for reputation -- update at some point
         basestatslist.add(String.valueOf((int)(lvl*(ageadjuster*1))));
+        if(forNewGame) {
+            return basestatslist;
+        } else {
         return getitemStats(savename,"Charm",toonstats,(getitemStats(savename,
             "Wear",toonstats,getitemStats(savename,"Held",toonstats,
             basestatslist))));
+        }
     }
     
     public static void getitemsfromIDtoJList(String save, List<String> list, 

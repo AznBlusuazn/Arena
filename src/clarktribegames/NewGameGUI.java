@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
@@ -197,6 +199,11 @@ public class NewGameGUI extends javax.swing.JFrame {
 
         confirmButton.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         confirmButton.setText("Start New Game");
+        confirmButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                confirmButtonActionPerformed(evt);
+            }
+        });
         getContentPane().add(confirmButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 760, 200, -1));
 
         stat01Label.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
@@ -622,6 +629,14 @@ public class NewGameGUI extends javax.swing.JFrame {
         }  
     }//GEN-LAST:event_exitButtonActionPerformed
 
+    private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
+        try {
+            GetData.createnewSave(saveName, "test");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_confirmButtonActionPerformed
+
     //<editor-fold defaultstate="collapsed" desc="Main Void">
     public static void main(String args[]) throws IOException {
 
@@ -798,7 +813,7 @@ public class NewGameGUI extends javax.swing.JFrame {
             split("x")),charmDml,charmList,"dbItems","itemID","itemName");
         GetStats.getitemsfromIDtoJList(save,Arrays.asList(toonStats.get(16).
             split("x")),invDml,invList,"dbItems","itemID","itemName");
-        List<String> effStats = GetStats.getStats("Effects",toonStats,0);
+        List<String> effStats = GetStats.getStats("Effects",toonStats,0,false);
         String statuscode = (((Arrays.toString(effStats.toArray())).replaceAll(
             "MASTER, ", "").replaceAll(",", "-")).replaceAll("[^\\d+\\-]",""));
         if(statuscode.length() <= 0) {
@@ -848,7 +863,7 @@ public class NewGameGUI extends javax.swing.JFrame {
             //update health status above
         bioText.setText(bioInfo);
 
-        List<String> newStats = GetStats.getStats("Toon",toonStats,ratioXP);
+        List<String> newStats = GetStats.getStats("Toon",toonStats,ratioXP,false);
 
         hpVal.setText(newStats.get(0));
         mpVal.setText(newStats.get(1));
@@ -918,7 +933,7 @@ public class NewGameGUI extends javax.swing.JFrame {
         sdLabel.setToolTipText(sdVal.getToolTipText());
         wmLabel.setToolTipText(wmVal.getToolTipText());
         rpLabel.setToolTipText(rpVal.getToolTipText());
-        List<String> toonabllist = GetStats.getStats("Abls",toonStats,0);
+        List<String> toonabllist = GetStats.getStats("Abls",toonStats,0,false);
         // add in status decoder here (can be method in GetStats)
         DefaultListModel ablDml = new DefaultListModel();
         GetStats.getitemsfromIDtoJList(save,toonabllist,ablDml,ablList,"dbAbl",
