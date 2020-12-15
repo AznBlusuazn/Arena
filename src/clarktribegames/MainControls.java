@@ -20,7 +20,7 @@ public class MainControls {
     
     //Main Controls Variables
     static String appName = "Limitless";
-    static String appVer = "0.0.019";
+    static String appVer = "0.0.020";
     static String settingsFile = "settings.ini";
     static String musicPath = "sounds/intro.mp3";
     static String defaultOGSave = "data.accdb";
@@ -33,6 +33,8 @@ public class MainControls {
     static String selectedSave = defaultSave;
     public URL iconURL = getClass().getResource("/clarktribegames/icon.png");
     public ImageIcon imageIcon = new ImageIcon(iconURL);
+    static String currentgamePath = "";
+    static String currentgame = "";
     
     //Settings.ini
     static boolean musicOn = true;
@@ -59,12 +61,14 @@ public class MainControls {
         }
     }
     
-    private static void firstCheck() throws IOException, InterruptedException, Exception {
+    private static void firstCheck() throws IOException, InterruptedException, 
+        Exception {
         try {
             clearTemp();
             ChecksBalances.newdirCheck(tempDir, true);
             ChecksBalances.newdirCheck(imageDir, false);
-            ChecksBalances.fileCheck("_empty_.png",(imageDir + "_empty_.png"),true,false);
+            ChecksBalances.fileCheck("_empty_.png",(imageDir + "_empty_.png"),
+                true,false);
             boolean libResult = (CmpImporter.cmpImport("lib"));
             boolean soundsResult = (CmpImporter.cmpImport("sounds"));
             ChecksBalances.newfileCheck(settingsFile,false,defaultSettings(),
@@ -79,7 +83,8 @@ public class MainControls {
                 int choice = Popups.optPopup(opts, title, message);
                 switch(choice) {
                     case 0:
-                        GoToWeb.openWeb("https://www.patreon.com/clarktribegames");
+                        GoToWeb.openWeb("https://www.patreon.com/clarktribegame"
+                            + "s");
                         break;
                     case 1:
                         GoToWeb.openWeb("https://www.paypal.me/aznblusuazn");

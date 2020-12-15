@@ -2,11 +2,14 @@ package clarktribegames;
 
 import java.awt.Color;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -102,13 +105,13 @@ public class Converters {
         if(noExtension) {
             absEnd = absolutepath.getAbsolutePath().lastIndexOf(".");
         }
-        String filename = (absolutepath.getAbsolutePath().substring(absolutepath.
-            getAbsolutePath().lastIndexOf("\\")+1,absEnd));
+        String filename = (absolutepath.getAbsolutePath().substring(absolutepath
+            .getAbsolutePath().lastIndexOf("\\")+1,absEnd));
         return filename;
     }
     
-    public static String getfromFile(String gffPath, boolean gffJustfirstline, boolean 
-            gffFirstcap) throws IOException {
+    public static String getfromFile(String gffPath, boolean gffJustfirstline, 
+        boolean gffFirstcap) throws IOException {
         String text = "";
         try {
             BufferedReader br = new BufferedReader(new FileReader(gffPath));
@@ -190,8 +193,20 @@ public class Converters {
         return newstatus;
     }
     
+    public static void savelisttoFile(List<String> listtoSave,String savePath) 
+        throws IOException {
+        try (FileWriter writer = new FileWriter(savePath, true)) {
+            String convertedList=listtoString(listtoSave).replaceAll("\n","x");
+            BufferedWriter bw = new BufferedWriter(writer);
+            PrintWriter out = new PrintWriter(bw);
+            out.println(convertedList);
+            out.close();
+            }
+    }
+    
     //<editor-fold defaultstate="collapsed" desc="Log File Method">
-    private static void logFile (String type, String loginfo) throws IOException {
+    private static void logFile (String type, String loginfo) throws IOException
+        {
         try {
             new LogWriter().writeLog(type,loginfo);
         } catch(IOException ioex) {

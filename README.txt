@@ -1,6 +1,6 @@
 =======================================
 LIMITLESS by Geoff Clark
-VERSION ALPHA 0.0.019 / 2020.12.13-2216
+VERSION ALPHA 0.0.020 / 2020.12.15-0850
 =======================================
 
 SUPPORT THE DEVELOPMENT OF THIS GAME @ 
@@ -46,6 +46,15 @@ Contact the author:  info@clarktribegames.com
 ====================================
 
 DEVELOPMENT NOTES
+
+ALPHA 0.0.020 / 2020.12.15-0850
+
+- recoded character select stats to cache prior to load to help with load times
+- added some wording for db generating
+- revisited calculations of stats
+- added "alias", "alias known", "alias image" fields for future use
+- added new sample character "Mr. Dream"
+- added millisecond delay to prevent an potential error when build save games
 
 ALPHA 0.0.019 / 2020.12.13-2216
 

@@ -36,6 +36,9 @@ public class NewGameGUI extends javax.swing.JFrame {
     String saveName = Converters.capFirstLetter((MainControls.selectedSave)
         .substring(0,(MainControls.selectedSave).indexOf("." + 
             MainControls.saveExt)));
+    String saveToons=((MainControls.savesDir).substring(((MainControls.savesDir)
+        .indexOf("/",0)))).substring(1,((MainControls.savesDir).substring(((
+        MainControls.savesDir).indexOf("/",0)))).indexOf("/", 1));
     List<String> toonList = null;
     DefaultComboBoxModel toonDml = new DefaultComboBoxModel();
     
@@ -46,7 +49,7 @@ public class NewGameGUI extends javax.swing.JFrame {
         setLocationRelativeTo(null);  
         popcharDrop(saveName);
         changeChar();
-        worldinfoText(saveName);
+        //worldinfoText(saveName);
     }
 
     @SuppressWarnings("unchecked")
@@ -136,6 +139,10 @@ public class NewGameGUI extends javax.swing.JFrame {
         startingworldLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextPane1 = new javax.swing.JTextPane();
+        aliasLabel = new javax.swing.JLabel();
+        aknownLabel = new javax.swing.JLabel();
+        aliasVal = new javax.swing.JLabel();
+        aknownVal = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle(this.appName + " [ALPHA v" + this.appVer + "]");
@@ -160,9 +167,9 @@ public class NewGameGUI extends javax.swing.JFrame {
 
         saveLabel.setFont(new java.awt.Font("Lucida Console", 1, 12)); // NOI18N
         saveLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        saveLabel.setText("Current Limitless Database:");
+        saveLabel.setText("Current Limitless Save Game:");
         saveLabel.setFocusable(false);
-        getContentPane().add(saveLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(616, 11, 434, 21));
+        getContentPane().add(saveLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(616, 11, 230, 21));
 
         charToon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         charToon.setText("[Player 1 Image Here]");
@@ -195,7 +202,7 @@ public class NewGameGUI extends javax.swing.JFrame {
         limitLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         limitLabel.setText("<Limit File Name>");
         limitLabel.setFocusable(false);
-        getContentPane().add(limitLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1056, 11, 134, 21));
+        getContentPane().add(limitLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 11, 340, 21));
 
         confirmButton.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         confirmButton.setText("Start New Game");
@@ -559,10 +566,30 @@ public class NewGameGUI extends javax.swing.JFrame {
 
         jTextPane1.setBorder(null);
         jTextPane1.setFont(new java.awt.Font("Lucida Console", 1, 12)); // NOI18N
-        jTextPane1.setText("The values to the right are for testing only...");
+        jTextPane1.setText("The values below and to the right are for testing only...");
         jScrollPane1.setViewportView(jTextPane1);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 675, 200, 40));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 650, 200, 40));
+
+        aliasLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
+        aliasLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        aliasLabel.setText("Alias:");
+        getContentPane().add(aliasLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 700, 50, 19));
+
+        aknownLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
+        aknownLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        aknownLabel.setText("Known:");
+        getContentPane().add(aknownLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 725, 50, 19));
+
+        aliasVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
+        aliasVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        aliasVal.setText("<value>");
+        getContentPane().add(aliasVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(815, 700, 160, 19));
+
+        aknownVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
+        aknownVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        aknownVal.setText("<value>");
+        getContentPane().add(aknownVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(815, 725, 160, 19));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -597,7 +624,7 @@ public class NewGameGUI extends javax.swing.JFrame {
     private void charDropActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_charDropActionPerformed
         try {
             changeChar();
-        } catch (SQLException | BadLocationException ex) {
+        } catch (SQLException | BadLocationException | IOException ex) {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_charDropActionPerformed
@@ -630,11 +657,7 @@ public class NewGameGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_exitButtonActionPerformed
 
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
-        try {
-            GetData.createnewSave(saveName, "test");
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
+        System.out.println("CONFIRM PRESSED");
     }//GEN-LAST:event_confirmButtonActionPerformed
 
     //<editor-fold defaultstate="collapsed" desc="Main Void">
@@ -727,9 +750,11 @@ public class NewGameGUI extends javax.swing.JFrame {
     }
 
     private void popcharDrop(String save) throws SQLException, IOException {
-        limitLabel.setText(saveName);
+        limitLabel.setText("[" + Converters.capFirstLetter(saveToons) + 
+            "] • [Database: " + saveName + "]");
         try {
-            toonList=GetData.dbQuery(save,"*","dbToons","toonName","",true);
+            String savetoons = "sav" + saveToons + "Toons";
+            toonList=GetData.dbQuery(save,"*",savetoons,"toonName","",true);
             fillSelect(charDrop,(toonList),toonDml);
         } catch(Exception ex) {
             logFile("severe","Char Select Error.\nEx: " + ex.toString());
@@ -751,76 +776,78 @@ public class NewGameGUI extends javax.swing.JFrame {
     }
  
     private void setChar(String save, String toonname) throws SQLException, 
-        BadLocationException {
-        List<String> toonStats = GetData.dbQuery(save, "*","dbToons",
-            "toonName",toonname, false);
+        BadLocationException,
+        IOException {
+        String savetoons = "sav" + saveToons + "Toons";
+        List<String> toonstats = GetData.dbQuery(save, "*",savetoons,"toonName",
+            toonname, false);
         new Avatars().setAvatar(charToon, charDrop.getSelectedItem().toString(),
-            toonStats.get(10));
-        double charXP=Double.parseDouble(Calculator.getLevel("ranxp",(toonStats.
-            get(8))));
+            toonstats.get(10));
+        double charXP = Double.parseDouble(toonstats.get(21));
         double nextXP = Double.parseDouble(Calculator.getLevel("stalv", String.
-            valueOf(Integer.parseInt(toonStats.get(8) + 1))));
+            valueOf(Integer.parseInt(toonstats.get(8) + 1))));
         double ratioXP = charXP / nextXP;
-        String alignID=Calculator.getAlign(Integer.parseInt(toonStats.get(4)));
+       String alignID=Calculator.getAlign(Integer.parseInt(toonstats.get(4)));
         String alignName=(GetData.dbQuery(save,"*","dbAlign","alignID",alignID, 
             false)).get(1);
         Font stat01Font = new Font(stat01Label.getFont().getName(),Font.BOLD,
             stat01Label.getFont().getSize());
 
-        String aligncolor=GetStats.getalignColor(Integer.parseInt((toonStats.get
+        String aligncolor=GetStats.getalignColor(Integer.parseInt((toonstats.get
             (4))));
         stat01Label.setText(alignName);
         stat01Label.setFont(stat01Font);
         stat01Label.setForeground((Converters.figureoutColor(aligncolor)));
         stat01Label.setToolTipText(alignName + ": " + (GetData.dbQuery(save, "*"
             ,"dbAlign","alignID",alignID, false)).get(2));
-        String ageName = (Calculator.getAge(Integer.parseInt(toonStats.get(7)), 
-            toonStats.get(2)));
-        String raceName = (GetData.dbQuery(save, "*","dbRace","raceID",toonStats
+        String ageName = (Calculator.getAge(Integer.parseInt(toonstats.get(7)), 
+            toonstats.get(2)));
+        String raceName = (GetData.dbQuery(save, "*","dbRace","raceID",toonstats
             .get(2), false)).get(1);
 
         String gendName = (GetData.dbQuery(save, "*", "dbGender", "genderID",
-            toonStats.get(6), false)).get(1);
+            toonstats.get(6), false)).get(1);
 
         stat02Label.setText(ageName + " • " + gendName);
         stat02Label.setToolTipText(ageName + ": " + (GetData.dbQuery(save, "*", 
             "dbAge","ageName",ageName, false)).get(3) + " • " + gendName + ": " 
-            + (GetData.dbQuery(save, "*","dbGender","genderID",toonStats.get(6),
+            + (GetData.dbQuery(save, "*","dbGender","genderID",toonstats.get(6),
             false)).get(2));
-
-        String sizeName = Calculator.getSize(raceName, ageName);
+        String sizeID = toonstats.get(22);
+        String sizeName=(GetData.dbQuery(save, "*", "dbSize", "sizeID", sizeID, 
+            false)).get(1);
         stat03Label.setText(sizeName + " • " + raceName);
         stat03Label.setToolTipText(sizeName + ": " + (GetData.dbQuery(save, "*",
-            "dbSize","sizeName",sizeName,false)).get(2) +  " • "  + raceName + 
-            ": " + (GetData.dbQuery(save,"*","dbRace","raceID",toonStats.get(2),
+            "dbSize","sizeID",sizeID,false)).get(2) +  " • "  + raceName + 
+            ": " + (GetData.dbQuery(save,"*","dbRace","raceID",toonstats.get(2),
             false)).get(2));
         String className = (GetData.dbQuery(save, "*", "dbClass", "classID",
-            toonStats.get(3), false)).get(1);
-        stat04Label.setText(className + " • Level " + toonStats.get(8));
+            toonstats.get(3), false)).get(1);
+        stat04Label.setText(className + " • Level " + toonstats.get(8));
         stat04Label.setToolTipText(className + ": " + (GetData.dbQuery(save,"*",
-            "dbClass","classID",toonStats.get(3), false)).get(2) + " • Level " +
-            toonStats.get(8));
+            "dbClass","classID",toonstats.get(3), false)).get(2) + " • Level " +
+            toonstats.get(8));
         //toonheld 13 | toonwear 14 | tooncharms 15 | tooninv 16
         DefaultListModel heldDml = new DefaultListModel();
         DefaultListModel wearDml = new DefaultListModel();
         DefaultListModel charmDml = new DefaultListModel();
         DefaultListModel invDml = new DefaultListModel();
-        GetStats.getitemsfromIDtoJList(save,Arrays.asList(toonStats.get(13).
+        GetStats.getitemsfromIDtoJList(save,Arrays.asList(toonstats.get(13).
             split("x")),heldDml,heldList,"dbItems","itemID","itemName");
-        GetStats.getitemsfromIDtoJList(save,Arrays.asList(toonStats.get(14).
+        GetStats.getitemsfromIDtoJList(save,Arrays.asList(toonstats.get(14).
             split("x")),wearDml,wearList,"dbItems","itemID","itemName");
-        GetStats.getitemsfromIDtoJList(save,Arrays.asList(toonStats.get(15).
+        GetStats.getitemsfromIDtoJList(save,Arrays.asList(toonstats.get(15).
             split("x")),charmDml,charmList,"dbItems","itemID","itemName");
-        GetStats.getitemsfromIDtoJList(save,Arrays.asList(toonStats.get(16).
+        GetStats.getitemsfromIDtoJList(save,Arrays.asList(toonstats.get(16).
             split("x")),invDml,invList,"dbItems","itemID","itemName");
-        List<String> effStats = GetStats.getStats("Effects",toonStats,0,false);
-        String statuscode = (((Arrays.toString(effStats.toArray())).replaceAll(
-            "MASTER, ", "").replaceAll(",", "-")).replaceAll("[^\\d+\\-]",""));
-        if(statuscode.length() <= 0) {
+        List<String> effStats;
+        try {
+            effStats = GetStats.getStats("Effects",toonstats,0,false);
+            String statuscode=(((Arrays.toString(effStats.toArray())).replaceAll
+            ("MASTER, ", "").replaceAll(",", "-")).replaceAll("[^\\d+\\-]",""));
+            if(statuscode.length() <= 0) {
             statuscode = "0";
         }
-
-        // add in status decoder here (can be method in GetStats)
         DefaultListModel effDml = new DefaultListModel();
         GetStats.getitemsfromIDtoJList(save,effStats,effDml,effList,"dbEffects",
             "effID","effName");
@@ -829,6 +856,13 @@ public class NewGameGUI extends javax.swing.JFrame {
             effDml.addElement("Normal Health");
             effList.setEnabled(true);
         }
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        
+        
+        // add in status decoder here (can be method in GetStats)
 
         String statusname = (GetData.dbQuery(save,"*","dbStatus","statusName",""
             + "Normal", false)).get(1);
@@ -850,42 +884,57 @@ public class NewGameGUI extends javax.swing.JFrame {
         stat05Label.setForeground((Converters.figureoutColor(statuscolor)));
 
         String bioInfo = Converters.capFirstLetter((GetData.dbQuery(save, "*",
-            "dbGender","genderID",toonStats.get(6),false)).get(5))+" is a "+((
+            "dbGender","genderID",toonstats.get(6),false)).get(5))+" is a "+((
             GetData.dbQuery(save,"*","dbAlign","alignID",alignID,false)).get(6))
             + " " + ageName +" " + (GetData.dbQuery(save, "*", "dbGender", 
-            "genderID",toonStats.get(6),false)).get(1) + " that is " + (GetData.
+            "genderID",toonstats.get(6),false)).get(1) + " that is " + (GetData.
             dbQuery(save, "*","dbSize","sizeName",sizeName,false)).get(4) + " " 
-            +(GetData.dbQuery(save,"*","dbRace","raceID",toonStats.get(2),false)
+            +(GetData.dbQuery(save,"*","dbRace","raceID",toonstats.get(2),false)
             ).get(7) + " " + ((GetData.dbQuery(save, "*", "dbClass", "classID",
-            toonStats.get(3), false)).get(4)) + " and " + statusbio  + ".\n\n" +
-            toonStats.get(9);
+            toonstats.get(3), false)).get(4)) + " and " + statusbio  + ".\n\n" +
+            toonstats.get(9);
         stat05Label.setToolTipText(statusname + ": " + statusdesc);
             //update health status above
         bioText.setText(bioInfo);
+        
+        List<String> newstats=Arrays.asList((GetData.dbQuery(save,"*",savetoons.
+            replaceAll("Toons","Temp"),"tempID",toonstats.get(0),false).get(1)).
+            split("x"));
 
-        List<String> newStats = GetStats.getStats("Toon",toonStats,ratioXP,false);
-
-        hpVal.setText(newStats.get(0));
-        mpVal.setText(newStats.get(1));
-        apVal.setText(newStats.get(2));
-        atVal.setText(newStats.get(3));
-        stVal.setText(newStats.get(4));
-        dfVal.setText(newStats.get(5));
-        saVal.setText(newStats.get(6));
-        spVal.setText(newStats.get(7));
-        evVal.setText(newStats.get(8));
-        dxVal.setText(newStats.get(9));
-        myVal.setText(newStats.get(10));
-        mdVal.setText(newStats.get(11));
-        meVal.setText(newStats.get(12));
-        wlVal.setText(newStats.get(13));
-        luVal.setText(newStats.get(14));
-        chVal.setText(newStats.get(15));
-        inVal.setText(newStats.get(16));
-        ftVal.setText(newStats.get(17));
-        sdVal.setText(newStats.get(18) + "/" + (newStats.get(19)));
-        wmVal.setText(newStats.get(20));
-        rpVal.setText(newStats.get(21));
+        hpVal.setText(newstats.get(0));
+        mpVal.setText(newstats.get(1));
+        apVal.setText(newstats.get(2));
+        atVal.setText(newstats.get(3));
+        stVal.setText(newstats.get(4));
+        dfVal.setText(newstats.get(5));
+        saVal.setText(newstats.get(6));
+        spVal.setText(newstats.get(7));
+        evVal.setText(newstats.get(8));
+        dxVal.setText(newstats.get(9));
+        myVal.setText(newstats.get(10));
+        mdVal.setText(newstats.get(11));
+        meVal.setText(newstats.get(12));
+        wlVal.setText(newstats.get(13));
+        luVal.setText(newstats.get(14));
+        chVal.setText(newstats.get(15));
+        inVal.setText(newstats.get(16));
+        ftVal.setText(newstats.get(17));
+        sdVal.setText(newstats.get(18) + "/" + (newstats.get(19)));
+        wmVal.setText(newstats.get(20));
+        rpVal.setText(newstats.get(21));
+        
+        if(ChecksBalances.isNullOrEmpty(toonstats.get(17)) || (toonstats.get(17).equals("null"))) {
+            aliasVal.setVisible(false);
+            aliasLabel.setVisible(false);
+            aknownVal.setVisible(false);
+            aknownLabel.setVisible(false);
+        }
+        aliasVal.setText(toonstats.get(17));
+        if(toonstats.get(19).equals("0")) {
+            aknownVal.setText("Alias Known");
+        } else {
+            aknownVal.setText("Secret Identity");
+        }
 
         hpVal.setToolTipText("HTP: Maximum amount of health -- the life force");
         mpVal.setToolTipText("MYP: Maximum amount of mystic -- magic points");
@@ -933,7 +982,7 @@ public class NewGameGUI extends javax.swing.JFrame {
         sdLabel.setToolTipText(sdVal.getToolTipText());
         wmLabel.setToolTipText(wmVal.getToolTipText());
         rpLabel.setToolTipText(rpVal.getToolTipText());
-        List<String> toonabllist = GetStats.getStats("Abls",toonStats,0,false);
+        List<String> toonabllist = GetStats.getStats("Abls",toonstats,0,false);
         // add in status decoder here (can be method in GetStats)
         DefaultListModel ablDml = new DefaultListModel();
         GetStats.getitemsfromIDtoJList(save,toonabllist,ablDml,ablList,"dbAbl",
@@ -949,7 +998,8 @@ public class NewGameGUI extends javax.swing.JFrame {
         
     }
     
-    private void changeChar() throws SQLException, BadLocationException {
+    private void changeChar() throws SQLException, BadLocationException,
+        IOException {
         setChar(saveName, (String) charDrop.getSelectedItem());
     }
     
@@ -960,23 +1010,27 @@ public class NewGameGUI extends javax.swing.JFrame {
         String day = "1";
         String year = "1";
         //above it temp date
-        int count = ((GetData.dbQuery(save,"*","dbToons","toonName","",true)))
+        String savetoons = "sav" + saveToons + "Toons";
+        int count = ((GetData.dbQuery(save,"*",savetoons,"toonName","",true)))
             .size();
-        List<Integer> lvls = new ArrayList<>();
-        for(String lv : ((GetData.dbQuery(save,"*","dbToons","toonStartLv","",
-            true)))) lvls.add(Integer.valueOf(lv));
+        List<Integer> exps = new ArrayList<>();
+        for(String exp : ((GetData.dbQuery(save,"*",savetoons,"toonExp","",
+            true)))) exps.add(Integer.valueOf(exp));
         int toplv = Integer.MIN_VALUE;
         int topidx = -1;
-        for (int l = 0; l < lvls.size(); l++) {
-            int val = lvls.get(l);
+
+        for (int l = 0; l < exps.size(); l++) {
+            int val = exps.get(l);
             if (val > toplv) {
                 toplv = val;
                 topidx = l;
             }
         }
-        List<String> toptoon = GetData.dbQuery(save, "*", "dbToons", "toonID",
+
+        List<String> toptoon = GetData.dbQuery(save, "*", savetoons, "toonID",
             String.valueOf(topidx), false);
         String topplayer = toptoon.get(1);
+
         String alignment=((GetData.dbQuery(save, "*", "dbAlign", "alignID",
             Calculator.getAlign(Integer.parseInt(toptoon.get(4))), false)).get(6
             ));
@@ -996,9 +1050,9 @@ public class NewGameGUI extends javax.swing.JFrame {
             + count + " characters in the world.\n\nThe highest level character"
             + " is " + topplayer + ", who is a " + alignment + " " + age + " " 
             + gender + " that is " + size + " " + race + " " + clas + " at Leve"
-            + "l " + toplv + ".\n\nYour possiblities are Limitless!\n\nSelect y"
-            + "our character and then click Start New Game to begin your journe"
-            + "y.";
+            + "l " + Calculator.getLevel("curlv", String.valueOf(toplv)) + ".\n"
+            + "\nYour possiblities are Limitless!\n\nSelect your character and "
+            + "then click Start New Game to begin your journey.";
         new TypeEffect(welcomeText,text,10).start();
     }
             
@@ -1028,6 +1082,10 @@ public class NewGameGUI extends javax.swing.JFrame {
     private javax.swing.JLabel ablLabel;
     private javax.swing.JList<String> ablList;
     private javax.swing.JScrollPane ablPane;
+    private javax.swing.JLabel aknownLabel;
+    private javax.swing.JLabel aknownVal;
+    private javax.swing.JLabel aliasLabel;
+    private javax.swing.JLabel aliasVal;
     private javax.swing.JLabel apLabel;
     private javax.swing.JLabel apVal;
     private javax.swing.JLabel atLabel;

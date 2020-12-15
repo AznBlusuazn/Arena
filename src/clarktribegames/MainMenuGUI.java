@@ -17,6 +17,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javazoom.jl.decoder.JavaLayerException;
 
 /**
@@ -300,15 +301,38 @@ public class MainMenuGUI extends javax.swing.JFrame {
             IOException, URISyntaxException, Exception {
         //dispose();
         try {
-            cleanUp();
             if(!MainControls.samedbOn) {
                 limitSelect();
             } else {
                 MainControls.selectedSave = MainControls.defaultDB + "." + 
                     MainControls.saveExt;
             }
-            MPlayer.stopMedia();
-            new NewGameGUI().setVisible(true);
+            boolean continueon = false;
+            MainControls.currentgamePath=JOptionPane.showInputDialog(null, "New"
+                + " Game", "Enter a savename for the New Game:",JOptionPane
+                .PLAIN_MESSAGE);
+            continueon = ChecksBalances.newGame(MainControls.currentgamePath);
+            if(continueon) {
+                cleanUp();
+                MainControls.currentgame=MainControls.currentgamePath.substring(
+                    MainControls.currentgamePath.indexOf("/",0),MainControls
+                    .currentgamePath.indexOf("/",MainControls.currentgamePath
+                    .indexOf("/") + 1)).replaceAll("/","");
+                Popups.infoPopup("Building Save Game","Your new game world will"
+                    + " now be built.  Please be patient.");
+                MainControls.savesDir="saves/" + MainControls.currentgame + "/";
+                GetData.createnewSave(Converters.capFirstLetter((MainControls
+                    .selectedSave).substring(0,(MainControls.selectedSave)
+                    .indexOf("." + MainControls.saveExt))), MainControls
+                    .currentgame);
+                Popups.infoPopup("Save Game Built","Your new game world has bee"
+                    + "n built.  Thank you for your patience.");
+
+                MPlayer.stopMedia();
+                new NewGameGUI().setVisible(true);
+            } else {
+                MainControls.currentgamePath = "";
+            }
         } catch(Exception ex) {
             logFile("severe","New Button Error.  Exception: " + ex);
         }

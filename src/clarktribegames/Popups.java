@@ -59,6 +59,10 @@ public class Popups {
     public static void infoPopup(String t, String m) {
         JOptionPane.showMessageDialog(null,m,t,JOptionPane.INFORMATION_MESSAGE);
     }
+
+    public static void inputPopup(String t, String m) {
+        JOptionPane.showInputDialog(null,m,t,JOptionPane.PLAIN_MESSAGE);
+    }    
     
 //<editor-fold defaultstate="collapsed" desc="Log File Method">
     private static void logFile (String type, String loginfo) throws IOException {
