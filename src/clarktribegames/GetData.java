@@ -116,24 +116,25 @@ public class GetData {
     
     public static void createnewSave(String save,String game)throws SQLException
         , IOException, InterruptedException {
-        copyTab(save,game,"dbToons");
+        copyTab(save,"dbToons", "sav" + game.toLowerCase() + "Toons");
         buildtoonSave(save,game);
+        copyTab(save,"sav"+game.toLowerCase()+"Toons","sav"+game.toLowerCase()+ 
+            "Max");
     }
     
-    private static void copyTab(String save,String game,String oldtable) throws 
-        SQLException {
-        String newgame = "sav" + game.toLowerCase();
-        String newtable = oldtable.replaceAll("db", (newgame));
+    private static void copyTab(String save,String oldtable,String newtable) 
+        throws SQLException {
         db1 = "jdbc:ucanaccess://" + MainControls.savesDir + "/" + save + "." + 
             MainControls.saveExt;
         try (Connection con = DriverManager.getConnection(db1, db2, db3)) {
             String savepath = MainControls.savesDir + Converters.capFirstLetter(
-                (MainControls.selectedSave)
-        .substring(0,(MainControls.selectedSave).indexOf("." + 
-            MainControls.saveExt))) + "." + MainControls.saveExt;
+                (MainControls.selectedSave).substring(0,(MainControls
+                .selectedSave).indexOf("." + MainControls.saveExt))) + "." + 
+                MainControls.saveExt;
             try (Statement s = con.createStatement()) {
                 try (ResultSet rs = s.executeQuery("SELECT * FROM [" + oldtable 
                     + "]")) {
+                    Thread.sleep(750);
                     Database db=new DatabaseBuilder().setAutoSync(false).setFile
                         (new File(savepath)).open();
                     ImportUtil.importResultSet(rs, db, newtable,new 
@@ -156,7 +157,7 @@ public class GetData {
                     db.flush();
                 }
             }
-            con.close();
+            con.close(); 
         } catch (Exception e) {
             e.printStackTrace(System.err);
         }
@@ -184,7 +185,7 @@ public class GetData {
             toonStats = toonStats.substring(1, toonStats.length() - 1);
             String savepath = MainControls.savesDir + Converters.capFirstLetter
                 ((MainControls.selectedSave));
-            Thread.sleep(500);
+            Thread.sleep(750);
             try (Connection con=DriverManager.getConnection("jdbc:ucanaccess://"
                 + savepath, db2, db3)) {
                 try (Statement s = con.createStatement()) {

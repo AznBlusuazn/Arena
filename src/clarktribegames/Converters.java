@@ -7,6 +7,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -97,6 +98,15 @@ public class Converters {
             logFile("severe","Folder To List Converter, Ex:" + ex.toString());
         }
         return result;
+    }
+    
+    public static List<String> subfolderstoList(String dir) throws IOException {
+        return Arrays.asList(new File(dir).list(new FilenameFilter() {
+            @Override
+            public boolean accept(File current, String name) {
+                return new File(current, name).isDirectory();
+            }
+        }));
     }
     
     public static String filenamefromPath(File absolutepath, boolean noExtension
@@ -202,6 +212,25 @@ public class Converters {
             out.println(convertedList);
             out.close();
             }
+    }
+    
+    public static List<String> capStringList(List<String> listtoCap) {
+        if(listtoCap.size() > 0) {
+            for (int index = 0; index < listtoCap.size(); index++) {
+                String name = listtoCap.get(index);
+                String[] names = name.split("\\s+");
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < names.length; i++) {
+                    if (i != 0) {
+                        sb.append(' ');
+                    }
+                    sb.append(Character.toUpperCase(names[i].charAt(0)));
+                    sb.append(names[i].substring(1).toLowerCase());
+                }
+                listtoCap.set(index, sb.toString());
+            }
+        }
+        return listtoCap;
     }
     
     //<editor-fold defaultstate="collapsed" desc="Log File Method">

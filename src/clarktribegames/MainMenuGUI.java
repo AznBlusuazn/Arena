@@ -5,20 +5,16 @@ import java.awt.Font;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
-import javazoom.jl.decoder.JavaLayerException;
 
 /**
  * 
@@ -32,12 +28,7 @@ import javazoom.jl.decoder.JavaLayerException;
 
 public class MainMenuGUI extends javax.swing.JFrame {
 
-    String appName;
-    String appVer;
-    
     public MainMenuGUI() throws IOException, Exception {
-        this.appName = MainControls.appName;
-        this.appVer = MainControls.appVer;
         initComponents();
         setLocationRelativeTo(null);
     }
@@ -56,7 +47,7 @@ public class MainMenuGUI extends javax.swing.JFrame {
         exitButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle(this.appName + " [ALPHA v" + this.appVer + "]");
+        setTitle(MainControls.appTitle);
         setIconImage(new MainControls().imageIcon.getImage());
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -81,8 +72,7 @@ public class MainMenuGUI extends javax.swing.JFrame {
         });
 
         loadButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        loadButton.setText("Disabled (Future Load Game)");
-        loadButton.setEnabled(false);
+        loadButton.setText("Continue Saved Game");
         loadButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loadButtonActionPerformed(evt);
@@ -190,7 +180,13 @@ public class MainMenuGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_newButtonActionPerformed
 
     private void loadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadButtonActionPerformed
-        loadButton();
+        try {
+            loadButton();
+        } catch (IOException | SQLException ex) {
+            ex.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_loadButtonActionPerformed
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
@@ -249,6 +245,7 @@ public class MainMenuGUI extends javax.swing.JFrame {
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         MPlayer.mediaPlayer(true);
+        savegameCheck();
     }//GEN-LAST:event_formWindowActivated
     
     //<editor-fold defaultstate="collapsed" desc="Main Void">
@@ -327,19 +324,40 @@ public class MainMenuGUI extends javax.swing.JFrame {
                     .currentgame);
                 Popups.infoPopup("Save Game Built","Your new game world has bee"
                     + "n built.  Thank you for your patience.");
-
                 MPlayer.stopMedia();
                 new NewGameGUI().setVisible(true);
             } else {
                 MainControls.currentgamePath = "";
             }
         } catch(Exception ex) {
-            logFile("severe","New Button Error.  Exception: " + ex);
+            //
         }
     }
 
-    private void loadButton() {
-        
+    private void loadButton() throws IOException, SQLException, Exception {
+        if(ChecksBalances.checknoofSubdirs(MainControls.savesDir)) {
+            List<String> loadlist = Converters.capStringList(Converters
+                .subfolderstoList(MainControls.savesDir));
+            JComboBox<String> loadOptions = new JComboBox<>();
+            loadOptions.setModel(new DefaultComboBoxModel<>(loadlist.toArray(new
+                String[0])));
+            String loadChoice = (Popups.comboboxPopup("Load a Saved Game", "Sel"
+                + "ect the Saved Game to Load:", loadOptions)).toLowerCase();
+            MainControls.savesDir = MainControls.defaultsavesDir + loadChoice + 
+                "/";
+            MainControls.selectedSave = ChecksBalances.getLast(new File(
+                MainControls .savesDir + ".lastused"));
+            MainControls.selectedToon = Converters.getfromFile(MainControls
+                .savesDir + ".lastused", true, false);
+            MPlayer.stopMedia();
+            cleanUp();
+            StartGame.startGame(MainControls.selectedSave, "sav" + loadChoice + 
+                "Toons", "sav" + loadChoice + " Max");
+            
+        } else {
+            Popups.warnPopup("No Saves Available", "You have no save games avai"
+                + "lable.");
+        }
     }
 
     private void editButton() {
@@ -600,12 +618,22 @@ public class MainMenuGUI extends javax.swing.JFrame {
         dispose();
     }
     
+    private void savegameCheck() {
+        if(!(ChecksBalances.checknoofSubdirs(MainControls.savesDir))) {
+            loadButton.setText("No Saved Games Available");
+            loadButton.setEnabled(false);
+        } else {
+            loadButton.setText("Continue Saved Game");
+            loadButton.setEnabled(true);
+        }
+    }
+    
     private void exitProcess() throws IOException, InterruptedException {
         cleanUp();
         MainControls.clearTemp();
         System.exit(0);
     }
-
+    
 //<editor-fold defaultstate="collapsed" desc="Footer Info">
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton aboutButton;

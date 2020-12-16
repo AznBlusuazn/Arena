@@ -1,6 +1,6 @@
 =======================================
 LIMITLESS by Geoff Clark
-VERSION ALPHA 0.0.020 / 2020.12.15-0850
+VERSION ALPHA 0.0.020 / 2020.12.15-1917
 =======================================
 
 SUPPORT THE DEVELOPMENT OF THIS GAME @ 
@@ -46,6 +46,17 @@ Contact the author:  info@clarktribegames.com
 ====================================
 
 DEVELOPMENT NOTES
+
+ALPHA 0.0.021 / 2020.12.15-1917
+
+- enabled load save option at main menu
+- added detect for if save games exist or not
+- created mechanism to load save game with correct character and correct database
+- completed randomized exhibition selection
+- added check to make sure you can't face yourself!
+- added versus screen before the battle
+- added addition copy of save game db called max for max stats (post battle reset)
+
 
 ALPHA 0.0.020 / 2020.12.15-0850
 

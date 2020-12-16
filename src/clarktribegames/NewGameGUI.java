@@ -8,8 +8,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
@@ -31,8 +29,6 @@ import javazoom.jl.decoder.JavaLayerException;
 
 public class NewGameGUI extends javax.swing.JFrame {
 
-    String appName;
-    String appVer;
     String saveName = Converters.capFirstLetter((MainControls.selectedSave)
         .substring(0,(MainControls.selectedSave).indexOf("." + 
             MainControls.saveExt)));
@@ -43,13 +39,11 @@ public class NewGameGUI extends javax.swing.JFrame {
     DefaultComboBoxModel toonDml = new DefaultComboBoxModel();
     
     public NewGameGUI() throws IOException, Exception {
-        this.appName = MainControls.appName;
-        this.appVer = MainControls.appVer;
         initComponents();
         setLocationRelativeTo(null);  
         popcharDrop(saveName);
         changeChar();
-        //worldinfoText(saveName);
+        worldinfoText(saveName);
     }
 
     @SuppressWarnings("unchecked")
@@ -145,7 +139,7 @@ public class NewGameGUI extends javax.swing.JFrame {
         aknownVal = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setTitle(this.appName + " [ALPHA v" + this.appVer + "]");
+        setTitle(MainControls.appTitle);
         setIconImage(new MainControls().imageIcon.getImage());
         setSize(new java.awt.Dimension(1200, 850));
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -657,7 +651,11 @@ public class NewGameGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_exitButtonActionPerformed
 
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
-        System.out.println("CONFIRM PRESSED");
+        try {
+            confirmButton();
+        } catch (SQLException | IOException ex) {
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_confirmButtonActionPerformed
 
     //<editor-fold defaultstate="collapsed" desc="Main Void">
@@ -741,6 +739,8 @@ public class NewGameGUI extends javax.swing.JFrame {
     
     private void menuOption() throws IOException, Exception {
         try {
+            ChecksBalances.iffolderexistsDelete(MainControls.savesDir);
+            MainControls.savesDir = MainControls.defaultsavesDir;
             System.gc();
             this.dispose();
             new MainMenuGUI().setVisible(true);
@@ -787,7 +787,7 @@ public class NewGameGUI extends javax.swing.JFrame {
         double nextXP = Double.parseDouble(Calculator.getLevel("stalv", String.
             valueOf(Integer.parseInt(toonstats.get(8) + 1))));
         double ratioXP = charXP / nextXP;
-       String alignID=Calculator.getAlign(Integer.parseInt(toonstats.get(4)));
+        String alignID=Calculator.getAlign(Integer.parseInt(toonstats.get(4)));
         String alignName=(GetData.dbQuery(save,"*","dbAlign","alignID",alignID, 
             false)).get(1);
         Font stat01Font = new Font(stat01Label.getFont().getName(),Font.BOLD,
@@ -923,7 +923,8 @@ public class NewGameGUI extends javax.swing.JFrame {
         wmVal.setText(newstats.get(20));
         rpVal.setText(newstats.get(21));
         
-        if(ChecksBalances.isNullOrEmpty(toonstats.get(17)) || (toonstats.get(17).equals("null"))) {
+        if(ChecksBalances.isNullOrEmpty(toonstats.get(17)) || (toonstats.get(17)
+            .equals("null"))) {
             aliasVal.setVisible(false);
             aliasLabel.setVisible(false);
             aknownVal.setVisible(false);
@@ -1055,6 +1056,25 @@ public class NewGameGUI extends javax.swing.JFrame {
             + "then click Start New Game to begin your journey.";
         new TypeEffect(welcomeText,text,10).start();
     }
+    
+    private void confirmButton() throws SQLException, IOException {
+        String savetoons = "sav" + saveToons + "Toons";
+        String savemax = "sav" + saveToons + "Max";
+        MainControls.selectedToon = GetData.dbQuery(saveName,"*",savetoons, 
+            "toonID",String.valueOf(charDrop.getSelectedIndex()), false).get(0);
+        boolean yesno = Popups.yesnoPopup("Character Selection", "You've select"
+            + "ed " + charDrop.getSelectedItem() + " as your character.\n\nAre "
+            + "you sure you want to start the game?");
+        if(yesno) {
+            ChecksBalances.newfileCheck(MainControls.savesDir+".lastused",true,
+                MainControls.selectedToon+"\n"+MainControls.selectedSave
+                .replaceAll("." + MainControls.saveExt,""),true);
+            cleanUp();
+            StartGame.startGame(saveName, savetoons, savemax);
+        } else {
+            MainControls.selectedToon = "";
+        }
+    }
             
     private void cleanUp() {
         System.gc();
@@ -1063,6 +1083,7 @@ public class NewGameGUI extends javax.swing.JFrame {
     
     private void exitProcess() throws IOException, JavaLayerException {
         cleanUp();
+        ChecksBalances.iffolderexistsDelete(MainControls.savesDir);
         System.exit(0);
     }
     

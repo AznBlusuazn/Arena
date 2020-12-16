@@ -20,13 +20,17 @@ public class MainControls {
     
     //Main Controls Variables
     static String appName = "Limitless";
-    static String appVer = "0.0.020";
+    static String appVer = "0.0.021";
+    static String appTitle = appName + " [ALPHA v" + appVer + "]";
     static String settingsFile = "settings.ini";
     static String musicPath = "sounds/intro.mp3";
+    static String custommusicPath = "custom/music";
+    static String custommusicSounds = "custom/sounds";
     static String defaultOGSave = "data.accdb";
     static String saveExt = "limit";
     static String defaultSave = "default" + "." + saveExt;
-    static String savesDir = "saves/";
+    static String defaultsavesDir = "saves/";
+    static String savesDir = defaultsavesDir;
     static String imageDir = "avatars/";
     static String tempDir = "temp/";
     static String lastusedSave = savesDir + ".lastused";
@@ -35,6 +39,7 @@ public class MainControls {
     public ImageIcon imageIcon = new ImageIcon(iconURL);
     static String currentgamePath = "";
     static String currentgame = "";
+    static String selectedToon = "";
     
     //Settings.ini
     static boolean musicOn = true;
@@ -67,6 +72,8 @@ public class MainControls {
             clearTemp();
             ChecksBalances.newdirCheck(tempDir, true);
             ChecksBalances.newdirCheck(imageDir, false);
+            ChecksBalances.newdirCheck(custommusicPath, false);
+            ChecksBalances.newdirCheck(custommusicSounds, false);
             ChecksBalances.fileCheck("_empty_.png",(imageDir + "_empty_.png"),
                 true,false);
             boolean libResult = (CmpImporter.cmpImport("lib"));

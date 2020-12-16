@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -14,13 +15,17 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.nio.channels.FileChannel;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.swing.JOptionPane;
 
 // <editor-fold defaultstate="collapsed" desc="credits">
@@ -150,6 +155,18 @@ public class ChecksBalances {
             System.gc();
             Files.deleteIfExists(Paths.get(filepath));
             ex.printStackTrace();
+        }
+    }
+    
+    public static void iffolderexistsDelete(String dirpath) throws IOException {
+        if(new File(dirpath).exists()) {
+            try {
+                Path rootPath = Paths.get(dirpath);
+                Files.walk(rootPath).sorted(Comparator.reverseOrder())
+                    .map(Path::toFile).forEach(File::delete);
+            } catch (IOException ex) {
+            ex.printStackTrace();
+            }
         }
     }
     
@@ -347,6 +364,20 @@ public class ChecksBalances {
             return continueGame;
         }
         return true;
+    }
+    
+    public static boolean checknoofSubdirs (String dir) {
+        int noofSubdirs = (Arrays.asList(new File(dir).list(new FilenameFilter() {
+            @Override
+            public boolean accept(File current, String name) {
+                return new File(current, name).isDirectory();
+            }
+        }))).size();
+        if(noofSubdirs > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
     
 //<editor-fold defaultstate="collapsed" desc="Log File Method">
