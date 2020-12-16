@@ -1,6 +1,6 @@
 =======================================
 LIMITLESS by Geoff Clark
-VERSION ALPHA 0.0.020 / 2020.12.16-0043
+VERSION ALPHA 0.0.022 / 2020.12.16-1632
 =======================================
 
 SUPPORT THE DEVELOPMENT OF THIS GAME @ 
@@ -46,6 +46,14 @@ Contact the author:  info@clarktribegames.com
 ====================================
 
 DEVELOPMENT NOTES
+
+ALPHA 0.0.022 / 2020.12.16-1632
+
+- further built out battle gui
+- completed stat imports for main stats
+- enabled "quick look" buttons for items, effects, and abilities of active toons
+- set up mechanics for future "team" battles
+- streamlined stat loading for future optimization
 
 ALPHA 0.0.021 / 2020.12.16-0043
 

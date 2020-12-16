@@ -245,8 +245,11 @@ public class GetStats {
             retVal = "black";
         }
         if(alignvalue > 50 && alignvalue <= 63) {
-            retVal = "dark blue";
+            retVal = "purple";
         }
+        if(alignvalue > 63 && alignvalue <= 75) {
+            retVal = "dark blue";
+        }        
         if(alignvalue >= 63 && alignvalue < 87) {
             retVal = "blue";
         }

@@ -1406,6 +1406,40 @@ public class Calculator {
         }
     }
     
+    public static String alignvaltoID(String saveGame, int alignVal) throws SQLException {
+        List<String> alignids = GetData.dbQuery(saveGame,"*","dbAlign","alignID",
+            "*",true);
+        double alignvalue = (double) alignVal;
+        if(alignvalue < 13) {
+            return alignids.get(8);
+        }
+        if(alignvalue >= 13 && alignvalue < 25) {
+            return alignids.get(7);
+        }
+        if(alignvalue >= 25 && alignvalue < 37) {
+            return alignids.get(6);
+        }
+        if(alignvalue >= 37 && alignvalue < 50) {
+            return alignids.get(5);
+        }
+        if(alignvalue == 50) {
+            return alignids.get(4);
+        }
+        if(alignvalue > 50 && alignvalue <= 63) {
+            return alignids.get(3);
+        }
+        if(alignvalue >= 63 && alignvalue < 75) {
+            return alignids.get(2);
+        }
+        if(alignvalue >= 75 && alignvalue < 87) {
+            return alignids.get(1);
+        }
+        if(alignvalue >= 87) {
+            return alignids.get(0);
+        }
+        return alignids.get(4);
+    }
+    
     public static String getSize(String raceName, String ageName) throws 
         SQLException {
         return findSize (raceName, ageName);

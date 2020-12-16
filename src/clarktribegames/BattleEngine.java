@@ -43,12 +43,12 @@ public class BattleEngine {
         if(String.valueOf(opponent).equals(MainControls.selectedToon)) {
             battleTime(save,savetoons,savemax);
         }
-        String player1 = GetData.dbQuery(save, "*", savetoons, "toonID", 
-            MainControls.selectedToon, false).get(1);
-        String player2 = GetData.dbQuery(save, "*", savetoons, "toonID", 
-            String.valueOf(opponent), false).get(1);
-        team0 = new String[] {player1};
-        team1 = new String[] {player2};
+//        String player1 = GetData.dbQuery(save, "*", savetoons, "toonID", 
+//            MainControls.selectedToon, false).get(0);
+//        String player2 = GetData.dbQuery(save, "*", savetoons, "toonID", 
+//            String.valueOf(opponent), false).get(0);
+        team0 = new String[] {MainControls.selectedToon};
+        team1 = new String[] {String.valueOf(opponent)};
         VersusGUI.main(null);
     }
         

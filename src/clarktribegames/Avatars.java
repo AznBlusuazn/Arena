@@ -11,13 +11,13 @@ import javax.swing.ImageIcon;
 
 public class Avatars {
        
-    public void setAvatar(JLabel box, String toon, String path) {
+    public static void setAvatar(JLabel box, String toon, String path) {
         String avatarPath = (avatarCheck(toon,path));
         box.setIcon(new ImageIcon(avatarPath));
         box.setText("");
     }
     
-    private String avatarCheck(String toon, String path) {
+    private static String avatarCheck(String toon, String path) {
         String newPath = (MainControls.imageDir) + path;
         File customfile = new File(newPath);
         File toonfile = new File((MainControls.imageDir) + toon.toLowerCase() + ".png");

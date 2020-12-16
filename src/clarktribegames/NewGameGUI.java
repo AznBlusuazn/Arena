@@ -782,7 +782,7 @@ public class NewGameGUI extends javax.swing.JFrame {
         String savetoons = "sav" + saveToons + "Toons";
         List<String> toonstats = GetData.dbQuery(save, "*",savetoons,"toonName",
             toonname, false);
-        new Avatars().setAvatar(charToon, charDrop.getSelectedItem().toString(),
+        Avatars.setAvatar(charToon, charDrop.getSelectedItem().toString(),
             toonstats.get(10));
         double charXP = Double.parseDouble(toonstats.get(21));
         double nextXP = Double.parseDouble(Calculator.getLevel("stalv", String.
@@ -1118,7 +1118,7 @@ public class NewGameGUI extends javax.swing.JFrame {
     private javax.swing.JLabel chLabel;
     private javax.swing.JLabel chVal;
     private javax.swing.JComboBox<String> charDrop;
-    private javax.swing.JLabel charToon;
+    private static javax.swing.JLabel charToon;
     private javax.swing.JLabel charmLabel;
     private javax.swing.JList<String> charmList;
     private javax.swing.JScrollPane charmPane;

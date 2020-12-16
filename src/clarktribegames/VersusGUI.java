@@ -20,14 +20,14 @@ public class VersusGUI extends javax.swing.JFrame {
     
     private void popVersus(String save, String savetoons) throws SQLException {
         //add if multiple team captains instead
-        char1Label.setText(BattleEngine.team0[0]);
-        char2Label.setText(BattleEngine.team1[0]);
-        new Avatars().setAvatar(char1Toon, BattleEngine.team0[0],
-            (GetData.dbQuery(save,"*",savetoons, "toonName",BattleEngine.team0
-            [0], false).get(10)));
-        new Avatars().setAvatar(char2Toon, BattleEngine.team1[0],
-            (GetData.dbQuery(save,"*",savetoons,"toonName",BattleEngine.team1[0]
-            , false).get(10)));
+        char1Label.setText(GetData.dbQuery(save,"*",savetoons, "toonID",
+            BattleEngine.team0[0], false).get(1));
+        char2Label.setText(GetData.dbQuery(save,"*",savetoons, "toonID",
+            BattleEngine.team1[0], false).get(1));
+         Avatars.setAvatar(char1Toon, char1Label.getText(),
+            (GetData.dbQuery(save,"*",savetoons, "toonName",char1Label.getText(), false).get(10)));
+        Avatars.setAvatar(char2Toon, char2Label.getText(),
+            (GetData.dbQuery(save,"*",savetoons,"toonName",char2Label.getText(), false).get(10)));
     }
 
     @SuppressWarnings("unchecked")
