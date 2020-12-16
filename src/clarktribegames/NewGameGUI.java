@@ -141,6 +141,7 @@ public class NewGameGUI extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle(MainControls.appTitle);
         setIconImage(new MainControls().imageIcon.getImage());
+        setResizable(false);
         setSize(new java.awt.Dimension(1200, 850));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {

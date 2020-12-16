@@ -1,6 +1,6 @@
 =======================================
 LIMITLESS by Geoff Clark
-VERSION ALPHA 0.0.020 / 2020.12.15-1917
+VERSION ALPHA 0.0.020 / 2020.12.16-0043
 =======================================
 
 SUPPORT THE DEVELOPMENT OF THIS GAME @ 
@@ -47,7 +47,7 @@ Contact the author:  info@clarktribegames.com
 
 DEVELOPMENT NOTES
 
-ALPHA 0.0.021 / 2020.12.15-1917
+ALPHA 0.0.021 / 2020.12.16-0043
 
 - enabled load save option at main menu
 - added detect for if save games exist or not
@@ -56,7 +56,11 @@ ALPHA 0.0.021 / 2020.12.15-1917
 - added check to make sure you can't face yourself!
 - added versus screen before the battle
 - added addition copy of save game db called max for max stats (post battle reset)
-
+- created the battle gui screen with:  "team 0" and "team 1" sides (right and left, respectively)
+- each team will have a team list, active team member avatar, active team member name, active team member stats, with options (buttons) to see the active team members items/abilities/effects as well
+- created the user interface for the communication between the user and the game
+- added "type writer" effect so that it will "feel" like an old school text game
+- added input text box with a confirm button to "submit" commands to the game
 
 ALPHA 0.0.020 / 2020.12.15-0850
 

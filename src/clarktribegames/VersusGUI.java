@@ -45,6 +45,7 @@ public class VersusGUI extends javax.swing.JFrame {
         setTitle(MainControls.appTitle);
         setIconImage(new MainControls().imageIcon.getImage());
         setUndecorated(true);
+        setResizable(false);
         setType(java.awt.Window.Type.UTILITY);
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {

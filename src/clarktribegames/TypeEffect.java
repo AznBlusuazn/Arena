@@ -39,7 +39,7 @@ public class TypeEffect {
         }
 
     public void start() {
-        out.setText(null);
+        //out.setText(null);
         index = 0;
         timer.start();
     }
