@@ -1069,7 +1069,7 @@ public class NewGameGUI extends javax.swing.JFrame {
         if(yesno) {
             ChecksBalances.newfileCheck(MainControls.savesDir+".lastused",true,
                 MainControls.selectedToon+"\n"+MainControls.selectedSave
-                .replaceAll("." + MainControls.saveExt,""),true);
+                ,true);
             cleanUp();
             StartGame.startGame(saveName, savetoons, savemax);
         } else {

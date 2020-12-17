@@ -3,6 +3,7 @@ package clarktribegames;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 // <editor-fold defaultstate="collapsed" desc="credits">
@@ -69,9 +70,7 @@ public class Calculator {
     }
     
     private static int getMaxAge(String race) throws SQLException {
-        String save = Converters.capFirstLetter((MainControls.selectedSave)
-        .substring(0,(MainControls.selectedSave).indexOf("." + 
-            MainControls.saveExt)));
+        String save = savenameCheck();
         return Integer.parseInt(GetData.dbQuery(save,"*","dbRace","raceID",race,
             false).get(5));
     }
@@ -106,9 +105,8 @@ public class Calculator {
     }
     
     private static String analyzeAgemath(int age, int max) throws SQLException {
-        String save = Converters.capFirstLetter((MainControls.selectedSave)
-        .substring(0,(MainControls.selectedSave).indexOf("." + 
-            MainControls.saveExt)));
+        String save = savenameCheck();
+        
         List<String> agelist = GetData.dbQuery(save, "*","dbAge","ageCriteria",
             null, true);
         List<Integer> results = new ArrayList();
@@ -1354,9 +1352,7 @@ public class Calculator {
     }
     
     private static String findAlign(int code) throws SQLException {
-        String save = Converters.capFirstLetter((MainControls.selectedSave)
-        .substring(0,(MainControls.selectedSave).indexOf("." + 
-            MainControls.saveExt)));
+        String save = savenameCheck();
         List<String> alignname = GetData.dbQuery(save,"*","dbAlign","alignID",
             "*",true);
         List<Integer> alignval = new ArrayList<>();
@@ -1446,9 +1442,7 @@ public class Calculator {
     }
     
     private static String findSize(String race,String age) throws SQLException {
-        String save = Converters.capFirstLetter((MainControls.selectedSave)
-        .substring(0,(MainControls.selectedSave).indexOf("." + 
-            MainControls.saveExt)));
+        String save = savenameCheck();
         int racesize = Integer.parseInt(GetData.dbQuery(save,"*","dbRace","race"
             + "Name",race,false).get(3));
         int ageid = Integer.parseInt(GetData.dbQuery(save,"*","dbAge","ageName",
@@ -1524,6 +1518,19 @@ public class Calculator {
         }
         return GetData.dbQuery(save,"*","dbSize","sizeID",sizeid,false).get(1);
     }
+    
+    private static String savenameCheck() {
+//        if(MainControls.selectedSave.contains("." + MainControls.saveExt)) {
+//            System.out.println("DOES: " + MainControls.selectedSave);
+//            return Converters.capFirstLetter((MainControls.selectedSave)
+//        .substring(0,(MainControls.selectedSave).indexOf("." + 
+//            MainControls.saveExt)));
+//        } else {
+//            System.out.println("DOES NOT: " + MainControls.selectedSave);
+            return MainControls.selectedSave;
+//        }
+    }
+        
     
 //<editor-fold defaultstate="collapsed" desc="Log File Method">
     private static void logFile (String type, String log) throws IOException {

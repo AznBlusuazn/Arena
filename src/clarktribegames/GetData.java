@@ -68,6 +68,7 @@ public class GetData {
             db1 = "jdbc:ucanaccess://" + MainControls.savesDir + "/" + save.
                 toLowerCase() + "." + MainControls.saveExt;
         }
+        db1 = db1.replaceAll(MainControls.saveExt + "." + MainControls.saveExt, MainControls.saveExt);
         String result = "";
         Connection con = DriverManager.getConnection(db1, db2, db3);
         Statement st = con.createStatement();
@@ -92,7 +93,7 @@ public class GetData {
             db1 = "jdbc:ucanaccess://" + MainControls.savesDir + "/" + save
                 .toLowerCase() + "." + MainControls.saveExt;
         }
-
+        db1 = db1.replaceAll(MainControls.saveExt + "." + MainControls.saveExt, MainControls.saveExt);
         String match = (column + "=\"" + matchstr + "\"");
         String result = "";
         
@@ -126,6 +127,7 @@ public class GetData {
         throws SQLException {
         db1 = "jdbc:ucanaccess://" + MainControls.savesDir + "/" + save + "." + 
             MainControls.saveExt;
+        db1 = db1.replaceAll(MainControls.saveExt + "." + MainControls.saveExt, MainControls.saveExt);
         try (Connection con = DriverManager.getConnection(db1, db2, db3)) {
             String savepath = MainControls.savesDir + Converters.capFirstLetter(
                 (MainControls.selectedSave).substring(0,(MainControls
@@ -183,8 +185,8 @@ public class GetData {
             String toonStats = (GetStats.getStats("Toon",toonstats,ratioXP,true)
                 .toString()).replaceAll(", ", "x");
             toonStats = toonStats.substring(1, toonStats.length() - 1);
-            String savepath = MainControls.savesDir + Converters.capFirstLetter
-                ((MainControls.selectedSave));
+            String savepath = (MainControls.savesDir + Converters.capFirstLetter
+                ((MainControls.selectedSave))).replaceAll(MainControls.saveExt + "." + MainControls.saveExt, MainControls.saveExt);;
             Thread.sleep(750);
             try (Connection con=DriverManager.getConnection("jdbc:ucanaccess://"
                 + savepath, db2, db3)) {

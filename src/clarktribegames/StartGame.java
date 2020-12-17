@@ -40,7 +40,7 @@ public class StartGame {
             "*",savetoons,"toonID",MainControls.selectedToon, false).get(1)+"\n"
             + "\n Week "+ week + ", Month " + month + ", Day " + day + ", Year "
             + year + "\n\n" + tempstartMsg);
-        cleanupTempDB(MainControls.savesDir + save + "." + MainControls.saveExt,
+        cleanupTempDB((MainControls.savesDir + save + "." + MainControls.saveExt).replaceAll(MainControls.saveExt + "." + MainControls.saveExt, MainControls.saveExt),
             savetoons);
         BattleEngine.battleEngine(save, savetoons, savemax);
     }

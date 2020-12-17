@@ -38,7 +38,8 @@ public class BattleGUI extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         prepBattle(BattleEngine.saveName,BattleEngine.saveToons,BattleEngine
-            .saveMax,Arrays.asList(BattleEngine.team0),Arrays.asList(BattleEngine.team1));
+            .saveMax,Arrays.asList(BattleEngine.team0),Arrays.asList(
+            BattleEngine.team1));
     }
 
     //<editor-fold defaultstate="collapsed" desc="JSwing Code"> 
@@ -433,75 +434,93 @@ public class BattleGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_confirmButtonActionPerformed
 
     private void team1DetailsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_team1DetailsButtonActionPerformed
-        detailsButton();
+         try {
+             detailsButton(BattleEngine.saveName,BattleEngine.saveToons,Arrays
+                .asList(BattleEngine.team1),team1List,team1Hidden);
+         } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_team1DetailsButtonActionPerformed
 
     private void team0DetailsButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_team0DetailsButton1ActionPerformed
-        detailsButton();
+         try {
+             detailsButton(BattleEngine.saveName,BattleEngine.saveToons,Arrays
+                .asList(BattleEngine.team0),team0List,team0Hidden);
+         } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_team0DetailsButton1ActionPerformed
 
     private void team1ItemsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_team1ItemsButtonActionPerformed
         try {
-            itemsButton(BattleEngine.saveName,BattleEngine.saveToons,Arrays.asList(BattleEngine.team1),team1List);
+            itemsButton(BattleEngine.saveName,BattleEngine.saveToons,Arrays
+                .asList(BattleEngine.team1),team1List);
         } catch (SQLException ex) {
-            //
+            ex.printStackTrace();
         }
     }//GEN-LAST:event_team1ItemsButtonActionPerformed
 
     private void team1AblButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_team1AblButtonActionPerformed
         try {
-            ablButton(BattleEngine.saveName,BattleEngine.saveToons,Arrays.asList(BattleEngine.team1),team1List,team1Hidden);
+            ablButton(BattleEngine.saveName,BattleEngine.saveToons,Arrays
+                .asList(BattleEngine.team1),team1List,team1Hidden);
         } catch (SQLException ex) {
-            //
+            ex.printStackTrace();
         }
     }//GEN-LAST:event_team1AblButtonActionPerformed
 
     private void team1EffButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_team1EffButtonActionPerformed
         try {
-            effButton(BattleEngine.saveName,BattleEngine.saveToons,Arrays.asList(BattleEngine.team1),team1List,team1Hidden);
+            effButton(BattleEngine.saveName,BattleEngine.saveToons,Arrays
+                .asList(BattleEngine.team1),team1List,team1Hidden);
         } catch (SQLException ex) {
-            //
+            ex.printStackTrace();
         }
     }//GEN-LAST:event_team1EffButtonActionPerformed
 
     private void team0ItemsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_team0ItemsButtonActionPerformed
         try {
-            itemsButton(BattleEngine.saveName,BattleEngine.saveToons,Arrays.asList(BattleEngine.team0),team0List);
+            itemsButton(BattleEngine.saveName,BattleEngine.saveToons,Arrays
+                .asList(BattleEngine.team0),team0List);
         } catch (SQLException ex) {
-            //.
+            ex.printStackTrace();
         }
     }//GEN-LAST:event_team0ItemsButtonActionPerformed
 
     private void team0AblButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_team0AblButtonActionPerformed
         try {
-            ablButton(BattleEngine.saveName,BattleEngine.saveToons,Arrays.asList(BattleEngine.team0),team0List,team0Hidden);
+            ablButton(BattleEngine.saveName,BattleEngine.saveToons,Arrays.asList
+                (BattleEngine.team0),team0List,team0Hidden);
         } catch (SQLException ex) {
-            //
+            ex.printStackTrace();
         }
     }//GEN-LAST:event_team0AblButtonActionPerformed
 
     private void team0EffButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_team0EffButtonActionPerformed
         try {
-            effButton(BattleEngine.saveName,BattleEngine.saveToons,Arrays.asList(BattleEngine.team0),team0List,team0Hidden);
+            effButton(BattleEngine.saveName,BattleEngine.saveToons,Arrays.asList
+                (BattleEngine.team0),team0List,team0Hidden);
         } catch (SQLException ex) {
-            //
+            ex.printStackTrace();
         }
     }//GEN-LAST:event_team0EffButtonActionPerformed
     //</editor-fold> 
 
-    private static void prepBattle(String save, String toons, String max, List<String> team0, List<String> team1) throws SQLException {
+    private static void prepBattle(String save,String toons,String max,
+        List<String> team0,List<String> team1) throws SQLException {
         popteamLists(save,toons,team0,team0Pane,team0List);
         popteamLists(save,toons,team1,team1Pane,team1List);
         popAvatars(save,toons,team0Toon,team0List);
         popAvatars(save,toons,team1Toon,team1List);
-        popHiddeninfo(save,toons,(GetData.dbQuery(save,"*",toons,"toonID",team0.get(team0List.getSelectedIndex()),false).get(0)), team0Hidden);
-        popHiddeninfo(save,toons,(GetData.dbQuery(save,"*",toons,"toonID",team1.get(team1List.getSelectedIndex()),false).get(0)), team1Hidden);
-        popTooninfo(save,toons,team0,team0Label,team0Info,team0List,team0Table, team0Hidden);
-        popTooninfo(save,toons,team1,team1Label,team1Info,team1List,team1Table, team1Hidden);
+        popHiddeninfo(save,toons,(GetData.dbQuery(save,"*",toons,"toonID",team0.
+            get(team0List.getSelectedIndex()),false).get(0)), team0Hidden);
+        popHiddeninfo(save,toons,(GetData.dbQuery(save,"*",toons,"toonID",team1.
+            get(team1List.getSelectedIndex()),false).get(0)), team1Hidden);
+        popTooninfo(save,toons,team0,team0Label,team0Info,team0List,team0Table, 
+            team0Hidden);
+        popTooninfo(save,toons,team1,team1Label,team1Info,team1List,team1Table, 
+            team1Hidden);
     }
-    
-    
-    
 
     private static void popteamLists(String save,String toons,List<String> team,
         JScrollPane jpane, JList jlist) throws SQLException { 
@@ -545,10 +564,8 @@ public class BattleGUI extends javax.swing.JFrame {
             "dbClass","classID",(GetData.dbQuery(save,"*",toons,"toonID",team
             .get(jlist.getSelectedIndex()),false).get(3)), false)).get(1) + " ("
             + (Calculator.getLevel("curlv", hiddenstats[4])) + ")");
-
         DefaultTableModel dml = (DefaultTableModel)table.getModel();
         dml.setValueAt("Normal", 0, 1);
-        
         for(int item = 1; item < dml.getRowCount(); item++) {
             dml.setValueAt(toonstats[item - 1], item, 1);
         }
@@ -565,8 +582,39 @@ public class BattleGUI extends javax.swing.JFrame {
             toonid,false).get(21));
     }
 
-    private static void detailsButton() {
-        
+    private static void detailsButton(String save,String toons,List<String> team,
+        JList jlist, JLabel hidden) throws SQLException {
+        String[] hiddenstats = hidden.getText().split("x");
+        String message = (GetData.dbQuery(save,"*",toons,
+            "toonID",team.get(jlist.getSelectedIndex()),false).get(1))+"\n\n"+
+            "Age: " + 
+            Calculator.getAge(Integer.parseInt(hiddenstats[2]),((GetData.dbQuery
+            (save,"*","dbRace","raceID",(GetData.dbQuery(save,"*",toons,"toonID"
+            ,team.get(jlist.getSelectedIndex()),false).get(2)), false)).get(0)))
+            + "\nAlignment: " +
+            ((GetData.dbQuery(save,"*","dbAlign","alignID",(Calculator.getAlign
+            (Integer.parseInt(hiddenstats[0]))),false)).get(1))
+            + "\nGender: " +    
+            ((GetData.dbQuery(save,"*","dbGender","genderID",hiddenstats[1], false)).get(1))
+            + "\nSize: " +    
+            ((GetData.dbQuery(save,"*","dbSize","sizeID",hiddenstats[3], false)).get(1))
+            + "\nRace: " +    
+            ((GetData.dbQuery(save,"*","dbRace","raceID",(GetData.dbQuery(save,
+            "*",toons,"toonID",team.get(jlist.getSelectedIndex()),false).get(2))
+            , false)).get(1))
+            + "\nClass: " +
+            ((GetData.dbQuery(save,"*","dbClass","classID",(GetData.dbQuery(save,
+            "*",toons,"toonID",team.get(jlist.getSelectedIndex()),false).get(3))
+            , false)).get(1))
+            + "\nLevel: " + Calculator.getLevel("curlv", hiddenstats[4])
+            + "\nExperience: " + hiddenstats[4]
+            + "\nCurrent Status: " + "Normal"
+            //status to be fixed at a later time 
+            + "\n\nStatus is not accurate at this time." 
+            + "\n\nNOTE: More functionality will be added here.";
+        Popups.infoPopup("[" + (GetData.dbQuery(save,"*",toons,
+            "toonID",team.get(jlist.getSelectedIndex()),false).get(1)) + "]", 
+            message);
     }    
 
     
@@ -640,7 +688,6 @@ public class BattleGUI extends javax.swing.JFrame {
         return newlist.toArray(new String[newlist.size()]);
     }
     
-    
     private static String getStat(String save,String table,String col,String 
         id,int field) throws SQLException {
         return GetData.dbQuery(save,"*",table,col,id,false).get(field);
@@ -700,7 +747,6 @@ public class BattleGUI extends javax.swing.JFrame {
                 "dbAbl","ablID",1);
              String[] abldesclist = collectStats((ablfinalist.split("x")),save,
                 "dbAbl","ablID",2);
-             
         String message="";
         if(abllist.length >= 1) {
             message += "[Ablilities List]\n\n";
@@ -708,6 +754,9 @@ public class BattleGUI extends javax.swing.JFrame {
                 message += abllist[x] + ": " + abldesclist[x] + "\n";
             }
             message += "\n";
+        }
+        if(message.replaceAll("[^a-zA-Z0-9]", "").length() <= 0) {
+            message = "<No Abilities>\n";
         }
         Popups.infoPopup((GetData.dbQuery(save,"*",toons,"toonID",team.get(jlist
             .getSelectedIndex()),false).get(1)) + " Abilities List", message +
@@ -769,7 +818,6 @@ public class BattleGUI extends javax.swing.JFrame {
                 "dbEffects","effID",1);
              String[] effdesclist = collectStats((efffinalist.split("x")),save,
                 "dbEffects","effID",2);
-             
         String message="";
         if(efflist.length >= 1) {
             message += "[Effects List]\n\n";
@@ -778,8 +826,11 @@ public class BattleGUI extends javax.swing.JFrame {
             }
             message += "\n";
         }
+        if(message.replaceAll("[^a-zA-Z0-9]", "").length() <= 0) {
+            message = "<No Effects>\n";
+        }
         Popups.infoPopup((GetData.dbQuery(save,"*",toons,"toonID",team.get(jlist
-            .getSelectedIndex()),false).get(1)) + " Abilities List", message +
+            .getSelectedIndex()),false).get(1)) + " Effects List", message +
             "\n" +"NOTE:  There will be a future option to navigate\nfurther in"
             + "to effects here.");
     }    
@@ -787,8 +838,8 @@ public class BattleGUI extends javax.swing.JFrame {
     private void confirmButton() throws BadLocationException {
         String userInput = inputText.getText();
         new TypeEffect(mainText,userInput + "\n",10).start();
+        //more function here
 
-        
     }
     
     private void exitButton() throws IOException, Exception {

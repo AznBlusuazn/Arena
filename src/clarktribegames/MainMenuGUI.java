@@ -346,7 +346,7 @@ public class MainMenuGUI extends javax.swing.JFrame {
             MainControls.savesDir = MainControls.defaultsavesDir + loadChoice + 
                 "/";
             MainControls.selectedSave = ChecksBalances.getLast(new File(
-                MainControls .savesDir + ".lastused"));
+                MainControls.savesDir + ".lastused"));
             MainControls.selectedToon = Converters.getfromFile(MainControls
                 .savesDir + ".lastused", true, false);
             MPlayer.stopMedia();
