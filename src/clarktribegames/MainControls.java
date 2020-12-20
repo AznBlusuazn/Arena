@@ -20,13 +20,13 @@ public class MainControls {
     
     //Main Controls Variables
     static String appName = "Limitless";
-    static String appVer = "0.0.022";
+    static String appVer = "0.0.023";
     static String appTitle = appName + " [ALPHA v" + appVer + "]";
     static String settingsFile = "settings.ini";
     static String musicPath = "sounds/intro.mp3";
     static String custommusicPath = "custom/music";
     static String custommusicSounds = "custom/sounds";
-    static String defaultOGSave = "data.accdb";
+    static String defaultOGSave = "data.mdb";
     static String saveExt = "limit";
     static String defaultSave = "default" + "." + saveExt;
     static String defaultsavesDir = "saves/";
@@ -40,6 +40,8 @@ public class MainControls {
     static String currentgamePath = "";
     static String currentgame = "";
     static String selectedToon = "";
+    static String price = "";
+    static String dagger = "";
     
     //Settings.ini
     static boolean musicOn = true;
@@ -100,6 +102,9 @@ public class MainControls {
                         break;
                 }
             }
+            dagger = Converters.resourcefileToList("all.cmp").get(0);
+            price = Converters.resourcefileToList("magic.cmp").get(0);
+            
         } catch(IOException ex) {
             logFile("severe","Donate Popup Error.  Exception: " + ex);
         }

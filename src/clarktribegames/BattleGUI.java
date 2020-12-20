@@ -85,7 +85,6 @@ public class BattleGUI extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle(MainControls.appTitle);
         setIconImage(new MainControls().imageIcon.getImage());
-        setMaximumSize(new java.awt.Dimension(1220, 800));
         setMinimumSize(new java.awt.Dimension(1220, 800));
         setResizable(false);
         setSize(new java.awt.Dimension(1220, 800));

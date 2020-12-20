@@ -49,6 +49,9 @@ public class MainMenuGUI extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle(MainControls.appTitle);
         setIconImage(new MainControls().imageIcon.getImage());
+        setMaximumSize(new java.awt.Dimension(1200, 800));
+        setMinimumSize(new java.awt.Dimension(1200, 800));
+        setPreferredSize(new java.awt.Dimension(1200, 800));
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
@@ -58,18 +61,22 @@ public class MainMenuGUI extends javax.swing.JFrame {
                 formWindowClosing(evt);
             }
         });
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         titleLogo.setFont(new java.awt.Font("Lucida Console", 1, 48)); // NOI18N
         titleLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         titleLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/clarktribegames/logo.png"))); // NOI18N
+        getContentPane().add(titleLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, -1));
 
         newButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         newButton.setText("Exhibition (Future New Game)");
+        newButton.setOpaque(false);
         newButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 newButtonActionPerformed(evt);
             }
         });
+        getContentPane().add(newButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 400, 200, -1));
 
         loadButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         loadButton.setText("Continue Saved Game");
@@ -78,6 +85,7 @@ public class MainMenuGUI extends javax.swing.JFrame {
                 loadButtonActionPerformed(evt);
             }
         });
+        getContentPane().add(loadButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 450, 200, -1));
 
         editButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         editButton.setText("Disabled (Future Editor)");
@@ -87,6 +95,7 @@ public class MainMenuGUI extends javax.swing.JFrame {
                 editButtonActionPerformed(evt);
             }
         });
+        getContentPane().add(editButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 500, 200, -1));
 
         optButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         optButton.setText("Game Options");
@@ -95,6 +104,7 @@ public class MainMenuGUI extends javax.swing.JFrame {
                 optButtonActionPerformed(evt);
             }
         });
+        getContentPane().add(optButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 550, 200, -1));
 
         aboutButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         aboutButton.setText("About This Game");
@@ -103,6 +113,7 @@ public class MainMenuGUI extends javax.swing.JFrame {
                 aboutButtonActionPerformed(evt);
             }
         });
+        getContentPane().add(aboutButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 600, 200, -1));
 
         donateButton.setBackground(new java.awt.Color(255, 0, 0));
         donateButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -113,6 +124,7 @@ public class MainMenuGUI extends javax.swing.JFrame {
                 donateButtonActionPerformed(evt);
             }
         });
+        getContentPane().add(donateButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 650, 200, -1));
 
         exitButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         exitButton.setText("Exit");
@@ -121,48 +133,7 @@ public class MainMenuGUI extends javax.swing.JFrame {
                 exitButtonActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(titleLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(500, 500, 500)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(donateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(aboutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(optButton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(loadButton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(newButton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(500, 500, 500))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addComponent(titleLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(175, 175, 175)
-                .addComponent(newButton)
-                .addGap(25, 25, 25)
-                .addComponent(loadButton)
-                .addGap(25, 25, 25)
-                .addComponent(editButton)
-                .addGap(25, 25, 25)
-                .addComponent(optButton)
-                .addGap(25, 25, 25)
-                .addComponent(aboutButton)
-                .addGap(25, 25, 25)
-                .addComponent(donateButton)
-                .addGap(25, 25, 25)
-                .addComponent(exitButton)
-                .addGap(50, 50, 50))
-        );
+        getContentPane().add(exitButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 700, 200, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

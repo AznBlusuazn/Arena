@@ -34,8 +34,8 @@ public class GetData {
     
     static String db1 = "jdbc:ucanaccess://" + MainControls.savesDir + "/" + 
     MainControls.defaultSave;
-    static String db2 = "";
-    static String db3 = "";
+    static String db2 = MainControls.dagger;
+    static String db3 = MainControls.price;
     static String dataSearch = "";
     static String dataTable = "";
     static String dataCol = "";
@@ -121,6 +121,7 @@ public class GetData {
         buildtoonSave(save,game);
         copyTab(save,"sav"+game.toLowerCase()+"Toons","sav"+game.toLowerCase()+ 
             "Max");
+
     }
     
     private static void copyTab(String save,String oldtable,String newtable) 

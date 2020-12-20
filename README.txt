@@ -1,6 +1,6 @@
 =======================================
 LIMITLESS by Geoff Clark
-VERSION ALPHA 0.0.022 / 2020.12.16-1632
+VERSION ALPHA 0.0.023 / 2020.12.19-2344
 =======================================
 
 SUPPORT THE DEVELOPMENT OF THIS GAME @ 
@@ -46,6 +46,16 @@ Contact the author:  info@clarktribegames.com
 ====================================
 
 DEVELOPMENT NOTES
+
+ALPHA 0.0.023 / 2020.12.19-2344
+
+- simplified encryption of db and reduced db size
+- designed more efficient way to communication abilities/effects between tables
+- created new algorithm to determine math needed for ablities and effects
+- designed targeting system -- need to code this
+- redesigned the method to gather stats from items and attributes
+- redesigned select character screen to be cleaner
+- added new sample character "Helios"
 
 ALPHA 0.0.022 / 2020.12.16-1632
 

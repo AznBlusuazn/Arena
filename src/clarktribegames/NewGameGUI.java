@@ -7,12 +7,14 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.text.BadLocationException;
 import javazoom.jl.decoder.JavaLayerException;
 
@@ -66,44 +68,10 @@ public class NewGameGUI extends javax.swing.JFrame {
         stat05Label = new javax.swing.JLabel();
         bioPane = new javax.swing.JScrollPane();
         bioText = new javax.swing.JTextArea();
-        hpLabel = new javax.swing.JLabel();
-        mpLabel = new javax.swing.JLabel();
-        apLabel = new javax.swing.JLabel();
-        atLabel = new javax.swing.JLabel();
-        stLabel = new javax.swing.JLabel();
-        dfLabel = new javax.swing.JLabel();
-        saLabel = new javax.swing.JLabel();
-        spLabel = new javax.swing.JLabel();
-        evLabel = new javax.swing.JLabel();
-        dxLabel = new javax.swing.JLabel();
-        myLabel = new javax.swing.JLabel();
-        mdLabel = new javax.swing.JLabel();
-        meLabel = new javax.swing.JLabel();
-        wlLabel = new javax.swing.JLabel();
-        luLabel = new javax.swing.JLabel();
-        chLabel = new javax.swing.JLabel();
-        inLabel = new javax.swing.JLabel();
         ftLabel = new javax.swing.JLabel();
         sdLabel = new javax.swing.JLabel();
         wmLabel = new javax.swing.JLabel();
         rpLabel = new javax.swing.JLabel();
-        hpVal = new javax.swing.JLabel();
-        mpVal = new javax.swing.JLabel();
-        apVal = new javax.swing.JLabel();
-        atVal = new javax.swing.JLabel();
-        stVal = new javax.swing.JLabel();
-        dfVal = new javax.swing.JLabel();
-        saVal = new javax.swing.JLabel();
-        spVal = new javax.swing.JLabel();
-        evVal = new javax.swing.JLabel();
-        dxVal = new javax.swing.JLabel();
-        myVal = new javax.swing.JLabel();
-        mdVal = new javax.swing.JLabel();
-        meVal = new javax.swing.JLabel();
-        wlVal = new javax.swing.JLabel();
-        luVal = new javax.swing.JLabel();
-        chVal = new javax.swing.JLabel();
-        inVal = new javax.swing.JLabel();
         ftVal = new javax.swing.JLabel();
         sdVal = new javax.swing.JLabel();
         wmVal = new javax.swing.JLabel();
@@ -133,10 +101,15 @@ public class NewGameGUI extends javax.swing.JFrame {
         startingworldLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextPane1 = new javax.swing.JTextPane();
+        bioLabel = new javax.swing.JLabel();
         aliasLabel = new javax.swing.JLabel();
         aknownLabel = new javax.swing.JLabel();
         aliasVal = new javax.swing.JLabel();
         aknownVal = new javax.swing.JLabel();
+        statusPane = new javax.swing.JPanel();
+        statusPane1 = new javax.swing.JPanel();
+        toonstatsPane = new javax.swing.JScrollPane();
+        toonstatsTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle(MainControls.appTitle);
@@ -169,12 +142,12 @@ public class NewGameGUI extends javax.swing.JFrame {
         charToon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         charToon.setText("[Player 1 Image Here]");
         charToon.setFocusable(false);
-        getContentPane().add(charToon, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 275, 200, 200));
+        getContentPane().add(charToon, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 125, 200, 200));
 
         selectLabel.setFont(new java.awt.Font("Lucida Console", 1, 12)); // NOI18N
         selectLabel.setText("Select Your Character:");
         selectLabel.setFocusable(false);
-        getContentPane().add(selectLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 475, 200, 19));
+        getContentPane().add(selectLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 325, 200, 19));
 
         charDrop.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         charDrop.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<Populated List>" }));
@@ -183,7 +156,7 @@ public class NewGameGUI extends javax.swing.JFrame {
                 charDropActionPerformed(evt);
             }
         });
-        getContentPane().add(charDrop, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 500, 200, 19));
+        getContentPane().add(charDrop, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 350, 200, 19));
 
         exitButton.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         exitButton.setText("Back to Main Menu");
@@ -192,7 +165,7 @@ public class NewGameGUI extends javax.swing.JFrame {
                 exitButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(exitButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 760, 200, -1));
+        getContentPane().add(exitButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 750, 200, 25));
 
         limitLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         limitLabel.setText("<Limit File Name>");
@@ -206,328 +179,163 @@ public class NewGameGUI extends javax.swing.JFrame {
                 confirmButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(confirmButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 760, 200, -1));
+        getContentPane().add(confirmButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 750, 200, 25));
 
         stat01Label.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         stat01Label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         stat01Label.setText("<Alignment>");
-        getContentPane().add(stat01Label, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 525, 200, 19));
+        getContentPane().add(stat01Label, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 375, 200, 19));
 
         stat02Label.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         stat02Label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         stat02Label.setText("<Age> • <Gender>");
-        getContentPane().add(stat02Label, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 550, 200, 19));
+        getContentPane().add(stat02Label, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 400, 200, 19));
 
         stat03Label.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         stat03Label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         stat03Label.setText("<Size> • <Race>");
-        getContentPane().add(stat03Label, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 575, 200, 19));
+        getContentPane().add(stat03Label, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 425, 200, 19));
 
         stat04Label.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         stat04Label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         stat04Label.setText("<Class> • <Lv>");
-        getContentPane().add(stat04Label, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 600, 200, 19));
+        getContentPane().add(stat04Label, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 450, 200, 19));
 
         stat05Label.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         stat05Label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         stat05Label.setText("<Status>");
-        getContentPane().add(stat05Label, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 625, 200, 19));
+        getContentPane().add(stat05Label, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 475, 200, 19));
 
         bioPane.setBorder(null);
         bioPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         bioPane.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
 
+        bioText.setEditable(false);
         bioText.setColumns(20);
         bioText.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         bioText.setLineWrap(true);
         bioText.setRows(9);
         bioText.setText("This is where the player bio text goes.");
         bioText.setWrapStyleWord(true);
+        bioText.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
         bioPane.setViewportView(bioText);
 
-        getContentPane().add(bioPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 650, 200, 130));
-
-        hpLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        hpLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        hpLabel.setText("Max Health Points:");
-        getContentPane().add(hpLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 250, 133, 19));
-
-        mpLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        mpLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        mpLabel.setText("Max Mystic Points:");
-        getContentPane().add(mpLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 275, 133, 19));
-
-        apLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        apLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        apLabel.setText("Max Ability Points:");
-        getContentPane().add(apLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 300, 133, 19));
-
-        atLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        atLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        atLabel.setText("Attack Power:");
-        getContentPane().add(atLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 325, 133, 19));
-
-        stLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        stLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        stLabel.setText("Strength:");
-        getContentPane().add(stLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 350, 133, 19));
-
-        dfLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        dfLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        dfLabel.setText("Defense:");
-        getContentPane().add(dfLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 375, 133, 19));
-
-        saLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        saLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        saLabel.setText("Stamina:");
-        getContentPane().add(saLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 400, 133, 19));
-
-        spLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        spLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        spLabel.setText("Speed:");
-        getContentPane().add(spLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 425, 133, 19));
-
-        evLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        evLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        evLabel.setText("Attack Evade:");
-        getContentPane().add(evLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 450, 133, 19));
-
-        dxLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        dxLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        dxLabel.setText("Dexterity:");
-        getContentPane().add(dxLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 475, 133, 19));
-
-        myLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        myLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        myLabel.setText("Mystic Power:");
-        getContentPane().add(myLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 500, 133, 19));
-
-        mdLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        mdLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        mdLabel.setText("Mystic Defense:");
-        getContentPane().add(mdLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 525, 133, 19));
-
-        meLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        meLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        meLabel.setText("Mystic Evade:");
-        getContentPane().add(meLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 550, 133, 19));
-
-        wlLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        wlLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        wlLabel.setText("Willpower:");
-        getContentPane().add(wlLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 575, 133, 19));
-
-        luLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        luLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        luLabel.setText("Luck:");
-        getContentPane().add(luLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 600, 133, 19));
-
-        chLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        chLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        chLabel.setText("Charisma:");
-        getContentPane().add(chLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 625, 133, 19));
-
-        inLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        inLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        inLabel.setText("Intelligence:");
-        getContentPane().add(inLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 650, 133, 19));
+        getContentPane().add(bioPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(245, 625, 225, 148));
 
         ftLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         ftLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         ftLabel.setText("FA-Test Val:");
-        getContentPane().add(ftLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 650, 98, 19));
+        getContentPane().add(ftLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 625, 98, 25));
 
         sdLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         sdLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         sdLabel.setText("S&D-Test Val:");
-        getContentPane().add(sdLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 675, 98, 19));
+        getContentPane().add(sdLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 650, 98, 25));
 
         wmLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         wmLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         wmLabel.setText("WM-Test Val:");
-        getContentPane().add(wmLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 700, 98, 19));
+        getContentPane().add(wmLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 675, 98, 25));
 
         rpLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         rpLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         rpLabel.setText("RP-Test Value:");
-        getContentPane().add(rpLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 725, -1, 19));
-
-        hpVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        hpVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        hpVal.setText("<value>");
-        getContentPane().add(hpVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 250, 120, 19));
-
-        mpVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        mpVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        mpVal.setText("<value>");
-        getContentPane().add(mpVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 275, 120, 19));
-
-        apVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        apVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        apVal.setText("<value>");
-        getContentPane().add(apVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 300, 120, 19));
-
-        atVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        atVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        atVal.setText("<value>");
-        getContentPane().add(atVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 325, 120, 19));
-
-        stVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        stVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        stVal.setText("<value>");
-        getContentPane().add(stVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 350, 120, 19));
-
-        dfVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        dfVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        dfVal.setText("<value>");
-        getContentPane().add(dfVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 375, 120, 19));
-
-        saVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        saVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        saVal.setText("<value>");
-        getContentPane().add(saVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 400, 120, 19));
-
-        spVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        spVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        spVal.setText("<value>");
-        getContentPane().add(spVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 425, 120, 19));
-
-        evVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        evVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        evVal.setText("<value>");
-        getContentPane().add(evVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 450, 120, 19));
-
-        dxVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        dxVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        dxVal.setText("<value>");
-        getContentPane().add(dxVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 475, 120, 19));
-
-        myVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        myVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        myVal.setText("<value>");
-        getContentPane().add(myVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 500, 120, 19));
-
-        mdVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        mdVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        mdVal.setText("<value>");
-        getContentPane().add(mdVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 525, 120, 19));
-
-        meVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        meVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        meVal.setText("<value>");
-        getContentPane().add(meVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 550, 120, 19));
-
-        wlVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        wlVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        wlVal.setText("<value>");
-        getContentPane().add(wlVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 575, 120, 19));
-
-        luVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        luVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        luVal.setText("<value>");
-        getContentPane().add(luVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 600, 120, 19));
-
-        chVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        chVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        chVal.setText("<value>");
-        getContentPane().add(chVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 625, 120, 19));
-
-        inVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        inVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        inVal.setText("<value>");
-        getContentPane().add(inVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 650, 120, 19));
+        getContentPane().add(rpLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 700, -1, 25));
 
         ftVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         ftVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         ftVal.setText("<value>");
-        getContentPane().add(ftVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 650, 75, 19));
+        getContentPane().add(ftVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 625, 75, 25));
 
         sdVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         sdVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         sdVal.setText("<value>");
-        getContentPane().add(sdVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 675, 75, 19));
+        getContentPane().add(sdVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 650, 75, 25));
 
         wmVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         wmVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         wmVal.setText("<value>");
-        getContentPane().add(wmVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 700, 75, 19));
+        getContentPane().add(wmVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 675, 75, 25));
 
         rpVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         rpVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         rpVal.setText("<value>");
-        getContentPane().add(rpVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 725, 75, 19));
+        getContentPane().add(rpVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 700, 75, 25));
 
-        effLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        effLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        effLabel.setText("Starting Effects:");
-        getContentPane().add(effLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 675, 133, 19));
+        effLabel.setFont(new java.awt.Font("Lucida Console", 1, 12)); // NOI18N
+        effLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        effLabel.setText("Starting Effects");
+        getContentPane().add(effLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(245, 425, 225, 25));
 
-        ablLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        ablLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        ablLabel.setText("Starting Abilities:");
-        getContentPane().add(ablLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(485, 250, -1, 19));
+        ablLabel.setFont(new java.awt.Font("Lucida Console", 1, 12)); // NOI18N
+        ablLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        ablLabel.setText("Starting Abilities");
+        getContentPane().add(ablLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(245, 250, 225, 25));
 
-        heldLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        heldLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        heldLabel.setText("Equipment Held:");
-        getContentPane().add(heldLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(485, 350, 133, 19));
+        heldLabel.setFont(new java.awt.Font("Lucida Console", 1, 12)); // NOI18N
+        heldLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        heldLabel.setText("Equipment Held");
+        getContentPane().add(heldLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(505, 250, 225, 25));
 
-        wearLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        wearLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        wearLabel.setText("Wearables Equipped:");
-        getContentPane().add(wearLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(485, 400, -1, 19));
+        wearLabel.setFont(new java.awt.Font("Lucida Console", 1, 12)); // NOI18N
+        wearLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        wearLabel.setText("Wearables Equipped");
+        getContentPane().add(wearLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(505, 350, 225, 25));
 
-        charmLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        charmLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        charmLabel.setText("Charms Equipped:");
-        getContentPane().add(charmLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(485, 550, 133, 19));
+        charmLabel.setFont(new java.awt.Font("Lucida Console", 1, 12)); // NOI18N
+        charmLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        charmLabel.setText("Charms Equipped");
+        getContentPane().add(charmLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(505, 525, 225, 25));
 
-        invLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        invLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        invLabel.setText("Starting Inventory:");
-        getContentPane().add(invLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(485, 600, -1, 19));
+        invLabel.setFont(new java.awt.Font("Lucida Console", 1, 12)); // NOI18N
+        invLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        invLabel.setText("Starting Inventory");
+        getContentPane().add(invLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(505, 625, 225, 25));
 
         heldList.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         heldList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         heldPane.setViewportView(heldList);
 
-        getContentPane().add(heldPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(625, 350, 120, 50));
+        getContentPane().add(heldPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(505, 275, 225, 75));
 
         wearList.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         wearList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         wearPane.setViewportView(wearList);
 
-        getContentPane().add(wearPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(625, 400, 120, 150));
+        getContentPane().add(wearPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(505, 375, 225, 150));
 
         charmList.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         charmList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         charmPane.setViewportView(charmList);
 
-        getContentPane().add(charmPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(625, 550, 120, 50));
+        getContentPane().add(charmPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(505, 550, 225, 75));
 
         invList.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         invList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         invPane.setViewportView(invList);
 
-        getContentPane().add(invPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(625, 600, 120, 180));
+        getContentPane().add(invPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(505, 650, 225, 123));
+
+        effPane.setHorizontalScrollBar(null);
 
         effList.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         effList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         effPane.setViewportView(effList);
 
-        getContentPane().add(effPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 675, 120, 105));
+        getContentPane().add(effPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(245, 450, 225, 150));
+
+        ablPane.setHorizontalScrollBar(null);
 
         ablList.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         ablList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         ablPane.setViewportView(ablList);
 
-        getContentPane().add(ablPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(625, 250, 120, 100));
+        getContentPane().add(ablPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(245, 275, 225, 150));
 
         startingworldLabel.setFont(new java.awt.Font("Lucida Console", 1, 12)); // NOI18N
-        startingworldLabel.setForeground(new java.awt.Color(255, 0, 0));
         startingworldLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         startingworldLabel.setText("This game is in development");
-        getContentPane().add(startingworldLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 625, 430, 19));
+        getContentPane().add(startingworldLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 597, 430, 25));
 
         bottomPane.setEnabled(false);
         bottomPane.setFocusable(false);
@@ -557,34 +365,121 @@ public class NewGameGUI extends javax.swing.JFrame {
         startingworldLabel1.setFont(new java.awt.Font("Lucida Console", 1, 12)); // NOI18N
         startingworldLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         startingworldLabel1.setText("Starting Game World");
-        getContentPane().add(startingworldLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 250, 430, 19));
+        getContentPane().add(startingworldLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 250, 430, 25));
 
         jTextPane1.setBorder(null);
         jTextPane1.setFont(new java.awt.Font("Lucida Console", 1, 12)); // NOI18N
         jTextPane1.setText("The values below and to the right are for testing only...");
         jScrollPane1.setViewportView(jTextPane1);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 650, 200, 40));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 625, 200, 50));
+
+        bioLabel.setFont(new java.awt.Font("Lucida Console", 1, 12)); // NOI18N
+        bioLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        bioLabel.setText("Character Bio");
+        getContentPane().add(bioLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(245, 600, 225, 25));
 
         aliasLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         aliasLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         aliasLabel.setText("Alias:");
-        getContentPane().add(aliasLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 700, 50, 19));
+        getContentPane().add(aliasLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 675, 50, 25));
 
         aknownLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         aknownLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         aknownLabel.setText("Known:");
-        getContentPane().add(aknownLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 725, 50, 19));
+        getContentPane().add(aknownLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 700, 50, 25));
 
         aliasVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         aliasVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         aliasVal.setText("<value>");
-        getContentPane().add(aliasVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(815, 700, 160, 19));
+        getContentPane().add(aliasVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(815, 675, 160, 25));
 
         aknownVal.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         aknownVal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         aknownVal.setText("<value>");
-        getContentPane().add(aknownVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(815, 725, 160, 19));
+        getContentPane().add(aknownVal, new org.netbeans.lib.awtextra.AbsoluteConstraints(815, 700, 160, 25));
+
+        statusPane.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        javax.swing.GroupLayout statusPaneLayout = new javax.swing.GroupLayout(statusPane);
+        statusPane.setLayout(statusPaneLayout);
+        statusPaneLayout.setHorizontalGroup(
+            statusPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 198, Short.MAX_VALUE)
+        );
+        statusPaneLayout.setVerticalGroup(
+            statusPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 28, Short.MAX_VALUE)
+        );
+
+        getContentPane().add(statusPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 470, 200, 30));
+
+        javax.swing.GroupLayout statusPane1Layout = new javax.swing.GroupLayout(statusPane1);
+        statusPane1.setLayout(statusPane1Layout);
+        statusPane1Layout.setHorizontalGroup(
+            statusPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 200, Short.MAX_VALUE)
+        );
+        statusPane1Layout.setVerticalGroup(
+            statusPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 25, Short.MAX_VALUE)
+        );
+
+        getContentPane().add(statusPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 773, 200, 25));
+
+        toonstatsPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        toonstatsPane.setColumnHeaderView(null);
+        toonstatsPane.setFont(new java.awt.Font("Lucida Console", 1, 12)); // NOI18N
+        toonstatsPane.setHorizontalScrollBar(null);
+
+        toonstatsTable.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
+        toonstatsTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"Health Pts", null},
+                {"Mystic Pts", null},
+                {"Ability Pts", null},
+                {"Attack Pwr", null},
+                {"Strength", null},
+                {"Defense", null},
+                {"Stamina", null},
+                {"Speed", null},
+                {"Evade", null},
+                {"Dexterity", null},
+                {"Mystic Pwr", null},
+                {"Mystic Def", null},
+                {"MysticEva", null},
+                {"Willpower", null},
+                {"Luck", null},
+                {"Charisma", null},
+                {"Intelligence", null}
+            },
+            new String [] {
+                " ", " "
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        toonstatsTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        toonstatsTable.setAutoscrolls(false);
+        toonstatsTable.setRowSelectionAllowed(false);
+        toonstatsTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        toonstatsTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        toonstatsTable.getTableHeader().setReorderingAllowed(false);
+        toonstatsPane.setViewportView(toonstatsTable);
+        if (toonstatsTable.getColumnModel().getColumnCount() > 0) {
+            toonstatsTable.getColumnModel().getColumn(0).setResizable(false);
+            toonstatsTable.getColumnModel().getColumn(0).setPreferredWidth(100);
+            toonstatsTable.getColumnModel().getColumn(1).setResizable(false);
+            toonstatsTable.getColumnModel().getColumn(1).setPreferredWidth(150);
+        }
+
+        getContentPane().add(toonstatsPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 475, 200, 300));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -808,7 +703,6 @@ public class NewGameGUI extends javax.swing.JFrame {
 
         String gendName = (GetData.dbQuery(save, "*", "dbGender", "genderID",
             toonstats.get(6), false)).get(1);
-
         stat02Label.setText(ageName + " • " + gendName);
         stat02Label.setToolTipText(ageName + ": " + (GetData.dbQuery(save, "*", 
             "dbAge","ageName",ageName, false)).get(3) + " • " + gendName + ": " 
@@ -901,29 +795,15 @@ public class NewGameGUI extends javax.swing.JFrame {
         List<String> newstats=Arrays.asList((GetData.dbQuery(save,"*",savetoons.
             replaceAll("Toons","Temp"),"tempID",toonstats.get(0),false).get(1)).
             split("x"));
-
-        hpVal.setText(newstats.get(0));
-        mpVal.setText(newstats.get(1));
-        apVal.setText(newstats.get(2));
-        atVal.setText(newstats.get(3));
-        stVal.setText(newstats.get(4));
-        dfVal.setText(newstats.get(5));
-        saVal.setText(newstats.get(6));
-        spVal.setText(newstats.get(7));
-        evVal.setText(newstats.get(8));
-        dxVal.setText(newstats.get(9));
-        myVal.setText(newstats.get(10));
-        mdVal.setText(newstats.get(11));
-        meVal.setText(newstats.get(12));
-        wlVal.setText(newstats.get(13));
-        luVal.setText(newstats.get(14));
-        chVal.setText(newstats.get(15));
-        inVal.setText(newstats.get(16));
-        ftVal.setText(newstats.get(17));
-        sdVal.setText(newstats.get(18) + "/" + (newstats.get(19)));
-        wmVal.setText(newstats.get(20));
-        rpVal.setText(newstats.get(21));
         
+        for(int item = 0; item < 17; item++) {
+            ((DefaultTableModel)toonstatsTable.getModel()).setValueAt(newstats.get(item + 8), item, 1);
+        }
+
+        ftVal.setText(newstats.get(25));
+        sdVal.setText(newstats.get(26) + "/" + (newstats.get(27)));
+        wmVal.setText(newstats.get(28));
+        rpVal.setText(newstats.get(29));
         if(ChecksBalances.isNullOrEmpty(toonstats.get(17)) || (toonstats.get(17)
             .equals("null"))) {
             aliasVal.setVisible(false);
@@ -938,24 +818,24 @@ public class NewGameGUI extends javax.swing.JFrame {
             aknownVal.setText("Secret Identity");
         }
 
-        hpVal.setToolTipText("HTP: Maximum amount of health -- the life force");
-        mpVal.setToolTipText("MYP: Maximum amount of mystic -- magic points");
-        apVal.setToolTipText("ABP: Maximum amount of ability -- points to do ab"
-            + "ilities");
-        atVal.setToolTipText("ATK: Power for physical attacks");
-        stVal.setToolTipText("STR: Physical strength");
-        dfVal.setToolTipText("DEF: Defense from physical attacks");
-        saVal.setToolTipText("STA: Amount before getting tired");
-        spVal.setToolTipText("SPD: How fast between turns");
-        evVal.setToolTipText("EVA: Ability to dodge physical attacks");
-        dxVal.setToolTipText("DEX: Flexibility to move");
-        myVal.setToolTipText("MYS: Magical power strength");
-        mdVal.setToolTipText("MYD: Defense against magical attacks");
-        meVal.setToolTipText("MYE: Ability to dodge magical attacks");
-        wlVal.setToolTipText("WIL: Inner heart and determination");
-        luVal.setToolTipText("LCK: How often luck is at the side");
-        chVal.setToolTipText("CHA: How attractive the personality is");
-        inVal.setToolTipText("INT: Ability to predict actions logically");
+//        hpVal.setToolTipText("HTP: Maximum amount of health -- the life force");
+//        mpVal.setToolTipText("MYP: Maximum amount of mystic -- magic points");
+//        apVal.setToolTipText("ABP: Maximum amount of ability -- points to do ab"
+//            + "ilities");
+//        atVal.setToolTipText("ATK: Power for physical attacks");
+//        stVal.setToolTipText("STR: Physical strength");
+//        dfVal.setToolTipText("DEF: Defense from physical attacks");
+//        saVal.setToolTipText("STA: Amount before getting tired");
+//        spVal.setToolTipText("SPD: How fast between turns");
+//        evVal.setToolTipText("EVA: Ability to dodge physical attacks");
+//        dxVal.setToolTipText("DEX: Flexibility to move");
+//        myVal.setToolTipText("MYS: Magical power strength");
+//        mdVal.setToolTipText("MYD: Defense against magical attacks");
+//        meVal.setToolTipText("MYE: Ability to dodge magical attacks");
+//        wlVal.setToolTipText("WIL: Inner heart and determination");
+//        luVal.setToolTipText("LCK: How often luck is at the side");
+//        chVal.setToolTipText("CHA: How attractive the personality is");
+//        inVal.setToolTipText("INT: Ability to predict actions logically");
         ftVal.setToolTipText("FAT: To be hidden -- fatigue factor");
         sdVal.setToolTipText("S-D: To be hidden -- how close the soul is attach"
             + "ed - how much body has decayed");
@@ -963,23 +843,23 @@ public class NewGameGUI extends javax.swing.JFrame {
             + " can be carried");
         rpVal.setToolTipText("REP: To be hidden -- reputation across the univer"
             + "se");
-        hpLabel.setToolTipText(hpVal.getToolTipText());
-        mpLabel.setToolTipText(mpVal.getToolTipText());
-        apLabel.setToolTipText(apVal.getToolTipText());
-        atLabel.setToolTipText(atVal.getToolTipText());
-        stLabel.setToolTipText(stVal.getToolTipText());
-        dfLabel.setToolTipText(dfVal.getToolTipText());
-        saLabel.setToolTipText(saVal.getToolTipText());
-        spLabel.setToolTipText(spVal.getToolTipText());
-        evLabel.setToolTipText(evVal.getToolTipText());
-        dxLabel.setToolTipText(dxVal.getToolTipText());
-        myLabel.setToolTipText(myVal.getToolTipText());
-        mdLabel.setToolTipText(mdVal.getToolTipText());
-        meLabel.setToolTipText(meVal.getToolTipText());
-        wlLabel.setToolTipText(wlVal.getToolTipText());
-        luLabel.setToolTipText(luVal.getToolTipText());
-        chLabel.setToolTipText(chVal.getToolTipText());
-        inLabel.setToolTipText(inVal.getToolTipText());
+//        hpLabel.setToolTipText(hpVal.getToolTipText());
+//        mpLabel.setToolTipText(mpVal.getToolTipText());
+//        apLabel.setToolTipText(apVal.getToolTipText());
+//        atLabel.setToolTipText(atVal.getToolTipText());
+//        stLabel.setToolTipText(stVal.getToolTipText());
+//        dfLabel.setToolTipText(dfVal.getToolTipText());
+//        saLabel.setToolTipText(saVal.getToolTipText());
+//        spLabel.setToolTipText(spVal.getToolTipText());
+//        evLabel.setToolTipText(evVal.getToolTipText());
+//        dxLabel.setToolTipText(dxVal.getToolTipText());
+//        myLabel.setToolTipText(myVal.getToolTipText());
+//        mdLabel.setToolTipText(mdVal.getToolTipText());
+//        meLabel.setToolTipText(meVal.getToolTipText());
+//        wlLabel.setToolTipText(wlVal.getToolTipText());
+//        luLabel.setToolTipText(luVal.getToolTipText());
+//        chLabel.setToolTipText(chVal.getToolTipText());
+//        inLabel.setToolTipText(inVal.getToolTipText());
         ftLabel.setToolTipText(ftVal.getToolTipText());
         sdLabel.setToolTipText(sdVal.getToolTipText());
         wmLabel.setToolTipText(wmVal.getToolTipText());
@@ -1108,69 +988,38 @@ public class NewGameGUI extends javax.swing.JFrame {
     private javax.swing.JLabel aknownVal;
     private javax.swing.JLabel aliasLabel;
     private javax.swing.JLabel aliasVal;
-    private javax.swing.JLabel apLabel;
-    private javax.swing.JLabel apVal;
-    private javax.swing.JLabel atLabel;
-    private javax.swing.JLabel atVal;
+    private javax.swing.JLabel bioLabel;
     private javax.swing.JScrollPane bioPane;
     private javax.swing.JTextArea bioText;
     private javax.swing.JPanel bottomPane;
-    private javax.swing.JLabel chLabel;
-    private javax.swing.JLabel chVal;
     private javax.swing.JComboBox<String> charDrop;
     private static javax.swing.JLabel charToon;
     private javax.swing.JLabel charmLabel;
     private javax.swing.JList<String> charmList;
     private javax.swing.JScrollPane charmPane;
     private javax.swing.JButton confirmButton;
-    private javax.swing.JLabel dfLabel;
-    private javax.swing.JLabel dfVal;
-    private javax.swing.JLabel dxLabel;
-    private javax.swing.JLabel dxVal;
     private javax.swing.JLabel effLabel;
     private javax.swing.JList<String> effList;
     private javax.swing.JScrollPane effPane;
-    private javax.swing.JLabel evLabel;
-    private javax.swing.JLabel evVal;
     private javax.swing.JButton exitButton;
     private javax.swing.JLabel ftLabel;
     private javax.swing.JLabel ftVal;
     private javax.swing.JLabel heldLabel;
     private javax.swing.JList<String> heldList;
     private javax.swing.JScrollPane heldPane;
-    private javax.swing.JLabel hpLabel;
-    private javax.swing.JLabel hpVal;
-    private javax.swing.JLabel inLabel;
-    private javax.swing.JLabel inVal;
     private javax.swing.JLabel invLabel;
     private javax.swing.JList<String> invList;
     private javax.swing.JScrollPane invPane;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextPane jTextPane1;
     private javax.swing.JLabel limitLabel;
-    private javax.swing.JLabel luLabel;
-    private javax.swing.JLabel luVal;
-    private javax.swing.JLabel mdLabel;
-    private javax.swing.JLabel mdVal;
-    private javax.swing.JLabel meLabel;
-    private javax.swing.JLabel meVal;
-    private javax.swing.JLabel mpLabel;
-    private javax.swing.JLabel mpVal;
-    private javax.swing.JLabel myLabel;
-    private javax.swing.JLabel myVal;
     private javax.swing.JLabel newgameLabel;
     private javax.swing.JLabel rpLabel;
     private javax.swing.JLabel rpVal;
-    private javax.swing.JLabel saLabel;
-    private javax.swing.JLabel saVal;
     private javax.swing.JLabel saveLabel;
     private javax.swing.JLabel sdLabel;
     private javax.swing.JLabel sdVal;
     private javax.swing.JLabel selectLabel;
-    private javax.swing.JLabel spLabel;
-    private javax.swing.JLabel spVal;
-    private javax.swing.JLabel stLabel;
-    private javax.swing.JLabel stVal;
     private javax.swing.JLabel startingworldLabel;
     private javax.swing.JLabel startingworldLabel1;
     private javax.swing.JLabel stat01Label;
@@ -1178,14 +1027,16 @@ public class NewGameGUI extends javax.swing.JFrame {
     private javax.swing.JLabel stat03Label;
     private javax.swing.JLabel stat04Label;
     private javax.swing.JLabel stat05Label;
+    private javax.swing.JPanel statusPane;
+    private javax.swing.JPanel statusPane1;
     private javax.swing.JLabel titleLogo;
+    private javax.swing.JScrollPane toonstatsPane;
+    private static javax.swing.JTable toonstatsTable;
     private javax.swing.JLabel wearLabel;
     private javax.swing.JList<String> wearList;
     private javax.swing.JScrollPane wearPane;
     private javax.swing.JScrollPane welcomePane;
     private javax.swing.JTextArea welcomeText;
-    private javax.swing.JLabel wlLabel;
-    private javax.swing.JLabel wlVal;
     private javax.swing.JLabel wmLabel;
     private javax.swing.JLabel wmVal;
     // End of variables declaration//GEN-END:variables

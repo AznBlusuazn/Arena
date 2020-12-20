@@ -233,6 +233,14 @@ public class Converters {
         return listtoCap;
     }
     
+    public static List<String> createBlank(String defstring, int rows) {
+        List<String> newlist = new ArrayList<>();
+        for(int i = 0; i< rows; i++) {
+            newlist.add("0");
+        }
+        return newlist;
+    }
+    
     //<editor-fold defaultstate="collapsed" desc="Log File Method">
     private static void logFile (String type, String loginfo) throws IOException
         {
