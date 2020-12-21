@@ -1,6 +1,6 @@
 =======================================
 LIMITLESS by Geoff Clark
-VERSION ALPHA 0.0.023 / 2020.12.19-2344
+VERSION ALPHA 0.0.024 / 2020.12.20-2329
 =======================================
 
 SUPPORT THE DEVELOPMENT OF THIS GAME @ 
@@ -46,6 +46,16 @@ Contact the author:  info@clarktribegames.com
 ====================================
 
 DEVELOPMENT NOTES
+
+ALPHA 0.0.024 / 2020.12.20-2329
+
+- fixed issue with game crash if toon has no equipment
+- restructured abilities table with ablitiy cost, target, impact, and base stat, along with additions if it is an element attach and if it applies and effect or not
+- added element field for items
+- restructured effects to have stat impact, increment rates, condensed elements, options to change team, alignment, gender, race, size
+- added coding similiar to stats for effect impact
+- coded ability cost, target, impact, base, element type decoders
+- realigned the stats for the battle screen to reflect the changes from 0.0.023
 
 ALPHA 0.0.023 / 2020.12.19-2344
 

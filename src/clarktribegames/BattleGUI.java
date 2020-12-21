@@ -563,10 +563,11 @@ public class BattleGUI extends javax.swing.JFrame {
             "dbClass","classID",(GetData.dbQuery(save,"*",toons,"toonID",team
             .get(jlist.getSelectedIndex()),false).get(3)), false)).get(1) + " ("
             + (Calculator.getLevel("curlv", hiddenstats[4])) + ")");
+        System.out.println(namebox.getText() + ":" + Arrays.toString(toonstats));
         DefaultTableModel dml = (DefaultTableModel)table.getModel();
         dml.setValueAt("Normal", 0, 1);
         for(int item = 1; item < dml.getRowCount(); item++) {
-            dml.setValueAt(toonstats[item - 1], item, 1);
+            dml.setValueAt(toonstats[item + 7], item, 1);
         }
     }
     
@@ -581,7 +582,7 @@ public class BattleGUI extends javax.swing.JFrame {
             toonid,false).get(21));
     }
 
-    private static void detailsButton(String save,String toons,List<String> team,
+    private static void detailsButton(String save,String toons,List<String>team,
         JList jlist, JLabel hidden) throws SQLException {
         String[] hiddenstats = hidden.getText().split("x");
         String message = (GetData.dbQuery(save,"*",toons,
@@ -594,17 +595,19 @@ public class BattleGUI extends javax.swing.JFrame {
             ((GetData.dbQuery(save,"*","dbAlign","alignID",(Calculator.getAlign
             (Integer.parseInt(hiddenstats[0]))),false)).get(1))
             + "\nGender: " +    
-            ((GetData.dbQuery(save,"*","dbGender","genderID",hiddenstats[1], false)).get(1))
+            ((GetData.dbQuery(save,"*","dbGender","genderID",hiddenstats[1],
+            false)).get(1))
             + "\nSize: " +    
-            ((GetData.dbQuery(save,"*","dbSize","sizeID",hiddenstats[3], false)).get(1))
+            ((GetData.dbQuery(save,"*","dbSize","sizeID",hiddenstats[3], false))
+            .get(1))
             + "\nRace: " +    
             ((GetData.dbQuery(save,"*","dbRace","raceID",(GetData.dbQuery(save,
             "*",toons,"toonID",team.get(jlist.getSelectedIndex()),false).get(2))
             , false)).get(1))
             + "\nClass: " +
-            ((GetData.dbQuery(save,"*","dbClass","classID",(GetData.dbQuery(save,
-            "*",toons,"toonID",team.get(jlist.getSelectedIndex()),false).get(3))
-            , false)).get(1))
+            ((GetData.dbQuery(save,"*","dbClass","classID",(GetData.dbQuery(save
+            ,"*",toons,"toonID",team.get(jlist.getSelectedIndex()),false).get(3)
+            ), false)).get(1))
             + "\nLevel: " + Calculator.getLevel("curlv", hiddenstats[4])
             + "\nExperience: " + hiddenstats[4]
             + "\nCurrent Status: " + "Normal"

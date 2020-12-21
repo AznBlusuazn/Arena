@@ -338,7 +338,8 @@ public class ChecksBalances {
     
     public static boolean newGame(String newgamename) throws IOException, Exception {
         boolean continueGame = false;
-        if(newgamename.equals("") || newgamename.trim().isEmpty() || isNullOrEmpty(newgamename)) {
+        if(newgamename.equals("") || newgamename.trim().isEmpty() || 
+            isNullOrEmpty(newgamename)) {
             Popups.warnPopup("Error","The save name cannot be blank!");
             return continueGame;
     }
@@ -348,26 +349,33 @@ public class ChecksBalances {
         }
         if(newgamename.contains(newgamename))
         if(new File(MainControls.savesDir + newgamename + "/").exists()) {
-            Popups.warnPopup(newgamename + " already exists!", "There is already a save with the name " + newgamename);
+            Popups.warnPopup(newgamename + " already exists!", "There is already"
+                + " a save with the name " + newgamename);
             return continueGame;
         };
-        newdirCheck(MainControls.savesDir + newgamename.toLowerCase() + "/",false);
-        if(!(new File(MainControls.savesDir + newgamename.toLowerCase() + "/").exists())) {
-            Popups.warnPopup("Error creating " + newgamename + " folder", "There was an error creating the " + newgamename + " folder.");
+        newdirCheck(MainControls.savesDir+newgamename.toLowerCase()+"/",false);
+        if(!(new File(MainControls.savesDir + newgamename.toLowerCase() + "/")
+            .exists())) {
+            Popups.warnPopup("Error creating " + newgamename + " folder", "There"
+                + " was an error creating the " + newgamename + " folder.");
             return continueGame;
         }
-        MainControls.currentgamePath = MainControls.savesDir + newgamename.toLowerCase() + "/" + MainControls.selectedSave;
-        fileCheck(MainControls.savesDir + MainControls.selectedSave,MainControls.currentgamePath,false,false);
+        MainControls.currentgamePath = MainControls.savesDir + newgamename
+            .toLowerCase() + "/" + MainControls.selectedSave;
+        fileCheck(MainControls.savesDir+MainControls.selectedSave,MainControls
+            .currentgamePath,false,false);
         if(!(new File(MainControls.currentgamePath).exists())) {
-            Popups.warnPopup("Error creating " + newgamename + " save file", "There was an error creating the " + newgamename + " save file.");
-            ifexistDelete(MainControls.savesDir + newgamename.toLowerCase() + "/");
+            Popups.warnPopup("Error creating " + newgamename + " save file", 
+                "There was an error creating the "+newgamename+" save file.");
+            ifexistDelete(MainControls.savesDir+newgamename.toLowerCase()+"/");
             return continueGame;
         }
         return true;
     }
     
     public static boolean checknoofSubdirs (String dir) {
-        int noofSubdirs = (Arrays.asList(new File(dir).list(new FilenameFilter() {
+        int noofSubdirs = (Arrays.asList(new File(dir).list(new FilenameFilter()
+        {
             @Override
             public boolean accept(File current, String name) {
                 return new File(current, name).isDirectory();

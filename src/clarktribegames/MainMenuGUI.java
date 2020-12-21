@@ -494,7 +494,7 @@ public class MainMenuGUI extends javax.swing.JFrame {
        MainControls.updateSettings();
     }
     
-    private void defaultdbEnabled(JComboBox<String> dropdown)throws IOException {
+    private void defaultdbEnabled(JComboBox<String> dropdown)throws IOException{
         if(dropdown.isEnabled()) {
             dropdown.removeAllItems();
             DefaultComboBoxModel dbdml = new DefaultComboBoxModel();

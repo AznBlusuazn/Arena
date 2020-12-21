@@ -797,7 +797,8 @@ public class NewGameGUI extends javax.swing.JFrame {
             split("x"));
         
         for(int item = 0; item < 17; item++) {
-            ((DefaultTableModel)toonstatsTable.getModel()).setValueAt(newstats.get(item + 8), item, 1);
+            ((DefaultTableModel)toonstatsTable.getModel()).setValueAt(newstats
+                .get(item + 8), item, 1);
         }
 
         ftVal.setText(newstats.get(25));
