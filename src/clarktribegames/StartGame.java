@@ -21,12 +21,12 @@ import java.util.Map;
 public class StartGame {
     
     public static void startGame(String save, String savetoons, String savemax) 
-        throws SQLException, IOException {
+        throws SQLException, IOException, InterruptedException {
         startTime(save,savetoons,savemax);
     }
     
     private static void startTime(String save, String savetoons, String savemax) 
-        throws SQLException, IOException{
+        throws SQLException, IOException, InterruptedException{
         //to be replaced with getDate();
         String week = "1";
         String month = "1";
@@ -40,8 +40,9 @@ public class StartGame {
             "*",savetoons,"toonID",MainControls.selectedToon, false).get(1)+"\n"
             + "\n Week "+ week + ", Month " + month + ", Day " + day + ", Year "
             + year + "\n\n" + tempstartMsg);
-        cleanupTempDB((MainControls.savesDir + save + "." + MainControls.saveExt).replaceAll(MainControls.saveExt + "." + MainControls.saveExt, MainControls.saveExt),
-            savetoons);
+        cleanupTempDB((MainControls.savesDir+save+"."+MainControls.saveExt)
+            .replaceAll(MainControls.saveExt + "." + MainControls.saveExt, 
+            MainControls.saveExt),savetoons);
         BattleEngine.battleEngine(save, savetoons, savemax);
     }
     

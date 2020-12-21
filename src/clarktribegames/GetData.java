@@ -18,9 +18,12 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import javax.swing.JList;
 
 /**
  * 
@@ -186,6 +189,7 @@ public class GetData {
                 (Calculator.getSize(((GetData.dbQuery(save,"*","dbRace","raceID"
                 ,toonstats.get(2), false)).get(1)), (Calculator.getAge(Integer
                 .parseInt(toonstats.get(7)),toonstats.get(2))))),false).get(0);
+            //temp is built here
             String toonStats = (GetStats.getStats("Toon",toonstats,ratioXP,true)
                 .toString()).replaceAll(", ", "x");
             toonStats = toonStats.substring(1, toonStats.length() - 1);
@@ -215,5 +219,144 @@ public class GetData {
         }
     }
     
+    public static void buildBattle(String save, String game) throws IOException,
+        SQLException, InterruptedException {
+        createBattleTbl(save,game);
+        buildBattleTable(save,game,Arrays.asList(BattleEngine.team0),"0");
+        Thread.sleep(350);
+        buildBattleTable(save,game,Arrays.asList(BattleEngine.team1),"1");
+        Thread.sleep(350);
+        copyTab(save,"battle"+game.toLowerCase()+"Toons","battle"+game
+            .toLowerCase()+"Max");
+    }
+    
+    private static void createBattleTbl(String save, String game) throws 
+        IOException {
+        String battletable = "battle" + game.toLowerCase() + "Toons";
+        db1 = "jdbc:ucanaccess://" + MainControls.savesDir + "/" + save + "." + 
+            MainControls.saveExt;
+        db1 = db1.replaceAll(MainControls.saveExt + "." + MainControls.saveExt, 
+            MainControls.saveExt);
+            try (Connection con = DriverManager.getConnection(db1, db2, db3)) {
+            String savepath = MainControls.savesDir + Converters.capFirstLetter(
+                (MainControls.selectedSave).substring(0,(MainControls
+                .selectedSave).indexOf("." + MainControls.saveExt))) + "." + 
+                MainControls.saveExt;
+            try (Statement s = con.createStatement()) {
+                Database db=new DatabaseBuilder().setAutoSync(false).setFile
+                        (new File(savepath)).open();
+                Table table = new TableBuilder(battletable)
+                    .addColumn(new ColumnBuilder("toonID",DataType.TEXT))
+                    .addColumn(new ColumnBuilder("toonName",DataType.TEXT))
+                    .addColumn(new ColumnBuilder("toonRace",DataType.TEXT))
+                    .addColumn(new ColumnBuilder("toonClass",DataType.TEXT))
+                    .addColumn(new ColumnBuilder("toonAlignRank",DataType.TEXT))
+                    .addColumn(new ColumnBuilder("toonUID",DataType.TEXT))
+                    .addColumn(new ColumnBuilder("toonGen",DataType.TEXT))
+                    .addColumn(new ColumnBuilder("teamAge",DataType.TEXT))                        
+                    .addColumn(new ColumnBuilder("toonLv",DataType.TEXT))
+                    .addColumn(new ColumnBuilder("toonBio",DataType.TEXT))
+                    .addColumn(new ColumnBuilder("toonImage",DataType.TEXT))
+                    .addColumn(new ColumnBuilder("toonAbl",DataType.TEXT))
+                    .addColumn(new ColumnBuilder("toonEff",DataType.TEXT))
+                    .addColumn(new ColumnBuilder("toonHeld",DataType.TEXT))
+                    .addColumn(new ColumnBuilder("toonWear",DataType.TEXT))
+                    .addColumn(new ColumnBuilder("toonCharms",DataType.TEXT))
+                    .addColumn(new ColumnBuilder("toonInv",DataType.TEXT))
+                    .addColumn(new ColumnBuilder("toonAlias",DataType.TEXT))
+                    .addColumn(new ColumnBuilder("toonAKnown",DataType.TEXT))
+                    .addColumn(new ColumnBuilder("baseStats",DataType.TEXT))
+                    .addColumn(new ColumnBuilder("toonExp",DataType.TEXT))
+                    .addColumn(new ColumnBuilder("toonSize",DataType.TEXT))
+                    .addColumn(new ColumnBuilder("toonTeam",DataType.TEXT))
+                    .addColumn(new ColumnBuilder("combinedStats",DataType.TEXT))
+                    .addColumn(new ColumnBuilder("toonAlignment",DataType.TEXT))
+                    .addColumn(new ColumnBuilder("toonGender",DataType.TEXT))
+                    .addColumn(new ColumnBuilder("teamAgeGroup",DataType.TEXT))                        
+                    .addColumn(new ColumnBuilder("teamSizeName",DataType.TEXT))
+                    .addColumn(new ColumnBuilder("teamRaceName",DataType.TEXT))
+                    .addColumn(new ColumnBuilder("teamClassName",DataType.TEXT))
+                    .toTable (db);
+                    db.flush();
+            }
+            con.close(); 
+            Thread.sleep(350);
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+        }
+    }
+    
+    private static void buildBattleTable(String save,String game,List<String> 
+        team,String teamno) throws SQLException,InterruptedException,IOException
+        {
+        String savetoons = "sav" + game.toLowerCase() + "Toons";
+        String battletable = "battle" + game.toLowerCase() + "Toons";
+        int numbertoons = team.size();
+        for(int toonidx = 0; toonidx < numbertoons; toonidx++) {
+            List<String> toonstats = GetData.dbQuery(save,"*",savetoons,"toonID"
+                ,String.valueOf(team.get(toonidx)),false);
+            String toonSize = GetData.dbQuery(save, "*","dbSize","sizeName",
+                (Calculator.getSize(((GetData.dbQuery(save,"*","dbRace","raceID"
+                ,toonstats.get(2), false)).get(1)), (Calculator.getAge(Integer
+                .parseInt(toonstats.get(7)),toonstats.get(2))))),false).get(0);
+            String savepath = (MainControls.savesDir + Converters.capFirstLetter
+                ((MainControls.selectedSave))).replaceAll(MainControls.saveExt +
+                    "." + MainControls.saveExt, MainControls.saveExt);;
+            String[] toonbasestats = (toonstats.get(20)).split("x");
+            List<String> baselist = new ArrayList<>();
+            baselist.addAll(Arrays.asList(toonbasestats));
+            List<String> charmlist = GetStats.fetchitemStats(save,"Charm",
+                toonstats,baselist);
+            List<String> wearlist = GetStats.fetchitemStats(save,"Wear",
+                toonstats,baselist);
+            List<String> heldlist = GetStats.fetchitemStats(save,"Held",
+                toonstats,baselist);
+            List<String> combined = new ArrayList<>();
+            for(int x = 0; x < charmlist.size(); x++) {
+                double total = Double.parseDouble(baselist.get(x)) + Double
+                    .parseDouble(charmlist.get(x)) + Double.parseDouble(wearlist
+                    .get(x)) + Double.parseDouble(heldlist.get(x));
+                combined.add(String.valueOf((int) total));
+            }
+            String AlignName=(GetData.dbQuery(save,"*","dbAlign","alignID",(
+                Calculator.getAlign(Integer.parseInt(toonstats.get(4)))),false))
+                .get(1);
+            String GenderName=(GetData.dbQuery(save,"*","dbGender","genderID",
+                toonstats.get(6),false)).get(1);
+            String AgeGroup=Calculator.getAge(Integer.parseInt(toonstats.get(7))
+                ,((GetData.dbQuery(save,"*","dbRace","raceID",(toonstats.get(2))
+                ,false)).get(0)));
+            String SizeName=(GetData.dbQuery(save,"*","dbSize","sizeID",toonSize
+                ,false)).get(1);
+            String RaceName=(GetData.dbQuery(save,"*","dbRace","raceID",
+                toonstats.get(2),false)).get(1);
+            String ClassName=(GetData.dbQuery(save,"*","dbClass","classID",
+                toonstats.get(3),false).get(1));
+
+            try (Connection con=DriverManager.getConnection("jdbc:ucanaccess://"
+                + savepath, db2, db3)) {
+                try (Statement s = con.createStatement()) {
+                    Database db = new DatabaseBuilder().setAutoSync(false)
+                        .setFile(new File(savepath)).open();
+                    Table tbl = db.getTable(battletable);
+                    tbl.addRow(toonstats.get(0),toonstats.get(1),toonstats.get(2
+                        ),toonstats.get(3),toonstats.get(4),toonstats.get(5),
+                        toonstats.get(6),toonstats.get(7),toonstats.get(8),
+                        toonstats.get(9),toonstats.get(10),toonstats.get(11),
+                        toonstats.get(12),toonstats.get(13),toonstats.get(14),
+                        toonstats.get(15),toonstats.get(16),toonstats.get(17),
+                        toonstats.get(18),toonstats.get(20),toonstats.get(21),
+                        toonstats.get(22),teamno,(combined.stream().collect
+                        (Collectors.joining("x"))),AlignName,GenderName,AgeGroup
+                        ,SizeName,RaceName,ClassName);
+                    Thread.sleep(350);
+                }
+                con.close();
+            } catch (Exception e) {
+                e.printStackTrace(System.err);
+            }
+
+        }
+    }
     
 }

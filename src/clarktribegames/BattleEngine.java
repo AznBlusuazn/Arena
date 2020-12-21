@@ -2,6 +2,7 @@ package clarktribegames;
 
 // <editor-fold defaultstate="collapsed" desc="credits">
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,7 @@ public class BattleEngine {
     static String saveMax;
     
     public static void battleEngine(String save,String savetoons,String savemax)
-        throws SQLException{
+        throws SQLException, IOException, InterruptedException{
         saveName = save;
         saveToons = savetoons;
         saveMax = savemax;
@@ -34,7 +35,7 @@ public class BattleEngine {
     }
     
     private static void battleTime(String save, String savetoons, String savemax
-        ) throws SQLException {
+        ) throws SQLException, IOException, InterruptedException {
         int opponent = 0;
         int totalToons = GetData.dbQuery(save, "*", savetoons, "toonID", "*", 
             true).size();
@@ -43,12 +44,10 @@ public class BattleEngine {
         if(String.valueOf(opponent).equals(MainControls.selectedToon)) {
             battleTime(save,savetoons,savemax);
         }
-//        String player1 = GetData.dbQuery(save, "*", savetoons, "toonID", 
-//            MainControls.selectedToon, false).get(0);
-//        String player2 = GetData.dbQuery(save, "*", savetoons, "toonID", 
-//            String.valueOf(opponent), false).get(0);
         team0 = new String[] {MainControls.selectedToon};
         team1 = new String[] {String.valueOf(opponent)};
+        GetData.buildBattle(save, Converters.capFirstLetter(saveToons.substring(
+            3,saveToons.length()).replace("Toons", "")));
         VersusGUI.main(null);
     }
         

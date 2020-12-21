@@ -307,6 +307,11 @@ public class GetStats {
         return result;
     }
     
+    public static List<String> fetchitemStats(String save, String type, 
+        List<String> toonstats,List<String> baselist) throws SQLException {
+        return getitemStats(save,type,toonstats,baselist);
+    }
+    
     private static List<String> getitemStats(String save, String type, 
         List<String> toonstats,List<String> baselist) throws SQLException {
         int x = 0;
@@ -319,7 +324,7 @@ public class GetStats {
                 x = 15;
             }
         }
-        List<String> invlist = Arrays.asList(toonstats.get(x).split("x"));
+        List<String> invlist = Arrays.asList(toonstats.get(x).split("x"));    
         if(invlist.get(0).contains("null")) {
             return baselist;
         }
