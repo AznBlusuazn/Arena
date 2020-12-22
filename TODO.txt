@@ -1,12 +1,15 @@
 TO DO'S/IDEAS (DEVELOPING)
 
-[IN PROGRESS / ALMOST COMPLETE] Figure out complexities of save game
 [IN PROGRESS] Save / Character Select screen
 [IN PROGRESS] create baseline statuses
 [PARTIAL COM] bio builder -- need to include effects?
 - menu bar
 - variable count with for loop for players
 - link toon status to status
+- generics
+- absorb abilities
+- steal abilities
+- mimic ability
 - weight stat
 - fatigue meter
 - status target?
@@ -136,7 +139,6 @@ TO DO'S/IDEAS (DEVELOPING)
 - combining elements to create new ones (fire + earth = magma // air + earth = gravity)
 - magnetism
 - team determiner
-- generic music?
 - custom music option
 
 COMPLETED
@@ -162,3 +164,5 @@ COMPLETED
 [COMPLETE] Start / Welcome Screen with options
 [COMPLETE] size stat?
 [COMPLETE] remove generic labels of fields throughout db -- theres no point to do this
+[COMPLETE] Figure out complexities of save game
+[COMPLETE] generic music

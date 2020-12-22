@@ -34,12 +34,14 @@ import javazoom.jl.decoder.JavaLayerException;
 
 public class BattleGUI extends javax.swing.JFrame {
 
-    public BattleGUI() throws SQLException {
+    public BattleGUI() throws SQLException, InterruptedException {
         initComponents();
         setLocationRelativeTo(null);
         prepBattle(BattleEngine.saveName,BattleEngine.saveToons.replaceAll("sav"
             ,"battle"),BattleEngine.saveMax.replaceAll("sav", "battle"),Arrays.
             asList(BattleEngine.team0),Arrays.asList(BattleEngine.team1));
+        BattleEngine.battleStart(BattleEngine.saveName, BattleEngine.saveToons.replaceAll("sav"
+            ,"battle"),BattleEngine.saveMax.replaceAll("sav", "battle"));
         
     }
 
@@ -428,9 +430,10 @@ public class BattleGUI extends javax.swing.JFrame {
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
         try {
             confirmButton();
-        } catch (BadLocationException ex) {
+        } catch (BadLocationException | SQLException | InterruptedException ex) {
             //
         }
+       
     }//GEN-LAST:event_confirmButtonActionPerformed
 
     private void team1DetailsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_team1DetailsButtonActionPerformed
@@ -785,11 +788,16 @@ public class BattleGUI extends javax.swing.JFrame {
             + "to effects here.");
     }    
 
-    private void confirmButton() throws BadLocationException {
+    private void confirmButton() throws BadLocationException, SQLException, InterruptedException {
         String userInput = inputText.getText();
         new TypeEffect(mainText,userInput + "\n",10).start();
+        BattleEngine.nextTurn();
         //more function here
 
+    }
+    
+    public static void writeBattle(String string) {
+        new TypeEffect(mainText,string + "\n",10).start();
     }
     
     private void exitButton() throws IOException, Exception {
@@ -856,6 +864,21 @@ public class BattleGUI extends javax.swing.JFrame {
         System.exit(0);
     }
     
+    public static JTable getTable(int table) {
+        if(table == 1) {
+            return team1Table;
+        } else {
+            return team0Table;
+        }
+    }
+    
+    public static JLabel getHidden(int label) {
+        if(label == 1) {
+            return team1Hidden;
+        } else {
+            return team0Hidden;
+        }
+    }
   
 
     //<editor-fold defaultstate="collapsed" desc="Main Start Method"> 
@@ -883,9 +906,11 @@ public class BattleGUI extends javax.swing.JFrame {
             public void run() {
                 try {
                     new BattleGUI().setVisible(true);
-                } catch (SQLException ex) {
+                } catch (SQLException | InterruptedException ex) {
                     //
                 }
+                //
+                
             }
         });
     }
@@ -899,7 +924,7 @@ public class BattleGUI extends javax.swing.JFrame {
     private javax.swing.JTextField inputText;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel limitLabel;
-    private javax.swing.JTextArea mainText;
+    private static javax.swing.JTextArea mainText;
     private javax.swing.JPanel rightPanel;
     private javax.swing.JLabel saveLabel;
     private javax.swing.JButton team0AblButton;
