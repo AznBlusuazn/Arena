@@ -1,6 +1,11 @@
 package clarktribegames;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javazoom.jl.decoder.JavaLayerException;
 
 /**
  * 
@@ -12,13 +17,13 @@ import java.sql.SQLException;
 // </editor-fold>
 public class VersusGUI extends javax.swing.JFrame {
    
-    public VersusGUI() throws SQLException {
+    public VersusGUI() throws SQLException, IOException, FileNotFoundException, JavaLayerException {
         initComponents();
         setLocationRelativeTo(null);  
         popVersus(BattleEngine.saveName, BattleEngine.saveToons);
     }
     
-    private void popVersus(String save, String savetoons) throws SQLException {
+    private void popVersus(String save, String savetoons) throws SQLException, IOException, FileNotFoundException, JavaLayerException {
         //add if multiple team captains instead
         char1Label.setText(GetData.dbQuery(save,"*",savetoons, "toonID",
             BattleEngine.team0[0], false).get(1));
@@ -28,6 +33,8 @@ public class VersusGUI extends javax.swing.JFrame {
             (GetData.dbQuery(save,"*",savetoons, "toonName",char1Label.getText(), false).get(10)));
         Avatars.setAvatar(char2Toon, char2Label.getText(),
             (GetData.dbQuery(save,"*",savetoons,"toonName",char2Label.getText(), false).get(10)));
+        MainControls.musicPath = "sounds/battle.mp3";
+        MPlayer.mediaPlayer(true);
     }
 
     @SuppressWarnings("unchecked")
@@ -135,7 +142,7 @@ public class VersusGUI extends javax.swing.JFrame {
             public void run() {
                 try {
                     new VersusGUI().setVisible(true);
-                } catch (SQLException ex) {
+                } catch (SQLException | IOException | JavaLayerException ex) {
                     ex.printStackTrace();
                 }
             }

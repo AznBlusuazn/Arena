@@ -320,8 +320,8 @@ public class MainMenuGUI extends javax.swing.JFrame {
                 MainControls.savesDir + ".lastused"));
             MainControls.selectedToon = Converters.getfromFile(MainControls
                 .savesDir + ".lastused", true, false);
-            MPlayer.stopMedia();
             cleanUp();
+            MPlayer.stopMedia();
             StartGame.startGame(MainControls.selectedSave, "sav" + loadChoice + 
                 "Toons", "sav" + loadChoice + " Max");
             

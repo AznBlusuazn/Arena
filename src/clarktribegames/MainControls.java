@@ -42,6 +42,9 @@ public class MainControls {
     static String selectedToon = "";
     static String price = "";
     static String dagger = "";
+    static boolean musicPlaying = false;
+    static Thread currentSong;
+    static String threadName = "";
     
     //Settings.ini
     static boolean musicOn = true;

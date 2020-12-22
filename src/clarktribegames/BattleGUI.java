@@ -185,7 +185,7 @@ public class BattleGUI extends javax.swing.JFrame {
 
         limitLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         limitLabel.setText("[" + Converters.capFirstLetter(BattleEngine.saveToons.substring(3,BattleEngine.saveToons.length()).replaceAll("Toons","")) +
-            "] • [Database: " + Converters.capFirstLetter(BattleEngine.saveName) + "]");
+            "] • [Database: " + Converters.capFirstLetter(BattleEngine.saveName).replaceAll("." + MainControls.saveExt,"") + "]");
         limitLabel.setFocusable(false);
         limitLabel.setMaximumSize(new java.awt.Dimension(1200, 800));
         limitLabel.setMinimumSize(new java.awt.Dimension(1200, 800));

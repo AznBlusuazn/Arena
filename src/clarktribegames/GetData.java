@@ -225,13 +225,13 @@ public class GetData {
         buildBattleTable(save,game,Arrays.asList(BattleEngine.team0),"0");
         Thread.sleep(350);
         buildBattleTable(save,game,Arrays.asList(BattleEngine.team1),"1");
-        Thread.sleep(350);
+        Thread.sleep(700);
         copyTab(save,"battle"+game.toLowerCase()+"Toons","battle"+game
             .toLowerCase()+"Max");
     }
     
     private static void createBattleTbl(String save, String game) throws 
-        IOException {
+        IOException, InterruptedException {
         String battletable = "battle" + game.toLowerCase() + "Toons";
         db1 = "jdbc:ucanaccess://" + MainControls.savesDir + "/" + save + "." + 
             MainControls.saveExt;
@@ -282,7 +282,21 @@ public class GetData {
             con.close(); 
             Thread.sleep(350);
         } catch (Exception e) {
-            e.printStackTrace(System.err);
+            String savepath = MainControls.savesDir + Converters.capFirstLetter(
+                (MainControls.selectedSave).substring(0,(MainControls
+                .selectedSave).indexOf("." + MainControls.saveExt))) + "." + 
+                MainControls.saveExt;
+            Database db=new DatabaseBuilder().setAutoSync(false).setFile
+                        (new File(savepath)).open();
+            Table t = db.getTable(battletable);
+            for (Row r : t) {
+                t.deleteRow(r);
+            }
+            Table t2 = db.getTable(battletable.replaceAll("Toons", "Max"));
+            for (Row r : t2) {
+                t2.deleteRow(r);
+            }
+            Thread.sleep(350);
         }
     }
     

@@ -1,6 +1,6 @@
 =======================================
 LIMITLESS by Geoff Clark
-VERSION ALPHA 0.0.025 / 2020.12.21-1855
+VERSION ALPHA 0.0.026 / 2020.12.22-XXXX
 =======================================
 
 SUPPORT THE DEVELOPMENT OF THIS GAME @ 
@@ -46,6 +46,11 @@ Contact the author:  info@clarktribegames.com
 ====================================
 
 DEVELOPMENT NOTES
+
+ALPHA 0.0.026 / 2020.12.22-XXXX
+
+- improved music player with some fixes to prevent overlapping music
+- added a new track from BenSound "Epic" for the battle theme
 
 ALPHA 0.0.025 / 2020.12.21-1855
 

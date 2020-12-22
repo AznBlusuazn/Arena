@@ -250,7 +250,7 @@
           <Font name="Lucida Console" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="&quot;[&quot; + Converters.capFirstLetter(BattleEngine.saveToons.substring(3,BattleEngine.saveToons.length()).replaceAll(&quot;Toons&quot;,&quot;&quot;)) + &#xa;            &quot;] &#x2022; [Database: &quot; + Converters.capFirstLetter(BattleEngine.saveName) + &quot;]&quot;" type="code"/>
+          <Connection code="&quot;[&quot; + Converters.capFirstLetter(BattleEngine.saveToons.substring(3,BattleEngine.saveToons.length()).replaceAll(&quot;Toons&quot;,&quot;&quot;)) + &#xa;            &quot;] &#x2022; [Database: &quot; + Converters.capFirstLetter(BattleEngine.saveName).replaceAll(&quot;.&quot; + MainControls.saveExt,&quot;&quot;) + &quot;]&quot;" type="code"/>
         </Property>
         <Property name="focusable" type="boolean" value="false"/>
         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">

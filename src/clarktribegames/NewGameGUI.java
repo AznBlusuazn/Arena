@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
@@ -549,7 +551,7 @@ public class NewGameGUI extends javax.swing.JFrame {
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
         try {
             confirmButton();
-        } catch (SQLException | IOException ex) {
+        } catch (SQLException | IOException | InterruptedException ex) {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_confirmButtonActionPerformed
@@ -939,7 +941,7 @@ public class NewGameGUI extends javax.swing.JFrame {
         new TypeEffect(welcomeText,text,10).start();
     }
     
-    private void confirmButton() throws SQLException, IOException {
+    private void confirmButton() throws SQLException, IOException, InterruptedException {
         String savetoons = "sav" + saveToons + "Toons";
         String savemax = "sav" + saveToons + "Max";
         MainControls.selectedToon = GetData.dbQuery(saveName,"*",savetoons, 
