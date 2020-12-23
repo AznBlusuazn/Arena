@@ -1,6 +1,6 @@
 =======================================
 LIMITLESS by Geoff Clark
-VERSION ALPHA 0.0.026 / 2020.12.22-1540
+VERSION ALPHA 0.0.026 / 2020.12.22-2249
 =======================================
 
 SUPPORT THE DEVELOPMENT OF THIS GAME @ 
@@ -47,14 +47,16 @@ Contact the author:  info@clarktribegames.com
 
 DEVELOPMENT NOTES
 
-ALPHA 0.0.026 / 2020.12.22-1540
+ALPHA 0.0.026 / 2020.12.22-2249
 
 - improved music player with some fixes to prevent overlapping music
 - added a new track from BenSound "Epic" for the battle theme
 - set up foundation for generic characters to be generated
 - create table for phrase blank for unique experiences during battle
 - created who's first and turn counter along with math to figured out turn meters
-- created text that types in for battle gui battle happenings.
+- created text that types in for battle gui battle happenings
+- created holds for the confirm button in between the battle text typewriter
+- created loop with simulated battle damage between the two opponents for testing
 
 ALPHA 0.0.025 / 2020.12.21-1855
 

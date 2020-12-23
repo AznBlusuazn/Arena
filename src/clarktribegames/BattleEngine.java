@@ -2,12 +2,16 @@ package clarktribegames;
 
 // <editor-fold defaultstate="collapsed" desc="credits">
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import javax.swing.JTextArea;
+import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 
 
@@ -28,6 +32,7 @@ public class BattleEngine {
     static String saveToons;
     static String saveMax;
     static int[][] tTrack = new int[2][3];
+    static boolean battleDone = false;
     
     public static void battleEngine(String save,String savetoons,String savemax)
         throws SQLException, IOException, InterruptedException{
@@ -137,12 +142,32 @@ public class BattleEngine {
             tTrack[a][0]),false).get(1);
         String target = GetData.dbQuery(save,"*",btoons,"toonID",String.valueOf(
             tTrack[b][0]),false).get(1);
+        System.out.println("Player: " + player + ":" + a + " is attacking.");
         tTrack[a][1] = 0;
         tTrack[b][1] += tTrack[b][2];
         if(tTrack[b][1] > 100) {
             tTrack[b][1] = 100;
         }
-        String turnhappenings = "This would be " + player + "'s turn with " + target + " being the target.";
+        String turnhappenings = "This would be " + player + "'s turn with " + target + " being the target.\n";
+        //simulating battle
+        Random rand = new Random();
+        if(a == 1) {
+            int damage = (int) (Integer.parseInt((String) BattleGUI.getTable(1).getValueAt(4,1)) * (rand.nextInt(100) * 0.01));
+            turnhappenings += player + " attacks " + target + " for " + damage + " damage.\n";
+            int hp = Integer.parseInt((String) BattleGUI.getTable(0).getValueAt(1,1)) - damage;
+            if(hp<0) {
+                hp = 0;
+            }
+            BattleGUI.getTable(0).setValueAt(String.valueOf(hp), 1, 1);
+        } else {
+            int damage = (int) (Integer.parseInt((String) BattleGUI.getTable(0).getValueAt(4,1)) * (rand.nextInt(100) * 0.01));
+            turnhappenings += player + " attacks " + target + " for " + damage + " damage.\n";
+            int hp = Integer.parseInt((String) BattleGUI.getTable(1).getValueAt(1,1)) - damage;
+            if(hp<0) {
+                hp = 0;
+            }
+            BattleGUI.getTable(1).setValueAt(String.valueOf(hp), 1, 1);
+        }
         updateHidden();        
         BattleGUI.writeBattle(turnhappenings);
     }
@@ -177,12 +202,14 @@ public class BattleEngine {
             System.out.println(a + ":" + b);
             battleTurn(save,btoons,bmax,a,b);
         } else {
-            if(hp0 <= 0) {
+            if(hp1 <= 0) {
                 BattleGUI.writeBattle(GetData.dbQuery(save,"*",btoons,"toonID",String.valueOf(
             tTrack[0][0]),false).get(1) + " is the winner!");
+                battleDone = true;
             } else {
                 BattleGUI.writeBattle(GetData.dbQuery(save,"*",btoons,"toonID",String.valueOf(
             tTrack[1][0]),false).get(1) + " is the winner!");
+                battleDone = true;
             }
         }
     }

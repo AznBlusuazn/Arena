@@ -1,5 +1,7 @@
 package clarktribegames;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -17,6 +19,8 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
@@ -788,16 +792,22 @@ public class BattleGUI extends javax.swing.JFrame {
             + "to effects here.");
     }    
 
-    private void confirmButton() throws BadLocationException, SQLException, InterruptedException {
-        String userInput = inputText.getText();
-        new TypeEffect(mainText,userInput + "\n",10).start();
+    private static void confirmButton() throws BadLocationException, SQLException, InterruptedException {
+        //String userInput = inputText.getText();
+        //new TypeEffect(mainText,userInput + "\n",10,true,inputText,confirmButton).start();
         BattleEngine.nextTurn();
         //more function here
 
     }
     
     public static void writeBattle(String string) {
-        new TypeEffect(mainText,string + "\n",10).start();
+
+        new TypeEffect(mainText,string + "\n",10,true,inputText,confirmButton).start();
+
+    }
+    
+    public static void pressConfirm() throws BadLocationException, SQLException, InterruptedException {
+        confirmButton();
     }
     
     private void exitButton() throws IOException, Exception {
@@ -920,8 +930,8 @@ public class BattleGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel battletitleLabel;
     private javax.swing.JPanel bottomPanel;
-    private javax.swing.JButton confirmButton;
-    private javax.swing.JTextField inputText;
+    private static javax.swing.JButton confirmButton;
+    private static javax.swing.JTextField inputText;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel limitLabel;
     private static javax.swing.JTextArea mainText;

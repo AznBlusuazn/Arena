@@ -938,7 +938,7 @@ public class NewGameGUI extends javax.swing.JFrame {
             + "l " + Calculator.getLevel("curlv", String.valueOf(toplv)) + ".\n"
             + "\nYour possiblities are Limitless!\n\nSelect your character and "
             + "then click Start New Game to begin your journey.";
-        new TypeEffect(welcomeText,text,10).start();
+        new TypeEffect(welcomeText,text,10,false,null,null).start();
     }
     
     private void confirmButton() throws SQLException, IOException, InterruptedException {
