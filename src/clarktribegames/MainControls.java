@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import javax.swing.ImageIcon;
+import javax.swing.SwingWorker;
 
 // <editor-fold defaultstate="collapsed" desc="credits">
 /**
@@ -20,11 +21,13 @@ public class MainControls {
     
     //Main Controls Variables
     static String appName = "Limitless";
-    static String appVer = "0.0.026";
+    static String appVer = "0.0.027";
     static String appTitle = appName + " [ALPHA v" + appVer + "]";
     static String settingsFile = "settings.ini";
     static String musicPath = "sounds/intro.mp3";
     static String custommusicPath = "custom/music";
+    static String custIntro = "";
+    static String custBattle = "";
     static String custommusicSounds = "custom/sounds";
     static String defaultOGSave = "data.mdb";
     static String saveExt = "limit";
@@ -45,9 +48,9 @@ public class MainControls {
     static boolean musicPlaying = false;
     static Thread currentSong;
     static String threadName = "";
-    
     //Settings.ini
     static boolean musicOn = true;
+    static boolean custommusicOn = false;
     static boolean soundOn = true;
     static boolean samedbOn = true;
     static String defaultDB = defaultSave.substring(0,defaultSave.indexOf("." + 
@@ -118,6 +121,18 @@ public class MainControls {
         ChecksBalances.ifexistDelete(tempDir);
     }
     
+    public static void turnonMusic(String trackPath) {
+        musicPath = trackPath;
+        SwingWorker<Void,Void> worker = new SwingWorker<Void,Void>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+                MPlayer.mediaPlayer(musicOn);
+                return null;
+            }
+        };
+        worker.execute();
+    }
+    
     private static void checkSaves() throws IOException, Exception {
         try {
             ChecksBalances.newdirCheck("./" + savesDir, false);
@@ -131,13 +146,22 @@ public class MainControls {
     }
     
     private static String defaultSettings() {
-        return "<Limitless Game Options>\nMusic=ON\nSound=ON\nSameDB=YES\nDefau"
-            + "ltDB=Default\n\n";
+        return "<Limitless Game Options>\nMusic=ON\nCustM=OFF\nCustI=\nCustB="
+            + "Sound=ON\nSameDB=YES\nDefaultDB=Default\n\n";
     }
     
     private static void checkSettings() throws IOException {
         if(getSettings("Music").equals("off")) {
             musicOn = false;
+        }
+        custIntro = getSettings("CustI");
+        custBattle = getSettings("CustB");
+        if(getSettings("CustM").equals("on")) {
+            custommusicOn = true;
+            musicPath = custommusicPath + "/" + custIntro.replaceAll("[Intro] ", "") + ".mp3";
+            if(custIntro.equals("") || custIntro.isEmpty()) {
+                musicPath = "sounds/intro.mp3";
+            }
         }
         if(getSettings("Sound").equals("off")) {
             soundOn = false;
@@ -157,9 +181,12 @@ public class MainControls {
         return result;
     }
     
-    public static void updateSettings() throws IOException,InterruptedException{
+    public static void updateSettings() throws IOException,InterruptedException, Exception{
         String newSettings = Converters.listtoString(rebuildSettings());
         try {
+            if(!musicOn) {
+                MPlayer.stopMedia();
+            }
             System.gc();
             ChecksBalances.ifexistDelete(MainControls.settingsFile);
             System.gc();
@@ -171,11 +198,17 @@ public class MainControls {
     
     private static List<String> rebuildSettings() throws IOException {
         String music = "Music=ON";
+        String custmusic = "CustM=OFF";
+        String custintro = "CustI=" + custIntro;
+        String custbattle = "CustB=" + custBattle;
         String sound = "Sound=ON";
         String samedb = "SameDB=YES";
         String defaultdb = "DefaultDB=" + defaultDB;
         if(!musicOn) {
             music = "Music=OFF";
+        }
+        if(custommusicOn) {
+            custmusic = "CustM=ON";
         }
         if(!soundOn) {
             sound = "Sound=OFF";
@@ -193,9 +226,12 @@ public class MainControls {
         }
         List<String> x1=Converters.filelistToList(settingsFile,"\n");
         List<String> x2=(ChecksBalances.findandRebuild(x1,"Music",music));
-        List<String> x3=(ChecksBalances.findandRebuild(x2,"Sound",sound));
-        List<String> x4=(ChecksBalances.findandRebuild(x3,"SameDB",samedb));
-        List<String> finalList=(ChecksBalances.findandRebuild(x4,"DefaultDB",
+        List<String> x3=(ChecksBalances.findandRebuild(x2,"CustM",custmusic));
+        List<String> x4=(ChecksBalances.findandRebuild(x3,"CustI",custintro));
+        List<String> x5=(ChecksBalances.findandRebuild(x4,"CustB",custbattle));
+        List<String> x6=(ChecksBalances.findandRebuild(x5,"Sound",sound));
+        List<String> x7=(ChecksBalances.findandRebuild(x6,"SameDB",samedb));
+        List<String> finalList=(ChecksBalances.findandRebuild(x7,"DefaultDB",
             defaultdb));
         return finalList;
     }

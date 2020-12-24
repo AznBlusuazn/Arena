@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
@@ -16,6 +19,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
 
 /**
  * 
@@ -57,9 +61,6 @@ public class MainMenuGUI extends javax.swing.JFrame {
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
-            }
-            public void windowClosing(java.awt.event.WindowEvent evt) {
-                formWindowClosing(evt);
             }
         });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -176,6 +177,8 @@ public class MainMenuGUI extends javax.swing.JFrame {
             }
         } catch (InterruptedException ex) {
             ex.printStackTrace();
+        } catch (Exception ex) {
+            Logger.getLogger(MainMenuGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_optButtonActionPerformed
 
@@ -211,12 +214,14 @@ public class MainMenuGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_exitButtonActionPerformed
 
-    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        MPlayer.mediaPlayer(false);
-    }//GEN-LAST:event_formWindowClosing
-
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        MPlayer.mediaPlayer(true);
+        if(!(new File(MainControls.musicPath).exists())) {
+            MainControls.musicPath = "sounds/intro.mp3";
+        }
+        if(!MainControls.musicPlaying) {
+            MainControls.turnonMusic(MainControls.musicPath);
+            MainControls.musicPlaying = true;
+        }
         savegameCheck();
     }//GEN-LAST:event_formWindowActivated
     
@@ -296,13 +301,13 @@ public class MainMenuGUI extends javax.swing.JFrame {
                     .currentgame);
                 Popups.infoPopup("Save Game Built","Your new game world has bee"
                     + "n built.  Thank you for your patience.");
-                MPlayer.stopMedia();
+                MPlayer.mediaPlayer(false);
                 new NewGameGUI().setVisible(true);
             } else {
                 MainControls.currentgamePath = "";
             }
         } catch(Exception ex) {
-            //
+            //MPlayer.stopMedia();
         }
     }
 
@@ -333,12 +338,12 @@ public class MainMenuGUI extends javax.swing.JFrame {
     }
 
     private void editButton() {
-        
+        //edit button
     }
 
 
-    private void optButton() throws IOException, InterruptedException {
-        optionPopup();
+    private static void optButton() throws IOException, InterruptedException, Exception {
+        OptionsMenu.OptionsMenu();
     }
 
 
@@ -410,114 +415,6 @@ public class MainMenuGUI extends javax.swing.JFrame {
         }
         save.setModel(dml);
         save.setRenderer(lrCenter);
-    }
-    
-    private void optionPopup() throws IOException, InterruptedException{
-        String title = "Limitless Options";
-        String message = "Limitless Options\n\n";
-        boolean musicNotice = false;
-        if(!MainControls.musicOn) {
-            musicNotice = true;
-        }
-        JCheckBox music = new JCheckBox("Play Music");
-        music.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-            if(!(e.getStateChange() == ItemEvent.SELECTED)) {
-                try {
-                    MPlayer.mediaPlayer(false);
-                } catch (Exception ex) {
-                    //
-                } 
-            };
-            }
-        });
-        JCheckBox sound = new JCheckBox("Play Sound");
-        JCheckBox samedb = new JCheckBox("Always Use Same Database");
-        JComboBox<String> defaultdb = new JComboBox();
-        samedb.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-            if(!(e.getStateChange() == ItemEvent.SELECTED)) {
-                try {
-                    defaultdb.setEnabled(false);
-                    defaultdbEnabled(defaultdb);
-                } catch (IOException ex) {
-                    //
-                }
-            } else {
-                defaultdb.setEnabled(true);
-                try {
-                    defaultdbEnabled(defaultdb);
-                } catch (IOException ex) {
-                    //
-                }
-            };
-            }
-        });
-        defaultdb.addItem("<Always Choose Your Database>");
-        if(MainControls.musicOn) {
-            music.setSelected(true);
-        }
-        if(MainControls.soundOn) {
-            sound.setSelected(true);
-        }
-        if(MainControls.samedbOn) {
-            samedb.setSelected(true);
-            defaultdb.setEnabled(true);
-        } else {
-            defaultdb.setEnabled(false);
-        }
-        Object[] popup = {message, music, sound, samedb, defaultdb, "\n"};
-        Popups.checkboxPopup(title, message, popup);
-        if(musicNotice) {
-            Popups.warnPopup("Music Notice", "You may need to restart the game "
-                + "to reactivate the music.");
-        }
-        if(music.isSelected()) {
-            MainControls.musicOn = true;
-        } else {
-            MainControls.musicOn = false;
-        }
-        if(sound.isSelected()) {
-            MainControls.soundOn = true;
-        } else {
-            MainControls.soundOn = false;
-        }
-        if(samedb.isSelected()) { 
-            MainControls.samedbOn = true;
-            MainControls.defaultDB = defaultdb.getSelectedItem().toString();
-        } else {
-            MainControls.samedbOn = false;
-            MainControls.defaultDB = MainControls.defaultSave.substring(0,
-                MainControls.defaultSave.indexOf("." + MainControls.saveExt));
-        }
-       MainControls.updateSettings();
-    }
-    
-    private void defaultdbEnabled(JComboBox<String> dropdown)throws IOException{
-        if(dropdown.isEnabled()) {
-            dropdown.removeAllItems();
-            DefaultComboBoxModel dbdml = new DefaultComboBoxModel();
-            try {
-                List<String> savelist = (Converters.foldertoList(MainControls.
-                    savesDir, MainControls.saveExt)).stream()
-                    .map(Object::toString).collect(Collectors.toList());
-                for(int i = 0; i < savelist.size(); i++) {
-                    String x = (savelist.get(i));
-                    String y = Converters.capFirstLetter(x.substring(x.indexOf
-                        ("\\") + 1, x.indexOf(".",x.indexOf(MainControls.saveExt
-                        ) - 2)));
-                dbdml.addElement(y);
-                }
-            dropdown.setModel(dbdml);
-            } catch (IOException ex) {
-                logFile("severe","defDB Enabled Error.\nEx: " + ex.toString());
-            }
-        } else {
-            dropdown.removeAllItems();
-            dropdown.addItem("<Always Choose Your Database>");
-        }
     }
     
     private void aboutPopup() throws IOException {

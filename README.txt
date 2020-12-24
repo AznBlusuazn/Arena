@@ -1,6 +1,6 @@
 =======================================
 LIMITLESS by Geoff Clark
-VERSION ALPHA 0.0.026 / 2020.12.22-2249
+VERSION ALPHA 0.0.027 / 2020.12.23-2300
 =======================================
 
 SUPPORT THE DEVELOPMENT OF THIS GAME @ 
@@ -46,6 +46,13 @@ Contact the author:  info@clarktribegames.com
 ====================================
 
 DEVELOPMENT NOTES
+
+
+ALPHA 0.0.027 / 2020.12.23-2300
+
+- continued improvements on music player utilizing multithreading
+- implemented custom music option for intro and battle music (other areas of music to follow)
+- added settings ini options for custom intro music and battle music
 
 ALPHA 0.0.026 / 2020.12.22-2249
 
