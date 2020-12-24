@@ -1,8 +1,10 @@
 package clarktribegames;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javazoom.jl.decoder.JavaLayerException;
@@ -17,13 +19,27 @@ import javazoom.jl.decoder.JavaLayerException;
 // </editor-fold>
 public class VersusGUI extends javax.swing.JFrame {
    
-    public VersusGUI() throws SQLException, IOException, FileNotFoundException, JavaLayerException {
+    public VersusGUI() throws SQLException, IOException, FileNotFoundException, JavaLayerException, InterruptedException, Exception {
         initComponents();
         setLocationRelativeTo(null);  
         popVersus(BattleEngine.saveName, BattleEngine.saveToons);
     }
     
-    private void popVersus(String save, String savetoons) throws SQLException, IOException, FileNotFoundException, JavaLayerException {
+    private boolean checkforCustom(String toon,List<String> custlist) {
+        String toonpath = MainControls.custommusicPath + "/" + toon + ".mp3";
+        if(new File(toonpath).exists()) {
+            return true;
+        } else {
+            for (String s : custlist) {
+                if(s.equals(BattleEngine.team1[0])) {
+                    return true;
+                } 
+            }
+            return false;
+        }
+    }
+    
+    private void popVersus(String save, String savetoons) throws SQLException, IOException, FileNotFoundException, JavaLayerException, InterruptedException, Exception {
         //add if multiple team captains instead
         char1Label.setText(GetData.dbQuery(save,"*",savetoons, "toonID",
             BattleEngine.team0[0], false).get(1));
@@ -33,8 +49,30 @@ public class VersusGUI extends javax.swing.JFrame {
             (GetData.dbQuery(save,"*",savetoons, "toonName",char1Label.getText(), false).get(10)));
         Avatars.setAvatar(char2Toon, char2Label.getText(),
             (GetData.dbQuery(save,"*",savetoons,"toonName",char2Label.getText(), false).get(10)));
-        MainControls.musicPath = "sounds/battle.mp3";
-        MPlayer.mediaPlayer(true);
+        List<String> custTList = GetData.dbQuery(save,"*","dbCustM","toonID",null,true);
+        boolean toontheme = checkforCustom(char2Label.getText().toLowerCase(),custTList);
+        if(MainControls.musicPlaying) {
+            MPlayer.stopMedia();
+        }
+        MainControls.musicPath = MainControls.defaultBattle;
+        if(toontheme) {
+            for (String s : custTList) {
+                if(s.equals(BattleEngine.team1[0])) {
+                    String custpath = MainControls.custommusicPath + "/" + (GetData.dbQuery(save,"*","dbCustM","toonID",BattleEngine.team1[0],false).get(1)) + ".mp3";
+                    if(new File(custpath).exists()) {
+                        MainControls.musicPath = custpath;
+                        break;
+                    }
+                    MainControls.musicPath = MainControls.custommusicPath + "/" + char2Label.getText() + ".mp3";
+                } else {
+                    
+            }
+            }
+                MainControls.turnonMusic(MainControls.musicPath, "battle");
+        } else {
+            MainControls.turnonMusic(MainControls.checkforcustMusic("battle"), "battle");
+        }
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -142,7 +180,9 @@ public class VersusGUI extends javax.swing.JFrame {
             public void run() {
                 try {
                     new VersusGUI().setVisible(true);
-                } catch (SQLException | IOException | JavaLayerException ex) {
+                } catch (SQLException | IOException | JavaLayerException | InterruptedException ex) {
+                    ex.printStackTrace();
+                } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }

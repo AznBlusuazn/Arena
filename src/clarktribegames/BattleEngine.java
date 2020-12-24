@@ -32,10 +32,11 @@ public class BattleEngine {
     static String saveToons;
     static String saveMax;
     static int[][] tTrack = new int[2][3];
-    static boolean battleDone = false;
+    volatile static boolean battleDone = false;
     
     public static void battleEngine(String save,String savetoons,String savemax)
         throws SQLException, IOException, InterruptedException{
+        battleDone = false;
         saveName = save;
         saveToons = savetoons;
         saveMax = savemax;
@@ -180,12 +181,12 @@ public class BattleEngine {
         }
     }
     
-    public static void nextTurn() throws SQLException, InterruptedException {
+    public static void nextTurn() throws SQLException, InterruptedException, Exception {
         betweenTurns(BattleEngine.saveName, BattleEngine.saveToons.replaceAll("sav"
             ,"battle"),BattleEngine.saveMax.replaceAll("sav", "battle"));
     }
     
-    private static void betweenTurns(String save, String btoons, String bmax) throws SQLException, InterruptedException {
+    private static void betweenTurns(String save, String btoons, String bmax) throws SQLException, InterruptedException, Exception {
         int hp0 = Integer.parseInt((String) BattleGUI.getTable(0).getValueAt(1,1));
         int hp1 = Integer.parseInt((String) BattleGUI.getTable(1).getValueAt(1,1));
         if(hp0 > 0 && hp1 > 0) {
@@ -205,10 +206,14 @@ public class BattleEngine {
             if(hp1 <= 0) {
                 BattleGUI.writeBattle(GetData.dbQuery(save,"*",btoons,"toonID",String.valueOf(
             tTrack[0][0]),false).get(1) + " is the winner!");
+                MPlayer.stopMedia();
+                MainControls.turnonMusic(MainControls.checkforcustMusic("win"), "win");
                 battleDone = true;
             } else {
                 BattleGUI.writeBattle(GetData.dbQuery(save,"*",btoons,"toonID",String.valueOf(
             tTrack[1][0]),false).get(1) + " is the winner!");
+                MPlayer.stopMedia();
+                MainControls.turnonMusic(MainControls.checkforcustMusic("lose"), "lose");
                 battleDone = true;
             }
         }

@@ -1,6 +1,7 @@
 package clarktribegames;
 
 import java.io.IOException;
+import java.util.Arrays;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
@@ -28,10 +29,25 @@ public class Popups {
             .PLAIN_MESSAGE);
     }
     
-    public static String comboboxPopup(String ttl,String msg,JComboBox box){
+    public static String comboboxPopup(String ttl,String msg,JComboBox box,
+            String[]options){
         Object[] opts = {msg, box, "\n"};
-        JOptionPane.showMessageDialog(null,opts,ttl,JOptionPane.PLAIN_MESSAGE);
+        if(ChecksBalances.isNullOrEmpty(Arrays.toString(options)) || options == 
+            null) {
+            options = new String[2];
+            options[0] = new String("OK");
+            options[1] = new String("Cancel");
+        }
+        int boxChoice = JOptionPane.showOptionDialog(null,opts,ttl,0,JOptionPane
+            .PLAIN_MESSAGE,null,options,null);
+        if(options[boxChoice].equals("Delete")) {
+            return "timetotakeitout_" + box.getSelectedItem().toString();
+        }
+        if(options[boxChoice].equals("Cancel")) {
+            return "";
+        } else {
         return box.getSelectedItem().toString();
+        }
     }
     
     public static boolean yesnoPopup(String title, String message) {

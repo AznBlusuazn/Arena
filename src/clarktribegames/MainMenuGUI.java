@@ -2,24 +2,16 @@
 package clarktribegames;
 
 import java.awt.Font;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JOptionPane;
-import javax.swing.SwingWorker;
 
 /**
  * 
@@ -178,7 +170,7 @@ public class MainMenuGUI extends javax.swing.JFrame {
         } catch (InterruptedException ex) {
             ex.printStackTrace();
         } catch (Exception ex) {
-            Logger.getLogger(MainMenuGUI.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
     }//GEN-LAST:event_optButtonActionPerformed
 
@@ -215,13 +207,9 @@ public class MainMenuGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_exitButtonActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        if(!(new File(MainControls.musicPath).exists())) {
-            MainControls.musicPath = "sounds/intro.mp3";
-        }
-        if(!MainControls.musicPlaying) {
-            MainControls.turnonMusic(MainControls.musicPath);
-            MainControls.musicPlaying = true;
-        }
+        MainControls.savesDir = MainControls.defaultsavesDir;
+        MainControls.turnonMusic(MainControls.checkforcustMusic("intro"),"intro"
+            );
         savegameCheck();
     }//GEN-LAST:event_formWindowActivated
     
@@ -288,6 +276,7 @@ public class MainMenuGUI extends javax.swing.JFrame {
             continueon = ChecksBalances.newGame(MainControls.currentgamePath);
             if(continueon) {
                 cleanUp();
+                newButton.setText("Building Save Game");
                 MainControls.currentgame=MainControls.currentgamePath.substring(
                     MainControls.currentgamePath.indexOf("/",0),MainControls
                     .currentgamePath.indexOf("/",MainControls.currentgamePath
@@ -301,40 +290,68 @@ public class MainMenuGUI extends javax.swing.JFrame {
                     .currentgame);
                 Popups.infoPopup("Save Game Built","Your new game world has bee"
                     + "n built.  Thank you for your patience.");
-                MPlayer.mediaPlayer(false);
                 new NewGameGUI().setVisible(true);
             } else {
                 MainControls.currentgamePath = "";
             }
         } catch(Exception ex) {
-            //MPlayer.stopMedia();
+            //
         }
     }
 
     private void loadButton() throws IOException, SQLException, Exception {
-        if(ChecksBalances.checknoofSubdirs(MainControls.savesDir)) {
+        try {
+            if(ChecksBalances.checknoofSubdirs(MainControls.savesDir)) {
             List<String> loadlist = Converters.capStringList(Converters
                 .subfolderstoList(MainControls.savesDir));
             JComboBox<String> loadOptions = new JComboBox<>();
             loadOptions.setModel(new DefaultComboBoxModel<>(loadlist.toArray(new
                 String[0])));
-            String loadChoice = (Popups.comboboxPopup("Load a Saved Game", "Sel"
-                + "ect the Saved Game to Load:", loadOptions)).toLowerCase();
-            MainControls.savesDir = MainControls.defaultsavesDir + loadChoice + 
-                "/";
-            MainControls.selectedSave = ChecksBalances.getLast(new File(
-                MainControls.savesDir + ".lastused"));
-            MainControls.selectedToon = Converters.getfromFile(MainControls
-                .savesDir + ".lastused", true, false);
-            cleanUp();
-            MPlayer.stopMedia();
-            StartGame.startGame(MainControls.selectedSave, "sav" + loadChoice + 
-                "Toons", "sav" + loadChoice + " Max");
-            
+            String[] popupchoices = new String[3];
+            popupchoices[0] = "OK";
+            popupchoices[1] = "Cancel";
+            popupchoices[2] = "Delete";
+            String loadChoice=(Popups.comboboxPopup("Load a Saved Game", "Select"
+                + " the Saved Game to Load:", loadOptions, popupchoices)).
+                toLowerCase();
+            if(ChecksBalances.isNullOrEmpty(loadChoice)) {
+                //
+            } else {
+                if(loadChoice.startsWith("timetotakeitout_")) {
+                    String title=("Are you sure you want to delete "+Converters.
+                        capFirstLetter(loadChoice.replaceAll("timetotakeitout_",
+                        "")));
+                    String message="Are you sure you want to delete\n the save "
+                        +"game "+Converters.capFirstLetter(loadChoice.replaceAll
+                        ("timetotakeitout_","")) + "?";
+                    boolean deleteChoice = Popups.yesnoPopup(title,message);
+                    if(deleteChoice == true) {
+                        ChecksBalances.iffolderexistsDelete(MainControls.
+                            defaultsavesDir + loadChoice.replaceAll(
+                            "timetotakeitout_","").toLowerCase());
+                        MainControls.savesDir = MainControls.defaultsavesDir;
+                    } else {
+                        //
+                    }
+                } else {
+                    MainControls.savesDir = MainControls.defaultsavesDir + 
+                        loadChoice + "/";
+                    MainControls.selectedSave = ChecksBalances.getLast(new File(
+                        MainControls.savesDir + ".lastused"));
+                    MainControls.selectedToon = Converters.getfromFile(
+                        MainControls.savesDir + ".lastused", true, false);
+                    cleanUp();
+                    StartGame.startGame(MainControls.selectedSave, "sav" + 
+                        loadChoice + "Toons", "sav" + loadChoice + " Max");
+                }
+            }
         } else {
             Popups.warnPopup("No Saves Available", "You have no save games avai"
                 + "lable.");
         }
+        }catch (IOException | InterruptedException | SQLException ex) {
+                
+                }
     }
 
     private void editButton() {
@@ -342,7 +359,8 @@ public class MainMenuGUI extends javax.swing.JFrame {
     }
 
 
-    private static void optButton() throws IOException, InterruptedException, Exception {
+    private static void optButton() throws IOException, InterruptedException, 
+        Exception {
         OptionsMenu.OptionsMenu();
     }
 
@@ -378,11 +396,16 @@ public class MainMenuGUI extends javax.swing.JFrame {
         JComboBox dboptions = new JComboBox();
         popLimit(dboptions,limitdml);
         if(dboptions.getItemCount() > 1) {
-            String selection = Popups.comboboxPopup(title, message, dboptions);
-            MainControls.selectedSave = (selection.toLowerCase() + "." + 
-                MainControls.saveExt);
-            String confirmMessage = selection + " Loaded";
-            Popups.infoPopup(confirmMessage,confirmMessage + "!");
+            String selection=Popups.comboboxPopup(title, message, dboptions,null
+                );
+            if(ChecksBalances.isNullOrEmpty(selection)) {
+                //
+            } else {
+                MainControls.selectedSave = (selection.toLowerCase() + "." + 
+                    MainControls.saveExt);
+                String confirmMessage = selection + " Loaded";
+                Popups.infoPopup(confirmMessage,confirmMessage + "!");
+            }
         } else {
             MainControls.selectedSave = (MainControls.defaultSave);
         }
@@ -502,7 +525,7 @@ public class MainMenuGUI extends javax.swing.JFrame {
         MainControls.clearTemp();
         System.exit(0);
     }
-    
+   
 //<editor-fold defaultstate="collapsed" desc="Footer Info">
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton aboutButton;

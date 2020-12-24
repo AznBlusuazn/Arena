@@ -1,5 +1,6 @@
 package clarktribegames;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -21,13 +22,19 @@ public class MainControls {
     
     //Main Controls Variables
     static String appName = "Limitless";
-    static String appVer = "0.0.027";
+    static String appVer = "0.0.028";
     static String appTitle = appName + " [ALPHA v" + appVer + "]";
     static String settingsFile = "settings.ini";
-    static String musicPath = "sounds/intro.mp3";
+    static String defaultIntro = "sounds/intro.mp3";
+    static String defaultBattle = "sounds/battle.mp3";
+    static String defaultWin = "sounds/victory.mp3";
+    static String defaultLose = "sounds/loss.mp3";
+    static String musicPath = defaultIntro;
     static String custommusicPath = "custom/music";
     static String custIntro = "";
     static String custBattle = "";
+    static String custWin = "";
+    static String custLose = "";
     static String custommusicSounds = "custom/sounds";
     static String defaultOGSave = "data.mdb";
     static String saveExt = "limit";
@@ -55,6 +62,7 @@ public class MainControls {
     static boolean samedbOn = true;
     static String defaultDB = defaultSave.substring(0,defaultSave.indexOf("." + 
         saveExt));
+    static boolean created = false;
 
     public static void main(String[] args) throws Exception {
         lookandfeelSettings();
@@ -121,8 +129,11 @@ public class MainControls {
         ChecksBalances.ifexistDelete(tempDir);
     }
     
-    public static void turnonMusic(String trackPath) {
+    public static void turnonMusic(String trackPath, String trackType) {
         musicPath = trackPath;
+        if(!(new File(musicPath).exists())) {
+            musicPath = defaultMusic(trackType);
+        }
         SwingWorker<Void,Void> worker = new SwingWorker<Void,Void>() {
             @Override
             protected Void doInBackground() throws Exception {
@@ -130,7 +141,53 @@ public class MainControls {
                 return null;
             }
         };
+        if(!musicPlaying) {
+        musicPlaying = true;
         worker.execute();
+        }
+    }
+    
+    public static String checkforcustMusic(String type) {
+        switch(type) {
+            case "battle" :
+                if(!MainControls.custommusicOn) {
+                    return MainControls.defaultBattle;
+                } else {
+                    return MainControls.custommusicPath + "/" + MainControls.custBattle + ".mp3";
+            }
+            case "intro" :
+                if(!MainControls.custommusicOn) {
+                    return MainControls.defaultIntro;
+                } else {
+                    return MainControls.custommusicPath + "/" + MainControls.custIntro + ".mp3";
+                }
+            case "win" :
+                if(!MainControls.custommusicOn) {
+                    return MainControls.defaultWin;
+                } else {
+                    return MainControls.custommusicPath + "/" + MainControls.custWin + ".mp3";
+                }
+                
+            case "lose" :
+                if(!MainControls.custommusicOn) {
+                    return MainControls.defaultLose;
+                } else {
+                    return MainControls.custommusicPath + "/" + MainControls.custLose + ".mp3";
+                }                
+            default :
+                return MainControls.defaultIntro;
+        }
+    }
+    
+    private static String defaultMusic(String type) {
+        switch(type) {
+            case "battle" :
+                return MainControls.defaultBattle;
+            case "intro" :
+                return MainControls.defaultIntro;
+            default :
+                return MainControls.defaultIntro;
+        }
     }
     
     private static void checkSaves() throws IOException, Exception {
@@ -146,8 +203,8 @@ public class MainControls {
     }
     
     private static String defaultSettings() {
-        return "<Limitless Game Options>\nMusic=ON\nCustM=OFF\nCustI=\nCustB="
-            + "Sound=ON\nSameDB=YES\nDefaultDB=Default\n\n";
+        return "<Limitless Game Options>\nMusic=ON\nCustM=OFF\nCustI=\nCustB=\n"
+            +"CustW=\nCustL=\nSound=ON\nSameDB=YES\nDefaultDB=Default\n\n";
     }
     
     private static void checkSettings() throws IOException {
@@ -156,11 +213,13 @@ public class MainControls {
         }
         custIntro = getSettings("CustI");
         custBattle = getSettings("CustB");
+        custWin = getSettings("CustW");
+        custLose = getSettings("CustL");
         if(getSettings("CustM").equals("on")) {
             custommusicOn = true;
             musicPath = custommusicPath + "/" + custIntro.replaceAll("[Intro] ", "") + ".mp3";
             if(custIntro.equals("") || custIntro.isEmpty()) {
-                musicPath = "sounds/intro.mp3";
+                musicPath = defaultIntro;
             }
         }
         if(getSettings("Sound").equals("off")) {
@@ -201,6 +260,8 @@ public class MainControls {
         String custmusic = "CustM=OFF";
         String custintro = "CustI=" + custIntro;
         String custbattle = "CustB=" + custBattle;
+        String custwin = "CustW=" + custWin;
+        String custlose = "CustL=" + custLose;
         String sound = "Sound=ON";
         String samedb = "SameDB=YES";
         String defaultdb = "DefaultDB=" + defaultDB;
@@ -229,9 +290,11 @@ public class MainControls {
         List<String> x3=(ChecksBalances.findandRebuild(x2,"CustM",custmusic));
         List<String> x4=(ChecksBalances.findandRebuild(x3,"CustI",custintro));
         List<String> x5=(ChecksBalances.findandRebuild(x4,"CustB",custbattle));
-        List<String> x6=(ChecksBalances.findandRebuild(x5,"Sound",sound));
-        List<String> x7=(ChecksBalances.findandRebuild(x6,"SameDB",samedb));
-        List<String> finalList=(ChecksBalances.findandRebuild(x7,"DefaultDB",
+        List<String> x6=(ChecksBalances.findandRebuild(x5,"CustW",custwin));
+        List<String> x7=(ChecksBalances.findandRebuild(x6,"CustL",custlose));
+        List<String> x8=(ChecksBalances.findandRebuild(x7,"Sound",sound));
+        List<String> x9=(ChecksBalances.findandRebuild(x8,"SameDB",samedb));
+        List<String> finalList=(ChecksBalances.findandRebuild(x9,"DefaultDB",
             defaultdb));
         return finalList;
     }
@@ -251,6 +314,8 @@ public class MainControls {
             ex.printStackTrace();
         }
     }
+    
+    
     
     //<editor-fold defaultstate="collapsed" desc="Check Version Method">
     private static void checkVersion (String name, String ver) throws 

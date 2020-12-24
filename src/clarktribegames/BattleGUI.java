@@ -436,6 +436,8 @@ public class BattleGUI extends javax.swing.JFrame {
             confirmButton();
         } catch (BadLocationException | SQLException | InterruptedException ex) {
             //
+        } catch (Exception ex) {
+            //
         }
        
     }//GEN-LAST:event_confirmButtonActionPerformed
@@ -792,7 +794,7 @@ public class BattleGUI extends javax.swing.JFrame {
             + "to effects here.");
     }    
 
-    private static void confirmButton() throws BadLocationException, SQLException, InterruptedException {
+    private static void confirmButton() throws BadLocationException, SQLException, InterruptedException, Exception {
         //String userInput = inputText.getText();
         //new TypeEffect(mainText,userInput + "\n",10,true,inputText,confirmButton).start();
         BattleEngine.nextTurn();
@@ -806,7 +808,7 @@ public class BattleGUI extends javax.swing.JFrame {
 
     }
     
-    public static void pressConfirm() throws BadLocationException, SQLException, InterruptedException {
+    public static void pressConfirm() throws BadLocationException, SQLException, InterruptedException, Exception {
         confirmButton();
     }
     
@@ -856,6 +858,7 @@ public class BattleGUI extends javax.swing.JFrame {
     
     private void menuOption() throws IOException, Exception {
         try {
+            MPlayer.stopMedia();
             System.gc();
             this.dispose();
             new MainMenuGUI().setVisible(true);

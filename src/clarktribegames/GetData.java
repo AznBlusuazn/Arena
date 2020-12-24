@@ -126,7 +126,7 @@ public class GetData {
         buildtoonSave(save,game);
         copyTab(save,"sav"+game.toLowerCase()+"Toons","sav"+game.toLowerCase()+ 
             "Max");
-
+        MainControls.created = true;
     }
     
     private static void copyTab(String save,String oldtable,String newtable) 

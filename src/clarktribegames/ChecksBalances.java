@@ -26,7 +26,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 // <editor-fold defaultstate="collapsed" desc="credits">
 /**
@@ -336,7 +338,8 @@ public class ChecksBalances {
         }
     }
     
-    public static boolean newGame(String newgamename) throws IOException, Exception {
+    public static boolean newGame(String newgamename) throws IOException,
+        Exception {
         boolean continueGame = false;
         if(newgamename.equals("") || newgamename.trim().isEmpty() || 
             isNullOrEmpty(newgamename)) {
@@ -349,14 +352,14 @@ public class ChecksBalances {
         }
         if(newgamename.contains(newgamename))
         if(new File(MainControls.savesDir + newgamename + "/").exists()) {
-            Popups.warnPopup(newgamename + " already exists!", "There is already"
-                + " a save with the name " + newgamename);
+            Popups.warnPopup(newgamename + " already exists!", "There is " +
+                "already a save with the name " + newgamename);
             return continueGame;
         };
         newdirCheck(MainControls.savesDir+newgamename.toLowerCase()+"/",false);
         if(!(new File(MainControls.savesDir + newgamename.toLowerCase() + "/")
             .exists())) {
-            Popups.warnPopup("Error creating " + newgamename + " folder", "There"
+            Popups.warnPopup("Error creating " + newgamename + " folder","There"
                 + " was an error creating the " + newgamename + " folder.");
             return continueGame;
         }
@@ -385,6 +388,62 @@ public class ChecksBalances {
             return true;
         } else {
             return false;
+        }
+    }
+    
+    public static void importtoCustom(String type) {
+        importcustomProcess(type);
+    }
+    
+    private static void importcustomProcess(String type) {
+        String filename = null;
+        String absolpath = null;
+        String destpath = null;
+        boolean cancel = false;
+        FileNameExtensionFilter filter = null;
+        if(type.equals("music")) {
+            filter=new FileNameExtensionFilter("MP3 Files (*.mp3)", "mp3");
+            destpath = MainControls.custommusicPath;
+        } else {
+            if(type.equals("sound")) {
+                filter=new FileNameExtensionFilter("MP3 Files (*.mp3)", "mp3");
+                destpath = MainControls.custommusicSounds;
+            } else {
+                if(type.equals("avatar")) {
+                    filter=new FileNameExtensionFilter("PNG Files (200x200 " +
+                        "Only) (*.png)", "png");
+                    destpath = MainControls.imageDir;
+                } else {
+                    cancel = true;
+                }
+            }
+        }
+        if(!cancel) {
+            JFileChooser chooser = new JFileChooser();
+            chooser.setFileFilter(filter);
+            int retVal = chooser.showOpenDialog(chooser);
+            if(retVal == JFileChooser.APPROVE_OPTION) {
+                filename = chooser.getSelectedFile().getName();
+                absolpath = chooser.getSelectedFile().getAbsolutePath();
+                boolean importChoice=Popups.yesnoPopup("Are you sure you want "
+                    + "to import "+filename+"?","Are you sure you want to "
+                    + "import\n" + filename+"\n" + "into the custom " + type + 
+                    " library?");
+                if(!importChoice) {
+                    filename=null;
+                    Popups.infoPopup("Cancelled", "Operation cancelled.");
+                } else {
+                    try {
+                        ChecksBalances.fileCheck(absolpath,destpath+"/"+filename
+                            ,false,false);
+                        Popups.infoPopup(filename+" imported!",filename+" has "
+                            + "successfully been imported.");
+                    } catch (Exception ex) {
+                        Popups.infoPopup("Import failed!", filename + " could "
+                            + "not be imported.");
+                    }
+                }
+            }
         }
     }
     

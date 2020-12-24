@@ -1,6 +1,6 @@
 =======================================
 LIMITLESS by Geoff Clark
-VERSION ALPHA 0.0.027 / 2020.12.23-2300
+VERSION ALPHA 0.0.028 / 2020.12.24-1441
 =======================================
 
 SUPPORT THE DEVELOPMENT OF THIS GAME @ 
@@ -47,6 +47,15 @@ Contact the author:  info@clarktribegames.com
 
 DEVELOPMENT NOTES
 
+ALPHA 0.0.028 / 2020.12.24-1441
+
+- added settings ini options for custom victory and loss music
+- added table for custom themes for individuals in battle
+- fixed issue with some custom themes for individuals not playing
+- fixed rare bug with game crash in some load game scenarios
+- added ability to "cancel" out of loading a game
+- added ability to delete save games from main menu
+- added ability to import and delete avatars from the options menu
 
 ALPHA 0.0.027 / 2020.12.23-2300
 
