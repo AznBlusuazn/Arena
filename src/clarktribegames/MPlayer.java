@@ -39,7 +39,7 @@ public class MPlayer {
 
     public static void playMedia() throws FileNotFoundException, IOException, 
         JavaLayerException {
-
+        System.out.println(MainControls.musicOn);
         if(MainControls.musicOn) {
             try {
                 do {

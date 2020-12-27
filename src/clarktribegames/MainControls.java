@@ -30,7 +30,7 @@ public class MainControls {
     
     //Main Controls Variables
     static String appName = "Limitless";
-    static String appVer = "0.0.029";
+    static String appVer = "0.0.030";
     static String appTitle = appName + " [ALPHA v" + appVer + "]";
     static String settingsFile = "settings.ini";
     static String defaultIntro = "sounds/intro.mp3";
@@ -53,6 +53,7 @@ public class MainControls {
     static String tempDir = "temp/";
     static String lastusedSave = savesDir + ".lastused";
     static String selectedSave = defaultSave;
+    static boolean currentlyTyping = false;
     public URL iconURL = getClass().getResource("/clarktribegames/icon.png");
     public ImageIcon imageIcon = new ImageIcon(iconURL);
     static String currentgamePath = "";
@@ -67,6 +68,7 @@ public class MainControls {
     static Color backColor = Color.BLACK;
     static Color textColor = Color.WHITE;
     //Settings.ini
+    static boolean darkOn = true;
     static boolean musicOn = true;
     static boolean custommusicOn = false;
     static boolean soundOn = true;
@@ -161,43 +163,55 @@ public class MainControls {
     public static String checkforcustMusic(String type) {
         switch(type) {
             case "battle" :
-                if(!MainControls.custommusicOn) {
-                    return MainControls.defaultBattle;
+                if(!custommusicOn) {
+                    return defaultBattle;
                 } else {
-                    return MainControls.custommusicPath + "/" + MainControls.custBattle + ".mp3";
+                    if(custBattle.equals("")) { 
+                        return defaultBattle;
+                    } else {
+                        return custommusicPath + "/" + custBattle + ".mp3";
+                    }
             }
             case "intro" :
-                if(!MainControls.custommusicOn) {
-                    return MainControls.defaultIntro;
+                if(!custommusicOn) {
+                    return defaultIntro;
                 } else {
-                    return MainControls.custommusicPath + "/" + MainControls.custIntro + ".mp3";
+                    return custommusicPath + "/" + custIntro + ".mp3";
                 }
             case "win" :
-                if(!MainControls.custommusicOn) {
-                    return MainControls.defaultWin;
+                if(!custommusicOn) {
+                    return defaultWin;
                 } else {
-                    return MainControls.custommusicPath + "/" + MainControls.custWin + ".mp3";
+                    if(custWin.equals("")) {
+                        return defaultWin;
+                    } else {
+                        return custommusicPath + "/" + custWin + ".mp3";
+                    }
                 }
                 
             case "lose" :
-                if(!MainControls.custommusicOn) {
-                    return MainControls.defaultLose;
+                if(!custommusicOn) {
+                    return defaultLose;
                 } else {
-                    return MainControls.custommusicPath + "/" + MainControls.custLose + ".mp3";
+                    if(custLose.equals("")) {
+                        return defaultLose;
+                    } else {
+                        return custommusicPath + "/" + custLose + ".mp3";
+                    }
                 }                
             default :
-                return MainControls.defaultIntro;
+                return defaultIntro;
         }
     }
     
     private static String defaultMusic(String type) {
         switch(type) {
             case "battle" :
-                return MainControls.defaultBattle;
+                return defaultBattle;
             case "intro" :
-                return MainControls.defaultIntro;
+                return defaultIntro;
             default :
-                return MainControls.defaultIntro;
+                return defaultIntro;
         }
     }
     
@@ -214,11 +228,16 @@ public class MainControls {
     }
     
     private static String defaultSettings() {
-        return "<Limitless Game Options>\nMusic=ON\nCustM=OFF\nCustI=\nCustB=\n"
+        return "<Limitless Game Options>\nDark=ON\nMusic=ON\nCustM=OFF\nCustI=\nCustB=\n"
             +"CustW=\nCustL=\nSound=ON\nSameDB=YES\nDefaultDB=Default\n\n";
     }
     
     private static void checkSettings() throws IOException {
+        if(getSettings("Dark").equals("off")) {
+            darkOn = false;
+            backColor = Color.WHITE;
+            textColor = Color.BLACK;
+        }
         if(getSettings("Music").equals("off")) {
             musicOn = false;
         }
@@ -258,7 +277,7 @@ public class MainControls {
                 MPlayer.stopMedia();
             }
             System.gc();
-            ChecksBalances.ifexistDelete(MainControls.settingsFile);
+            ChecksBalances.ifexistDelete(settingsFile);
             System.gc();
             ChecksBalances.newfileCheck(settingsFile, false, newSettings, true);
         } catch (IOException ex) {
@@ -267,6 +286,7 @@ public class MainControls {
     }
     
     private static List<String> rebuildSettings() throws IOException {
+        String dark = "Dark=ON";
         String music = "Music=ON";
         String custmusic = "CustM=OFF";
         String custintro = "CustI=" + custIntro;
@@ -276,6 +296,9 @@ public class MainControls {
         String sound = "Sound=ON";
         String samedb = "SameDB=YES";
         String defaultdb = "DefaultDB=" + defaultDB;
+        if(!darkOn) {
+            dark = "Dark=OFF";
+        }
         if(!musicOn) {
             music = "Music=OFF";
         }
@@ -297,15 +320,16 @@ public class MainControls {
             }
         }
         List<String> x1=Converters.filelistToList(settingsFile,"\n");
-        List<String> x2=(ChecksBalances.findandRebuild(x1,"Music",music));
-        List<String> x3=(ChecksBalances.findandRebuild(x2,"CustM",custmusic));
-        List<String> x4=(ChecksBalances.findandRebuild(x3,"CustI",custintro));
-        List<String> x5=(ChecksBalances.findandRebuild(x4,"CustB",custbattle));
-        List<String> x6=(ChecksBalances.findandRebuild(x5,"CustW",custwin));
-        List<String> x7=(ChecksBalances.findandRebuild(x6,"CustL",custlose));
-        List<String> x8=(ChecksBalances.findandRebuild(x7,"Sound",sound));
-        List<String> x9=(ChecksBalances.findandRebuild(x8,"SameDB",samedb));
-        List<String> finalList=(ChecksBalances.findandRebuild(x9,"DefaultDB",
+        List<String> x2=(ChecksBalances.findandRebuild(x1,"Dark",dark));
+        List<String> x3=(ChecksBalances.findandRebuild(x2,"Music",music));
+        List<String> x4=(ChecksBalances.findandRebuild(x3,"CustM",custmusic));
+        List<String> x5=(ChecksBalances.findandRebuild(x4,"CustI",custintro));
+        List<String> x6=(ChecksBalances.findandRebuild(x5,"CustB",custbattle));
+        List<String> x7=(ChecksBalances.findandRebuild(x6,"CustW",custwin));
+        List<String> x8=(ChecksBalances.findandRebuild(x7,"CustL",custlose));
+        List<String> x9=(ChecksBalances.findandRebuild(x8,"Sound",sound));
+        List<String> x10=(ChecksBalances.findandRebuild(x9,"SameDB",samedb));
+        List<String> finalList=(ChecksBalances.findandRebuild(x10,"DefaultDB",
             defaultdb));
         return finalList;
     }
@@ -328,36 +352,41 @@ public class MainControls {
     
     public static void startNewGame() {
        try {
-            if(!MainControls.samedbOn) {
+            if(!samedbOn) {
                 limitSelect();
             } else {
-                MainControls.selectedSave = MainControls.defaultDB + "." + 
-                    MainControls.saveExt;
+                selectedSave = defaultDB + "." + 
+                    saveExt;
             }
             boolean continueon = false;
-            MainControls.currentgamePath=JOptionPane.showInputDialog(null, "New"
+            currentgamePath=JOptionPane.showInputDialog(null, "New"
                 + " Game", "Enter a savename for the New Game:",JOptionPane
                 .PLAIN_MESSAGE);
-            continueon = ChecksBalances.newGame(MainControls.currentgamePath);
+            if(currentgamePath.isEmpty()) {
+                currentgamePath = "";
+                Limitless.showMenu();
+            }
+            continueon = ChecksBalances.newGame(currentgamePath);
             if(continueon) {
                 //method to change screen here
                 //newButton.setText("Building Save Game");
-                MainControls.currentgame=MainControls.currentgamePath.substring(
-                    MainControls.currentgamePath.indexOf("/",0),MainControls
-                    .currentgamePath.indexOf("/",MainControls.currentgamePath
+                currentgame=currentgamePath.substring(
+                    currentgamePath.indexOf("/",0),MainControls
+                    .currentgamePath.indexOf("/",currentgamePath
                     .indexOf("/") + 1)).replaceAll("/","");
                 Popups.infoPopup("Building Save Game","Your new game world will"
                     + " now be built.  Please be patient.");
-                MainControls.savesDir="saves/" + MainControls.currentgame + "/";
+                savesDir="saves/" + currentgame + "/";
                 GetData.createnewSave(Converters.capFirstLetter((MainControls
-                    .selectedSave).substring(0,(MainControls.selectedSave)
-                    .indexOf("." + MainControls.saveExt))), MainControls
+                    .selectedSave).substring(0,(selectedSave)
+                    .indexOf("." + saveExt))), MainControls
                     .currentgame);
                 Popups.infoPopup("Save Game Built","Your new game world has bee"
                     + "n built.  Thank you for your patience.");
                 new NewGameGUI().setVisible(true);
             } else {
-                MainControls.currentgamePath = "";
+                currentgamePath = "";
+                Limitless.showMenu();
             }
         } catch(Exception ex) {
             //
@@ -376,13 +405,13 @@ public class MainControls {
             if(ChecksBalances.isNullOrEmpty(selection)) {
                 //
             } else {
-                MainControls.selectedSave = (selection.toLowerCase() + "." + 
-                    MainControls.saveExt);
+                selectedSave = (selection.toLowerCase() + "." + 
+                    saveExt);
                 String confirmMessage = selection + " Loaded";
                 Popups.infoPopup(confirmMessage,confirmMessage + "!");
             }
         } else {
-            MainControls.selectedSave = (MainControls.defaultSave);
+            selectedSave = (defaultSave);
         }
     }
     
@@ -390,7 +419,7 @@ public class MainControls {
         IOException {
         try {
             List<String> savelist = (Converters.foldertoList(MainControls
-                .savesDir, MainControls.saveExt)).stream().map(Object::toString)
+                .savesDir, saveExt)).stream().map(Object::toString)
                 .collect(Collectors.toList());
             fillLimit(box,savelist,dml);
         } catch (IOException ex) {
@@ -408,7 +437,7 @@ public class MainControls {
         for(int i = 0; i < list.size(); i++) {
             String x = (list.get(i));
             String y = Converters.capFirstLetter(x.substring(x.indexOf("\\") + 1
-                , x.indexOf(".",x.indexOf(MainControls.saveExt) - 2)));
+                , x.indexOf(".",x.indexOf(saveExt) - 2)));
             dml.addElement(y);
         }
         save.setModel(dml);
@@ -417,9 +446,9 @@ public class MainControls {
     
     public static void loadSavedGame() {
         try {
-            if(ChecksBalances.checknoofSubdirs(MainControls.savesDir)) {
+            if(ChecksBalances.checknoofSubdirs(savesDir)) {
             List<String> loadlist = Converters.capStringList(Converters
-                .subfolderstoList(MainControls.savesDir));
+                .subfolderstoList(savesDir));
             JComboBox<String> loadOptions = new JComboBox<>();
             loadOptions.setModel(new DefaultComboBoxModel<>(loadlist.toArray(new
                 String[0])));
@@ -442,22 +471,22 @@ public class MainControls {
                         ("timetotakeitout_","")) + "?";
                     boolean deleteChoice = Popups.yesnoPopup(title,message);
                     if(deleteChoice == true) {
-                        ChecksBalances.iffolderexistsDelete(MainControls.
+                        ChecksBalances.iffolderexistsDelete(
                             defaultsavesDir + loadChoice.replaceAll(
                             "timetotakeitout_","").toLowerCase());
-                        MainControls.savesDir = MainControls.defaultsavesDir;
+                        savesDir = defaultsavesDir;
                     } else {
                         //
                     }
                 } else {
-                    MainControls.savesDir = MainControls.defaultsavesDir + 
+                    savesDir = defaultsavesDir + 
                         loadChoice + "/";
-                    MainControls.selectedSave = ChecksBalances.getLast(new File(
-                        MainControls.savesDir + ".lastused"));
-                    MainControls.selectedToon = Converters.getfromFile(
-                        MainControls.savesDir + ".lastused", true, false);
+                    selectedSave = ChecksBalances.getLast(new File(
+                        savesDir + ".lastused"));
+                    selectedToon = Converters.getfromFile(
+                        savesDir + ".lastused", true, false);
                     //change screen here
-                    StartGame.startGame(MainControls.selectedSave, "sav" + 
+                    StartGame.startGame(selectedSave, "sav" + 
                         loadChoice + "Toons", "sav" + loadChoice + " Max");
                 }
             }

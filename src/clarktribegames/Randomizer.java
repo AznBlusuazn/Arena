@@ -24,8 +24,6 @@ public class Randomizer {
         double ex2 = rand.nextDouble();
         float ex3 = rand.nextFloat();
         long ex4 = rand.nextLong();
-        
-        System.out.println(ex1 + "\n" + ex2 + "\n" + ex3);
     }
     
     public static List<Integer> randomInt(int intMax) {
@@ -33,18 +31,14 @@ public class Randomizer {
         List<Integer> intKeys = new ArrayList<>();
         for(int i=0 ; i < intMax; i++) {
             selectedInt.add(randomInteger(intMax,intKeys));
-            System.out.println("Keys: " + Arrays.toString(intKeys.toArray()));
         }
-        System.out.println("SE:" + Arrays.toString(selectedInt.toArray()));
         return selectedInt;
     }
     
     private static int randomInteger(int max, List<Integer> keylist) {
         int n = (int) (Math.random() * max);
-        System.out.println ("Picked: " + n);
         if(!keylist.contains(n)) {
                     keylist.add(n);
-                    System.out.println("Adding: " + n);
                     return n;
                 } else {
                     return randomInteger(max, keylist);

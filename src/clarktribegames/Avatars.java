@@ -15,6 +15,7 @@ import javax.swing.ImageIcon;
 public class Avatars {
        
     public static void setAvatar(JLabel box, String toon, String path) {
+        box.setVisible(true);
         String avatarPath = (avatarCheck(toon,path));
         box.setIcon(new ImageIcon(avatarPath));
         box.setText("");

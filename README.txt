@@ -1,6 +1,6 @@
 =======================================
 LIMITLESS by Geoff Clark
-VERSION ALPHA 0.0.029 / 2020.12.26-2316
+VERSION ALPHA 0.0.030 / 2020.12.27-1300
 =======================================
 
 SUPPORT THE DEVELOPMENT OF THIS GAME @ 
@@ -46,6 +46,14 @@ Contact the author:  info@clarktribegames.com
 ====================================
 
 DEVELOPMENT NOTES
+
+ALPHA 0.0.030 / 2020.12.27-1300
+
+- redesigned options, about, and donate in main menu to be within frame instead of popups.
+- added social media icons
+- rebuild custom music options and how it works (cleaner)
+- added complete dark mode/light mode integration (now working)
+- add dark mode option to ini -- dark mode is on by default
 
 ALPHA 0.0.029 / 2020.12.26-2316
 

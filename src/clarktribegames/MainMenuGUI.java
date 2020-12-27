@@ -361,7 +361,7 @@ public class MainMenuGUI extends javax.swing.JFrame {
 
     private static void optButton() throws IOException, InterruptedException, 
         Exception {
-        OptionsMenu.OptionsMenu();
+        //OptionsMenu.OptionsMenu();
     }
 
 

@@ -52,6 +52,8 @@ public class TypeEffect {
                                     BattleGUI.pressConfirm();
                                 } catch (InterruptedException | BadLocationException | SQLException ex) {
                                     //
+                                } catch (Exception ex) {
+                                    //
                                 }
                             }
                         }
