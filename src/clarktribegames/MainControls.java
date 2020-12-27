@@ -7,9 +7,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -444,7 +447,63 @@ public class MainControls {
         save.setRenderer(lrCenter);
     }
     
+    public static void saveGameMenu() {
+        popSaveGameList();
+    }
+    
+    private static void popSaveGameList() {
+        List<String> savegameList = ChecksBalances.getSavedGames();
+        DefaultListModel lgDml = new DefaultListModel();
+        if(savegameList.size() <= 0) {
+            Limitless.lgList.setEnabled(false);
+            lgDml.removeAllElements();
+            lgDml.addElement("<No Saved Games>");
+            Limitless.lgyesButton.setEnabled(false);
+            Limitless.lgdelButton.setEnabled(false);
+        } else {
+            Limitless.lgyesButton.setEnabled(true);
+            Limitless.lgdelButton.setEnabled(true);
+            lgDml.removeAllElements();
+            for(int i=0; i < savegameList.size(); i++) {
+                Limitless.lgList.setEnabled(true);
+                lgDml.addElement(savegameList.get(i));
+            }
+        }
+        Limitless.lgList.setModel(lgDml);
+    }
+    
     public static void loadSavedGame() {
+        try {
+            savesDir=defaultsavesDir + Limitless.lgList.getSelectedValue() +"/";
+            selectedSave=ChecksBalances.getLast(new File(savesDir+".lastused"));
+            selectedToon=Converters.getfromFile(savesDir + ".lastused",true,
+                false);
+            StartGame.startGame(selectedSave,"sav"+Limitless.lgList
+                .getSelectedValue()+"Toons","sav"+Limitless.lgList
+                .getSelectedValue()+"Max");
+        } catch (IOException | InterruptedException | SQLException ex) {
+            //
+        }
+    }
+    
+    public static void delSavedGame() {
+        String title=("Are you sure you want to delete " + Limitless.lgList
+            .getSelectedValue());
+        String message="Are you sure you want to delete\n the save game "+
+            Limitless.lgList.getSelectedValue() + "?";
+        boolean deleteChoice = Popups.yesnoPopup(title,message);
+        if(deleteChoice == true) {
+            try {
+                ChecksBalances.iffolderexistsDelete(defaultsavesDir+Limitless.
+                    lgList.getSelectedValue());
+            } catch (IOException ex) {
+                //
+            }
+        savesDir = defaultsavesDir;
+        }
+    }
+    
+    public static void loadSavedGameold() {
         try {
             if(ChecksBalances.checknoofSubdirs(savesDir)) {
             List<String> loadlist = Converters.capStringList(Converters

@@ -447,6 +447,48 @@ public class ChecksBalances {
         }
     }
     
+    public static List<String> getSavedGames() {
+        List<String> limitsaveList = new ArrayList<>();
+        try {
+            File file = new File(MainControls.savesDir);
+            String[] directories = file.list(new FilenameFilter() {
+                @Override
+                public boolean accept(File current, String name) {
+                    return new File(current,name).isDirectory();
+                }
+            });
+            for(int folder = 0; folder < directories.length; folder++) {
+                String path = MainControls.savesDir+directories[folder]+"/";
+                System.out.println(path);
+                File dir = new File(path);
+                File[] listindir = dir.listFiles();
+                System.out.println(Arrays.toString(listindir));
+                boolean savefileexists = false;
+                boolean lastusedexists = false;
+                for(File file2 : listindir) {
+                    if(file2.isFile()) {
+                        String[] filename = file2.getName().split("\\.(?=[^\\.]+$)");
+                        if(filename[1].equalsIgnoreCase(MainControls.saveExt)) {
+                            savefileexists = true;
+                        }
+                    }
+                    if(file2.isFile()) {
+                        String[] filename = file2.getName().split("\\.(?=[^\\.]+$)");
+                        if(filename[1].equalsIgnoreCase("lastused")) {
+                            lastusedexists = true;
+                        }
+                    }
+                }
+                if(savefileexists && lastusedexists) {
+                    limitsaveList.add(Converters.capFirstLetter(directories[folder].replaceAll(MainControls.savesDir,"")));
+                }
+            }
+        } catch (Exception ex) {
+            //
+        }
+        return limitsaveList;
+    }
+    
 //<editor-fold defaultstate="collapsed" desc="Log File Method">
     private static void logFile (String type, String loginfo) throws IOException {
         try {

@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.swing.JLabel;
 import javax.swing.JList;
 
 /**
@@ -118,6 +119,24 @@ public class GetData {
         con.close();
         result = result.substring(1,result.length());
         return result;
+    }
+    
+    private static String getSingleRec(Statement st, String search,String table,String col,String matching) throws SQLException {
+        String match = (col + "=\"" + matching + "\"");
+        String result = "";
+        String query = ("select " + search + " from " + table + " where " + 
+                match);
+        ResultSet rs = st.executeQuery(query);
+        ResultSetMetaData rsmd = rs.getMetaData();
+        int colC = (rsmd.getColumnCount());
+        while (rs.next()) {
+            for(int i = 1; i <= colC; i++) {
+                result = result + "," + rs.getString(i);
+            }
+        }
+        result = result.substring(1,result.length());
+        return result;
+    
     }
     
     public static void createnewSave(String save,String game)throws SQLException
@@ -372,5 +391,51 @@ public class GetData {
 
         }
     }
-    
+
+    public static void getSavedGameToon(JList savegameList,JLabel savedToon,
+        JLabel savedToonName,JLabel savedToonRank,JLabel savedToonStats, JLabel 
+        savedToonLevel) throws IOException, SQLException {
+        String saveFolder=MainControls.savesDir + savegameList.getSelectedValue
+            ().toString().toLowerCase();
+        String toonID = ChecksBalances.getFirstLine(new File(saveFolder + 
+            "/.lastused"));
+        File dir = new File(saveFolder);
+        File[] listindir = dir.listFiles();
+        String limitFile = "";
+        for(File file2 : listindir) {
+            if(file2.isFile()) {
+                String[] filename = file2.getName().split("\\.(?=[^\\.]+$)");
+                if(filename[1].equalsIgnoreCase(MainControls.saveExt)) {
+                    limitFile = filename[0] + "." + filename[1];
+                }
+            }
+        }
+        db1 = "jdbc:ucanaccess://" + saveFolder + "/" +limitFile;
+        Connection con = DriverManager.getConnection(db1, db2, db3);
+        Statement st = con.createStatement();
+        String [] savedToonInfo = getSingleRec(st,"*","sav"+savegameList
+            .getSelectedValue().toString().toLowerCase()+"Toons","toonID",toonID
+            ).split(",");
+        String toonGender = getSingleRec(st,"*","dbGender","genderID",
+            savedToonInfo[6]).split(",")[1];
+        String toonRace = getSingleRec(st,"*","dbRace","raceID",savedToonInfo[2]
+            ).split(",")[1];
+        String toonClass = getSingleRec(st,"*","dbClass","classID",
+            savedToonInfo[3]).split(",")[1]; 
+        st.close();
+        con.close();
+        savedToonStats.setForeground((Converters.figureoutColor(GetStats
+            .getalignColor(Integer.parseInt((savedToonInfo[4]))))));
+        Avatars.setAvatar(savedToon,savedToonInfo[1],saveFolder);
+        savedToonName.setText(savedToonInfo[1]);
+        //use savedToonRank for date + rank
+        savedToonRank.setText("");
+        savedToonStats.setText(Calculator.getAge(Integer.parseInt(
+            savedToonInfo[7]), savedToonInfo[2]) + " " + toonRace + " " + 
+            toonClass + " " + toonGender);
+        savedToonLevel.setText("Level " + savedToonInfo[8]);
+    }
 }
+    
+
+
