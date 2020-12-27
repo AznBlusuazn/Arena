@@ -1,6 +1,6 @@
 =======================================
 LIMITLESS by Geoff Clark
-VERSION ALPHA 0.0.028 / 2020.12.24-1441
+VERSION ALPHA 0.0.029 / 2020.12.26-2316
 =======================================
 
 SUPPORT THE DEVELOPMENT OF THIS GAME @ 
@@ -46,6 +46,15 @@ Contact the author:  info@clarktribegames.com
 ====================================
 
 DEVELOPMENT NOTES
+
+ALPHA 0.0.029 / 2020.12.26-2316
+
+- restructured main menu with foundation for "dark mode" and "light mode"
+- rebuild gui for one window instead of multiple windows
+- recreated main menu to look more modern
+- added random avatar selection for title screen
+- centralized menu functions
+- disabled old main menu GUI
 
 ALPHA 0.0.028 / 2020.12.24-1441
 

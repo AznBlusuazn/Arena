@@ -475,7 +475,7 @@ public class MainMenuGUI extends javax.swing.JFrame {
                     break;
             }
         } catch(IOException ex) {
-            logFile("severe","About Popup Error.  Exception: " + ex);
+            LogWriter.logFile("severe","About Popup Error.  Exception: " + ex);
         }
     }
     
@@ -501,7 +501,7 @@ public class MainMenuGUI extends javax.swing.JFrame {
                     break;
             }
         } catch(IOException ex) {
-            logFile("severe","Donate Popup Error.  Exception: " + ex);
+            LogWriter.logFile("severe","Donate Popup Error.  Exception: " + ex);
         }
     }
 

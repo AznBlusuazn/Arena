@@ -21,7 +21,16 @@ import java.util.logging.FileHandler;
 
 public class LogWriter {
     
-    public void writeLog(String type, String loginfo) throws IOException {
+    public static void logFile (String type,String loginfo) throws IOException {
+        try {
+            writeLog(type,loginfo);
+        } catch(IOException ioex) {
+            logFile("severe","logFile Method error:  Cannot fine log file (infi"
+                    + "nite loop)!\nException:  " + ioex);
+        }
+    }
+    
+    public static void writeLog(String type,String loginfo) throws IOException {
         String logDir = (".\\logs\\");
         String logFile = ("error_" + (logDateTime(0)) + ".log");
         ChecksBalances.newdirCheck(logDir, false);

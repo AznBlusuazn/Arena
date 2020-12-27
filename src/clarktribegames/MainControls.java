@@ -1,10 +1,18 @@
 package clarktribegames;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.stream.Collectors;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 
 // <editor-fold defaultstate="collapsed" desc="credits">
@@ -22,7 +30,7 @@ public class MainControls {
     
     //Main Controls Variables
     static String appName = "Limitless";
-    static String appVer = "0.0.028";
+    static String appVer = "0.0.029";
     static String appTitle = appName + " [ALPHA v" + appVer + "]";
     static String settingsFile = "settings.ini";
     static String defaultIntro = "sounds/intro.mp3";
@@ -55,6 +63,9 @@ public class MainControls {
     static boolean musicPlaying = false;
     static Thread currentSong;
     static String threadName = "";
+    //Color Mode
+    static Color backColor = Color.BLACK;
+    static Color textColor = Color.WHITE;
     //Settings.ini
     static boolean musicOn = true;
     static boolean custommusicOn = false;
@@ -67,7 +78,7 @@ public class MainControls {
     public static void main(String[] args) throws Exception {
         lookandfeelSettings();
         startupChecks();
-        MainMenuGUI.main(args);
+        Limitless.main(args);
 
     }
     
@@ -78,7 +89,7 @@ public class MainControls {
             checkSaves();
             checkSettings();
         } catch(IOException ex) {
-            logFile("severe",("Startup Check IOException: " + ex.toString()));
+            LogWriter.logFile("severe",("Startup Check IOException: " + ex.toString()));
         }
     }
     
@@ -120,7 +131,7 @@ public class MainControls {
             price = Converters.resourcefileToList("magic.cmp").get(0);
             
         } catch(IOException ex) {
-            logFile("severe","Donate Popup Error.  Exception: " + ex);
+            LogWriter.logFile("severe","Donate Popup Error.  Exception: " + ex);
         }
     }
     
@@ -198,7 +209,7 @@ public class MainControls {
             ChecksBalances.fileCheck(ogPath,dbPath,true,true);
             ChecksBalances.newfileCheck(lastusedSave, true,"default,0",false);
         } catch(Exception ex) {
-            logFile("severe",("Saves Check Exception: " + ex.toString()));
+            LogWriter.logFile("severe",("Saves Check Exception: " + ex.toString()));
         }
     }
     
@@ -251,7 +262,7 @@ public class MainControls {
             System.gc();
             ChecksBalances.newfileCheck(settingsFile, false, newSettings, true);
         } catch (IOException ex) {
-            logFile("severe","Update Settings.  EX: " + ex.toString());
+            LogWriter.logFile("severe","Update Settings.  EX: " + ex.toString());
         }
     }
     
@@ -315,27 +326,237 @@ public class MainControls {
         }
     }
     
+    public static void startNewGame() {
+       try {
+            if(!MainControls.samedbOn) {
+                limitSelect();
+            } else {
+                MainControls.selectedSave = MainControls.defaultDB + "." + 
+                    MainControls.saveExt;
+            }
+            boolean continueon = false;
+            MainControls.currentgamePath=JOptionPane.showInputDialog(null, "New"
+                + " Game", "Enter a savename for the New Game:",JOptionPane
+                .PLAIN_MESSAGE);
+            continueon = ChecksBalances.newGame(MainControls.currentgamePath);
+            if(continueon) {
+                //method to change screen here
+                //newButton.setText("Building Save Game");
+                MainControls.currentgame=MainControls.currentgamePath.substring(
+                    MainControls.currentgamePath.indexOf("/",0),MainControls
+                    .currentgamePath.indexOf("/",MainControls.currentgamePath
+                    .indexOf("/") + 1)).replaceAll("/","");
+                Popups.infoPopup("Building Save Game","Your new game world will"
+                    + " now be built.  Please be patient.");
+                MainControls.savesDir="saves/" + MainControls.currentgame + "/";
+                GetData.createnewSave(Converters.capFirstLetter((MainControls
+                    .selectedSave).substring(0,(MainControls.selectedSave)
+                    .indexOf("." + MainControls.saveExt))), MainControls
+                    .currentgame);
+                Popups.infoPopup("Save Game Built","Your new game world has bee"
+                    + "n built.  Thank you for your patience.");
+                new NewGameGUI().setVisible(true);
+            } else {
+                MainControls.currentgamePath = "";
+            }
+        } catch(Exception ex) {
+            //
+        }
+    }
     
+    private static void limitSelect() throws IOException {
+        String title = "New Game Database Selection";
+        String message = "Select a Database for the New Game:\n\n";
+        DefaultComboBoxModel limitdml = new DefaultComboBoxModel();
+        JComboBox dboptions = new JComboBox();
+        popLimit(dboptions,limitdml);
+        if(dboptions.getItemCount() > 1) {
+            String selection=Popups.comboboxPopup(title, message, dboptions,null
+                );
+            if(ChecksBalances.isNullOrEmpty(selection)) {
+                //
+            } else {
+                MainControls.selectedSave = (selection.toLowerCase() + "." + 
+                    MainControls.saveExt);
+                String confirmMessage = selection + " Loaded";
+                Popups.infoPopup(confirmMessage,confirmMessage + "!");
+            }
+        } else {
+            MainControls.selectedSave = (MainControls.defaultSave);
+        }
+    }
     
-    //<editor-fold defaultstate="collapsed" desc="Check Version Method">
+    private static void popLimit(JComboBox box, DefaultComboBoxModel dml) throws 
+        IOException {
+        try {
+            List<String> savelist = (Converters.foldertoList(MainControls
+                .savesDir, MainControls.saveExt)).stream().map(Object::toString)
+                .collect(Collectors.toList());
+            fillLimit(box,savelist,dml);
+        } catch (IOException ex) {
+            LogWriter.logFile("severe","Save Select Error.\nEx: " + ex.toString());
+        }
+    }
+    
+    private static void fillLimit(JComboBox<String> save, List<String> list, 
+            DefaultComboBoxModel dml) {
+        Font font = save.getFont();
+        DefaultListCellRenderer lrCenter;
+        lrCenter = new DefaultListCellRenderer();
+        lrCenter.setHorizontalAlignment(DefaultListCellRenderer.LEFT);
+        lrCenter.setFont(font.deriveFont(Font.BOLD));
+        for(int i = 0; i < list.size(); i++) {
+            String x = (list.get(i));
+            String y = Converters.capFirstLetter(x.substring(x.indexOf("\\") + 1
+                , x.indexOf(".",x.indexOf(MainControls.saveExt) - 2)));
+            dml.addElement(y);
+        }
+        save.setModel(dml);
+        save.setRenderer(lrCenter);
+    }
+    
+    public static void loadSavedGame() {
+        try {
+            if(ChecksBalances.checknoofSubdirs(MainControls.savesDir)) {
+            List<String> loadlist = Converters.capStringList(Converters
+                .subfolderstoList(MainControls.savesDir));
+            JComboBox<String> loadOptions = new JComboBox<>();
+            loadOptions.setModel(new DefaultComboBoxModel<>(loadlist.toArray(new
+                String[0])));
+            String[] popupchoices = new String[3];
+            popupchoices[0] = "OK";
+            popupchoices[1] = "Cancel";
+            popupchoices[2] = "Delete";
+            String loadChoice=(Popups.comboboxPopup("Load a Saved Game", "Select"
+                + " the Saved Game to Load:", loadOptions, popupchoices)).
+                toLowerCase();
+            if(ChecksBalances.isNullOrEmpty(loadChoice)) {
+                //
+            } else {
+                if(loadChoice.startsWith("timetotakeitout_")) {
+                    String title=("Are you sure you want to delete "+Converters.
+                        capFirstLetter(loadChoice.replaceAll("timetotakeitout_",
+                        "")));
+                    String message="Are you sure you want to delete\n the save "
+                        +"game "+Converters.capFirstLetter(loadChoice.replaceAll
+                        ("timetotakeitout_","")) + "?";
+                    boolean deleteChoice = Popups.yesnoPopup(title,message);
+                    if(deleteChoice == true) {
+                        ChecksBalances.iffolderexistsDelete(MainControls.
+                            defaultsavesDir + loadChoice.replaceAll(
+                            "timetotakeitout_","").toLowerCase());
+                        MainControls.savesDir = MainControls.defaultsavesDir;
+                    } else {
+                        //
+                    }
+                } else {
+                    MainControls.savesDir = MainControls.defaultsavesDir + 
+                        loadChoice + "/";
+                    MainControls.selectedSave = ChecksBalances.getLast(new File(
+                        MainControls.savesDir + ".lastused"));
+                    MainControls.selectedToon = Converters.getfromFile(
+                        MainControls.savesDir + ".lastused", true, false);
+                    //change screen here
+                    StartGame.startGame(MainControls.selectedSave, "sav" + 
+                        loadChoice + "Toons", "sav" + loadChoice + " Max");
+                }
+            }
+        } else {
+            Popups.warnPopup("No Saves Available", "You have no save games avai"
+                + "lable.");
+            }
+        } catch (IOException | InterruptedException | SQLException ex) {
+                
+        }
+    }
+    
+    public static void aboutPopup() throws IOException {
+        try {
+            String[] options = new String[] {"Facebook","Discord","YouTube","Be"
+                + "nsound.com","OK"};
+            String title = "About This Game";
+            String message = ("<html>This application was created by ClarkTribe"
+                + "Games.<br><br>It was the development of basically a one man "
+                + "team with advice, suggestions, and feedback<br>from friends "
+                + "and colleagues.<br><br>This game is dedicated to the kids of"
+                + " the creator.<br><br>Please consider supporting the cause wi"
+                + "th a donation via the <font color=red><b>Donate To The Cause"
+                + "</b></font> button.<br><br><b>The music was provided by BenS"
+                + "ound.com. Please visit their site for awesome tracks!</b>   "
+                + "<br><br>Thank you for your continued support!<br><br>- Geoff"
+                + " @ ClarkTribeGames<br><br></html>");
+            int choice = Popups.optPopup(options, title, message);
+            switch(choice) {
+                case 0:
+                    GoToWeb.openWeb("https://www.facebook.com/clarktribe.games")
+                        ;
+                    break;
+                case 1:
+                    GoToWeb.openWeb("https://discord.gg/6kW4der");
+                    break;
+                case 2:
+                    GoToWeb.openWeb("https://www.youtube.com/channel/UCjcPw3Apu"
+                        + "FduiETIdmAhFAQ");
+                    break;
+                case 3:
+                    GoToWeb.openWeb("https://www.bensound.com/");
+                    break;
+                default:
+                    break;
+            }
+        } catch(IOException ex) {
+            LogWriter.logFile("severe","About Popup Error.  Exception: " + ex);
+        }
+    }
+    
+    public static void donatePopup() throws IOException {
+        try {
+            String[] options = new String[] {"Patreon","PayPal","Maybe Later"};
+            String title = "Please Donate. :)";
+            String message = ("<html><b>This application was created by ClarkTr"
+                    + "ibeGames.</b><br><br>If you found this game fun and/or w"
+                    + "ant to help with the<br>development of this game, please"
+                    + " consider a donation,<br>even if it is $1 to keep projec"
+                    + "ts like this alive.\n\nThank you! - Geoff @ ClarkTribeGa"
+                    + "mes");
+            int choice = Popups.optPopup(options, title, message);
+            switch(choice) {
+                case 0:
+                    GoToWeb.openWeb("https://www.patreon.com/clarktribegames");
+                    break;
+                case 1:
+                    GoToWeb.openWeb("https://www.paypal.me/aznblusuazn");
+                    break;
+                default:
+                    break;
+            }
+        } catch(IOException ex) {
+            LogWriter.logFile("severe","Donate Popup Error.  Exception: " + ex);
+        }
+    }
+    
+    public static void exitGame () throws IOException, InterruptedException {
+        try {
+            String title = ("Exit the Game?");
+            String message = "Are you sure you want to exit?";
+            boolean exitChoice = Popups.yesnoPopup(title, message);
+            if(exitChoice == true) {
+                System.gc();
+                clearTemp();
+                System.exit(0);
+            } else {
+                //
+            }
+        } catch (IOException | InterruptedException ex) {
+            LogWriter.logFile("severe","Exit Game Error.  Exception: " + ex);
+        }
+    }
+    
     private static void checkVersion (String name, String ver) throws 
         IOException, InterruptedException {
         if((verCheck.checkVersion(name, ver))) {
             Updater.updateMessage(name, ver);
         }
     }
-    //</editor-fold>
-    
-    //<editor-fold defaultstate="collapsed" desc="Log File Method">
-    private static void logFile (String type, String loginfo) throws IOException {
-        try {
-            new LogWriter().writeLog(type,loginfo);
-        } catch(IOException ioex) {
-            logFile("severe","logFile Method error:  Cannot fine log file (infi"
-                    + "nite loop)!\nException:  " + ioex);
-        }
-    }
-    //</editor-fold>
-    
+       
 }
-
