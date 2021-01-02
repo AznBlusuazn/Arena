@@ -1,5 +1,6 @@
 package clarktribegames;
 
+import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -26,7 +27,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -459,10 +462,8 @@ public class ChecksBalances {
             });
             for(int folder = 0; folder < directories.length; folder++) {
                 String path = MainControls.savesDir+directories[folder]+"/";
-                System.out.println(path);
                 File dir = new File(path);
                 File[] listindir = dir.listFiles();
-                System.out.println(Arrays.toString(listindir));
                 boolean savefileexists = false;
                 boolean lastusedexists = false;
                 for(File file2 : listindir) {
@@ -487,6 +488,15 @@ public class ChecksBalances {
             //
         }
         return limitsaveList;
+    }
+    
+    public static void keyConfirm(KeyEvent evt, JLabel button) {
+        button.setEnabled(true);
+        char typedLetter = evt.getKeyChar();
+        if(!(Character.isAlphabetic(typedLetter) || Character.isDigit(typedLetter) || typedLetter == 
+                KeyEvent.VK_BACK_SPACE || typedLetter == KeyEvent.VK_DELETE)){
+            evt.consume();
+        }
     }
     
 //<editor-fold defaultstate="collapsed" desc="Log File Method">

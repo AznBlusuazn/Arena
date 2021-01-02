@@ -1,6 +1,6 @@
 =======================================
 LIMITLESS by Geoff Clark
-VERSION ALPHA 0.0.030 / 2020.12.27-1750
+VERSION ALPHA 0.0.031 / 2021.01.01-1905
 =======================================
 
 SUPPORT THE DEVELOPMENT OF THIS GAME @ 
@@ -46,6 +46,14 @@ Contact the author:  info@clarktribegames.com
 ====================================
 
 DEVELOPMENT NOTES
+
+ALPHA 0.0.031 / 2021.01.01-1905
+
+- redesigned new game function
+- created loading screen for end user to know to wait for loading
+- redesigned new game character selection with new look, compatible w/dark mode
+- thinned database query command for quicker response
+
 
 ALPHA 0.0.030 / 2020.12.27-1750
 

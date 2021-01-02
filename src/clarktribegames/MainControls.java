@@ -6,9 +6,10 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
@@ -67,9 +68,11 @@ public class MainControls {
     static boolean musicPlaying = false;
     static Thread currentSong;
     static String threadName = "";
+    static String[][] newgametoonList;
     //Color Mode
     static Color backColor = Color.BLACK;
     static Color textColor = Color.WHITE;
+    
     //Settings.ini
     static boolean darkOn = true;
     static boolean musicOn = true;
@@ -362,38 +365,194 @@ public class MainControls {
                     saveExt;
             }
             boolean continueon = false;
-            currentgamePath=JOptionPane.showInputDialog(null, "New"
-                + " Game", "Enter a savename for the New Game:",JOptionPane
-                .PLAIN_MESSAGE);
+            currentgamePath=currentgamePath=Limitless.ngText.getText().toLowerCase();
             if(currentgamePath.isEmpty()) {
                 currentgamePath = "";
                 Limitless.showMenu();
             }
             continueon = ChecksBalances.newGame(currentgamePath);
             if(continueon) {
+                loadingScreen();
+            }
+            if(continueon) {
                 //method to change screen here
                 //newButton.setText("Building Save Game");
-                currentgame=currentgamePath.substring(
-                    currentgamePath.indexOf("/",0),MainControls
-                    .currentgamePath.indexOf("/",currentgamePath
-                    .indexOf("/") + 1)).replaceAll("/","");
+//                currentgame=currentgamePath.substring(
+//                    currentgamePath.indexOf("/",0),MainControls
+//                    .currentgamePath.indexOf("/",currentgamePath
+//                    .indexOf("/") + 1)).replaceAll("/","");
                 Popups.infoPopup("Building Save Game","Your new game world will"
                     + " now be built.  Please be patient.");
-                savesDir="saves/" + currentgame + "/";
-                GetData.createnewSave(Converters.capFirstLetter((MainControls
-                    .selectedSave).substring(0,(selectedSave)
-                    .indexOf("." + saveExt))), MainControls
-                    .currentgame);
+//                savesDir="saves/" + currentgame + "/";
+//                GetData.createnewSave(Converters.capFirstLetter((MainControls
+//                    .selectedSave).substring(0,(selectedSave)
+//                    .indexOf("." + saveExt))), MainControls
+//                    .currentgame);
+
+                backgroundBuild();
+                while(!MainControls.created) {
+                    Thread.sleep(1);
+                }
+                Limitless.setLoadingAvatars();
+                Limitless.loadingLabel.setText("Game World Has Been Built!");
                 Popups.infoPopup("Save Game Built","Your new game world has bee"
                     + "n built.  Thank you for your patience.");
-                new NewGameGUI().setVisible(true);
+                Thread.sleep(1500);
+                Limitless.showNewGameList();
+                newgamelistMenu();
+                //new NewGameGUI().setVisible(true);
             } else {
                 currentgamePath = "";
-                Limitless.showMenu();
+                //Limitless.showMenu();
             }
         } catch(Exception ex) {
-            //
+            ex.printStackTrace();
         }
+    }
+    
+    private static void loadingScreen() {
+        SwingWorker<Void,Void> worker = new SwingWorker<Void,Void>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+                Limitless.menuPanel.setVisible(false);
+                Limitless.loadingPanel.setVisible(true);
+                Limitless.setLoadingAvatars();
+                Limitless.loadingLabel.setText("Game World Is Building...");
+                return null;
+            }
+        };
+        worker.execute();
+    }
+    
+    private static void backgroundBuild() {
+        SwingWorker<Void,Void> worker = new SwingWorker<Void,Void>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+                currentgame=currentgamePath.substring(currentgamePath.indexOf(
+                    "/",0),MainControls.currentgamePath.indexOf("/",
+                    currentgamePath.indexOf("/") + 1)).replaceAll("/","");
+//                Popups.infoPopup("Building Save Game","Your new game world will"
+//                    + " now be built.  Please be patient.");
+                savesDir="saves/" + currentgame + "/";
+                GetData.createnewSave(Converters.capFirstLetter((MainControls
+                    .selectedSave).substring(0,(selectedSave).indexOf("."+
+                    saveExt))),MainControls.currentgame);
+                return null;
+            }
+            
+        };
+        worker.execute();
+    }
+
+    public static void newgamelistMenu() throws IOException, SQLException {
+        popNewGameToonList();
+        worldtextInfo();
+    }
+    
+    private static void popNewGameToonList() throws IOException, SQLException {
+        
+        List<String> newgameToonList = GetData.getNewGameToonList();
+        DefaultListModel newtlDml = new DefaultListModel();
+        if(newgameToonList.size() <= 0) {
+            Limitless.newgameList.setEnabled(false);
+            newtlDml.removeAllElements();
+            newtlDml.addElement("<No Toons Available>");
+//            Limitless.lgyesButton.setEnabled(false);
+//            Limitless.lgdelButton.setEnabled(false);
+        } else {
+            newgametoonList = new String[newgameToonList.size()][2];
+            for(int i=0;i < newgameToonList.size();i++) {
+                newgametoonList[i][0] = newgameToonList.get(i);
+                newgametoonList[i][1] = String.valueOf(i);
+            }
+            Arrays.sort(newgametoonList, new Comparator<String[]>() {
+                @Override
+                public int compare(final String[] entry1, final String[] entry2) {
+                    final String toon1 = entry1[0];
+                    final String toon2 = entry2[0];
+                    return toon1.compareTo(toon2);
+                }
+            });
+            for (final String[] s : newgametoonList) {
+                newtlDml.addElement(s[0]);
+            }
+            
+            Limitless.newgameList.setModel(newtlDml);
+//            Limitless.lgyesButton.setEnabled(true);
+//            Limitless.lgdelButton.setEnabled(true);
+//            newtlDml.removeAllElements();
+//            SortedListModel sortedtoonlist = new SortedListModel();
+//            Limitless.newgameList.setModel(sortedtoonlist);
+//            for(int i=0; i < newgameToonList.size(); i++) {
+            Limitless.newgameList.setEnabled(true);
+//                sortedtoonlist.add(newgameToonList.get(i));
+//            }
+            
+            
+        }
+        
+        //Limitless.newgameList.setModel(newtlDml);
+    }    
+    
+    private static void worldtextInfo() throws SQLException {
+                //add game date method here
+        String week = "1";
+        String month = "1";
+        String day = "1";
+        String year = "1";
+        //above it temp date
+        String save=MainControls.savesDir.replaceAll("saves/","").replaceAll("/", "");
+        String savetoons = "sav" + save + "Toons";
+        int count = ((GetData.dataQuery("*", savetoons, "toonName", null, true, false, null, null))).size();
+        List<Integer> exps = new ArrayList<>();
+        for(String exp : ((GetData.dataQuery("*", savetoons, "toonExp", null, true, false, null, null)))) exps.add(Integer.valueOf(exp));
+        int toplv = Integer.MIN_VALUE;
+        int topidx = -1;
+
+        for (int l = 0; l < exps.size(); l++) {
+            int val = exps.get(l);
+            if (val > toplv) {
+                toplv = val;
+                topidx = l;
+            }
+        }
+
+        List<String> toptoon = GetData.dataQuery("*", savetoons, "toonID",
+            String.valueOf(topidx), false, false, null, null);
+        String topplayer = toptoon.get(1);
+
+        String alignment=((GetData.dataQuery("*", "dbAlign", "alignID",
+            Calculator.getAlign(Integer.parseInt(toptoon.get(4))), false, false,
+            null, null)).get(6));
+        String age = (Calculator.getAge(Integer.parseInt(toptoon.get(7)), 
+            toptoon.get(2)));
+        String gender = ((GetData.dataQuery("*","dbGender","genderID",toptoon
+            .get(6),false, false, null, null)).get(1));
+        String race = (GetData.dataQuery("*","dbRace","raceID",toptoon.get(2)
+            ,false, false, null, null)).get(7);
+        String clas = ((GetData.dataQuery( "*", "dbClass", "classID",toptoon.
+            get(3), false, false, null, null)).get(4));
+        String size = Calculator.getSize((GetData.dataQuery("*", "dbRace",
+            "raceID",toptoon.get(2),false, false, null, null)).get(1), age);
+        
+        String text = "This world start at Week " + week + ", Month " + month 
+            + ", Day " + day + ", Year " + year + ".\n\nCurrently, there are " 
+            + count + " characters in the world.\n\nThe highest level character"
+            + " is " + topplayer + ", who is a " + alignment + " " + age + " " 
+            + gender + " that is " + size + " " + race + " " + clas + " at Leve"
+            + "l " + Calculator.getLevel("curlv", String.valueOf(toplv)) + ".\n"
+            + "\nYour possiblities are Limitless!\n\nSelect your character and "
+            + "then click Start New Game to begin your journey.";
+        new TypeEffect(Limitless.welcomeText,text,10,false,null,null).start();
+    }
+    
+    public static void ngToonSelect(String selectedToonID) throws SQLException {
+        String savetoons = "sav" + MainControls.savesDir.replaceAll("saves/","")
+            .replaceAll("/", "") + "Toons";
+        List<String> selectedToon = GetData.dataQuery("*", savetoons, "toonID",
+            selectedToonID, false, false, null, null);
+        Limitless.charName.setText(selectedToon.get(1));
+        Avatars.setAvatar(Limitless.charToon, selectedToon.get(1), "");
     }
     
     private static void limitSelect() throws IOException {

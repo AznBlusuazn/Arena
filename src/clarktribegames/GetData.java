@@ -62,6 +62,38 @@ public class GetData {
         return convertedList;
     }
     
+    public static List<String> dataQuery(String search,String table,String col,
+        String matching,boolean OnlyOneRec,boolean SecondaryQ,String carriedDb1,
+        Statement carriedSt) throws SQLException {
+        Statement st;
+        if(!SecondaryQ) {
+            
+            String limitFile=MainControls.savesDir + MainControls.selectedSave;
+            db1 = "jdbc:ucanaccess://" + limitFile;
+            Connection con = DriverManager.getConnection(db1, db2, db3);
+            st = con.createStatement();
+        } else {
+            db1 = carriedDb1;
+            st = carriedSt;
+        }
+        String tempList = "";
+        if(!OnlyOneRec) {
+            tempList = (getSingleRec(st,search,table,col,matching)).replaceAll
+                ("\\[", "").replaceAll("\\]","");
+        } else {
+            tempList = (getSingList(st,search,table,col)).replaceAll("\\[","").
+                replaceAll("\\]","");
+        }
+        String[] stringList = tempList.split(",");
+        List<String> convertedList = Arrays.asList(stringList);       
+        if(!SecondaryQ) {
+            st.close();
+            DriverManager.getConnection(db1, db2, db3).close();
+        }
+        System.gc();
+        return convertedList; 
+    }
+    
     private static String getSingleList(String save, String search,String table,
         String column) throws SQLException {
         if(!(MainControls.savesDir.equals("saves/"))) {
@@ -121,7 +153,8 @@ public class GetData {
         return result;
     }
     
-    private static String getSingleRec(Statement st, String search,String table,String col,String matching) throws SQLException {
+    private static String getSingleRec(Statement st, String search,String table,
+        String col,String matching) throws SQLException {
         String match = (col + "=\"" + matching + "\"");
         String result = "";
         String query = ("select " + search + " from " + table + " where " + 
@@ -136,8 +169,20 @@ public class GetData {
         }
         result = result.substring(1,result.length());
         return result;
-    
     }
+
+    private static String getSingList(Statement st, String search,String table,
+        String column) throws SQLException {
+        String result = "";
+        String query = ("select " + search + " from " + table);
+        ResultSet rs = st.executeQuery(query);
+        while (rs.next()) {
+            result = result + "," + rs.getString(column);
+        }
+        result = result.substring(1,result.length());
+        return result;
+    }
+
     
     public static void createnewSave(String save,String game)throws SQLException
         , IOException, InterruptedException {
@@ -395,47 +440,51 @@ public class GetData {
     public static void getSavedGameToon(JList savegameList,JLabel savedToon,
         JLabel savedToonName,JLabel savedToonRank,JLabel savedToonStats, JLabel 
         savedToonLevel) throws IOException, SQLException {
-        String saveFolder=MainControls.savesDir + savegameList.getSelectedValue
-            ().toString().toLowerCase();
-        String toonID = ChecksBalances.getFirstLine(new File(saveFolder + 
-            "/.lastused"));
-        File dir = new File(saveFolder);
-        File[] listindir = dir.listFiles();
-        String limitFile = "";
-        for(File file2 : listindir) {
-            if(file2.isFile()) {
-                String[] filename = file2.getName().split("\\.(?=[^\\.]+$)");
-                if(filename[1].equalsIgnoreCase(MainControls.saveExt)) {
-                    limitFile = filename[0] + "." + filename[1];
-                }
+        try {
+            String saveFolder=MainControls.savesDir + savegameList.
+                getSelectedValue().toString().toLowerCase();
+            String toonID = ChecksBalances.getFirstLine(new File(saveFolder + 
+                "/.lastused"));
+            MainControls.selectedSave=savegameList.getSelectedValue().toString()
+                .toLowerCase() + "/" + MainControls.selectedSave;
+            List<String> savedToonInfo = dataQuery("*","sav"+savegameList
+                .getSelectedValue().toString().toLowerCase()+"Toons","toonID",
+                toonID,false,false,null,null);
+            String toonGender=dataQuery("*","dbGender","genderID",savedToonInfo.
+                get(6),false,false,null,null).get(1);
+            String toonRace=dataQuery("*","dbRace","raceID",savedToonInfo.get(2)
+                ,false,false,null,null).get(1);
+            String toonClass=dataQuery("*","dbClass","classID",savedToonInfo.get
+                (3),false,false,null,null).get(1);
+            savedToonStats.setForeground((Converters.figureoutColor(GetStats
+                .getalignColor(Integer.parseInt((savedToonInfo.get(4)))))));
+            Avatars.setAvatar(savedToon,savedToonInfo.get(1),saveFolder);
+            savedToonName.setText(savedToonInfo.get(1));
+            //use savedToonRank for date + rank
+            savedToonRank.setText("");
+            savedToonStats.setText(Calculator.getAge(Integer.parseInt(
+                savedToonInfo.get(7)), savedToonInfo.get(2)) + " " + toonRace + 
+                " "+ toonClass + " " + toonGender);
+            savedToonLevel.setText("Level " + savedToonInfo.get(8));
+        } catch (IOException | NumberFormatException | SQLException | NullPointerException ex) {
+            if(Limitless.lgList.getModel().getSize() > 0) {
+                Limitless.lgList.setSelectedIndex(0);
             }
         }
-        db1 = "jdbc:ucanaccess://" + saveFolder + "/" +limitFile;
-        Connection con = DriverManager.getConnection(db1, db2, db3);
-        Statement st = con.createStatement();
-        String [] savedToonInfo = getSingleRec(st,"*","sav"+savegameList
-            .getSelectedValue().toString().toLowerCase()+"Toons","toonID",toonID
-            ).split(",");
-        String toonGender = getSingleRec(st,"*","dbGender","genderID",
-            savedToonInfo[6]).split(",")[1];
-        String toonRace = getSingleRec(st,"*","dbRace","raceID",savedToonInfo[2]
-            ).split(",")[1];
-        String toonClass = getSingleRec(st,"*","dbClass","classID",
-            savedToonInfo[3]).split(",")[1]; 
-        st.close();
-        con.close();
-        savedToonStats.setForeground((Converters.figureoutColor(GetStats
-            .getalignColor(Integer.parseInt((savedToonInfo[4]))))));
-        Avatars.setAvatar(savedToon,savedToonInfo[1],saveFolder);
-        savedToonName.setText(savedToonInfo[1]);
-        //use savedToonRank for date + rank
-        savedToonRank.setText("");
-        savedToonStats.setText(Calculator.getAge(Integer.parseInt(
-            savedToonInfo[7]), savedToonInfo[2]) + " " + toonRace + " " + 
-            toonClass + " " + toonGender);
-        savedToonLevel.setText("Level " + savedToonInfo[8]);
+            MainControls.selectedSave = MainControls.defaultSave;
     }
+    
+    public static List<String> getNewGameToonList() throws IOException,
+        SQLException {
+        return dataQuery("*","sav"+MainControls.savesDir.replaceAll("saves/","")
+            .replaceAll("/", "")+"Toons","toonName",null,true,false,null,null);
+    }
+    
+
+    
 }
     
+
+
 
 

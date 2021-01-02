@@ -641,7 +641,8 @@ public class NewGameGUI extends javax.swing.JFrame {
             MainControls.savesDir = MainControls.defaultsavesDir;
             System.gc();
             this.dispose();
-            new MainMenuGUI().setVisible(true);
+            //Return to menu here
+            Limitless.menuPanel.setVisible(true);
         } catch(IOException ex) {
             logFile("severe","MenuOption Error.\nIOEx: " + ex.toString());
         }

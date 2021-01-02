@@ -861,7 +861,9 @@ public class BattleGUI extends javax.swing.JFrame {
             MPlayer.stopMedia();
             System.gc();
             this.dispose();
-            new MainMenuGUI().setVisible(true);
+            //Return to menu here
+            Limitless.menuPanel.setVisible(true);
+
         } catch(IOException ex) {
             logFile("severe","MenuOption Error.\nIOEx: " + ex.toString());
         }
