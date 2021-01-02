@@ -159,6 +159,25 @@ public class GetStats {
         jlist.setModel(dml);
     }
 
+    public static String getitemsfromIDtoString(List<String> list, 
+        String dbname, String searchcol, String matchcol) throws SQLException {
+        String finalString = "";
+        DefaultListModel tempdml = new DefaultListModel();
+        for(int i = 0; i < list.size(); i++) {
+            if(!(ChecksBalances.isNullOrEmpty(list.get(i))) && !(list.get(i).
+                equals("null"))) {
+                String temp = GetData.dataQuery("*",dbname,searchcol,list.
+                    get(i),false,false,null,null).get(1);
+                tempdml.addElement(temp);
+                finalString+=temp + "\n";
+            }
+        }
+         if(tempdml.getSize() <= 0) {
+            finalString+="<None>";
+        }
+        return finalString;
+    }
+    
     private static List<String> getEffectStats(String save, List<String>
         toonstats) throws SQLException {
         String sizeName = Calculator.getSize((GetData.dbQuery(save,"*","dbRace",

@@ -60,6 +60,8 @@ public class Limitless extends javax.swing.JFrame {
         charStat10 = new javax.swing.JLabel();
         charStatPane = new javax.swing.JScrollPane();
         charStatText = new javax.swing.JTextArea();
+        ngmmButton = new javax.swing.JLabel();
+        ngstartButton = new javax.swing.JLabel();
         menuPanel = new javax.swing.JPanel();
         startButton = new javax.swing.JLabel();
         loadButton = new javax.swing.JLabel();
@@ -166,7 +168,7 @@ public class Limitless extends javax.swing.JFrame {
 
         ngselectLabel.setFont(new java.awt.Font("Lucida Console", 1, 12)); // NOI18N
         ngselectLabel.setForeground(MainControls.textColor);
-        ngselectLabel.setText("[Select Your Character]");
+        ngselectLabel.setText("Select Your Character");
         newgamelistPanel.add(ngselectLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 25, 250, 25));
 
         newgamePane.setBackground(MainControls.backColor);
@@ -394,6 +396,54 @@ public class Limitless extends javax.swing.JFrame {
         charStatPane.setViewportView(charStatText);
 
         newgamelistPanel.add(charStatPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(525, 50, 225, 500));
+
+        ngmmButton.setFont(new java.awt.Font("Lucida Console", 1, 12)); // NOI18N
+        ngmmButton.setForeground(MainControls.textColor);
+        ngmmButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        ngmmButton.setText("Return To Main Menu");
+        ngmmButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        ngmmButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ngmmButtonMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                ngmmButtonMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                ngmmButtonMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                ngmmButtonMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                ngmmButtonMouseReleased(evt);
+            }
+        });
+        newgamelistPanel.add(ngmmButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(775, 525, 200, 25));
+
+        ngstartButton.setFont(new java.awt.Font("Lucida Console", 1, 12)); // NOI18N
+        ngstartButton.setForeground(MainControls.textColor);
+        ngstartButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        ngstartButton.setText("Start New Game");
+        ngstartButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        ngstartButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ngstartButtonMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                ngstartButtonMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                ngstartButtonMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                ngstartButtonMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                ngstartButtonMouseReleased(evt);
+            }
+        });
+        newgamelistPanel.add(ngstartButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(975, 525, 200, 25));
 
         newgamePanel.add(newgamelistPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 225, 1200, 560));
 
@@ -1821,8 +1871,9 @@ public class Limitless extends javax.swing.JFrame {
 
     private void newgameListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_newgameListValueChanged
         try {
-            MainControls.ngToonSelect(MainControls.newgametoonList[newgameList.getSelectedIndex()][1]);
-        } catch (SQLException ex) {
+            MainControls.ngToonSelect(MainControls.newgametoonList[newgameList.
+            getSelectedIndex()][1]);
+        } catch (IOException | SQLException ex) {
             //
         }
     }//GEN-LAST:event_newgameListValueChanged
@@ -1838,104 +1889,182 @@ public class Limitless extends javax.swing.JFrame {
     }//GEN-LAST:event_ngTextKeyReleased
 
     private void charStat06MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_charStat06MouseClicked
-        // TODO add your handling code here:
+        try {
+            MainControls.ngToonSelectButtons("stats");
+        } catch (IOException | SQLException ex) {
+            //
+        }
     }//GEN-LAST:event_charStat06MouseClicked
 
     private void charStat06MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_charStat06MouseEntered
-        // TODO add your handling code here:
+        buttonOver(charStat06);
     }//GEN-LAST:event_charStat06MouseEntered
 
     private void charStat06MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_charStat06MouseExited
-        // TODO add your handling code here:
+        buttonOff(charStat06);
     }//GEN-LAST:event_charStat06MouseExited
 
     private void charStat06MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_charStat06MousePressed
-        // TODO add your handling code here:
+        buttonPressed(charStat06);
     }//GEN-LAST:event_charStat06MousePressed
 
     private void charStat06MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_charStat06MouseReleased
-        // TODO add your handling code here:
+        buttonReleased(charStat06);
     }//GEN-LAST:event_charStat06MouseReleased
 
     private void charStat07MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_charStat07MouseClicked
-        // TODO add your handling code here:
+        try {
+            MainControls.ngToonSelectButtons("effs");
+        } catch (IOException | SQLException ex) {
+            //
+        }
     }//GEN-LAST:event_charStat07MouseClicked
 
     private void charStat07MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_charStat07MouseEntered
-        // TODO add your handling code here:
+        buttonOver(charStat07);
     }//GEN-LAST:event_charStat07MouseEntered
 
     private void charStat07MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_charStat07MouseExited
-        // TODO add your handling code here:
+        buttonOff(charStat07);
     }//GEN-LAST:event_charStat07MouseExited
 
     private void charStat07MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_charStat07MousePressed
-        // TODO add your handling code here:
+        buttonPressed(charStat07);
     }//GEN-LAST:event_charStat07MousePressed
 
     private void charStat07MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_charStat07MouseReleased
-        // TODO add your handling code here:
+        buttonReleased(charStat07);
     }//GEN-LAST:event_charStat07MouseReleased
 
     private void charStat08MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_charStat08MouseClicked
-        // TODO add your handling code here:
+        try {
+            MainControls.ngToonSelectButtons("abls");
+        } catch (IOException | SQLException ex) {
+            //
+        }
     }//GEN-LAST:event_charStat08MouseClicked
 
     private void charStat08MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_charStat08MouseEntered
-        // TODO add your handling code here:
+        buttonOver(charStat08);
     }//GEN-LAST:event_charStat08MouseEntered
 
     private void charStat08MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_charStat08MouseExited
-        // TODO add your handling code here:
+        buttonOff(charStat08);
     }//GEN-LAST:event_charStat08MouseExited
 
     private void charStat08MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_charStat08MousePressed
-        // TODO add your handling code here:
+        buttonPressed(charStat08);
     }//GEN-LAST:event_charStat08MousePressed
 
     private void charStat08MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_charStat08MouseReleased
-        // TODO add your handling code here:
+        buttonReleased(charStat08);
     }//GEN-LAST:event_charStat08MouseReleased
 
     private void charStat09MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_charStat09MouseClicked
-        // TODO add your handling code here:
+        try {
+            MainControls.ngToonSelectButtons("equip");
+        } catch (IOException | SQLException ex) {
+            //
+        }
     }//GEN-LAST:event_charStat09MouseClicked
 
     private void charStat09MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_charStat09MouseEntered
-        // TODO add your handling code here:
+        buttonOver(charStat09);
     }//GEN-LAST:event_charStat09MouseEntered
 
     private void charStat09MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_charStat09MouseExited
-        // TODO add your handling code here:
+        buttonOff(charStat09);
     }//GEN-LAST:event_charStat09MouseExited
 
     private void charStat09MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_charStat09MousePressed
-        // TODO add your handling code here:
+        buttonPressed(charStat09);
     }//GEN-LAST:event_charStat09MousePressed
 
     private void charStat09MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_charStat09MouseReleased
-        // TODO add your handling code here:
+        buttonReleased(charStat09);
     }//GEN-LAST:event_charStat09MouseReleased
 
     private void charStat10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_charStat10MouseClicked
-        // TODO add your handling code here:
+        try {
+            MainControls.ngToonSelectButtons("bio");
+        } catch (IOException | SQLException ex) {
+            //
+        }
     }//GEN-LAST:event_charStat10MouseClicked
 
     private void charStat10MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_charStat10MouseEntered
-        // TODO add your handling code here:
+        buttonOver(charStat10);
     }//GEN-LAST:event_charStat10MouseEntered
 
     private void charStat10MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_charStat10MouseExited
-        // TODO add your handling code here:
+        buttonOff(charStat10);
     }//GEN-LAST:event_charStat10MouseExited
 
     private void charStat10MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_charStat10MousePressed
-        // TODO add your handling code here:
+        buttonPressed(charStat10);
     }//GEN-LAST:event_charStat10MousePressed
 
     private void charStat10MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_charStat10MouseReleased
-        // TODO add your handling code here:
+        buttonReleased(charStat10);
     }//GEN-LAST:event_charStat10MouseReleased
+
+    private void ngmmButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ngmmButtonMouseClicked
+        boolean YesOrNo = Popups.yesnoPopup("Exit New Game?", 
+            "Are you sure you want to exit the new game and\n"
+            + "return to the Main Menu?");
+        if(YesOrNo) {
+            try {
+                ngText.setText("");
+                ChecksBalances.iffolderexistsDelete(MainControls.savesDir);
+                showMenu();
+            } catch (IOException ex) {
+                try {
+                    LogWriter.logFile("severe","NG No Button Error.  Ex: " + 
+                        ex);
+                } catch (IOException ex1) {
+                    //
+                }
+            }
+        } else {
+            //
+        }
+    }//GEN-LAST:event_ngmmButtonMouseClicked
+
+    private void ngmmButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ngmmButtonMouseEntered
+        buttonOver(ngmmButton);
+    }//GEN-LAST:event_ngmmButtonMouseEntered
+
+    private void ngmmButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ngmmButtonMouseExited
+        buttonOff(ngmmButton);
+    }//GEN-LAST:event_ngmmButtonMouseExited
+
+    private void ngmmButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ngmmButtonMousePressed
+        buttonPressed(ngmmButton);
+    }//GEN-LAST:event_ngmmButtonMousePressed
+
+    private void ngmmButtonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ngmmButtonMouseReleased
+        buttonReleased(ngmmButton);
+    }//GEN-LAST:event_ngmmButtonMouseReleased
+
+    private void ngstartButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ngstartButtonMouseClicked
+        ngstartButton();
+    }//GEN-LAST:event_ngstartButtonMouseClicked
+
+    private void ngstartButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ngstartButtonMouseEntered
+        buttonOver(ngstartButton);
+    }//GEN-LAST:event_ngstartButtonMouseEntered
+
+    private void ngstartButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ngstartButtonMouseExited
+        buttonOff(ngstartButton);
+    }//GEN-LAST:event_ngstartButtonMouseExited
+
+    private void ngstartButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ngstartButtonMousePressed
+        buttonPressed(ngstartButton);
+    }//GEN-LAST:event_ngstartButtonMousePressed
+
+    private void ngstartButtonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ngstartButtonMouseReleased
+        buttonReleased(ngstartButton);
+    }//GEN-LAST:event_ngstartButtonMouseReleased
 
     // <editor-fold defaultstate="collapsed" desc="Universal">       
     public static void main(String args[]) {
@@ -2080,6 +2209,7 @@ public class Limitless extends javax.swing.JFrame {
             button.setForeground(Color.BLUE);
         }
     }
+    
     //</editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Main Menu">       
@@ -2229,6 +2359,15 @@ public class Limitless extends javax.swing.JFrame {
     }    
     //</editor-fold>
     
+    private static void ngstartButton() {
+        try {
+            MainControls.ngStartButton(MainControls.
+                    newgametoonList[newgameList.getSelectedIndex()][1]);
+        } catch (SQLException | IOException | InterruptedException ex) {
+            //
+        }
+    }
+    
     //<editor-fold defaultstate="collapsed" desc="Load Menu">
     private static void loadSavedGame() {
         MainControls.loadSavedGame();
@@ -2374,7 +2513,7 @@ public class Limitless extends javax.swing.JFrame {
     private static javax.swing.JLabel charStat07;
     private static javax.swing.JLabel charStat08;
     private static javax.swing.JLabel charStat09;
-    private static javax.swing.JLabel charStat10;
+    public static javax.swing.JLabel charStat10;
     private javax.swing.JScrollPane charStatPane;
     public static javax.swing.JTextArea charStatText;
     public static javax.swing.JLabel charToon;
@@ -2421,8 +2560,10 @@ public class Limitless extends javax.swing.JFrame {
     private static javax.swing.JLabel ngLabel;
     public static javax.swing.JTextField ngText;
     private static javax.swing.JLabel ngmToon;
+    private static javax.swing.JLabel ngmmButton;
     private static javax.swing.JLabel ngnoButton;
     private javax.swing.JLabel ngselectLabel;
+    private static javax.swing.JLabel ngstartButton;
     private static javax.swing.JLabel ngtlToon;
     private static javax.swing.JLabel ngtrToon;
     private static javax.swing.JLabel ngyesButton;

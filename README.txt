@@ -1,6 +1,6 @@
 =======================================
 LIMITLESS by Geoff Clark
-VERSION ALPHA 0.0.031 / 2021.01.01-1905
+VERSION ALPHA 0.0.031 / 2021.01.02-0112
 =======================================
 
 SUPPORT THE DEVELOPMENT OF THIS GAME @ 
@@ -47,13 +47,17 @@ Contact the author:  info@clarktribegames.com
 
 DEVELOPMENT NOTES
 
-ALPHA 0.0.031 / 2021.01.01-1905
+ALPHA 0.0.031 / 2021.01.02-0112
 
 - redesigned new game function
 - created loading screen for end user to know to wait for loading
 - redesigned new game character selection with new look, compatible w/dark mode
 - thinned database query command for quicker response
-
+- removed old MainMenuGUI
+- rebuild the New Game function and how stats,equip,abl,and items are displayed
+- added checks for removing a new game if not used
+- removed old NewGameGUI for new version
+- temporarily linked in existing versus and battle gui after newgame is set up
 
 ALPHA 0.0.030 / 2020.12.27-1750
 
