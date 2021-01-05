@@ -27,19 +27,13 @@ public class StartGame {
     
     private static void startTime(String save, String savetoons, String savemax) 
         throws SQLException, IOException, InterruptedException{
-        //to be replaced with getDate();
-        String week = "1";
-        String month = "1";
-        String day = "1";
-        String year = "1";
-        //
         String tempstartMsg = "This is normally where the game would start, but"
             + " for now, it's just battle mode.\n\n" + save + "\n" + savetoons;
         Popups.infoPopup("Starting " + Converters.capFirstLetter(savetoons.
             substring(3,savetoons.length()-5)) + " Game!", GetData.dbQuery(save,
             "*",savetoons,"toonID",MainControls.selectedToon, false).get(1)+"\n"
-            + "\n Week "+ week + ", Month " + month + ", Day " + day + ", Year "
-            + year + "\n\n" + tempstartMsg);
+            + "\n Week "+ MainControls.gameWeek + ", Month " + MainControls.gameMonth + ", Day " + MainControls.gameDay + ", Year "
+            + MainControls.gameYear + "\n\n" + tempstartMsg);
         cleanupTempDB((MainControls.savesDir+save+"."+MainControls.saveExt)
             .replaceAll(MainControls.saveExt + "." + MainControls.saveExt, 
             MainControls.saveExt),savetoons);

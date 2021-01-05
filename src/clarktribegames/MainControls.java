@@ -35,7 +35,7 @@ public class MainControls {
     
     //Main Controls Variables
     static String appName = "Limitless";
-    static String appVer = "0.0.031";
+    static String appVer = "0.0.032";
     static String appTitle = appName + " [ALPHA v" + appVer + "]";
     static String settingsFile = "settings.ini";
     static String defaultIntro = "sounds/intro.mp3";
@@ -73,7 +73,13 @@ public class MainControls {
     //Color Mode
     static Color backColor = Color.BLACK;
     static Color textColor = Color.WHITE;
-    
+    //Date and Time
+    static int gameWeek = 1;
+    static int gameDay = 1;
+    static int gameMonth = 1;
+    static int gameYear = 1;
+    static int gameHour = 0;
+    static int gameMin = 0;
     //Settings.ini
     static boolean darkOn = true;
     static boolean musicOn = true;
@@ -497,10 +503,10 @@ public class MainControls {
     
     private static void worldtextInfo() throws SQLException {
                 //add game date method here
-        String week = "1";
-        String month = "1";
-        String day = "1";
-        String year = "1";
+//        String week = "1";
+//        String month = "1";
+//        String day = "1";
+//        String year = "1";
         //above it temp date
         String save=MainControls.savesDir.replaceAll("saves/","").replaceAll("/", "");
         String savetoons = "sav" + save + "Toons";
@@ -536,8 +542,9 @@ public class MainControls {
         String size = Calculator.getSize((GetData.dataQuery("*", "dbRace",
             "raceID",toptoon.get(2),false, false, null, null)).get(1), age);
         
-        String text = "This world start at Week " + week + ", Month " + month 
-            + ", Day " + day + ", Year " + year + ".\n\nCurrently, there are " 
+        String text = "This world starts at Week " + gameWeek + ", Month " + 
+            gameMonth + ", Day " + gameDay + ", Year " + gameYear + " at Hour " 
+            + gameHour + " Minute " + gameMin +".\n\nCurrently, there are " 
             + count + " characters in the world.\n\nThe highest level character"
             + " is " + topplayer + ", who is a " + alignment + " " + age + " " 
             + gender + " that is " + size + " " + race + " " + clas + " at Leve"
@@ -781,9 +788,10 @@ public class MainControls {
             ,false,false,null,null).get(1)+" as your character.\n\n"
             +"Are you sure you want to start the game?");
         if(yesno) {
-            ChecksBalances.newfileCheck(MainControls.savesDir+".lastused",true,
-                MainControls.selectedToon+"\n"+MainControls.selectedSave
-                ,true);
+            ChecksBalances.newfileCheck(savesDir+".lastused",true,selectedToon+
+            "\n"+selectedSave+"\n"+gameDay+"\n"+gameWeek+"\n"+gameMonth+"\n"
+            +gameYear+"\n"+gameHour+"\n"+gameMin+"\n"
+            ,true);
             System.gc();
             StartGame.startGame(ngsaveName, ngsaveToons, ngsaveMax);
         } else {
@@ -870,9 +878,14 @@ public class MainControls {
     public static void loadSavedGame() {
         try {
             savesDir=defaultsavesDir + Limitless.lgList.getSelectedValue() +"/";
-            selectedSave=ChecksBalances.getLast(new File(savesDir+".lastused"));
-            selectedToon=Converters.getfromFile(savesDir + ".lastused",true,
-                false);
+            selectedToon=Converters.getSpecificLine(savesDir+".lastused",0);
+            selectedSave=Converters.getSpecificLine(savesDir+".lastused",1);
+            gameDay=Integer.parseInt(Converters.getSpecificLine(savesDir+".lastused",2));
+            gameWeek=Integer.parseInt(Converters.getSpecificLine(savesDir+".lastused",3));
+            gameMonth=Integer.parseInt(Converters.getSpecificLine(savesDir+".lastused",4));
+            gameYear=Integer.parseInt(Converters.getSpecificLine(savesDir+".lastused",5));
+            gameHour=Integer.parseInt(Converters.getSpecificLine(savesDir+".lastused",6));
+            gameMin=Integer.parseInt(Converters.getSpecificLine(savesDir+".lastused",7));
             StartGame.startGame(selectedSave,"sav"+Limitless.lgList
                 .getSelectedValue()+"Toons","sav"+Limitless.lgList
                 .getSelectedValue()+"Max");

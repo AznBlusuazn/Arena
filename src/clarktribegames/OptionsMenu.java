@@ -836,6 +836,7 @@ public class OptionsMenu {
                     Limitless.imOpt.removeAllItems();
                 }
             Limitless.imOpt.addItem("<Default Intro Music>");
+            Limitless.imOpt.setEnabled(false);
             MainControls.musicPath = MainControls.defaultIntro;
             Limitless.bmOpt.setEnabled(false);
             if(Limitless.bmOpt.getItemCount() > 0) {

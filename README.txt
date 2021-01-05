@@ -1,6 +1,6 @@
 =======================================
 LIMITLESS by Geoff Clark
-VERSION ALPHA 0.0.031 / 2021.01.02-0112
+VERSION ALPHA 0.0.032 / 2021.01.04-2237
 =======================================
 
 SUPPORT THE DEVELOPMENT OF THIS GAME @ 
@@ -46,6 +46,12 @@ Contact the author:  info@clarktribegames.com
 ====================================
 
 DEVELOPMENT NOTES
+
+ALPHA 0.0.032 / 2021.01.04-2255
+
+- fixed rare issue with default intro music not disabling when custom music not enabled in options
+- added date (day, week, month, year) and time to game save
+- consolidated some code for pulling save game information
 
 ALPHA 0.0.031 / 2021.01.02-0112
 

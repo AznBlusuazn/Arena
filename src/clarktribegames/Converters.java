@@ -120,6 +120,11 @@ public class Converters {
         return filename;
     }
     
+    public static String getSpecificLine(String getpath, int getline) throws 
+        IOException {
+        return Files.readAllLines(Paths.get(getpath)).get(getline);
+    }
+    
     public static String getfromFile(String gffPath, boolean gffJustfirstline, 
         boolean gffFirstcap) throws IOException {
         String text = "";

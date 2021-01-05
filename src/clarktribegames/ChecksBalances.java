@@ -255,6 +255,7 @@ public class ChecksBalances {
         }
         return first;
     }
+
     
     public static String getLast(File filename) throws IOException {
         String last = new String();  

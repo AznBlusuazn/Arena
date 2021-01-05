@@ -438,7 +438,7 @@ public class GetData {
     }
 
     public static void getSavedGameToon(JList savegameList,JLabel savedToon,
-        JLabel savedToonName,JLabel savedToonRank,JLabel savedToonStats, JLabel 
+        JLabel savedToonName,JLabel savedToonRankDate,JLabel savedToonStats, JLabel 
         savedToonLevel) throws IOException, SQLException {
         try {
             String saveFolder=MainControls.savesDir + savegameList.
@@ -461,7 +461,10 @@ public class GetData {
             Avatars.setAvatar(savedToon,savedToonInfo.get(1),saveFolder);
             savedToonName.setText(savedToonInfo.get(1));
             //use savedToonRank for date + rank
-            savedToonRank.setText("");
+            String lastused = MainControls.savesDir + savegameList.getSelectedValue().toString().toLowerCase() + "/.lastused";
+            
+            System.out.println(lastused);
+            savedToonRankDate.setText("Mo " + Converters.getSpecificLine(lastused,4) + " Wk " + Converters.getSpecificLine(lastused,3) + " Dy " + Converters.getSpecificLine(lastused,2) + " Yr " + Converters.getSpecificLine(lastused,5) + " : Hr " + Converters.getSpecificLine(lastused,6) + " Mn " + Converters.getSpecificLine(lastused,7));
             savedToonStats.setText(Calculator.getAge(Integer.parseInt(
                 savedToonInfo.get(7)), savedToonInfo.get(2)) + " " + toonRace + 
                 " "+ toonClass + " " + toonGender);
