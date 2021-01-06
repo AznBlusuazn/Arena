@@ -1,6 +1,5 @@
 TO DO'S/IDEAS (DEVELOPING)
 
-[IN PROGRESS] Save / Character Select screen
 [IN PROGRESS] create baseline statuses
 [PARTIAL COM] bio builder -- need to include effects?
 - menu bar
@@ -27,8 +26,8 @@ TO DO'S/IDEAS (DEVELOPING)
 - mercy ability
 - strengths/weaknesses (status?)
 - randomizer engine
-- battle gui
-- battle logic
+[IN PROGRESS] battle gui
+[IN PROGRESS] battle logic
 - mutant class with anti-mutant attribute for ability
 - same with alien (e.g. Krp/SM)
 - weapons
@@ -99,7 +98,6 @@ TO DO'S/IDEAS (DEVELOPING)
 - shop to buy items or loot
 - different locations
 - different arenas
-- encrypt db
 - set encrypt db change db and uncomment hidefile db for release
 - attach abilities to weapons
 - level building for abilities tables
@@ -138,8 +136,6 @@ TO DO'S/IDEAS (DEVELOPING)
 - credits (money)
 - combining elements to create new ones (fire + earth = magma // air + earth = gravity)
 - magnetism
-- team determiner
-- custom music option
 
 COMPLETED
 
@@ -166,3 +162,7 @@ COMPLETED
 [COMPLETE] remove generic labels of fields throughout db -- theres no point to do this
 [COMPLETE] Figure out complexities of save game
 [COMPLETE] generic music
+[COMPLETE] team determiner
+[COMPLETE] custom music option
+[COMPLETE] encrypt db
+[COMPLETE] Save / Character Select screen
