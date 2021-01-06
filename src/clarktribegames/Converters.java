@@ -246,6 +246,87 @@ public class Converters {
         return newlist;
     }
     
+    public static String[] convertTime(int rawTime) {
+        //60 minutes in an hour
+        //1440 mins in a day
+        //10080 mins in a week
+        //40320 mins in a month
+        //483840 mins in a year
+        int years = 1;
+        int months = 1;
+        int weeks = 1;
+        int days = 1;
+        int hours = 0;
+        int minutes = 0;
+        if(rawTime >= 483840) {
+            years = rawTime / 483840;
+            months = (rawTime - (years * 483840)) / 40320;
+            weeks = (rawTime - ((years * 483840) + (months * 40320))) / 10080;
+            days = (rawTime - ((years * 483840) + (months * 40320) + (weeks * 10080))) / 1440;
+            hours = (rawTime - ((years * 483840) + (months * 40320) + (weeks * 10080) + (days * 1440))) / 60;
+            minutes = (rawTime - ((years * 483840) + (months * 40320) + (weeks * 10080 + (days * 1440) + (hours * 60))));
+        }
+        if(rawTime < 483840 && rawTime >= 40320) {
+            years = 1;
+            months = rawTime / 40320;
+            weeks = (rawTime - (months * 40320)) / 10080;
+            days = (rawTime - ((months * 40320) + (weeks * 10080))) / 1440;
+            hours = (rawTime - ((months * 40320) + (weeks * 10080) + (days * 1440))) / 60;
+            minutes = (rawTime - ((months * 40320) + (weeks * 10080 + (days * 1440) + (hours * 60))));
+        }
+        if(rawTime < 40320 && rawTime >= 10080) {
+            years = 1;
+            months = 1;
+            weeks = rawTime / 10080;
+            days = (rawTime - (weeks * 10080)) / 1440;
+            hours = (rawTime - ((weeks * 10080) + (days * 1440))) / 60;
+            minutes = (rawTime - ((weeks * 10080 + (days * 1440) + (hours * 60))));
+        }
+        if(rawTime < 10080 && rawTime >= 1440) {
+            years = 1;
+            months = 1;
+            weeks = 1;
+            days = rawTime / 1440;
+            hours = (rawTime - (days * 1440)) / 60;
+            minutes = rawTime - ((days * 1440) + (hours * 60));
+        }
+        if(rawTime < 1440 && rawTime >= 60) {
+            years = 1;
+            months = 1;
+            weeks = 1;
+            days = 1;
+            hours = rawTime / 60;
+            minutes = rawTime - (hours * 60);
+        }
+            years += 1;
+            months += 1;
+            weeks += 1;
+            days += 1;
+            hours += 1;
+            if(minutes > 60) {
+                minutes = 0;
+                hours += 1;
+            }
+            if(hours > 24) {
+                hours = 0;
+                days += 1;
+            }
+            if(days > 7) {
+                days = 1;
+                weeks += 1;
+            }
+            if(weeks > 4) {
+                weeks = 1;
+                months += 1;
+            }
+            if(months > 12) {
+                months = 1;
+                years += 1;
+            }
+            return new String[] { String.valueOf(years), String.valueOf(months), String.valueOf(weeks), String.valueOf(days), String.valueOf(hours), String.valueOf(minutes) };
+    }
+
+    
     //<editor-fold defaultstate="collapsed" desc="Log File Method">
     private static void logFile (String type, String loginfo) throws IOException
         {

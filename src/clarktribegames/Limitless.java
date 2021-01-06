@@ -742,7 +742,7 @@ public class Limitless extends javax.swing.JFrame {
         lgToonName.setFocusable(false);
         loadPanel.add(lgToonName, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 300, 250, 25));
 
-        lgToonRank.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
+        lgToonRank.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         lgToonRank.setForeground(MainControls.textColor);
         lgToonRank.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lgToonRank.setFocusable(false);

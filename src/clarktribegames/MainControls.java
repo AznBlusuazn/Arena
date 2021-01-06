@@ -35,7 +35,7 @@ public class MainControls {
     
     //Main Controls Variables
     static String appName = "Limitless";
-    static String appVer = "0.0.032";
+    static String appVer = "0.0.033";
     static String appTitle = appName + " [ALPHA v" + appVer + "]";
     static String settingsFile = "settings.ini";
     static String defaultIntro = "sounds/intro.mp3";
@@ -80,6 +80,7 @@ public class MainControls {
     static int gameYear = 1;
     static int gameHour = 0;
     static int gameMin = 0;
+    static int rawTime = 0;
     //Settings.ini
     static boolean darkOn = true;
     static boolean musicOn = true;
@@ -364,7 +365,7 @@ public class MainControls {
     }
     
     public static void startNewGame() {
-       try {
+        try {
             if(!samedbOn) {
                 limitSelect();
             } else {
@@ -400,6 +401,15 @@ public class MainControls {
                 while(!MainControls.created) {
                     Thread.sleep(1);
                 }
+                MainControls.rawTime = Integer.parseInt(GetData.dataQuery("*", "sav"+Converters.capFirstLetter(Limitless.ngText.getText())+"Time","timeID","0",false,false,null,null).get(1));
+                String[] dateTime = Converters.convertTime(MainControls.rawTime);
+                MainControls.gameYear=Integer.parseInt(dateTime[0]);
+                MainControls.gameMonth=Integer.parseInt(dateTime[1]);
+                MainControls.gameWeek=Integer.parseInt(dateTime[2]);
+                MainControls.gameDay=Integer.parseInt(dateTime[3]);
+                MainControls.gameHour=Integer.parseInt(dateTime[4]);
+                MainControls.gameMin=Integer.parseInt(dateTime[5]);
+
                 Limitless.setLoadingAvatars();
                 Limitless.loadingLabel.setText("Game World Has Been Built!");
                 Popups.infoPopup("Save Game Built","Your new game world has bee"
@@ -503,13 +513,17 @@ public class MainControls {
     
     private static void worldtextInfo() throws SQLException {
                 //add game date method here
-//        String week = "1";
-//        String month = "1";
-//        String day = "1";
-//        String year = "1";
-        //above it temp date
         String save=MainControls.savesDir.replaceAll("saves/","").replaceAll("/", "");
         String savetoons = "sav" + save + "Toons";
+        String rawtime = GetData.dataQuery("*", "sav"+save+"Time","timeID","0",false,false,null,null).get(1);
+        String[] datetime = Converters.convertTime(Integer.parseInt(rawtime));
+        gameYear = Integer.parseInt(datetime[0]);
+        gameMonth = Integer.parseInt(datetime[1]);
+        gameWeek = Integer.parseInt(datetime[2]);
+        gameDay = Integer.parseInt(datetime[3]);
+        gameHour = Integer.parseInt(datetime[4]);
+        gameMin = Integer.parseInt(datetime[5]);
+        //above it temp date
         int count = ((GetData.dataQuery("*", savetoons, "toonName", null, true, false, null, null))).size();
         List<Integer> exps = new ArrayList<>();
         for(String exp : ((GetData.dataQuery("*", savetoons, "toonExp", null, true, false, null, null)))) exps.add(Integer.valueOf(exp));
@@ -542,8 +556,8 @@ public class MainControls {
         String size = Calculator.getSize((GetData.dataQuery("*", "dbRace",
             "raceID",toptoon.get(2),false, false, null, null)).get(1), age);
         
-        String text = "This world starts at Week " + gameWeek + ", Month " + 
-            gameMonth + ", Day " + gameDay + ", Year " + gameYear + " at Hour " 
+        String text = "This world starts at Year " + gameYear + ", Month " + 
+            gameMonth + ", Week " + gameWeek + ", Day " + gameDay + " at Hour " 
             + gameHour + " Minute " + gameMin +".\n\nCurrently, there are " 
             + count + " characters in the world.\n\nThe highest level character"
             + " is " + topplayer + ", who is a " + alignment + " " + age + " " 
@@ -789,8 +803,7 @@ public class MainControls {
             +"Are you sure you want to start the game?");
         if(yesno) {
             ChecksBalances.newfileCheck(savesDir+".lastused",true,selectedToon+
-            "\n"+selectedSave+"\n"+gameDay+"\n"+gameWeek+"\n"+gameMonth+"\n"
-            +gameYear+"\n"+gameHour+"\n"+gameMin+"\n"
+            "\n"+selectedSave+"\n"+MainControls.rawTime+"\n"
             ,true);
             System.gc();
             StartGame.startGame(ngsaveName, ngsaveToons, ngsaveMax);
@@ -880,12 +893,14 @@ public class MainControls {
             savesDir=defaultsavesDir + Limitless.lgList.getSelectedValue() +"/";
             selectedToon=Converters.getSpecificLine(savesDir+".lastused",0);
             selectedSave=Converters.getSpecificLine(savesDir+".lastused",1);
-            gameDay=Integer.parseInt(Converters.getSpecificLine(savesDir+".lastused",2));
-            gameWeek=Integer.parseInt(Converters.getSpecificLine(savesDir+".lastused",3));
-            gameMonth=Integer.parseInt(Converters.getSpecificLine(savesDir+".lastused",4));
-            gameYear=Integer.parseInt(Converters.getSpecificLine(savesDir+".lastused",5));
-            gameHour=Integer.parseInt(Converters.getSpecificLine(savesDir+".lastused",6));
-            gameMin=Integer.parseInt(Converters.getSpecificLine(savesDir+".lastused",7));
+            rawTime=Integer.parseInt(Converters.getSpecificLine(savesDir+".lastused",2));
+            String[] dateTime = Converters.convertTime(rawTime);
+            gameYear=Integer.parseInt(dateTime[0]);
+            gameMonth=Integer.parseInt(dateTime[1]);
+            gameWeek=Integer.parseInt(dateTime[2]);
+            gameDay=Integer.parseInt(dateTime[3]);
+            gameHour=Integer.parseInt(dateTime[4]);
+            gameMin=Integer.parseInt(dateTime[5]);
             StartGame.startGame(selectedSave,"sav"+Limitless.lgList
                 .getSelectedValue()+"Toons","sav"+Limitless.lgList
                 .getSelectedValue()+"Max");

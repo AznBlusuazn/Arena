@@ -1,6 +1,6 @@
 =======================================
 LIMITLESS by Geoff Clark
-VERSION ALPHA 0.0.032 / 2021.01.04-2237
+VERSION ALPHA 0.0.033 / 2021.01.05-2314
 =======================================
 
 SUPPORT THE DEVELOPMENT OF THIS GAME @ 
@@ -46,6 +46,13 @@ Contact the author:  info@clarktribegames.com
 ====================================
 
 DEVELOPMENT NOTES
+
+ALPHA 0.0.033 / 2021.01.05-2314
+
+- created time system for new games and saved games
+- created converter for player to see time in yr/mo/wk/day/hr/min format
+- added time column in database
+- added time to save data
 
 ALPHA 0.0.032 / 2021.01.04-2255
 

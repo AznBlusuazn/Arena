@@ -226,6 +226,12 @@ public class GetData {
                             ColumnBuilder("tempID",DataType.TEXT)).addColumn(new
                             ColumnBuilder("tempStats",DataType.TEXT)).toTable
                             (db);
+                        String timetable = newtable.replaceAll("Toons", "Time");
+                        Table table2 = new TableBuilder(timetable).addColumn(new
+                            ColumnBuilder("timeID",DataType.TEXT)).addColumn(new
+                            ColumnBuilder("rawTime",DataType.TEXT)).toTable(db);
+                        Table table3 = db.getTable(timetable);
+                        table3.addRow("0","0");
                     }
                     db.flush();
                 }
@@ -462,9 +468,8 @@ public class GetData {
             savedToonName.setText(savedToonInfo.get(1));
             //use savedToonRank for date + rank
             String lastused = MainControls.savesDir + savegameList.getSelectedValue().toString().toLowerCase() + "/.lastused";
-            
-            System.out.println(lastused);
-            savedToonRankDate.setText("Mo " + Converters.getSpecificLine(lastused,4) + " Wk " + Converters.getSpecificLine(lastused,3) + " Dy " + Converters.getSpecificLine(lastused,2) + " Yr " + Converters.getSpecificLine(lastused,5) + " : Hr " + Converters.getSpecificLine(lastused,6) + " Mn " + Converters.getSpecificLine(lastused,7));
+            String[] tempDateTime = Converters.convertTime(Integer.parseInt(Converters.getSpecificLine(lastused, 2)));
+            savedToonRankDate.setText("Yr " + tempDateTime[0] + " Mo " + tempDateTime[1] + " Wk " + tempDateTime[2] + " Day " + tempDateTime[3] + " : Hr " + tempDateTime[4] + " Min " + tempDateTime[5]);
             savedToonStats.setText(Calculator.getAge(Integer.parseInt(
                 savedToonInfo.get(7)), savedToonInfo.get(2)) + " " + toonRace + 
                 " "+ toonClass + " " + toonGender);
