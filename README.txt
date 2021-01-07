@@ -1,6 +1,6 @@
 =======================================
 LIMITLESS by Geoff Clark
-VERSION ALPHA 0.0.033 / 2021.01.05-2314
+VERSION ALPHA 0.0.034 / 2021.01.06-2240
 =======================================
 
 SUPPORT THE DEVELOPMENT OF THIS GAME @ 
@@ -46,6 +46,14 @@ Contact the author:  info@clarktribegames.com
 ====================================
 
 DEVELOPMENT NOTES
+
+ALPHA 0.0.034 / 2021.01.06-2240
+
+- restructured generic toon table
+- created method to generate generic toons (e.g. no name characters) as filler for the database when the world is created
+- created math to randomized number of total generics created
+- added randomizer to append to generic name toon
+- added generic "Male Criminal" to the test database
 
 ALPHA 0.0.033 / 2021.01.05-2314
 

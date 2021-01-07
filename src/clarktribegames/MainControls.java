@@ -35,7 +35,7 @@ public class MainControls {
     
     //Main Controls Variables
     static String appName = "Limitless";
-    static String appVer = "0.0.033";
+    static String appVer = "0.0.034";
     static String appTitle = appName + " [ALPHA v" + appVer + "]";
     static String settingsFile = "settings.ini";
     static String defaultIntro = "sounds/intro.mp3";
@@ -576,7 +576,7 @@ public class MainControls {
             selectedToonID, false, false, null, null);
         
         Limitless.charName.setText(selectedToon.get(1));
-        Avatars.setAvatar(Limitless.charToon, selectedToon.get(1), "");
+        Avatars.setAvatar(Limitless.charToon, selectedToon.get(1), selectedToon.get(10));
         
         Limitless.charStat01.setText((GetData.dataQuery("*","dbAlign","alignID",
             Calculator.getAlign(Integer.parseInt(selectedToon.get(4))),false,

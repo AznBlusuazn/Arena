@@ -45,4 +45,13 @@ public class Randomizer {
                 }
     }
     
+    public static int[] randomNumbers(int numberneeded) {
+        int[] randintArray = new int[numberneeded];
+        for(int x=0;x<numberneeded;x++) {
+            randintArray[x] = (int) (10000* Math.random());
+            //add no duplicates to this later
+        }
+        return randintArray;
+    }
+    
 }
