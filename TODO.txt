@@ -136,6 +136,22 @@ TO DO'S/IDEAS (DEVELOPING)
 - credits (money)
 - combining elements to create new ones (fire + earth = magma // air + earth = gravity)
 - magnetism
+- ability to "buy" spells from shop
+- ability for toons to teach other toons spells
+- race/class to have id for magic
+- level based ability slots
+- favorites for ability slots
+- alt names for ability based on character
+- interaction options when not in battle
+- secret identities and alternative character slots (real and fake stats)
+- knowledge of items acquired by use - no description by default
+- knowledge of items start known by certain characters/races/classes
+- Add "destiny" stats -- for AI focus of characters
+- News button for happenings
+- Space awareness during battle (near, far, air, etc.)
+
+
+
 
 COMPLETED
 

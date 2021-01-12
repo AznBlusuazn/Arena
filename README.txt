@@ -1,6 +1,6 @@
 =======================================
 LIMITLESS by Geoff Clark
-VERSION ALPHA 0.0.034 / 2021.01.06-2240
+VERSION ALPHA 0.0.035 / 2021.01.08-XXXX
 =======================================
 
 SUPPORT THE DEVELOPMENT OF THIS GAME @ 
@@ -46,6 +46,12 @@ Contact the author:  info@clarktribegames.com
 ====================================
 
 DEVELOPMENT NOTES
+
+ALPHA 0.0.035 / 2021.01.08-XXXX
+
+- added specific magic types to ability types (holy/dark/effect/ninja) as well as non magic types (attack/defense/passive) to db
+- added ability type fields to race and class to enable magic for group to db
+- 
 
 ALPHA 0.0.034 / 2021.01.06-2240
 
