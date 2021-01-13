@@ -1,6 +1,6 @@
 =======================================
 LIMITLESS by Geoff Clark
-VERSION ALPHA 0.0.035 / 2021.01.08-XXXX
+VERSION ALPHA 0.0.035 / 2021.01.12-2209
 =======================================
 
 SUPPORT THE DEVELOPMENT OF THIS GAME @ 
@@ -47,11 +47,18 @@ Contact the author:  info@clarktribegames.com
 
 DEVELOPMENT NOTES
 
-ALPHA 0.0.035 / 2021.01.08-XXXX
+ALPHA 0.0.035 / 2021.01.12-2209
 
 - added specific magic types to ability types (holy/dark/effect/ninja) as well as non magic types (attack/defense/passive) to db
 - added ability type fields to race and class to enable magic for group to db
-- 
+- revamped alias field in toon table to be its own table
+- aliases can now be assigned as either "just name" (captain america and steve rogers), "name with alternative job - known identity" (iron man and tony stark), "secret identity with name and fake stats for job" (e.g. superman and clark kent), or "secret identity with alternative look/job with stat change" (e.g. hulk and bruce banner)
+- added "civilian" generic class for "jobs" (see below)
+- added jobs database for aliases
+- aliases will have their own profiles and images
+- added generic equipment sets for jobs (e.g. clothes for civilians)
+- added destiny stat in toon table -- this will be for ai gameplay focus.  currently, it is Competitive, Passive, Justice, Chaos, Limitless Balance, Death.  each will have its own focus in the game.  more details later.
+- nulled out the existing alias code for revamp
 
 ALPHA 0.0.034 / 2021.01.06-2240
 

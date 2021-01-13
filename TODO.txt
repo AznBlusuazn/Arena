@@ -149,8 +149,9 @@ TO DO'S/IDEAS (DEVELOPING)
 - Add "destiny" stats -- for AI focus of characters
 - News button for happenings
 - Space awareness during battle (near, far, air, etc.)
-
-
+- gender/race/class/alignment wide relationships
+- life force items (transformers have spark, rumple has dagger, etc.)
+- items that change alignment
 
 
 COMPLETED

@@ -35,7 +35,7 @@ public class MainControls {
     
     //Main Controls Variables
     static String appName = "Limitless";
-    static String appVer = "0.0.034";
+    static String appVer = "0.0.035";
     static String appTitle = appName + " [ALPHA v" + appVer + "]";
     static String settingsFile = "settings.ini";
     static String defaultIntro = "sounds/intro.mp3";
@@ -242,8 +242,9 @@ public class MainControls {
     }
     
     private static String defaultSettings() {
-        return "<Limitless Game Options>\nDark=ON\nMusic=ON\nCustM=OFF\nCustI=\nCustB=\n"
-            +"CustW=\nCustL=\nSound=ON\nSameDB=YES\nDefaultDB=Default\n\n";
+        return "<Limitless Game Options>"
+            + "\nDark=ON\nMusic=ON\nCustM=OFF\nCustI=\nCustB=\nCustW=\nCustL=\n"
+            + "Sound=ON\nSameDB=YES\nDefaultDB=Default\n\n";
     }
     
     private static void checkSettings() throws IOException {
@@ -261,7 +262,8 @@ public class MainControls {
         custLose = getSettings("CustL");
         if(getSettings("CustM").equals("on")) {
             custommusicOn = true;
-            musicPath = custommusicPath + "/" + custIntro.replaceAll("[Intro] ", "") + ".mp3";
+            musicPath = custommusicPath + "/" + custIntro.replaceAll("[Intro] ",
+                "") + ".mp3";
             if(custIntro.equals("") || custIntro.isEmpty()) {
                 musicPath = defaultIntro;
             }
@@ -284,7 +286,8 @@ public class MainControls {
         return result;
     }
     
-    public static void updateSettings() throws IOException,InterruptedException, Exception{
+    public static void updateSettings() throws IOException,InterruptedException,
+        Exception{
         String newSettings = Converters.listtoString(rebuildSettings());
         try {
             if(!musicOn) {
@@ -295,7 +298,7 @@ public class MainControls {
             System.gc();
             ChecksBalances.newfileCheck(settingsFile, false, newSettings, true);
         } catch (IOException ex) {
-            LogWriter.logFile("severe","Update Settings.  EX: " + ex.toString());
+            LogWriter.logFile("severe","Update Settings.  EX: " +ex.toString());
         }
     }
     
@@ -373,7 +376,8 @@ public class MainControls {
                     saveExt;
             }
             boolean continueon = false;
-            currentgamePath=currentgamePath=Limitless.ngText.getText().toLowerCase();
+            currentgamePath=currentgamePath=Limitless.ngText.getText().
+                toLowerCase();
             if(currentgamePath.isEmpty()) {
                 currentgamePath = "";
                 Limitless.showMenu();
@@ -401,8 +405,10 @@ public class MainControls {
                 while(!MainControls.created) {
                     Thread.sleep(1);
                 }
-                MainControls.rawTime = Integer.parseInt(GetData.dataQuery("*", "sav"+Converters.capFirstLetter(Limitless.ngText.getText())+"Time","timeID","0",false,false,null,null).get(1));
-                String[] dateTime = Converters.convertTime(MainControls.rawTime);
+                MainControls.rawTime = Integer.parseInt(GetData.dataQuery("*", 
+                    "sav"+Converters.capFirstLetter(Limitless.ngText.getText())+
+                    "Time","timeID","0",false,false,null,null).get(1));
+                String[] dateTime=Converters.convertTime(MainControls.rawTime);
                 MainControls.gameYear=Integer.parseInt(dateTime[0]);
                 MainControls.gameMonth=Integer.parseInt(dateTime[1]);
                 MainControls.gameWeek=Integer.parseInt(dateTime[2]);
@@ -412,8 +418,9 @@ public class MainControls {
 
                 Limitless.setLoadingAvatars();
                 Limitless.loadingLabel.setText("Game World Has Been Built!");
-                Popups.infoPopup("Save Game Built","Your new game world has bee"
-                    + "n built.  Thank you for your patience.");
+                Popups.infoPopup("Save Game Built",
+                    "Your new game world has been built.  Thank you for your "
+                    + "patience.");
                 Thread.sleep(1500);
                 Limitless.showNewGameList();
                 newgamelistMenu();
@@ -484,7 +491,7 @@ public class MainControls {
             }
             Arrays.sort(newgametoonList, new Comparator<String[]>() {
                 @Override
-                public int compare(final String[] entry1, final String[] entry2) {
+                public int compare(final String[] entry1,final String[] entry2){
                     final String toon1 = entry1[0];
                     final String toon2 = entry2[0];
                     return toon1.compareTo(toon2);
@@ -513,9 +520,11 @@ public class MainControls {
     
     private static void worldtextInfo() throws SQLException {
                 //add game date method here
-        String save=MainControls.savesDir.replaceAll("saves/","").replaceAll("/", "");
+        String save=MainControls.savesDir.replaceAll("saves/","").replaceAll("/"
+            , "");
         String savetoons = "sav" + save + "Toons";
-        String rawtime = GetData.dataQuery("*", "sav"+save+"Time","timeID","0",false,false,null,null).get(1);
+        String rawtime = GetData.dataQuery("*", "sav"+save+"Time","timeID","0",
+            false,false,null,null).get(1);
         String[] datetime = Converters.convertTime(Integer.parseInt(rawtime));
         gameYear = Integer.parseInt(datetime[0]);
         gameMonth = Integer.parseInt(datetime[1]);
@@ -524,9 +533,11 @@ public class MainControls {
         gameHour = Integer.parseInt(datetime[4]);
         gameMin = Integer.parseInt(datetime[5]);
         //above it temp date
-        int count = ((GetData.dataQuery("*", savetoons, "toonName", null, true, false, null, null))).size();
+        int count = ((GetData.dataQuery("*", savetoons, "toonName", null, true, 
+            false, null, null))).size();
         List<Integer> exps = new ArrayList<>();
-        for(String exp : ((GetData.dataQuery("*", savetoons, "toonExp", null, true, false, null, null)))) exps.add(Integer.valueOf(exp));
+        for(String exp : ((GetData.dataQuery("*", savetoons, "toonExp", null, 
+            true, false, null, null)))) exps.add(Integer.valueOf(exp));
         int toplv = Integer.MIN_VALUE;
         int topidx = -1;
 
@@ -569,14 +580,16 @@ public class MainControls {
         Limitless.newgameList.setSelectedIndex((int) (Math.random() * count));
     }
     
-    public static void ngToonSelect(String selectedToonID) throws SQLException, IOException {
+    public static void ngToonSelect(String selectedToonID) throws SQLException, 
+        IOException {
         String savetoons = "sav" + MainControls.savesDir.replaceAll("saves/","")
             .replaceAll("/", "") + "Toons";
         List<String> selectedToon = GetData.dataQuery("*", savetoons, "toonID",
             selectedToonID, false, false, null, null);
         
         Limitless.charName.setText(selectedToon.get(1));
-        Avatars.setAvatar(Limitless.charToon, selectedToon.get(1), selectedToon.get(10));
+        Avatars.setAvatar(Limitless.charToon, selectedToon.get(1), selectedToon.
+            get(10));
         
         Limitless.charStat01.setText((GetData.dataQuery("*","dbAlign","alignID",
             Calculator.getAlign(Integer.parseInt(selectedToon.get(4))),false,
@@ -642,7 +655,8 @@ public class MainControls {
         ngToonSelectButtons("bio");
     }
     
-    public static void ngToonSelectButtons(String option) throws SQLException, IOException {
+    public static void ngToonSelectButtons(String option) throws SQLException, 
+        IOException {
         String selectedToonID=MainControls.newgametoonList[Limitless.newgameList
             .getSelectedIndex()][1];
         String savetoons = "sav" + MainControls.savesDir.replaceAll("saves/","")
@@ -763,29 +777,31 @@ public class MainControls {
             getText(),false,false,null,null)).get(4)+".\n\n"+
             selectedToon.get(9);
 
-        if(ChecksBalances.isNullOrEmpty(selectedToon.get(17)) || 
-            (selectedToon.get(17).equals("null"))) {
+        if(ChecksBalances.isNullOrEmpty(selectedToon.get(18)) || 
+            (selectedToon.get(18).equals("null"))) {
             //do nothing with alias here
         } else {
-            if(selectedToon.get(19).equals("0")) {
-                bioInfo+="\n\n"+Converters.capFirstLetter((GetData.dataQuery("*"
-                ,"dbGender","genderID",selectedToon.get(6),false,false,null,null
-                )).get(5))+" has a known alias as "+selectedToon.get(17)+" when"
-                +" "+(GetData.dataQuery("*","dbGender","genderID",selectedToon.
-                get(6),false,false,null,null)).get(5)+" is not "+selectedToon.
-                get(1) + ".";
-            } else {
-                bioInfo+="\n\n"+Converters.capFirstLetter((GetData.dataQuery("*"
-                ,"dbGender","genderID",selectedToon.get(6),false,false,null,null
-                )).get(5))+" has a Secret Identity that is not known to the "
-                + "public.";
-            }
+            //revamp ALIAS here
+//            if(selectedToon.get(19).equals("0")) {
+//                bioInfo+="\n\n"+Converters.capFirstLetter((GetData.dataQuery("*"
+//                ,"dbGender","genderID",selectedToon.get(6),false,false,null,null
+//                )).get(5))+" has a known alias as "+selectedToon.get(17)+" when"
+//                +" "+(GetData.dataQuery("*","dbGender","genderID",selectedToon.
+//                get(6),false,false,null,null)).get(5)+" is not "+selectedToon.
+//                get(1) + ".";
+//            } else {
+//                bioInfo+="\n\n"+Converters.capFirstLetter((GetData.dataQuery("*"
+//                ,"dbGender","genderID",selectedToon.get(6),false,false,null,null
+//                )).get(5))+" has a Secret Identity that is not known to the "
+//                + "public.";
+//            }
         }
             //update health status above
         Limitless.charStatText.setText(bioInfo);
     }    
     
-    public static void ngStartButton(String toonID) throws SQLException, IOException, InterruptedException {
+    public static void ngStartButton(String toonID) throws SQLException, 
+        IOException, InterruptedException {
         String ngsaveName=Converters.capFirstLetter((MainControls.selectedSave)
             .substring(0,(MainControls.selectedSave).indexOf("."+MainControls
             .saveExt)));
@@ -798,8 +814,8 @@ public class MainControls {
         MainControls.selectedToon = GetData.dataQuery("*",ngsaveToons, 
             "toonID",String.valueOf(toonID),false,false,null,null).get(0);
         boolean yesno=Popups.yesnoPopup("Character Selection", "You've selected"
-            +" "+GetData.dataQuery("*",ngsaveToons,"toonID",String.valueOf(toonID)
-            ,false,false,null,null).get(1)+" as your character.\n\n"
+            +" "+GetData.dataQuery("*",ngsaveToons,"toonID",String.valueOf
+            (toonID),false,false,null,null).get(1)+" as your character.\n\n"
             +"Are you sure you want to start the game?");
         if(yesno) {
             ChecksBalances.newfileCheck(savesDir+".lastused",true,selectedToon+
@@ -842,7 +858,7 @@ public class MainControls {
                 .collect(Collectors.toList());
             fillLimit(box,savelist,dml);
         } catch (IOException ex) {
-            LogWriter.logFile("severe","Save Select Error.\nEx: " + ex.toString());
+            LogWriter.logFile("severe","SAV Select Error.\nEx: "+ex.toString());
         }
     }
     
@@ -893,7 +909,8 @@ public class MainControls {
             savesDir=defaultsavesDir + Limitless.lgList.getSelectedValue() +"/";
             selectedToon=Converters.getSpecificLine(savesDir+".lastused",0);
             selectedSave=Converters.getSpecificLine(savesDir+".lastused",1);
-            rawTime=Integer.parseInt(Converters.getSpecificLine(savesDir+".lastused",2));
+            rawTime=Integer.parseInt(Converters.getSpecificLine(savesDir+
+                ".lastused",2));
             String[] dateTime = Converters.convertTime(rawTime);
             gameYear=Integer.parseInt(dateTime[0]);
             gameMonth=Integer.parseInt(dateTime[1]);
@@ -925,127 +942,7 @@ public class MainControls {
         savesDir = defaultsavesDir;
         }
     }
-    
-    public static void loadSavedGameold() {
-        try {
-            if(ChecksBalances.checknoofSubdirs(savesDir)) {
-            List<String> loadlist = Converters.capStringList(Converters
-                .subfolderstoList(savesDir));
-            JComboBox<String> loadOptions = new JComboBox<>();
-            loadOptions.setModel(new DefaultComboBoxModel<>(loadlist.toArray(new
-                String[0])));
-            String[] popupchoices = new String[3];
-            popupchoices[0] = "OK";
-            popupchoices[1] = "Cancel";
-            popupchoices[2] = "Delete";
-            String loadChoice=(Popups.comboboxPopup("Load a Saved Game", "Select"
-                + " the Saved Game to Load:", loadOptions, popupchoices)).
-                toLowerCase();
-            if(ChecksBalances.isNullOrEmpty(loadChoice)) {
-                //
-            } else {
-                if(loadChoice.startsWith("timetotakeitout_")) {
-                    String title=("Are you sure you want to delete "+Converters.
-                        capFirstLetter(loadChoice.replaceAll("timetotakeitout_",
-                        "")));
-                    String message="Are you sure you want to delete\n the save "
-                        +"game "+Converters.capFirstLetter(loadChoice.replaceAll
-                        ("timetotakeitout_","")) + "?";
-                    boolean deleteChoice = Popups.yesnoPopup(title,message);
-                    if(deleteChoice == true) {
-                        ChecksBalances.iffolderexistsDelete(
-                            defaultsavesDir + loadChoice.replaceAll(
-                            "timetotakeitout_","").toLowerCase());
-                        savesDir = defaultsavesDir;
-                    } else {
-                        //
-                    }
-                } else {
-                    savesDir = defaultsavesDir + 
-                        loadChoice + "/";
-                    selectedSave = ChecksBalances.getLast(new File(
-                        savesDir + ".lastused"));
-                    selectedToon = Converters.getfromFile(
-                        savesDir + ".lastused", true, false);
-                    //change screen here
-                    StartGame.startGame(selectedSave, "sav" + 
-                        loadChoice + "Toons", "sav" + loadChoice + " Max");
-                }
-            }
-        } else {
-            Popups.warnPopup("No Saves Available", "You have no save games avai"
-                + "lable.");
-            }
-        } catch (IOException | InterruptedException | SQLException ex) {
-                
-        }
-    }
-    
-    public static void aboutPopup() throws IOException {
-        try {
-            String[] options = new String[] {"Facebook","Discord","YouTube","Be"
-                + "nsound.com","OK"};
-            String title = "About This Game";
-            String message = ("<html>This application was created by ClarkTribe"
-                + "Games.<br><br>It was the development of basically a one man "
-                + "team with advice, suggestions, and feedback<br>from friends "
-                + "and colleagues.<br><br>This game is dedicated to the kids of"
-                + " the creator.<br><br>Please consider supporting the cause wi"
-                + "th a donation via the <font color=red><b>Donate To The Cause"
-                + "</b></font> button.<br><br><b>The music was provided by BenS"
-                + "ound.com. Please visit their site for awesome tracks!</b>   "
-                + "<br><br>Thank you for your continued support!<br><br>- Geoff"
-                + " @ ClarkTribeGames<br><br></html>");
-            int choice = Popups.optPopup(options, title, message);
-            switch(choice) {
-                case 0:
-                    GoToWeb.openWeb("https://www.facebook.com/clarktribe.games")
-                        ;
-                    break;
-                case 1:
-                    GoToWeb.openWeb("https://discord.gg/6kW4der");
-                    break;
-                case 2:
-                    GoToWeb.openWeb("https://www.youtube.com/channel/UCjcPw3Apu"
-                        + "FduiETIdmAhFAQ");
-                    break;
-                case 3:
-                    GoToWeb.openWeb("https://www.bensound.com/");
-                    break;
-                default:
-                    break;
-            }
-        } catch(IOException ex) {
-            LogWriter.logFile("severe","About Popup Error.  Exception: " + ex);
-        }
-    }
-    
-    public static void donatePopup() throws IOException {
-        try {
-            String[] options = new String[] {"Patreon","PayPal","Maybe Later"};
-            String title = "Please Donate. :)";
-            String message = ("<html><b>This application was created by ClarkTr"
-                    + "ibeGames.</b><br><br>If you found this game fun and/or w"
-                    + "ant to help with the<br>development of this game, please"
-                    + " consider a donation,<br>even if it is $1 to keep projec"
-                    + "ts like this alive.\n\nThank you! - Geoff @ ClarkTribeGa"
-                    + "mes");
-            int choice = Popups.optPopup(options, title, message);
-            switch(choice) {
-                case 0:
-                    GoToWeb.openWeb("https://www.patreon.com/clarktribegames");
-                    break;
-                case 1:
-                    GoToWeb.openWeb("https://www.paypal.me/aznblusuazn");
-                    break;
-                default:
-                    break;
-            }
-        } catch(IOException ex) {
-            LogWriter.logFile("severe","Donate Popup Error.  Exception: " + ex);
-        }
-    }
-    
+
     public static void exitGame () throws IOException, InterruptedException {
         try {
             String title = ("Exit the Game?");
