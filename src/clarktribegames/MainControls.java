@@ -35,7 +35,7 @@ public class MainControls {
     
     //Main Controls Variables
     static String appName = "Limitless";
-    static String appVer = "0.0.035";
+    static String appVer = "0.0.036";
     static String appTitle = appName + " [ALPHA v" + appVer + "]";
     static String settingsFile = "settings.ini";
     static String defaultIntro = "sounds/intro.mp3";
@@ -683,35 +683,59 @@ public class MainControls {
     }
     
     private static void ngToonSelectStats(List<String> selectedToon) throws 
-        SQLException {
+        SQLException, IOException {
         String savetoons = "sav" + MainControls.savesDir.replaceAll("saves/","")
             .replaceAll("/", "") + "Toons";
-        List<String> newstats=Arrays.asList((GetData.dataQuery("*",savetoons.
-            replaceAll("Toons","Temp"),"tempID",selectedToon.get(0),false,false,
-            null,null).get(1)).split("x"));
+        String[] newstats=(Converters.getSpecificLine((MainControls.currentgamePath.replaceAll(MainControls.saveExt, "temp")), Integer.parseInt(selectedToon.get(0)))).split(",");
+//        List<String> newstats=Arrays.asList((GetData.dataQuery("*",savetoons.
+//            replaceAll("Toons","Temp"),"tempID",selectedToon.get(0),false,false,
+//            null,null).get(1)).split("x"));
+//        String statsinfo="[" + selectedToon.get(1) + " Stats]\n\n"
+//            + " Health Points:  " + newstats.get(8) + "\n"
+//            + " Mystic Points:  " + newstats.get(9) + "\n"
+//            + "Ability Points:  " + newstats.get(10) + "\n"
+//            + "  Attack Power:  " + newstats.get(11) + "\n"
+//            + "      Strength:  " + newstats.get(12) + "\n"
+//            + "       Defense:  " + newstats.get(13) + "\n"
+//            + "       Stamina:  " + newstats.get(14) + "\n"
+//            + "         Speed:  " + newstats.get(15) + "\n"
+//            + "         Evade:  " + newstats.get(16) + "\n"
+//            + "     Dexterity:  " + newstats.get(17) + "\n"
+//            + "  Mystic Power:  " + newstats.get(18) + "\n"
+//            + "Mystic Defense:  " + newstats.get(19) + "\n"
+//            + "  Mystic Evade:  " + newstats.get(20) + "\n"
+//            + "     Willpower:  " + newstats.get(21) + "\n"
+//            + "          Luck:  " + newstats.get(22) + "\n"
+//            + "      Charisma:  " + newstats.get(23) + "\n"
+//            + "  Intelligence:  " + newstats.get(24) + "\n\n"
+//            + " Fatigue (Hid):  " + newstats.get(25) + "\n"
+//            + " Soul (Hidden):  " + newstats.get(26) + "\n"
+//            + "Decay (Hidden):  " + newstats.get(27) + "\n"
+//            + "WeightMod(Hid):  " + newstats.get(28) + "\n"
+//            + "  Rep (Hidden):  " + newstats.get(29);
         String statsinfo="[" + selectedToon.get(1) + " Stats]\n\n"
-            + " Health Points:  " + newstats.get(8) + "\n"
-            + " Mystic Points:  " + newstats.get(9) + "\n"
-            + "Ability Points:  " + newstats.get(10) + "\n"
-            + "  Attack Power:  " + newstats.get(11) + "\n"
-            + "      Strength:  " + newstats.get(12) + "\n"
-            + "       Defense:  " + newstats.get(13) + "\n"
-            + "       Stamina:  " + newstats.get(14) + "\n"
-            + "         Speed:  " + newstats.get(15) + "\n"
-            + "         Evade:  " + newstats.get(16) + "\n"
-            + "     Dexterity:  " + newstats.get(17) + "\n"
-            + "  Mystic Power:  " + newstats.get(18) + "\n"
-            + "Mystic Defense:  " + newstats.get(19) + "\n"
-            + "  Mystic Evade:  " + newstats.get(20) + "\n"
-            + "     Willpower:  " + newstats.get(21) + "\n"
-            + "          Luck:  " + newstats.get(22) + "\n"
-            + "      Charisma:  " + newstats.get(23) + "\n"
-            + "  Intelligence:  " + newstats.get(24) + "\n\n"
-            + " Fatigue (Hid):  " + newstats.get(25) + "\n"
-            + " Soul (Hidden):  " + newstats.get(26) + "\n"
-            + "Decay (Hidden):  " + newstats.get(27) + "\n"
-            + "WeightMod(Hid):  " + newstats.get(28) + "\n"
-            + "  Rep (Hidden):  " + newstats.get(29);
+            + " Health Points:  " + newstats[9] + "\n"
+            + " Mystic Points:  " + newstats[10] + "\n"
+            + "Ability Points:  " + newstats[11] + "\n"
+            + "  Attack Power:  " + newstats[12] + "\n"
+            + "      Strength:  " + newstats[13] + "\n"
+            + "       Defense:  " + newstats[14] + "\n"
+            + "       Stamina:  " + newstats[15] + "\n"
+            + "         Speed:  " + newstats[16] + "\n"
+            + "         Evade:  " + newstats[17] + "\n"
+            + "     Dexterity:  " + newstats[18] + "\n"
+            + "  Mystic Power:  " + newstats[19] + "\n"
+            + "Mystic Defense:  " + newstats[20] + "\n"
+            + "  Mystic Evade:  " + newstats[21] + "\n"
+            + "     Willpower:  " + newstats[22] + "\n"
+            + "          Luck:  " + newstats[23] + "\n"
+            + "      Charisma:  " + newstats[24] + "\n"
+            + "  Intelligence:  " + newstats[25] + "\n\n"
+            + " Fatigue (Hid):  " + newstats[26] + "\n"
+            + " Soul (Hidden):  " + newstats[27] + "\n"
+            + "Decay (Hidden):  " + newstats[28] + "\n"
+            + "WeightMod(Hid):  " + newstats[29] + "\n"
+            + "  Rep (Hidden):  " + newstats[30];
         Limitless.charStatText.setText(statsinfo);
     }
     

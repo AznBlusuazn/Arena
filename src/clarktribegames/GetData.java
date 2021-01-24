@@ -185,11 +185,13 @@ public class GetData {
 
     
     public static void createnewSave(String save,String game)throws SQLException
-        , IOException, InterruptedException {
+        , IOException, InterruptedException, Exception {
         copyTab(save,"dbToons", "sav" + game.toLowerCase() + "Toons");
         buildtoonSave(save,game);
-        copyTab(save,"sav"+game.toLowerCase()+"Toons","sav"+game.toLowerCase()+ 
-            "Max");
+//        copyTab(save,"sav"+game.toLowerCase()+"Toons","sav"+game.toLowerCase()+ 
+//            "Max");
+        Converters.dbtabletoFile("sav" + game.toLowerCase() + "Toons", "toonID", (MainControls.currentgamePath.replaceAll(MainControls.saveExt, "toons")));
+        ChecksBalances.fileCheck((MainControls.currentgamePath.replaceAll(MainControls.saveExt, "toons")), (MainControls.currentgamePath.replaceAll(MainControls.saveExt, "max")), false, true);
         MainControls.created = true;
     }
     
@@ -221,11 +223,11 @@ public class GetData {
                             .setMaxLength().addToTable(db.getTable(newtable));
                         new ColumnBuilder("toonTeam").setType(DataType.TEXT)
                             .setMaxLength().addToTable(db.getTable(newtable));
-                        String temptable = newtable.replaceAll("Toons", "Temp");
-                        Table table = new TableBuilder(temptable).addColumn(new 
-                            ColumnBuilder("tempID",DataType.TEXT)).addColumn(new
-                            ColumnBuilder("tempStats",DataType.TEXT)).toTable
-                            (db);
+//                        String temptable = newtable.replaceAll("Toons", "Temp");
+//                        Table table = new TableBuilder(temptable).addColumn(new 
+//                            ColumnBuilder("tempID",DataType.TEXT)).addColumn(new
+//                            ColumnBuilder("tempStats",DataType.TEXT)).toTable
+//                            (db);
                         String timetable = newtable.replaceAll("Toons", "Time");
                         Table table2 = new TableBuilder(timetable).addColumn(new
                             ColumnBuilder("timeID",DataType.TEXT)).addColumn(new

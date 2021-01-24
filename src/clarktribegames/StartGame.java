@@ -34,9 +34,10 @@ public class StartGame {
             "*",savetoons,"toonID",MainControls.selectedToon, false).get(1)+"\n"
             + "\n Week "+ MainControls.gameWeek + ", Month " + MainControls.gameMonth + ", Day " + MainControls.gameDay + ", Year "
             + MainControls.gameYear + "\n\n" + tempstartMsg);
-        cleanupTempDB((MainControls.savesDir+save+"."+MainControls.saveExt)
-            .replaceAll(MainControls.saveExt + "." + MainControls.saveExt, 
-            MainControls.saveExt),savetoons);
+        ChecksBalances.ifexistDelete(MainControls.currentgamePath.replaceAll(MainControls.saveExt, "temp"));
+//        cleanupTempDB((MainControls.savesDir+save+"."+MainControls.saveExt)
+//            .replaceAll(MainControls.saveExt + "." + MainControls.saveExt, 
+//            MainControls.saveExt),savetoons);
         BattleEngine.battleEngine(save, savetoons, savemax);
     }
     

@@ -14,6 +14,8 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -324,6 +326,24 @@ public class Converters {
                 years += 1;
             }
             return new String[] { String.valueOf(years), String.valueOf(months), String.valueOf(weeks), String.valueOf(days), String.valueOf(hours), String.valueOf(minutes) };
+    }
+    
+    public static void dbtabletoFile(String table, String icol, String dest) throws SQLException, IOException {
+        ChecksBalances.newfileCheck(dest, true, "", true);
+        int tableLines=GetData.dataQuery("*",table,icol,null,true,false,null,
+            null).size();
+        for(int index = 0; index < tableLines; index++) {
+            List<String> tabledata=GetData.dataQuery("*",table,icol,String.
+                valueOf(index),false,false,null,null);
+            String rawdata = Arrays.toString(tabledata.toArray());
+            try {
+                Files.write(Paths.get(dest),
+                    (rawdata.substring(1, rawdata.length()-1).replaceAll(", ", ",").replaceAll("null", "")
+                        + "\n").getBytes(),StandardOpenOption.APPEND);
+            } catch (IOException ex) {
+                //
+            }
+        }   
     }
 
     

@@ -5,6 +5,9 @@ import com.healthmarketscience.jackcess.DatabaseBuilder;
 import com.healthmarketscience.jackcess.Table;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -112,14 +115,22 @@ public class GetStats {
                 combined.add(String.valueOf((int) total));
             }
             String templist = Arrays.toString(combined.toArray());
-            Database db = new DatabaseBuilder().setAutoSync(false).setFile(new 
-                File(MainControls.savesDir + Converters.capFirstLetter
-                ((MainControls.selectedSave)))).open();
-            Table tbl = db.getTable(("sav" + ("dbToons".replaceAll("db", 
-                MainControls.currentgame))).replaceAll("Toons", "Temp"));
-            tbl.addRow(toonstats.get(0), (templist.substring(1,templist.length()
-                -1)).replaceAll(", ","x"));
-            db.close();
+            try {
+                Files.write(Paths.get(MainControls.currentgamePath.replaceAll(
+                MainControls.saveExt, "temp")),((toonstats.get(0)+","+(templist.
+                substring(1,templist.length()-1))+"\n").replaceAll(" ","")).
+                getBytes(), StandardOpenOption.APPEND);
+            } catch (IOException ex) {
+                //
+            }
+//            Database db = new DatabaseBuilder().setAutoSync(false).setFile(new 
+//                File(MainControls.savesDir + Converters.capFirstLetter
+//                ((MainControls.selectedSave)))).open();
+//            Table tbl = db.getTable(("sav" + ("dbToons".replaceAll("db", 
+//                MainControls.currentgame))).replaceAll("Toons", "Temp"));
+//            tbl.addRow(toonstats.get(0), (templist.substring(1,templist.length()
+//                -1)).replaceAll(", ","x"));
+//            db.close();
             return basestatslist;
         } else {
             List<String> charmlist = getitemStats(savename,"Charm",toonstats,

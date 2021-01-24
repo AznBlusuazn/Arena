@@ -154,6 +154,7 @@ TO DO'S/IDEAS (DEVELOPING)
 - items that change alignment
 
 
+
 COMPLETED
 
 [COMPLETE] import stats on character select 
