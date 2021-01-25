@@ -18,6 +18,7 @@ import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -499,6 +500,24 @@ public class ChecksBalances {
                 KeyEvent.VK_BACK_SPACE || typedLetter == KeyEvent.VK_DELETE)){
             evt.consume();
         }
+    }
+    
+    public static String doesIDExist(String table,String col,String newid) throws 
+        SQLException {
+        int finalID;
+        List<String>fetchedIDs=GetData.dataQuery("*",table,col,null,true,false,
+            null,null);
+        try {
+            finalID = Integer.parseInt(newid);
+        } catch (Exception ex) {
+                finalID = 0;
+                }
+        for(int i=0;i<fetchedIDs.size();i++) {
+            if(fetchedIDs.get(i).equals(String.valueOf(finalID))) {
+                finalID += 1;
+            }
+        }
+        return String.valueOf(finalID);
     }
     
 //<editor-fold defaultstate="collapsed" desc="Log File Method">

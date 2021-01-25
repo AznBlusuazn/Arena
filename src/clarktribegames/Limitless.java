@@ -48,6 +48,7 @@ public class Limitless extends javax.swing.JFrame {
         startingworldLabel1 = new javax.swing.JLabel();
         charToon = new javax.swing.JLabel();
         charName = new javax.swing.JLabel();
+        altName = new javax.swing.JLabel();
         charStat01 = new javax.swing.JLabel();
         charStat02 = new javax.swing.JLabel();
         charStat03 = new javax.swing.JLabel();
@@ -228,6 +229,29 @@ public class Limitless extends javax.swing.JFrame {
         charName.setText("<Name>");
         charName.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         newgamelistPanel.add(charName, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 267, 200, 25));
+
+        altName.setFont(new java.awt.Font("Lucida Sans", 1, 12)); // NOI18N
+        altName.setForeground(MainControls.textColor);
+        altName.setText("ALT");
+        altName.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        altName.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                altNameMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                altNameMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                altNameMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                altNameMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                altNameMouseReleased(evt);
+            }
+        });
+        newgamelistPanel.add(altName, new org.netbeans.lib.awtextra.AbsoluteConstraints(472, 290, -1, -1));
 
         charStat01.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
         charStat01.setForeground(MainControls.textColor);
@@ -2047,24 +2071,91 @@ public class Limitless extends javax.swing.JFrame {
     }//GEN-LAST:event_ngmmButtonMouseReleased
 
     private void ngstartButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ngstartButtonMouseClicked
-        ngstartButton();
+        if(ngstartButton.isEnabled()) {
+            ngstartButton();
+        }
     }//GEN-LAST:event_ngstartButtonMouseClicked
 
     private void ngstartButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ngstartButtonMouseEntered
-        buttonOver(ngstartButton);
+        if(ngstartButton.isEnabled()) {
+            buttonOver(ngstartButton);
+        }
     }//GEN-LAST:event_ngstartButtonMouseEntered
 
     private void ngstartButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ngstartButtonMouseExited
-        buttonOff(ngstartButton);
+        if(ngstartButton.isEnabled()) {
+            buttonOff(ngstartButton);
+        }
     }//GEN-LAST:event_ngstartButtonMouseExited
 
     private void ngstartButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ngstartButtonMousePressed
-        buttonPressed(ngstartButton);
+        if(ngstartButton.isEnabled()) {
+            buttonPressed(ngstartButton);
+        }
     }//GEN-LAST:event_ngstartButtonMousePressed
 
     private void ngstartButtonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ngstartButtonMouseReleased
-        buttonReleased(ngstartButton);
+        if(ngstartButton.isEnabled()) {
+            buttonReleased(ngstartButton);
+        }
     }//GEN-LAST:event_ngstartButtonMouseReleased
+
+    private void altNameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_altNameMouseClicked
+        if(!MainControls.justswitch && altName.isVisible()) {
+
+            try {
+                MainControls.altnameButton("Change");
+            } catch (IOException ex) {
+                //
+            } catch (SQLException ex) {
+                //
+            }
+        }
+    }//GEN-LAST:event_altNameMouseClicked
+
+    private void altNameMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_altNameMousePressed
+        if(altName.isVisible()) {
+            buttonPressed(altName);
+            if(MainControls.justswitch) {
+
+            try {
+                MainControls.altnameButton("Switch");
+            } catch (IOException ex) {
+                //
+            } catch (SQLException ex) {
+                //
+            }
+        }
+        }
+    }//GEN-LAST:event_altNameMousePressed
+
+    private void altNameMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_altNameMouseReleased
+        if(altName.isVisible()) {
+            buttonReleased(altName);
+            if(MainControls.justswitch) {
+
+            try {
+                MainControls.altnameButton("Revert");
+            } catch (IOException ex) {
+                //
+            } catch (SQLException ex) {
+                //
+            }
+        }
+        }
+    }//GEN-LAST:event_altNameMouseReleased
+
+    private void altNameMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_altNameMouseEntered
+        if(altName.isVisible()) {
+            buttonOver(altName);
+        }
+    }//GEN-LAST:event_altNameMouseEntered
+
+    private void altNameMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_altNameMouseExited
+        if(altName.isVisible()) {
+            buttonOff(altName);
+        }
+    }//GEN-LAST:event_altNameMouseExited
 
     // <editor-fold defaultstate="collapsed" desc="Universal">       
     public static void main(String args[]) {
@@ -2500,6 +2591,7 @@ public class Limitless extends javax.swing.JFrame {
     private static javax.swing.JTextArea abouttextArea;
     private static javax.swing.JScrollPane abouttextPane;
     static javax.swing.JLabel alOpt;
+    public static javax.swing.JLabel altName;
     private static javax.swing.JLabel blToon;
     static javax.swing.JComboBox<String> bmOpt;
     private static javax.swing.JLabel brToon;
@@ -2563,7 +2655,7 @@ public class Limitless extends javax.swing.JFrame {
     private static javax.swing.JLabel ngmmButton;
     private static javax.swing.JLabel ngnoButton;
     private javax.swing.JLabel ngselectLabel;
-    private static javax.swing.JLabel ngstartButton;
+    public static javax.swing.JLabel ngstartButton;
     private static javax.swing.JLabel ngtlToon;
     private static javax.swing.JLabel ngtrToon;
     private static javax.swing.JLabel ngyesButton;

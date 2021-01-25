@@ -16,9 +16,8 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
-import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
-import javax.swing.border.LineBorder;
+
 
 // <editor-fold defaultstate="collapsed" desc="credits">
 /**
@@ -35,7 +34,7 @@ public class MainControls {
     
     //Main Controls Variables
     static String appName = "Limitless";
-    static String appVer = "0.0.036";
+    static String appVer = "0.0.037";
     static String appTitle = appName + " [ALPHA v" + appVer + "]";
     static String settingsFile = "settings.ini";
     static String defaultIntro = "sounds/intro.mp3";
@@ -90,6 +89,8 @@ public class MainControls {
     static String defaultDB = defaultSave.substring(0,defaultSave.indexOf("." + 
         saveExt));
     static boolean created = false;
+    static boolean justswitch = false;
+    static String passiveDestinyID = "1";
 
     public static void main(String[] args) throws Exception {
         lookandfeelSettings();
@@ -105,7 +106,8 @@ public class MainControls {
             checkSaves();
             checkSettings();
         } catch(IOException ex) {
-            LogWriter.logFile("severe",("Startup Check IOException: " + ex.toString()));
+            LogWriter.logFile("severe",("Startup Check IOException: "+ex
+                .toString()));
         }
     }
     
@@ -237,7 +239,8 @@ public class MainControls {
             ChecksBalances.fileCheck(ogPath,dbPath,true,true);
             ChecksBalances.newfileCheck(lastusedSave, true,"default,0",false);
         } catch(Exception ex) {
-            LogWriter.logFile("severe",("Saves Check Exception: " + ex.toString()));
+            LogWriter.logFile("severe",("Saves Check Exception: "+ex.toString())
+                );
         }
     }
     
@@ -369,6 +372,11 @@ public class MainControls {
     
     public static void startNewGame() {
         try {
+            
+            //create reset variables method
+            
+            MainControls.created = false;
+            //this is temp for now
             if(!samedbOn) {
                 limitSelect();
             } else {
@@ -424,7 +432,6 @@ public class MainControls {
                 Thread.sleep(1500);
                 Limitless.showNewGameList();
                 newgamelistMenu();
-                //new NewGameGUI().setVisible(true);
             } else {
                 currentgamePath = "";
                 //Limitless.showMenu();
@@ -455,15 +462,12 @@ public class MainControls {
                 currentgame=currentgamePath.substring(currentgamePath.indexOf(
                     "/",0),MainControls.currentgamePath.indexOf("/",
                     currentgamePath.indexOf("/") + 1)).replaceAll("/","");
-//                Popups.infoPopup("Building Save Game","Your new game world will"
-//                    + " now be built.  Please be patient.");
                 savesDir="saves/" + currentgame + "/";
                 GetData.createnewSave(Converters.capFirstLetter((MainControls
                     .selectedSave).substring(0,(selectedSave).indexOf("."+
                     saveExt))),MainControls.currentgame);
                 return null;
             }
-            
         };
         worker.execute();
     }
@@ -474,15 +478,12 @@ public class MainControls {
     }
     
     private static void popNewGameToonList() throws IOException, SQLException {
-        
         List<String> newgameToonList = GetData.getNewGameToonList();
         DefaultListModel newtlDml = new DefaultListModel();
         if(newgameToonList.size() <= 0) {
             Limitless.newgameList.setEnabled(false);
             newtlDml.removeAllElements();
             newtlDml.addElement("<No Toons Available>");
-//            Limitless.lgyesButton.setEnabled(false);
-//            Limitless.lgdelButton.setEnabled(false);
         } else {
             newgametoonList = new String[newgameToonList.size()][2];
             for(int i=0;i < newgameToonList.size();i++) {
@@ -500,26 +501,20 @@ public class MainControls {
             for (final String[] s : newgametoonList) {
                 newtlDml.addElement(s[0]);
             }
-            
+            Limitless.altName.setVisible(false);
             Limitless.newgameList.setModel(newtlDml);
-//            Limitless.lgyesButton.setEnabled(true);
-//            Limitless.lgdelButton.setEnabled(true);
-//            newtlDml.removeAllElements();
-//            SortedListModel sortedtoonlist = new SortedListModel();
-//            Limitless.newgameList.setModel(sortedtoonlist);
-//            for(int i=0; i < newgameToonList.size(); i++) {
             Limitless.newgameList.setEnabled(true);
-//                sortedtoonlist.add(newgameToonList.get(i));
-//            }
-            
-            
+            try {
+                passiveDestinyID = GetData.dataQuery("*","dbDestiny",
+                    "destinyName","Passive", false, false, null,null).get(0);
+            } catch (Exception ex) {
+                passiveDestinyID = "1";
+            }
         }
-        
-        //Limitless.newgameList.setModel(newtlDml);
     }    
     
     private static void worldtextInfo() throws SQLException {
-                //add game date method here
+        //add game date method here
         String save=MainControls.savesDir.replaceAll("saves/","").replaceAll("/"
             , "");
         String savetoons = "sav" + save + "Toons";
@@ -582,54 +577,66 @@ public class MainControls {
     
     public static void ngToonSelect(String selectedToonID) throws SQLException, 
         IOException {
-        String savetoons = "sav" + MainControls.savesDir.replaceAll("saves/","")
-            .replaceAll("/", "") + "Toons";
-        List<String> selectedToon = GetData.dataQuery("*", savetoons, "toonID",
-            selectedToonID, false, false, null, null);
-        
-        Limitless.charName.setText(selectedToon.get(1));
-        Avatars.setAvatar(Limitless.charToon, selectedToon.get(1), selectedToon.
-            get(10));
+        String[] selectedToon =(Converters.getSpecificLine((MainControls.
+            currentgamePath.replaceAll(MainControls.saveExt, "toons")),Integer.
+            parseInt(selectedToonID))).split(",");
+        Limitless.charName.setText(selectedToon[1]);
+        Avatars.setAvatar(Limitless.charToon, selectedToon[1],selectedToon[10]);
         
         Limitless.charStat01.setText((GetData.dataQuery("*","dbAlign","alignID",
-            Calculator.getAlign(Integer.parseInt(selectedToon.get(4))),false,
+            Calculator.getAlign(Integer.parseInt(selectedToon[4])),false,
             false,null,null)).get(1));
         Limitless.charStat01.setFont(new Font(Limitless.charStat01.getFont().
             getName(),Font.BOLD,Limitless.charStat01.getFont().getSize()));
         Limitless.charStat01.setForeground((Converters.figureoutColor(GetStats.
-            getalignColor(Integer.parseInt((selectedToon.get(4)))))));
+            getalignColor(Integer.parseInt((selectedToon[4]))))));
         Limitless.charStat01.setToolTipText(Limitless.charStat01.getText()+": "+
             (GetData.dataQuery("*","dbAlign","alignID",Calculator.getAlign(
-            Integer.parseInt(selectedToon.get(4))), false, false, null,null)).
+            Integer.parseInt(selectedToon[4])), false, false, null,null)).
             get(2));
         
-        String ageName=(Calculator.getAge(Integer.parseInt(selectedToon.get(7)), 
-            selectedToon.get(2)));
+        String ageName=(Calculator.getAge(Integer.parseInt(selectedToon[7]), 
+            selectedToon[2]));
         String gendName=(GetData.dataQuery("*","dbGender","genderID",
-            selectedToon.get(6),false,false,null,null)).get(1);
+            selectedToon[6],false,false,null,null)).get(1);
         Limitless.charStat02.setText(ageName + " • " + gendName);
         Limitless.charStat02.setToolTipText(ageName+": "+(GetData.dataQuery("*",
             "dbAge","ageName",ageName,false,false,null,null)).get(3)+" • "+
             gendName+": "+(GetData.dataQuery("*","dbGender","genderID",
-            selectedToon.get(6),false,false,null,null)).get(2));
-
-        String sizeID = selectedToon.get(22);
+            selectedToon[6],false,false,null,null)).get(2));
+        String sizeID = selectedToon[22];
         String sizeName=(GetData.dataQuery("*", "dbSize", "sizeID",sizeID,false,
             false,null,null)).get(1);
-        String raceName=GetData.dataQuery("*","dbRace","raceID",selectedToon.get
-            (2),false,false,null,null).get(1);
+        String raceName=GetData.dataQuery("*","dbRace","raceID",selectedToon[2],
+            false,false,null,null).get(1);
         Limitless.charStat03.setText(sizeName + " • " + raceName);
         Limitless.charStat03.setToolTipText(sizeName+": "+(GetData.dataQuery("*"
-            ,"dbSize","sizeID",sizeID,false,false,null,null)).get(2)+ " • " +
-            raceName+": "+(GetData.dataQuery("*","dbRace","raceID",selectedToon.
-            get(2),false,false,null,null)).get(2));
+            ,"dbSize","sizeID",sizeID,false,false,null,null)).get(2)+ " • "+
+            raceName+": "+(GetData.dataQuery("*","dbRace","raceID",
+            selectedToon[2],false,false,null,null)).get(2));
+        String UID = selectedToon[5];
+        if(UID.startsWith("7")) {
+            String ogID = UID.replace("7x", "");
+            String[] ogToon =(Converters.getSpecificLine((MainControls.
+            currentgamePath.replaceAll(MainControls.saveExt, "toons")),Integer.
+            parseInt(ogID))).split(",");
+            String jobID=(GetData.dataQuery("*","dbAlias","aliasID",ogToon[18],
+                false,false,null,null)).get(6);
+            String className=(GetData.dataQuery("*","dbJobs","jobID",jobID,false
+                ,false,null,null)).get(1);
+            Limitless.charStat04.setText(className+" • Level "+selectedToon[8]);
+            Limitless.charStat04.setToolTipText(className+": "+(GetData
+                .dataQuery("*","dbJobs","jobID",jobID,false,false,null,null)).
+                get(4)+" • Level "+selectedToon[8]);  
+        } else {
+            String className=(GetData.dataQuery("*","dbClass","classID",
+                selectedToon[3],false,false,null,null)).get(1);
+            Limitless.charStat04.setText(className+" • Level "+selectedToon[8]);
+            Limitless.charStat04.setToolTipText(className+": "+(GetData.
+                dataQuery("*","dbClass","classID",selectedToon[3],false,false,
+                null,null)).get(2)+" • Level "+selectedToon[8]);        
+        }
 
-        String className=(GetData.dataQuery("*","dbClass","classID",selectedToon
-            .get(3),false,false,null,null)).get(1);
-        Limitless.charStat04.setText(className+" • Level "+selectedToon.get(8));
-        Limitless.charStat04.setToolTipText(className+": "+(GetData.dataQuery(
-            "*","dbClass","classID",selectedToon.get(3),false,false,null,null)).
-            get(2)+" • Level "+selectedToon.get(8));
         // add in status decoder here (can be method in GetStats)
 
         String statusname=(GetData.dataQuery("*","dbStatus","statusName",
@@ -652,6 +659,11 @@ public class MainControls {
         Limitless.charStat05.setForeground((Converters.figureoutColor
             (statuscolor)));
         Limitless.charStat05.setToolTipText(statusdesc);
+        if(selectedToon[19].equals(passiveDestinyID)) {
+            Limitless.ngstartButton.setEnabled(false);
+        } else {
+            Limitless.ngstartButton.setEnabled(true);
+        }
         ngToonSelectButtons("bio");
     }
     
@@ -659,10 +671,16 @@ public class MainControls {
         IOException {
         String selectedToonID=MainControls.newgametoonList[Limitless.newgameList
             .getSelectedIndex()][1];
-        String savetoons = "sav" + MainControls.savesDir.replaceAll("saves/","")
-            .replaceAll("/", "") + "Toons";
-        List<String> selectedToon = GetData.dataQuery("*", savetoons, "toonID",
-            selectedToonID, false, false, null, null);
+        String[] selectedToon =(Converters.getSpecificLine((MainControls.
+            currentgamePath.replaceAll(MainControls.saveExt, "toons")),Integer.
+            parseInt(selectedToonID))).split(",");
+        if(!selectedToon[18].isEmpty() && !selectedToon[18].equals("null") && 
+            !selectedToon[18].equals("")) {
+            Limitless.altName.setVisible(true);
+        } else {
+            Limitless.altName.setVisible(false);
+        }
+        
         switch(option) {
             case "stats" :
                 ngToonSelectStats(selectedToon);
@@ -682,38 +700,12 @@ public class MainControls {
         }
     }
     
-    private static void ngToonSelectStats(List<String> selectedToon) throws 
+    private static void ngToonSelectStats(String[] selectedToon) throws 
         SQLException, IOException {
-        String savetoons = "sav" + MainControls.savesDir.replaceAll("saves/","")
-            .replaceAll("/", "") + "Toons";
-        String[] newstats=(Converters.getSpecificLine((MainControls.currentgamePath.replaceAll(MainControls.saveExt, "temp")), Integer.parseInt(selectedToon.get(0)))).split(",");
-//        List<String> newstats=Arrays.asList((GetData.dataQuery("*",savetoons.
-//            replaceAll("Toons","Temp"),"tempID",selectedToon.get(0),false,false,
-//            null,null).get(1)).split("x"));
-//        String statsinfo="[" + selectedToon.get(1) + " Stats]\n\n"
-//            + " Health Points:  " + newstats.get(8) + "\n"
-//            + " Mystic Points:  " + newstats.get(9) + "\n"
-//            + "Ability Points:  " + newstats.get(10) + "\n"
-//            + "  Attack Power:  " + newstats.get(11) + "\n"
-//            + "      Strength:  " + newstats.get(12) + "\n"
-//            + "       Defense:  " + newstats.get(13) + "\n"
-//            + "       Stamina:  " + newstats.get(14) + "\n"
-//            + "         Speed:  " + newstats.get(15) + "\n"
-//            + "         Evade:  " + newstats.get(16) + "\n"
-//            + "     Dexterity:  " + newstats.get(17) + "\n"
-//            + "  Mystic Power:  " + newstats.get(18) + "\n"
-//            + "Mystic Defense:  " + newstats.get(19) + "\n"
-//            + "  Mystic Evade:  " + newstats.get(20) + "\n"
-//            + "     Willpower:  " + newstats.get(21) + "\n"
-//            + "          Luck:  " + newstats.get(22) + "\n"
-//            + "      Charisma:  " + newstats.get(23) + "\n"
-//            + "  Intelligence:  " + newstats.get(24) + "\n\n"
-//            + " Fatigue (Hid):  " + newstats.get(25) + "\n"
-//            + " Soul (Hidden):  " + newstats.get(26) + "\n"
-//            + "Decay (Hidden):  " + newstats.get(27) + "\n"
-//            + "WeightMod(Hid):  " + newstats.get(28) + "\n"
-//            + "  Rep (Hidden):  " + newstats.get(29);
-        String statsinfo="[" + selectedToon.get(1) + " Stats]\n\n"
+        String[] newstats=(Converters.getSpecificLine((MainControls.
+            currentgamePath.replaceAll(MainControls.saveExt, "temp")),Integer.
+            parseInt(selectedToon[0]))).split(",");
+        String statsinfo="[" + selectedToon[1] + " Stats]\n\n"
             + " Health Points:  " + newstats[9] + "\n"
             + " Mystic Points:  " + newstats[10] + "\n"
             + "Ability Points:  " + newstats[11] + "\n"
@@ -739,91 +731,217 @@ public class MainControls {
         Limitless.charStatText.setText(statsinfo);
     }
     
-    private static void ngToonSelectEffs(List<String> selectedToon) throws 
+    private static void ngToonSelectEffs(String[] selectedToon) throws 
         SQLException, IOException {
-        List<String> effStats=GetStats.getStats("Effects",selectedToon,0,false);
-        String statuscode=(((Arrays.toString(effStats.toArray())).replaceAll
+        String[] effStats=GetStats.getAEStats("Effects",selectedToon);
+        String statuscode=(((Arrays.toString(effStats)).replaceAll
             ("MASTER, ", "").replaceAll(",", "-")).replaceAll("[^\\d+\\-]",""));
         if(statuscode.length() <= 0) {
             statuscode = "0";
         }
-        String effsinfo="["+selectedToon.get(1)+" Starting Effects]\n\n"+
-            GetStats.getitemsfromIDtoString(GetStats.getStats("Effects",
-            selectedToon,0,false),"dbEffects","effID","effName")
+        String effsinfo="["+selectedToon[1]+" Starting Effects]\n\n"+
+            GetStats.getitemsfromIDtoString(GetStats.getAEStats("Effects",
+            selectedToon),"dbEffects","effID","effName")
             +"\n\n(Hidden) Status Code: " + statuscode;
         Limitless.charStatText.setText(effsinfo);
     }
 
-    private static void ngToonSelectAbls(List<String> selectedToon) throws 
+    private static void ngToonSelectAbls(String[] selectedToon) throws 
         SQLException, IOException {
-        String ablsinfo="["+selectedToon.get(1)+" Abilities]\n\n"+GetStats.
-            getitemsfromIDtoString(GetStats.getStats("Abls",selectedToon,0,false
-            ),"dbAbl","ablID","ablName");
+        String ablsinfo="["+selectedToon[1]+" Abilities]\n\n"+GetStats.
+            getitemsfromIDtoString(GetStats.getAEStats("Abls",selectedToon),
+            "dbAbl","ablID","ablName");
         Limitless.charStatText.setText(ablsinfo);
     }
 
-    private static void ngToonSelectEquip(List<String> selectedToon) 
+    private static void ngToonSelectEquip(String[]  selectedToon) 
         throws SQLException {
-        String equipinfo="["+selectedToon.get(1)+"]\n\n"+
-            "[Equipment Held]\n"+GetStats.getitemsfromIDtoString(Arrays.asList(
-            selectedToon.get(13).split("x")),"dbItems","itemID","itemName")+"\n"
-            +"[Wearables Equipped]\n"+GetStats.getitemsfromIDtoString(Arrays.
-            asList(selectedToon.get(14).split("x")),"dbItems","itemID",
-            "itemName")+"\n"+
-            "[Charms Equipped]\n"+GetStats.getitemsfromIDtoString(Arrays.asList(
-            selectedToon.get(15).split("x")),"dbItems","itemID","itemName")+"\n"
-            +"[Starting Inventory]\n"+GetStats.getitemsfromIDtoString(Arrays.
-            asList(selectedToon.get(16).split("x")),"dbItems","itemID",
-            "itemName");
+        String equipinfo="["+selectedToon[1]+"]\n\n"+
+            "[Equipment Held]\n"+GetStats.getitemsfromIDtoString((
+            selectedToon[13].split("x")),"dbItems","itemID","itemName")+"\n\n"+
+            "[Wearables Equipped]\n"+GetStats.getitemsfromIDtoString((
+            selectedToon[14].split("x")),"dbItems","itemID","itemName")+"\n\n"+
+            "[Charms Equipped]\n"+GetStats.getitemsfromIDtoString((
+            selectedToon[15].split("x")),"dbItems","itemID","itemName")+"\n\n"+
+            "[Starting Inventory]\n"+GetStats.getitemsfromIDtoString((
+            selectedToon[16].split("x")),"dbItems","itemID","itemName");
         Limitless.charStatText.setText(equipinfo);
     }
 
-    private static void ngToonSelectBio(List<String> selectedToon) throws 
-        SQLException {
+    private static void ngToonSelectBio(String[] selectedToon) throws 
+        SQLException, IOException {
         String bioInfo=Converters.capFirstLetter((GetData.dataQuery("*",
-            "dbGender","genderID",selectedToon.get(6),false,false,null,null)).
+            "dbGender","genderID",selectedToon[6],false,false,null,null)).
             get(5))+" is a "+
             ((GetData.dataQuery("*","dbAlign","alignID",Calculator.getAlign(
-            Integer.parseInt(selectedToon.get(4))),false,false,null,null)).get
+            Integer.parseInt(selectedToon[4])),false,false,null,null)).get
             (6))+" "+
-            (Calculator.getAge(Integer.parseInt(selectedToon.get(7)),
-            selectedToon.get(2)))+" "+
-            (GetData.dataQuery("*", "dbGender","genderID",selectedToon.get(6),
+            (Calculator.getAge(Integer.parseInt(selectedToon[7]),
+            selectedToon[2]))+" "+
+            (GetData.dataQuery("*", "dbGender","genderID",selectedToon[6],
             false,false,null,null)).get(1)+" that is "+
             (GetData.dataQuery("*","dbSize","sizeName",(GetData.dataQuery("*",
-            "dbSize", "sizeID",selectedToon.get(22),false,false,null,null)).
+            "dbSize", "sizeID",selectedToon[22],false,false,null,null)).
             get(1),false,false,null,null)).get(4)+" "+
-            (GetData.dataQuery("*","dbRace","raceID",selectedToon.get(2),false,
-            false,null,null)).get(7)+" "+
-            ((GetData.dataQuery("*","dbClass","classID",selectedToon.get(3),
-            false,false,null,null)).get(4))+" and "+
-            (GetData.dataQuery("*","dbStatus","statusName",Limitless.charStat05.
-            getText(),false,false,null,null)).get(4)+".\n\n"+
-            selectedToon.get(9);
-
-        if(ChecksBalances.isNullOrEmpty(selectedToon.get(18)) || 
-            (selectedToon.get(18).equals("null"))) {
-            //do nothing with alias here
+            (GetData.dataQuery("*","dbRace","raceID",selectedToon[2],false,
+            false,null,null)).get(7)+" ";
+        String UID = selectedToon[5];
+        if(UID.startsWith("7x")) {
+            Limitless.altName.setVisible(true);
+            String ogID = UID.replace("7x", "");
+            String[] ogToon =(Converters.getSpecificLine((MainControls.
+            currentgamePath.replaceAll(MainControls.saveExt, "toons")),Integer.
+            parseInt(ogID))).split(",");
+            String jobID=(GetData.dataQuery("*","dbAlias","aliasID",ogToon[18],
+                false,false,null,null)).get(6);
+            bioInfo +=(GetData.dataQuery("*","dbJobs","jobID",jobID,false
+                ,false,null,null)).get(1);
         } else {
-            //revamp ALIAS here
-//            if(selectedToon.get(19).equals("0")) {
-//                bioInfo+="\n\n"+Converters.capFirstLetter((GetData.dataQuery("*"
-//                ,"dbGender","genderID",selectedToon.get(6),false,false,null,null
-//                )).get(5))+" has a known alias as "+selectedToon.get(17)+" when"
-//                +" "+(GetData.dataQuery("*","dbGender","genderID",selectedToon.
-//                get(6),false,false,null,null)).get(5)+" is not "+selectedToon.
-//                get(1) + ".";
-//            } else {
-//                bioInfo+="\n\n"+Converters.capFirstLetter((GetData.dataQuery("*"
-//                ,"dbGender","genderID",selectedToon.get(6),false,false,null,null
-//                )).get(5))+" has a Secret Identity that is not known to the "
-//                + "public.";
-//            }
+            bioInfo +=(GetData.dataQuery("*","dbClass","classID",selectedToon[3]
+                ,false,false,null,null)).get(4);
+        }
+        bioInfo += " and "+ (GetData.dataQuery("*","dbStatus","statusName",
+            Limitless.charStat05.getText(),false,false,null,null)).get(4)+
+            ".\n\n"+selectedToon[9];
+        if(UID.startsWith("7x")) {
+            String ogID = UID.replace("7x", "");
+            String[] ogToon =(Converters.getSpecificLine((MainControls.
+            currentgamePath.replaceAll(MainControls.saveExt, "toons")),Integer.
+            parseInt(ogID))).split(",");
+            if(!ogToon[18].equals("null") && !(ChecksBalances.isNullOrEmpty
+                (ogToon[18]))) {
+                List<String> ogAlias = getAliasInfo(ogToon[18]);
+                if(ogAlias.get(2).equals("0") || ogAlias.get(2).equals("1")) {
+                    //and og 18 is either 0 or 1
+                    //name is the identity of xyz known to the public   
+                    bioInfo+="\n\n"+Converters.capFirstLetter((GetData
+                        .dataQuery("*","dbGender","genderID",selectedToon[6],
+                        false,false,null,null)).get(5))+" is also " +ogToon[1]+ 
+                        " as known to the public.";
+                    Limitless.altName.setVisible(true);
+                }
+                if(!ogAlias.get(2).equals("0") && !ogAlias.get(2).equals("1")) {
+                    Limitless.altName.setVisible(false);  
+                }
+            } else {
+                Limitless.altName.setVisible(false);
+            }
+        } else {
+            
+            if(ChecksBalances.isNullOrEmpty(selectedToon[18]) || 
+                (selectedToon[18].equals("null"))) {
+                Limitless.altName.setVisible(false);
+                //do nothing with alias here
+            } else {
+                Limitless.altName.setVisible(true);
+                List<String> toonAlias = getAliasInfo(selectedToon[18]);
+                //0 name only no secret -- nothing
+                //1 transformation no secret
+                if(toonAlias.get(2).equals("0") || toonAlias.get(2).equals("1"))
+                    {
+                        bioInfo+="\n\n"+Converters.capFirstLetter((GetData
+                        .dataQuery("*","dbGender","genderID",selectedToon[6],
+                        false,false,null,null)).get(5))+" has a known alias as "
+                        +GetData.dataQuery("*","dbAlias","aliasID",
+                        selectedToon[18],false,false,null,null).get(1)+" when"+
+                        " "+GetData.dataQuery("*","dbGender","genderID",
+                        selectedToon[6],false,false,null,null).get(5)+" is not "
+                        +selectedToon[1]+".";
+                        if(toonAlias.get(2).equals("0")) {
+                            justswitch = true;
+                        } else {
+                            justswitch = false;
+                        }
+                    } else {
+                    Limitless.altName.setVisible(false);
+                }
+                //2 secret with fake stats
+                //3 secret with transformation
+                if(toonAlias.get(2).equals("2") || toonAlias.get(2).equals("3"))
+                    {
+                        Limitless.altName.setVisible(false);
+                        bioInfo+="\n\n"+Converters.capFirstLetter((GetData
+                            .dataQuery("*","dbGender","genderID",selectedToon[6]
+                            ,false,false,null,null)).get(5))+
+                            " has a Secret Identity that is not known to the "
+                            + "public.";
+                    }
+            }
+        }
+        if(selectedToon[19].equals(passiveDestinyID)) {
+            bioInfo+="\n\n"+
+                "***This character is set to Passive.  You cannot start a game "
+                + "with this character.***";
         }
             //update health status above
         Limitless.charStatText.setText(bioInfo);
-    }    
+    }
     
+    public static void altnameButton(String opt) throws IOException, 
+        SQLException {
+        String selectedToonID=MainControls.newgametoonList[Limitless.newgameList
+            .getSelectedIndex()][1];
+        String[] selectedToon =(Converters.getSpecificLine((MainControls.
+             currentgamePath.replaceAll(MainControls.saveExt, "toons")),Integer.
+             parseInt(selectedToonID))).split(",");
+        switch(opt) {
+            case "Change" :
+                if(!selectedToon[18].isEmpty() && !selectedToon[18]
+                    .equals("null") && !selectedToon[18].equals("")) {
+                    List<String> toonAlias = getAliasInfo(selectedToon[18]);
+                    if(toonAlias.get(2).equals("1")) {
+                        for(int i=0;i<Limitless.newgameList.getModel().getSize()
+                            ;i++) {
+                            if(Limitless.newgameList.getModel().getElementAt(i).
+                                contains(toonAlias.get(1))) {
+                                Limitless.newgameList.setSelectedIndex(i);
+                            }
+                        }
+                    }
+                } else {
+                    if(selectedToon[5].startsWith("7x")) {
+                        String[]ogToon=(Converters.getSpecificLine((MainControls
+                            .currentgamePath.replaceAll(MainControls.saveExt,
+                            "toons")),Integer.parseInt(selectedToon[5].
+                            replaceAll("7x","")))).split(",");
+                        for(int i=0;i<Limitless.newgameList.getModel().getSize()
+                            ;i++) {
+                            if(Limitless.newgameList.getModel().getElementAt(i).
+                                contains(ogToon[1])) {
+                                Limitless.newgameList.setSelectedIndex(i);
+                            }
+                        }
+                    }
+                }
+                break;
+            case "Switch" :
+                if(!selectedToon[18].isEmpty() && !selectedToon[18].equals
+                    ("null") && !selectedToon[18].equals("")) {
+                    List<String> toonAlias = getAliasInfo(selectedToon[18]);
+                    if(toonAlias.get(2).equals("0")) {
+                        Avatars.setAvatar(Limitless.charToon, toonAlias.get(1),
+                            toonAlias.get(8));
+                        Limitless.charName.setText(toonAlias.get(1));
+                    }
+                }
+                break;
+            case "Revert" :
+                if(!selectedToon[18].isEmpty() && !selectedToon[18].equals
+                    ("null") && !selectedToon[18].equals("")) {
+                    List<String> toonAlias = getAliasInfo(selectedToon[18]);
+                    if(toonAlias.get(2).equals("0")) {
+                        Avatars.setAvatar(Limitless.charToon, selectedToon[1],
+                            selectedToon[10]);
+                        Limitless.charName.setText(selectedToon[1]);
+                    }
+                }
+                break;
+            default :
+                //
+                break;
+        }
+    }
+
     public static void ngStartButton(String toonID) throws SQLException, 
         IOException, InterruptedException {
         String ngsaveName=Converters.capFirstLetter((MainControls.selectedSave)
@@ -965,6 +1083,11 @@ public class MainControls {
             }
         savesDir = defaultsavesDir;
         }
+    }
+    
+    private static List<String> getAliasInfo (String aID) throws SQLException {
+        return GetData.dataQuery("*","dbAlias","aliasID",aID,false,false,null,
+            null);
     }
 
     public static void exitGame () throws IOException, InterruptedException {

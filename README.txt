@@ -1,6 +1,6 @@
 =======================================
 LIMITLESS by Geoff Clark
-VERSION ALPHA 0.0.036 / 2021.01.23-2135
+VERSION ALPHA 0.0.037 / 2021.01.24-2313
 =======================================
 
 SUPPORT THE DEVELOPMENT OF THIS GAME @ 
@@ -46,6 +46,21 @@ Contact the author:  info@clarktribegames.com
 ====================================
 
 DEVELOPMENT NOTES
+
+ALPHA 0.0.037 / 2021.01.24-2313
+
+- revamped the alias logic that existed in the game and rewrote it completely
+- added checks to define alias type for toons with aliases (the 4 types defined in ALPHA 0.0.035)
+- if toon has a secret alias then the alias toon will be added as a passive character to the game
+- if the toon has a known alias that does not have a transformation or different set of stats, the alias and alias image can be toggled in character select
+- if the toon has a known alias that does have a transformation or different set of stats, the alternative alias will be a separate passive toon that is linked to the original
+- the player will be able to toggle between active/passive (main and alias) during game play whether or not the identity is known (this should simulate playing as bruce banner or the hulk with separate stats)
+- for hidden identities, the alternative toon (alias) can be toggled for use by the player as well, but the player will need to be careful not to reveal their identity (unless they want to).  (this should simulate playing as bruce wayne or batman with the same stats but different attires/mask on).
+- added logic to build alt toons and link the back to the originals
+- added passive switch for toons so they cannot be selected by the user
+- fixed a potential issue with the generic generations -- there was a rare issue where no generics were being generated at times; now there will always be at least one generic available at start of the world
+- fixed a rare issue with the game crashing if a new game was created after cancelling out of a new game that was created but not started.
+- added test avatars for "geoff clark" (man of iron passive alt), "adrian dodgers" (the captain passive alt), "sean cadillac" (mr. dream secret passive alt)
 
 ALPHA 0.0.036 / 2021.01.23-2135
 

@@ -32,22 +32,21 @@ import javax.swing.JList;
 
 public class GetStats {
     
-    public static List<String> getStats(String type, List<String> toonstats, 
+    public static List<String> getStats(String type, String[] toonstats, 
         double XPratio, boolean forNewGame) throws SQLException, IOException {
         String currentSavename = (Converters.capFirstLetter((MainControls.
             selectedSave).substring(0,(MainControls.selectedSave).indexOf("." + 
             MainControls.saveExt))));
+        return getToonStats(currentSavename,toonstats,XPratio, 
+            forNewGame);
+    }
+    
+    public static String[] getAEStats(String type,String[] toonstats) throws 
+        SQLException {
+        String currentSavename = (Converters.capFirstLetter((MainControls.
+            selectedSave).substring(0,(MainControls.selectedSave).indexOf("." + 
+            MainControls.saveExt))));
         switch(type) {
-            case "Toon" :
-            {
-                try {
-                    return getToonStats(currentSavename,toonstats,XPratio, 
-                        forNewGame);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            }
-
             case "Effects" :
                 return getEffectStats(currentSavename,toonstats);
             case "Abls" :
@@ -57,33 +56,33 @@ public class GetStats {
         }
     }
     
-    private static List<String> getToonStats(String savename, List<String> 
+    private static List<String> getToonStats(String savename, String[]
         toonstats,double XPratio, boolean forNewGame) throws SQLException, 
         IOException {
-        double lvl = Double.parseDouble(toonstats.get(8)) + XPratio;
+        double lvl = Double.parseDouble(toonstats[8]) + XPratio;
         List<String> racestats=statEncoder(GetData.dbQuery(savename,"*","dbRace"
-            ,"raceID",toonstats.get(2),false).get(6),Converters.createBlank("0",
+            ,"raceID",toonstats[2],false).get(6),Converters.createBlank("0",
             30));
         List<String> classstats=statEncoder(GetData.dbQuery(savename,"*",
-            "dbClass","classID",toonstats.get(3),false).get(3),Converters
+            "dbClass","classID",toonstats[3],false).get(3),Converters
             .createBlank("0",30));
         List<String> alignstats=statEncoder(GetData.dbQuery(savename,"*",
             "dbAlign","alignID",Calculator.getAlign(Integer.parseInt(
-            toonstats.get(4))),false).get(4),Converters.createBlank("0",30));
+            toonstats[4])),false).get(4),Converters.createBlank("0",30));
         List<String> gendstats=statEncoder(GetData.dbQuery(savename, "*",
-            "dbGender","genderID",toonstats.get(6),false).get(3),Converters
+            "dbGender","genderID",toonstats[6],false).get(3),Converters
             .createBlank("0",30));    
         List<String> sizestats=statEncoder(GetData.dbQuery(savename, "*",
             "dbSize","sizeName", (Calculator.getSize((GetData.dbQuery(savename, 
-            "*","dbRace","raceID",toonstats.get(2), false)).get(1),(Calculator.
-            getAge(Integer.parseInt(toonstats.get(7)),toonstats.get(2))))),false
+            "*","dbRace","raceID",toonstats[2], false)).get(1),(Calculator.
+            getAge(Integer.parseInt(toonstats[7]),toonstats[2])))),false
             ).get(3),Converters.createBlank("0",30));
-        String nul = toonstats.get(5);
-        String age = toonstats.get(7);
+        String nul = toonstats[5];
+        String age = toonstats[7];
 
         double ageadjuster = Calculator.getageAdjuster(Double.parseDouble(age) /
             Double.parseDouble(GetData.dbQuery(savename, "*", "dbRace","raceID",
-            toonstats.get(2),false).get(5)));
+            toonstats[2],false).get(5)));
 
         List<String> basestatslist = new ArrayList<>();
         for(int r = 0; r <= 29; r++ ) {
@@ -101,23 +100,23 @@ public class GetStats {
             }
         }
         if(forNewGame) {
-            List<String> charmlist = getitemStats(savename,"Charm",toonstats,
+            String[] charmlist = getitemStats(savename,"Charm",toonstats,
                 basestatslist);
-            List<String> wearlist = getitemStats(savename,"Wear",toonstats,
+            String[] wearlist = getitemStats(savename,"Wear",toonstats,
                 basestatslist);
-            List<String> heldlist = getitemStats(savename,"Held",toonstats,
+            String[] heldlist = getitemStats(savename,"Held",toonstats,
                 basestatslist);
             List<String> combined = new ArrayList<>();
-            for(int x = 0; x < charmlist.size(); x++) {
+            for(int x = 0; x < charmlist.length; x++) {
                 double total = Double.parseDouble(basestatslist.get(x)) + Double
-                    .parseDouble(charmlist.get(x)) + Double.parseDouble(wearlist
-                    .get(x)) + Double.parseDouble(heldlist.get(x));
+                    .parseDouble(charmlist[x]) + Double.parseDouble(wearlist
+                    [x]) + Double.parseDouble(heldlist[x]);
                 combined.add(String.valueOf((int) total));
             }
             String templist = Arrays.toString(combined.toArray());
             try {
                 Files.write(Paths.get(MainControls.currentgamePath.replaceAll(
-                MainControls.saveExt, "temp")),((toonstats.get(0)+","+(templist.
+                MainControls.saveExt, "temp")),((toonstats[0]+","+(templist.
                 substring(1,templist.length()-1))+"\n").replaceAll(" ","")).
                 getBytes(), StandardOpenOption.APPEND);
             } catch (IOException ex) {
@@ -133,17 +132,17 @@ public class GetStats {
 //            db.close();
             return basestatslist;
         } else {
-            List<String> charmlist = getitemStats(savename,"Charm",toonstats,
+            String[] charmlist = getitemStats(savename,"Charm",toonstats,
                 basestatslist);
-            List<String> wearlist = getitemStats(savename,"Wear",toonstats,
+            String[] wearlist = getitemStats(savename,"Wear",toonstats,
                 basestatslist);
-            List<String> heldlist = getitemStats(savename,"Held",toonstats,
+            String[] heldlist = getitemStats(savename,"Held",toonstats,
                 basestatslist);
             List<String> combined = new ArrayList<>();
-            for(int x = 0; x < charmlist.size(); x++) {
+            for(int x = 0; x < charmlist.length; x++) {
                 double total = Double.parseDouble(basestatslist.get(x)) + Double
-                    .parseDouble(charmlist.get(x)) + Double.parseDouble(wearlist
-                    .get(x)) + Double.parseDouble(heldlist.get(x));
+                    .parseDouble(charmlist[x]) + Double.parseDouble(wearlist
+                    [x]) + Double.parseDouble(heldlist[x]);
                 combined.add(String.valueOf((int) total));
             }
             return combined;
@@ -170,46 +169,61 @@ public class GetStats {
         jlist.setModel(dml);
     }
 
-    public static String getitemsfromIDtoString(List<String> list, 
+    public static String getitemsfromIDtoString(String[] list, 
         String dbname, String searchcol, String matchcol) throws SQLException {
         String finalString = "";
         DefaultListModel tempdml = new DefaultListModel();
-        for(int i = 0; i < list.size(); i++) {
-            if(!(ChecksBalances.isNullOrEmpty(list.get(i))) && !(list.get(i).
+
+        for(int i = 0; i < list.length; i++) {
+            if(!(ChecksBalances.isNullOrEmpty(list[i])) && !(list[i].
                 equals("null"))) {
-                String temp = GetData.dataQuery("*",dbname,searchcol,list.
-                    get(i),false,false,null,null).get(1);
+                String temp = GetData.dataQuery("*",dbname,searchcol,list[i]
+                    ,false,false,null,null).get(1);
                 tempdml.addElement(temp);
                 finalString+=temp + "\n";
             }
         }
+        
+
+//*
+//        
+//        for(int i = 0; i < list.size(); i++) {
+//            if(!(ChecksBalances.isNullOrEmpty(list.get(i))) && !(list.get(i).
+//                equals("null"))) {
+//                String temp = GetData.dataQuery("*",dbname,searchcol,list.
+//                    get(i),false,false,null,null).get(1);
+//                tempdml.addElement(temp);
+//                finalString+=temp + "\n";
+//            }
+//        }
+//        
+//*        
+        
          if(tempdml.getSize() <= 0) {
             finalString+="<None>";
         }
         return finalString;
     }
     
-    private static List<String> getEffectStats(String save, List<String>
+    private static String[] getEffectStats(String save, String[]
         toonstats) throws SQLException {
         String sizeName = Calculator.getSize((GetData.dbQuery(save,"*","dbRace",
-            "raceID",toonstats.get(2),false)).get(1),(Calculator.getAge(Integer.
-            parseInt(toonstats.get(7)),toonstats.get(2))));
-        String tooneff = toonstats.get(12);
-        String raceeff = GetData.dbQuery(save,"*","dbRace","raceID",toonstats.
-            get(2),false).get(9);
+            "raceID",toonstats[2],false)).get(1),(Calculator.getAge(Integer.
+            parseInt(toonstats[7]),toonstats[2])));
+        String tooneff = toonstats[12];
+        String raceeff = GetData.dbQuery(save,"*","dbRace","raceID",toonstats[2],false).get(9);
         String classeff = GetData.dbQuery(save,"*","dbClass","classID",toonstats
-            .get(3),false).get(6);
+            [3],false).get(6);
         String aligneff=GetData.dbQuery(save,"*","dbAlign","alignID",Calculator.
-            getAlign(Integer.parseInt(toonstats.get(4))),false).get(8);
-        String gendeff=GetData.dbQuery(save,"*","dbGender","genderID",toonstats.
-            get(6),false).get(7);
+            getAlign(Integer.parseInt(toonstats[4])),false).get(8);
+        String gendeff=GetData.dbQuery(save,"*","dbGender","genderID",toonstats
+            [6],false).get(7);
         String sizeeff = GetData.dbQuery(save,"*","dbSize","sizeName",sizeName,
             false).get(6);
         String itemequipped = "";
        for(int c = 13; c <= 15; c++) {
-            if(!ChecksBalances.isNullOrEmpty(toonstats.get(c)) && (!(toonstats.
-                get(c)).equals("null"))) {
-                itemequipped += toonstats.get(c) + "x";
+            if(!ChecksBalances.isNullOrEmpty(toonstats[c]) && (!(toonstats[c]).equals("null"))) {
+                itemequipped += toonstats[c] + "x";
             }
         }
         String itemeff;
@@ -238,30 +252,28 @@ public class GetStats {
         }
         List<String> results = Arrays.asList(master.split("x"));
         Collections.sort(results);
-        return results;
+        return results.toArray(new String[0]);
     }
 
-    private static List<String> getAblStats(String save, List<String> toonstats
+    private static String[] getAblStats(String save, String[] toonstats
         ) throws SQLException {
         String sizeName = Calculator.getSize((GetData.dbQuery(save,"*","dbRace",
-            "raceID",toonstats.get(2),false)).get(1),(Calculator.getAge(Integer.
-            parseInt(toonstats.get(7)),toonstats.get(2))));
-        String toonabl = toonstats.get(11);
-        String raceabl = GetData.dbQuery(save,"*","dbRace","raceID",toonstats.
-            get(2),false).get(8);
+            "raceID",toonstats[2],false)).get(1),(Calculator.getAge(Integer.
+            parseInt(toonstats[7]),toonstats[2])));
+        String toonabl = toonstats[11];
+        String raceabl = GetData.dbQuery(save,"*","dbRace","raceID",toonstats[2],false).get(8);
         String classabl = GetData.dbQuery(save,"*","dbClass","classID",toonstats
-            .get(3),false).get(5);
+            [3],false).get(5);
         String alignabl=GetData.dbQuery(save,"*","dbAlign","alignID",Calculator.
-            getAlign(Integer.parseInt(toonstats.get(4))),false).get(7);
-        String gendabl=GetData.dbQuery(save,"*","dbGender","genderID",toonstats.
-            get(6),false).get(6);
+            getAlign(Integer.parseInt(toonstats[4])),false).get(7);
+        String gendabl=GetData.dbQuery(save,"*","dbGender","genderID",toonstats
+            [6],false).get(6);
         String sizeabl = GetData.dbQuery(save,"*","dbSize","sizeName",sizeName,
             false).get(5);
         String itemequipped = "";
                 for(int c = 13; c <= 15; c++) {
-            if(!ChecksBalances.isNullOrEmpty(toonstats.get(c)) && (!(toonstats.
-                get(c)).equals("null"))) {
-                itemequipped += toonstats.get(c) + "x";
+            if(!ChecksBalances.isNullOrEmpty(toonstats[c]) && (!(toonstats[c]).equals("null"))) {
+                itemequipped += toonstats[c] + "x";
             }
         }
         String itemabl;
@@ -287,7 +299,7 @@ public class GetStats {
             +"x"+sizeabl+"x"+itemabl).replaceAll("null","");
         List<String> results = Arrays.asList(master.split("x"));
         Collections.sort(results);
-        return results;
+        return results.toArray(new String[0]);
     }    
     
     public static String getalignColor(int alignValue) throws SQLException {
@@ -337,13 +349,13 @@ public class GetStats {
         return result;
     }
     
-    public static List<String> fetchitemStats(String save, String type, 
-        List<String> toonstats,List<String> baselist) throws SQLException {
+    public static String[] fetchitemStats(String save, String type, 
+        String[] toonstats,List<String> baselist) throws SQLException {
         return getitemStats(save,type,toonstats,baselist);
     }
     
-    private static List<String> getitemStats(String save, String type, 
-        List<String> toonstats,List<String> baselist) throws SQLException {
+    private static String[] getitemStats(String save, String type, 
+        String[] toonstats,List<String> baselist) throws SQLException {
         int x = 0;
         if(type.equals("Held")) {
             x = 13;
@@ -354,18 +366,19 @@ public class GetStats {
                 x = 15;
             }
         }
-        List<String> invlist = Arrays.asList(toonstats.get(x).split("x"));    
-        if(invlist.get(0).contains("null")) {
-            return baselist;
+        String[] invlist = toonstats[x].split("x");
+//        List<String> invlist = Arrays.asList(toonstats[x].split("x"));    
+        if(invlist[0].contains("null") || invlist[0].isEmpty()) {
+            return baselist.toArray(new String[0]);
         }
-        if(invlist.size() > 0 ) {
-            for(int i = 0; i  < invlist.size(); i++ ) {
+        if(invlist.length > 0 ) {
+            for(int i = 0; i  < invlist.length; i++ ) {
                 baselist = processitemStats(baselist,(Arrays.asList((GetData.
-                    dbQuery(save,"*","dbItems","itemID",(String.valueOf(invlist.
-                    get(i))),false).get(9)).split("x"))));
+                    dbQuery(save,"*","dbItems","itemID",(String.valueOf
+                    (invlist[i])),false).get(9)).split("x"))));
             }
         }
-        return baselist;
+        return baselist.toArray(new String[0]);
     }
     
     private static List<String> processitemStats(List<String> baselist, 
