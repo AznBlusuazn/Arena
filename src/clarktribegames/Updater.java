@@ -22,12 +22,20 @@ public class Updater {
                 + "e.\n\nWould you like to download the latest update?";
         boolean updateNow = Popups.yesnoPopup("Needs an Update",messageString);
         if(updateNow == true) {
-            GoToWeb.openWeb("http://svr.clarktribegames.com:19762/" + appName + 
-                ".html");
-            MainControls.clearTemp();
-            System.gc();
-            System.exit(0);
+            cleanUpdate.cleanUpdate();
+        } else {
+            String reminderTitle="This is an older release!";
+            String reminderMessage="As a reminder, this is an older ALPHA "+
+                "release of "+MainControls.appName+"!\n\nPlease be sure to "+
+                "update in order to ensure the best experience.\n\nThank you\n"+
+                "\nGeoff @ ClarkTribeGames";
+            Popups.warnPopup(reminderTitle, reminderMessage);
         }
+    }
+    
+    public static void updateProcess() throws IOException {
+        GoToWeb.openWeb("http://svr.clarktribegames.com:19762/"+MainControls.
+            appName+".html");        
     }
     
 //<editor-fold defaultstate="collapsed" desc="Log File Method">

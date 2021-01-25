@@ -52,6 +52,8 @@ ALPHA 0.0.038 / 2021.01.25-1157 (IN PROGRESS)
 - removed older db query method and replaced all references with newer version
 - removed older record retrieval and replaced all references with newer version
 - cleaned up legacy and nulled out code
+- revamped update check with integrated clean up for alpha testers
+- added update check button to options menu
 
 ALPHA 0.0.037 / 2021.01.24-2313
 
