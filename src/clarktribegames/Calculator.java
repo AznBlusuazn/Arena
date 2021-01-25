@@ -71,8 +71,8 @@ public class Calculator {
     
     private static int getMaxAge(String race) throws SQLException {
         String save = savenameCheck();
-        return Integer.parseInt(GetData.dbQuery(save,"*","dbRace","raceID",race,
-            false).get(5));
+        return Integer.parseInt(GetData.dataQuery("*","dbRace","raceID",race,
+            false,false,null,null).get(5));
     }
     
     public static double getageAdjuster(double ratio) {
@@ -107,8 +107,8 @@ public class Calculator {
     private static String analyzeAgemath(int age, int max) throws SQLException {
         String save = savenameCheck();
         
-        List<String> agelist = GetData.dbQuery(save, "*","dbAge","ageCriteria",
-            null, true);
+        List<String> agelist = GetData.dataQuery( "*","dbAge","ageCriteria",
+            null, true,false,null,null);
         List<Integer> results = new ArrayList();
 
         for (int i = 0; i < agelist.size(); i++) {
@@ -1343,8 +1343,8 @@ public class Calculator {
                results.add(i);
             }
         }
-        return (GetData.dbQuery(save,"*","dbAge","ageID",((
-            results.get(0)).toString()), false).get(1));
+        return (GetData.dataQuery("*","dbAge","ageID",((
+            results.get(0)).toString()), false,false,null,null).get(1));
     }
     
     public static String getAlign(int alignCode) throws SQLException {
@@ -1353,11 +1353,11 @@ public class Calculator {
     
     private static String findAlign(int code) throws SQLException {
         String save = savenameCheck();
-        List<String> alignname = GetData.dbQuery(save,"*","dbAlign","alignID",
-            "*",true);
+        List<String> alignname = GetData.dataQuery("*","dbAlign","alignID",
+            "*",true,false,null,null);
         List<Integer> alignval = new ArrayList<>();
-        for (String s : (GetData.dbQuery(save,"*","dbAlign","alignRank","*",true
-            ))) {
+        for (String s : (GetData.dataQuery("*","dbAlign","alignRank","*",true
+            ,false,null,null))) {
             alignval.add(Integer.valueOf(s));
         }
         if(code > alignval.get(1)) {
@@ -1403,8 +1403,8 @@ public class Calculator {
     }
     
     public static String alignvaltoID(String saveGame, int alignVal) throws SQLException {
-        List<String> alignids = GetData.dbQuery(saveGame,"*","dbAlign","alignID",
-            "*",true);
+        List<String> alignids = GetData.dataQuery("*","dbAlign","alignID",
+            "*",true,false,null,null);
         double alignvalue = (double) alignVal;
         if(alignvalue < 13) {
             return alignids.get(8);
@@ -1443,10 +1443,10 @@ public class Calculator {
     
     private static String findSize(String race,String age) throws SQLException {
         String save = savenameCheck();
-        int racesize = Integer.parseInt(GetData.dbQuery(save,"*","dbRace","race"
-            + "Name",race,false).get(3));
-        int ageid = Integer.parseInt(GetData.dbQuery(save,"*","dbAge","ageName",
-            age,false).get(0));
+        int racesize = Integer.parseInt(GetData.dataQuery("*","dbRace","race"
+            + "Name",race,false,false,null,null).get(3));
+        int ageid = Integer.parseInt(GetData.dataQuery("*","dbAge","ageName",
+            age,false,false,null,null).get(0));
         String sizeid = "0";
         if(racesize > 0) {
             if(racesize == 1 && ageid <= 1) {
@@ -1516,7 +1516,7 @@ public class Calculator {
                 sizeid = "8";
             }
         }
-        return GetData.dbQuery(save,"*","dbSize","sizeID",sizeid,false).get(1);
+        return GetData.dataQuery("*","dbSize","sizeID",sizeid,false,false,null,null).get(1);
     }
     
     private static String savenameCheck() {

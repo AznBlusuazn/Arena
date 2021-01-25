@@ -1,6 +1,6 @@
 =======================================
 LIMITLESS by Geoff Clark
-VERSION ALPHA 0.0.037 / 2021.01.24-2313
+VERSION ALPHA 0.0.038 / 2021.01.25-1157
 =======================================
 
 SUPPORT THE DEVELOPMENT OF THIS GAME @ 
@@ -47,6 +47,12 @@ Contact the author:  info@clarktribegames.com
 
 DEVELOPMENT NOTES
 
+ALPHA 0.0.038 / 2021.01.25-1157 (IN PROGRESS)
+
+- removed older db query method and replaced all references with newer version
+- removed older record retrieval and replaced all references with newer version
+- cleaned up legacy and nulled out code
+
 ALPHA 0.0.037 / 2021.01.24-2313
 
 - revamped the alias logic that existed in the game and rewrote it completely
@@ -60,6 +66,7 @@ ALPHA 0.0.037 / 2021.01.24-2313
 - added passive switch for toons so they cannot be selected by the user
 - fixed a potential issue with the generic generations -- there was a rare issue where no generics were being generated at times; now there will always be at least one generic available at start of the world
 - fixed a rare issue with the game crashing if a new game was created after cancelling out of a new game that was created but not started.
+- added an "ALT" button to appear on character select if the selected character has a KNOWN alias (secret aliases will not have this option).
 - added test avatars for "geoff clark" (man of iron passive alt), "adrian dodgers" (the captain passive alt), "sean cadillac" (mr. dream secret passive alt)
 
 ALPHA 0.0.036 / 2021.01.23-2135

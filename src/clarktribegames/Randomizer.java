@@ -1,12 +1,10 @@
 package clarktribegames;
 
-// <editor-fold defaultstate="collapsed" desc="credits">
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+// <editor-fold defaultstate="collapsed" desc="credits">
 /**
  * 
  * @author  Geoff Clark

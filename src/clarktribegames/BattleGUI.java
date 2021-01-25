@@ -1,17 +1,11 @@
 package clarktribegames;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
@@ -19,11 +13,8 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
 import javazoom.jl.decoder.JavaLayerException;
 
 //<editor-fold defaultstate="collapsed" desc="Credits"> 
@@ -548,15 +539,15 @@ public class BattleGUI extends javax.swing.JFrame {
     
     private static void popAvatars(String save,String toons,JLabel avatar, JList
         jlist) throws SQLException {
-        Avatars.setAvatar(avatar,GetData.dbQuery(save,"*",toons,"toonName",jlist
-            .getSelectedValue().toString(),false).get(1),save);
+        Avatars.setAvatar(avatar,GetData.dataQuery("*",toons,"toonName",jlist
+            .getSelectedValue().toString(),false,false,null,null).get(1),save);
     }
     
     private static void popTooninfo(String save,String toons,List<String> team,
         JLabel namebox,JLabel infobox, JList jlist,JTable table) 
         throws SQLException {
-        List<String> tooninfo=GetData.dbQuery(save,"*",toons,"toonID",team.get(
-            jlist.getSelectedIndex()),false);
+        List<String> tooninfo=GetData.dataQuery("*",toons,"toonID",team.get(
+            jlist.getSelectedIndex()),false,false,null,null);
         namebox.setText(tooninfo.get(1));
         List<String> combined = new ArrayList<>();
         combined.addAll(Arrays.asList((tooninfo.get(23)).split("x")));
@@ -573,8 +564,8 @@ public class BattleGUI extends javax.swing.JFrame {
 
     private static void detailsButton(String save,String toons,List<String>team,
         JList jlist) throws SQLException {
-        List<String> tooninfo=GetData.dbQuery(save,"*",toons,"toonID",team.get(
-            jlist.getSelectedIndex()),false);
+        List<String> tooninfo=GetData.dataQuery("*",toons,"toonID",team.get(
+            jlist.getSelectedIndex()),false,false,null,null);
         String message = tooninfo.get(1)+"\n\n"+
             "Age: " + tooninfo.get(26) + "\n" +
             "Alignment: " + tooninfo.get(24) + "\n" +
@@ -594,8 +585,8 @@ public class BattleGUI extends javax.swing.JFrame {
 
     private static void itemsButton(String save,String toons,List<String> team,
         JList jlist) throws SQLException {
-        List<String> tooninfo=GetData.dbQuery(save,"*",toons,"toonID",team.get(
-            jlist.getSelectedIndex()),false);
+        List<String> tooninfo=GetData.dataQuery("*",toons,"toonID",team.get(
+            jlist.getSelectedIndex()),false,false,null,null);
         String[] heldlist=collectStats(((tooninfo.get(13).replaceAll("nullx","")
             ).replaceAll("null","").split("x")),save,"dbItems","itemID",1);
         String[] wearlist=collectStats(((tooninfo.get(14).replaceAll("nullx","")
@@ -657,25 +648,25 @@ public class BattleGUI extends javax.swing.JFrame {
     
     private static String getStat(String save,String table,String col,String 
         id,int field) throws SQLException {
-        return GetData.dbQuery(save,"*",table,col,id,false).get(field);
+        return GetData.dataQuery("*",table,col,id,false,false,null,null).get(field);
     }
     
     private static void ablButton(String save,String toons,List<String> team,
         JList jlist) throws SQLException {
-        List<String> tooninfo=GetData.dbQuery(save,"*",toons,"toonID",team.get(
-            jlist.getSelectedIndex()),false);
+        List<String> tooninfo=GetData.dataQuery("*",toons,"toonID",team.get(
+            jlist.getSelectedIndex()),false,false,null,null);
         //toon,align,gender,items,race,class,size
         String toonAbl = tooninfo.get(11);
-        String alignAbl=GetData.dbQuery(save,"*","dbAlign","alignID",Calculator.
-            alignvaltoID(save,Integer.parseInt(tooninfo.get(4))),false).get(7);
-        String gendAbl = GetData.dbQuery(save,"*","dbGender","genderID",tooninfo
-            .get(6),false).get(7);
-        String raceAbl = GetData.dbQuery(save,"*","dbRace","raceID",tooninfo.get
-            (2),false).get(8);
-        String classAbl = GetData.dbQuery(save,"*","dbClass","classID",tooninfo.
-            get(3),false).get(5);
-        String sizeAbl = (GetData.dbQuery(save,"*","dbSize","sizeID",tooninfo.
-            get(21),false).get(5));
+        String alignAbl=GetData.dataQuery("*","dbAlign","alignID",Calculator.
+            alignvaltoID(save,Integer.parseInt(tooninfo.get(4))),false,false,null,null).get(7);
+        String gendAbl = GetData.dataQuery("*","dbGender","genderID",tooninfo
+            .get(6),false,false,null,null).get(7);
+        String raceAbl = GetData.dataQuery("*","dbRace","raceID",tooninfo.get
+            (2),false,false,null,null).get(8);
+        String classAbl = GetData.dataQuery("*","dbClass","classID",tooninfo.
+            get(3),false,false,null,null).get(5);
+        String sizeAbl = (GetData.dataQuery("*","dbSize","sizeID",tooninfo.
+            get(21),false,false,null,null).get(5));
         String tempAbl = toonAbl+"x"+alignAbl+"x"+gendAbl+"x"+raceAbl+"x"+
             classAbl+"x"+sizeAbl+"x";
         String abltemp = tempAbl.replaceAll("xnull","").replaceAll("null","");
@@ -685,8 +676,8 @@ public class BattleGUI extends javax.swing.JFrame {
             .toList());
         itemabls.removeAll(Collections.singleton("null"));
         for (int x = 0; x < itemabls.size(); x++) {
-            abltemp += (GetData.dbQuery(save,"*","dbItems","itemID",itemabls
-                .get(x),false).get(11)).replaceAll("null", "") + "x";
+            abltemp += (GetData.dataQuery("*","dbItems","itemID",itemabls
+                .get(x),false,false,null,null).get(11)).replaceAll("null", "") + "x";
         }
         String ablfinalist= abltemp.charAt(0)+"";
         char [] cA =abltemp.toCharArray();
@@ -721,28 +712,28 @@ public class BattleGUI extends javax.swing.JFrame {
         if(message.replaceAll("[^a-zA-Z0-9]", "").length() <= 0) {
             message = "<No Abilities>\n";
         }
-        Popups.infoPopup((GetData.dbQuery(save,"*",toons,"toonID",team.get(jlist
-            .getSelectedIndex()),false).get(1)) + " Abilities List", message +
+        Popups.infoPopup((GetData.dataQuery("*",toons,"toonID",team.get(jlist
+            .getSelectedIndex()),false,false,null,null).get(1)) + " Abilities List", message +
             "\n" +"NOTE:  There will be a future option to navigate\nfurther in"
             + "to abilities here.");
     }    
 
     private static void effButton(String save,String toons,List<String> team,
         JList jlist) throws SQLException {
-        List<String> tooninfo=GetData.dbQuery(save,"*",toons,"toonID",team.get(
-            jlist.getSelectedIndex()),false);
+        List<String> tooninfo=GetData.dataQuery("*",toons,"toonID",team.get(
+            jlist.getSelectedIndex()),false,false,null,null);
         //toon,align,gender,items,race,class,size
         String toonEff = tooninfo.get(11);
-        String alignEff=GetData.dbQuery(save,"*","dbAlign","alignID",Calculator.
-            alignvaltoID(save,Integer.parseInt(tooninfo.get(4))),false).get(7);
-        String gendEff = GetData.dbQuery(save,"*","dbGender","genderID",tooninfo
-            .get(6),false).get(7);
-        String raceEff = GetData.dbQuery(save,"*","dbRace","raceID",tooninfo.get
-            (2),false).get(8);
-        String classEff = GetData.dbQuery(save,"*","dbClass","classID",tooninfo.
-            get(3),false).get(5);
-        String sizeEff = (GetData.dbQuery(save,"*","dbSize","sizeID",tooninfo.
-            get(21),false).get(5));
+        String alignEff=GetData.dataQuery("*","dbAlign","alignID",Calculator.
+            alignvaltoID(save,Integer.parseInt(tooninfo.get(4))),false,false,null,null).get(7);
+        String gendEff = GetData.dataQuery("*","dbGender","genderID",tooninfo
+            .get(6),false,false,null,null).get(7);
+        String raceEff = GetData.dataQuery("*","dbRace","raceID",tooninfo.get
+            (2),false,false,null,null).get(8);
+        String classEff = GetData.dataQuery("*","dbClass","classID",tooninfo.
+            get(3),false,false,null,null).get(5);
+        String sizeEff = (GetData.dataQuery("*","dbSize","sizeID",tooninfo.
+            get(21),false,false,null,null).get(5));
         String tempEff = toonEff+"x"+alignEff+"x"+gendEff+"x"+raceEff+"x"+
             classEff+"x"+sizeEff+"x";
         String efftemp = tempEff.replaceAll("xnull","").replaceAll("null","");
@@ -752,8 +743,8 @@ public class BattleGUI extends javax.swing.JFrame {
             .toList());
         itemeffs.removeAll(Collections.singleton("null"));
         for (int x = 0; x < itemeffs.size(); x++) {
-            efftemp += (GetData.dbQuery(save,"*","dbItems","itemID",itemeffs
-                .get(x),false).get(12)).replaceAll("null", "") + "x";
+            efftemp += (GetData.dataQuery("*","dbItems","itemID",itemeffs
+                .get(x),false,false,null,null).get(12)).replaceAll("null", "") + "x";
         }
         String efffinalist= efftemp.charAt(0)+"";
         char [] cA =efftemp.toCharArray();
@@ -788,8 +779,8 @@ public class BattleGUI extends javax.swing.JFrame {
         if(message.replaceAll("[^a-zA-Z0-9]", "").length() <= 0) {
             message = "<No Effects>\n";
         }
-        Popups.infoPopup((GetData.dbQuery(save,"*",toons,"toonID",team.get(jlist
-            .getSelectedIndex()),false).get(1)) + " Effects List", message +
+        Popups.infoPopup((GetData.dataQuery("*",toons,"toonID",team.get(jlist
+            .getSelectedIndex()),false,false,null,null).get(1)) + " Effects List", message +
             "\n" +"NOTE:  There will be a future option to navigate\nfurther in"
             + "to effects here.");
     }    

@@ -1,9 +1,5 @@
 package clarktribegames;
 
-import com.healthmarketscience.jackcess.Database;
-import com.healthmarketscience.jackcess.DatabaseBuilder;
-import com.healthmarketscience.jackcess.Table;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -15,9 +11,6 @@ import java.util.Collections;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
-
-
-
 
 // <editor-fold defaultstate="collapsed" desc="credits">
 
@@ -60,29 +53,30 @@ public class GetStats {
         toonstats,double XPratio, boolean forNewGame) throws SQLException, 
         IOException {
         double lvl = Double.parseDouble(toonstats[8]) + XPratio;
-        List<String> racestats=statEncoder(GetData.dbQuery(savename,"*","dbRace"
-            ,"raceID",toonstats[2],false).get(6),Converters.createBlank("0",
-            30));
-        List<String> classstats=statEncoder(GetData.dbQuery(savename,"*",
-            "dbClass","classID",toonstats[3],false).get(3),Converters
+        List<String> racestats=statEncoder(GetData.dataQuery("*","dbRace",
+            "raceID",toonstats[2],false,false,null,null).get(6),Converters
             .createBlank("0",30));
-        List<String> alignstats=statEncoder(GetData.dbQuery(savename,"*",
-            "dbAlign","alignID",Calculator.getAlign(Integer.parseInt(
-            toonstats[4])),false).get(4),Converters.createBlank("0",30));
-        List<String> gendstats=statEncoder(GetData.dbQuery(savename, "*",
-            "dbGender","genderID",toonstats[6],false).get(3),Converters
-            .createBlank("0",30));    
-        List<String> sizestats=statEncoder(GetData.dbQuery(savename, "*",
-            "dbSize","sizeName", (Calculator.getSize((GetData.dbQuery(savename, 
-            "*","dbRace","raceID",toonstats[2], false)).get(1),(Calculator.
-            getAge(Integer.parseInt(toonstats[7]),toonstats[2])))),false
-            ).get(3),Converters.createBlank("0",30));
+        List<String> classstats=statEncoder(GetData.dataQuery("*","dbClass"
+            ,"classID",toonstats[3],false,false,null,null).get(3),Converters
+            .createBlank("0",30));
+        List<String> alignstats=statEncoder(GetData.dataQuery("*","dbAlign",
+            "alignID",Calculator.getAlign(Integer.parseInt(toonstats[4])),false,
+            false,null,null).get(4),Converters.createBlank("0",30));
+        List<String> gendstats=statEncoder(GetData.dataQuery("*","dbGender",
+            "genderID",toonstats[6],false,false,null,null).get(3),Converters
+            .createBlank("0",30));
+        String raceSize=GetData.dataQuery("*","dbRace","raceID",toonstats[2],
+            false,false,null,null).get(1);
+        List<String> sizestats=statEncoder(GetData.dataQuery("*","dbSize",
+            "sizeName",(Calculator.getSize(raceSize,(Calculator.getAge(Integer.
+            parseInt(toonstats[7]),toonstats[2])))),false,false,null,null).get
+            (3),Converters.createBlank("0",30));
         String nul = toonstats[5];
         String age = toonstats[7];
 
         double ageadjuster = Calculator.getageAdjuster(Double.parseDouble(age) /
-            Double.parseDouble(GetData.dbQuery(savename, "*", "dbRace","raceID",
-            toonstats[2],false).get(5)));
+            Double.parseDouble(GetData.dataQuery("*","dbRace","raceID",toonstats
+            [2],false,false,null,null).get(5)));
 
         List<String> basestatslist = new ArrayList<>();
         for(int r = 0; r <= 29; r++ ) {
@@ -122,14 +116,6 @@ public class GetStats {
             } catch (IOException ex) {
                 //
             }
-//            Database db = new DatabaseBuilder().setAutoSync(false).setFile(new 
-//                File(MainControls.savesDir + Converters.capFirstLetter
-//                ((MainControls.selectedSave)))).open();
-//            Table tbl = db.getTable(("sav" + ("dbToons".replaceAll("db", 
-//                MainControls.currentgame))).replaceAll("Toons", "Temp"));
-//            tbl.addRow(toonstats.get(0), (templist.substring(1,templist.length()
-//                -1)).replaceAll(", ","x"));
-//            db.close();
             return basestatslist;
         } else {
             String[] charmlist = getitemStats(savename,"Charm",toonstats,
@@ -155,8 +141,8 @@ public class GetStats {
         for(int i = 0; i < list.size(); i++) {
             if(!(ChecksBalances.isNullOrEmpty(list.get(i))) && !(list.get(i).
                 equals("null"))) {
-                String temp = GetData.dbQuery(save, "*",dbname,searchcol,list.
-                    get(i),false).get(1);
+                String temp = GetData.dataQuery("*",dbname,searchcol,list.get(i)
+                    ,false,false,null,null).get(1);
                 dml.addElement(temp);
             }
         }
@@ -207,22 +193,25 @@ public class GetStats {
     
     private static String[] getEffectStats(String save, String[]
         toonstats) throws SQLException {
-        String sizeName = Calculator.getSize((GetData.dbQuery(save,"*","dbRace",
-            "raceID",toonstats[2],false)).get(1),(Calculator.getAge(Integer.
+        String sizeName = Calculator.getSize((GetData.dataQuery("*","dbRace",
+            "raceID",toonstats[2],false,false,null,null)).get(1),(Calculator.getAge(Integer.
             parseInt(toonstats[7]),toonstats[2])));
         String tooneff = toonstats[12];
-        String raceeff = GetData.dbQuery(save,"*","dbRace","raceID",toonstats[2],false).get(9);
-        String classeff = GetData.dbQuery(save,"*","dbClass","classID",toonstats
-            [3],false).get(6);
-        String aligneff=GetData.dbQuery(save,"*","dbAlign","alignID",Calculator.
-            getAlign(Integer.parseInt(toonstats[4])),false).get(8);
-        String gendeff=GetData.dbQuery(save,"*","dbGender","genderID",toonstats
-            [6],false).get(7);
-        String sizeeff = GetData.dbQuery(save,"*","dbSize","sizeName",sizeName,
-            false).get(6);
+        String raceeff=GetData.dataQuery("*","dbRace","raceID",toonstats[2],
+            false,false,null,null).get(9);
+        String classeff = GetData.dataQuery("*","dbClass","classID",toonstats[3]
+            ,false,false,null,null).get(6);
+        String aligneff=GetData.dataQuery("*","dbAlign","alignID",Calculator.
+            getAlign(Integer.parseInt(toonstats[4])),false,false,null,null).get
+            (8);
+        String gendeff=GetData.dataQuery("*","dbGender","genderID",toonstats[6],
+            false,false,null,null).get(7);
+        String sizeeff=GetData.dataQuery("*","dbSize","sizeName",sizeName,false,
+            false,null,null).get(6);
         String itemequipped = "";
        for(int c = 13; c <= 15; c++) {
-            if(!ChecksBalances.isNullOrEmpty(toonstats[c]) && (!(toonstats[c]).equals("null"))) {
+            if(!ChecksBalances.isNullOrEmpty(toonstats[c]) && (!(toonstats[c]).
+                equals("null"))) {
                 itemequipped += toonstats[c] + "x";
             }
         }
@@ -235,8 +224,8 @@ public class GetStats {
             } 
             String tempitemeff = "";
             for(int i = 0; i < itemlist.size(); i++) {
-                tempitemeff += (GetData.dbQuery(save,"*","dbItems","itemID",
-                    itemlist.get(i),false).get(12)) + "x";
+                tempitemeff += (GetData.dataQuery("*","dbItems","itemID",
+                    itemlist.get(i),false,false,null,null).get(12))+"x";
             }
             itemeff = tempitemeff;
             if(tempitemeff.endsWith("x")) {
@@ -257,22 +246,26 @@ public class GetStats {
 
     private static String[] getAblStats(String save, String[] toonstats
         ) throws SQLException {
-        String sizeName = Calculator.getSize((GetData.dbQuery(save,"*","dbRace",
-            "raceID",toonstats[2],false)).get(1),(Calculator.getAge(Integer.
+        String raceSize=GetData.dataQuery("*","dbRace","raceID",toonstats[2],
+            false,false,null,null).get(1);
+        String sizeName=Calculator.getSize(raceSize,(Calculator.getAge(Integer.
             parseInt(toonstats[7]),toonstats[2])));
         String toonabl = toonstats[11];
-        String raceabl = GetData.dbQuery(save,"*","dbRace","raceID",toonstats[2],false).get(8);
-        String classabl = GetData.dbQuery(save,"*","dbClass","classID",toonstats
-            [3],false).get(5);
-        String alignabl=GetData.dbQuery(save,"*","dbAlign","alignID",Calculator.
-            getAlign(Integer.parseInt(toonstats[4])),false).get(7);
-        String gendabl=GetData.dbQuery(save,"*","dbGender","genderID",toonstats
-            [6],false).get(6);
-        String sizeabl = GetData.dbQuery(save,"*","dbSize","sizeName",sizeName,
-            false).get(5);
+        String raceabl=GetData.dataQuery("*","dbRace","raceID",toonstats[2],
+            false,false,null,null).get(8);
+        String classabl = GetData.dataQuery("*","dbClass","classID",toonstats
+            [3],false,false,null,null).get(5);
+        String alignabl=GetData.dataQuery("*","dbAlign","alignID",Calculator.
+            getAlign(Integer.parseInt(toonstats[4])),false,false,null,null).get
+            (7);
+        String gendabl=GetData.dataQuery("*","dbGender","genderID",toonstats[6],
+            false,false,null,null).get(6);
+        String sizeabl=GetData.dataQuery("*","dbSize","sizeName",sizeName,false,
+            false,null,null).get(5);
         String itemequipped = "";
                 for(int c = 13; c <= 15; c++) {
-            if(!ChecksBalances.isNullOrEmpty(toonstats[c]) && (!(toonstats[c]).equals("null"))) {
+            if(!ChecksBalances.isNullOrEmpty(toonstats[c]) && (!(toonstats[c])
+                .equals("null"))) {
                 itemequipped += toonstats[c] + "x";
             }
         }
@@ -285,8 +278,8 @@ public class GetStats {
             } 
             String tempitemabl = "";
             for(int i = 0; i < itemlist.size(); i++) {
-                tempitemabl += (GetData.dbQuery(save,"*","dbItems","itemID",
-                    itemlist.get(i),false).get(11)) + "x";
+                tempitemabl += (GetData.dataQuery("*","dbItems","itemID",
+                    itemlist.get(i),false,false,null,null).get(11))+"x";
             }
             itemabl = tempitemabl;
             if(tempitemabl.endsWith("x")) {
@@ -367,15 +360,14 @@ public class GetStats {
             }
         }
         String[] invlist = toonstats[x].split("x");
-//        List<String> invlist = Arrays.asList(toonstats[x].split("x"));    
         if(invlist[0].contains("null") || invlist[0].isEmpty()) {
             return baselist.toArray(new String[0]);
         }
         if(invlist.length > 0 ) {
             for(int i = 0; i  < invlist.length; i++ ) {
                 baselist = processitemStats(baselist,(Arrays.asList((GetData.
-                    dbQuery(save,"*","dbItems","itemID",(String.valueOf
-                    (invlist[i])),false).get(9)).split("x"))));
+                    dataQuery("*","dbItems","itemID",(String.valueOf(invlist[i])
+                    ),false,false,null,null).get(9)).split("x"))));
             }
         }
         return baselist.toArray(new String[0]);
@@ -919,18 +911,23 @@ public class GetStats {
         List<String> ors = new ArrayList<>(Arrays.asList(code.split("z")));
             for(int i = 0; i < ors.size(); i++ ) {
                 if(ors.get(i).contains("x")) {
-                    List<String> temp = new ArrayList<>(Arrays.asList(ors.get(i).split("x")));
+                    List<String> temp = new ArrayList<>(Arrays.asList(ors.get(i)
+                        .split("x")));
                         for(int j = 0; j < temp.size(); j++) {
-                            String newtemp = effectCritCode(temp.get(j).substring(0, 1)) + temp.get(j).substring(2,temp.get(j).length());
+                            String newtemp=effectCritCode(temp.get(j).substring
+                                (0,1))+temp.get(j).substring(2,temp.get(j).
+                                length());
                             temp.remove(j);
                             temp.add(j,newtemp);
                         }
                     String newtemp = Arrays.toString(temp.toArray());
-                    String newlist = newtemp.substring(1,newtemp.length() -1).replaceAll(", ","x");
+                    String newlist = newtemp.substring(1,newtemp.length() -1).
+                        replaceAll(", ","x");
                     ors.remove(i);
                     ors.add(i, newlist);
                 } else {
-                    String newtemp = effectCritCode(ors.get(i).substring(0, 1)) + ors.get(i).substring(2,ors.get(i).length());
+                    String newtemp=effectCritCode(ors.get(i).substring(0,1))+
+                        ors.get(i).substring(2,ors.get(i).length());
                     ors.remove(i);
                     ors.add(i,newtemp);
                 }

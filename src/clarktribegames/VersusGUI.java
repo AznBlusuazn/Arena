@@ -41,15 +41,15 @@ public class VersusGUI extends javax.swing.JFrame {
     
     private void popVersus(String save, String savetoons) throws SQLException, IOException, FileNotFoundException, JavaLayerException, InterruptedException, Exception {
         //add if multiple team captains instead
-        char1Label.setText(GetData.dbQuery(save,"*",savetoons, "toonID",
-            BattleEngine.team0[0], false).get(1));
-        char2Label.setText(GetData.dbQuery(save,"*",savetoons, "toonID",
-            BattleEngine.team1[0], false).get(1));
+        char1Label.setText(GetData.dataQuery("*",savetoons, "toonID",
+            BattleEngine.team0[0], false,false,null,null).get(1));
+        char2Label.setText(GetData.dataQuery("*",savetoons, "toonID",
+            BattleEngine.team1[0], false,false,null,null).get(1));
          Avatars.setAvatar(char1Toon, char1Label.getText(),
-            (GetData.dbQuery(save,"*",savetoons, "toonName",char1Label.getText(), false).get(10)));
+            (GetData.dataQuery("*",savetoons, "toonName",char1Label.getText(), false,false,null,null).get(10)));
         Avatars.setAvatar(char2Toon, char2Label.getText(),
-            (GetData.dbQuery(save,"*",savetoons,"toonName",char2Label.getText(), false).get(10)));
-        List<String> custTList = GetData.dbQuery(save,"*","dbCustM","toonID",null,true);
+            (GetData.dataQuery("*",savetoons,"toonName",char2Label.getText(), false,false,null,null).get(10)));
+        List<String> custTList = GetData.dataQuery("*","dbCustM","toonID",null,true,false,null,null);
         boolean toontheme = checkforCustom(char2Label.getText().toLowerCase(),custTList);
         if(MainControls.musicPlaying) {
             MPlayer.stopMedia();
@@ -58,7 +58,7 @@ public class VersusGUI extends javax.swing.JFrame {
         if(toontheme) {
             for (String s : custTList) {
                 if(s.equals(BattleEngine.team1[0])) {
-                    String custpath = MainControls.custommusicPath + "/" + (GetData.dbQuery(save,"*","dbCustM","toonID",BattleEngine.team1[0],false).get(1)) + ".mp3";
+                    String custpath = MainControls.custommusicPath + "/" + (GetData.dataQuery("*","dbCustM","toonID",BattleEngine.team1[0],false,false,null,null).get(1)) + ".mp3";
                     if(new File(custpath).exists()) {
                         MainControls.musicPath = custpath;
                         break;

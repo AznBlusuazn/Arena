@@ -264,17 +264,22 @@ public class Converters {
             years = rawTime / 483840;
             months = (rawTime - (years * 483840)) / 40320;
             weeks = (rawTime - ((years * 483840) + (months * 40320))) / 10080;
-            days = (rawTime - ((years * 483840) + (months * 40320) + (weeks * 10080))) / 1440;
-            hours = (rawTime - ((years * 483840) + (months * 40320) + (weeks * 10080) + (days * 1440))) / 60;
-            minutes = (rawTime - ((years * 483840) + (months * 40320) + (weeks * 10080 + (days * 1440) + (hours * 60))));
+            days = (rawTime - ((years * 483840) + (months * 40320) + (weeks * 
+                10080))) / 1440;
+            hours = (rawTime - ((years * 483840) + (months * 40320) + (weeks * 
+                10080) + (days * 1440))) / 60;
+            minutes = (rawTime - ((years * 483840) + (months * 40320) + (weeks *
+                10080 + (days * 1440) + (hours * 60))));
         }
         if(rawTime < 483840 && rawTime >= 40320) {
             years = 1;
             months = rawTime / 40320;
             weeks = (rawTime - (months * 40320)) / 10080;
             days = (rawTime - ((months * 40320) + (weeks * 10080))) / 1440;
-            hours = (rawTime - ((months * 40320) + (weeks * 10080) + (days * 1440))) / 60;
-            minutes = (rawTime - ((months * 40320) + (weeks * 10080 + (days * 1440) + (hours * 60))));
+            hours = (rawTime - ((months * 40320) + (weeks * 10080) + (days * 
+                1440))) / 60;
+            minutes = (rawTime - ((months * 40320) + (weeks * 10080 + (days * 
+                1440) + (hours * 60))));
         }
         if(rawTime < 40320 && rawTime >= 10080) {
             years = 1;
@@ -282,7 +287,8 @@ public class Converters {
             weeks = rawTime / 10080;
             days = (rawTime - (weeks * 10080)) / 1440;
             hours = (rawTime - ((weeks * 10080) + (days * 1440))) / 60;
-            minutes = (rawTime - ((weeks * 10080 + (days * 1440) + (hours * 60))));
+            minutes = (rawTime - ((weeks * 10080 + (days * 1440) + (hours * 
+                60))));
         }
         if(rawTime < 10080 && rawTime >= 1440) {
             years = 1;
@@ -325,10 +331,13 @@ public class Converters {
                 months = 1;
                 years += 1;
             }
-            return new String[] { String.valueOf(years), String.valueOf(months), String.valueOf(weeks), String.valueOf(days), String.valueOf(hours), String.valueOf(minutes) };
+            return new String[] { String.valueOf(years),String.valueOf(months),
+                String.valueOf(weeks),String.valueOf(days),String.valueOf(hours)
+                ,String.valueOf(minutes) };
     }
     
-    public static void dbtabletoFile(String table, String icol, String dest) throws SQLException, IOException {
+    public static void dbtabletoFile(String table, String icol, String dest) 
+        throws SQLException, IOException {
         ChecksBalances.newfileCheck(dest, true, "", true);
         int tableLines=GetData.dataQuery("*",table,icol,null,true,false,null,
             null).size();
@@ -338,8 +347,9 @@ public class Converters {
             String rawdata = Arrays.toString(tabledata.toArray());
             try {
                 Files.write(Paths.get(dest),
-                    (rawdata.substring(1, rawdata.length()-1).replaceAll(", ", ",").replaceAll("null", "")
-                        + "\n").getBytes(),StandardOpenOption.APPEND);
+                    (rawdata.substring(1, rawdata.length()-1).replaceAll(", ",
+                        ",").replaceAll("null", "")+"\n").getBytes(),
+                        StandardOpenOption.APPEND);
             } catch (IOException ex) {
                 //
             }

@@ -27,11 +27,8 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 // <editor-fold defaultstate="collapsed" desc="credits">
@@ -372,7 +369,8 @@ public class ChecksBalances {
             .toLowerCase() + "/" + MainControls.selectedSave;
         fileCheck(MainControls.savesDir+MainControls.selectedSave,MainControls
             .currentgamePath,false,false);
-        newfileCheck(MainControls.currentgamePath.replaceAll(MainControls.saveExt, "temp"), true, "", true);
+        newfileCheck(MainControls.currentgamePath.replaceAll(MainControls.
+            saveExt, "temp"),true,"",true);
         if(!(new File(MainControls.currentgamePath).exists())) {
             Popups.warnPopup("Error creating " + newgamename + " save file", 
                 "There was an error creating the "+newgamename+" save file.");
@@ -471,20 +469,23 @@ public class ChecksBalances {
                 boolean lastusedexists = false;
                 for(File file2 : listindir) {
                     if(file2.isFile()) {
-                        String[] filename = file2.getName().split("\\.(?=[^\\.]+$)");
+                        String[] filename = file2.getName().split
+                            ("\\.(?=[^\\.]+$)");
                         if(filename[1].equalsIgnoreCase(MainControls.saveExt)) {
                             savefileexists = true;
                         }
                     }
                     if(file2.isFile()) {
-                        String[] filename = file2.getName().split("\\.(?=[^\\.]+$)");
+                        String[] filename = file2.getName().split
+                            ("\\.(?=[^\\.]+$)");
                         if(filename[1].equalsIgnoreCase("lastused")) {
                             lastusedexists = true;
                         }
                     }
                 }
                 if(savefileexists && lastusedexists) {
-                    limitsaveList.add(Converters.capFirstLetter(directories[folder].replaceAll(MainControls.savesDir,"")));
+                    limitsaveList.add(Converters.capFirstLetter(directories
+                        [folder].replaceAll(MainControls.savesDir,"")));
                 }
             }
         } catch (Exception ex) {
@@ -496,14 +497,15 @@ public class ChecksBalances {
     public static void keyConfirm(KeyEvent evt, JLabel button) {
         button.setEnabled(true);
         char typedLetter = evt.getKeyChar();
-        if(!(Character.isAlphabetic(typedLetter) || Character.isDigit(typedLetter) || typedLetter == 
-                KeyEvent.VK_BACK_SPACE || typedLetter == KeyEvent.VK_DELETE)){
+        if(!(Character.isAlphabetic(typedLetter) || Character.isDigit
+            (typedLetter) || typedLetter == KeyEvent.VK_BACK_SPACE || 
+            typedLetter == KeyEvent.VK_DELETE)){
             evt.consume();
         }
     }
     
-    public static String doesIDExist(String table,String col,String newid) throws 
-        SQLException {
+    public static String doesIDExist(String table,String col,String newid)
+        throws SQLException {
         int finalID;
         List<String>fetchedIDs=GetData.dataQuery("*",table,col,null,true,false,
             null,null);

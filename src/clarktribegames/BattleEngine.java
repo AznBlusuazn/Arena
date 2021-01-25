@@ -1,19 +1,12 @@
 package clarktribegames;
 
-// <editor-fold defaultstate="collapsed" desc="credits">
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import javax.swing.JTextArea;
-import javax.swing.Timer;
-import javax.swing.table.DefaultTableModel;
 
+// <editor-fold defaultstate="collapsed" desc="credits">
 
 /**
  * 
@@ -46,8 +39,8 @@ public class BattleEngine {
     private static void battleTime(String save, String savetoons, String savemax
         ) throws SQLException, IOException, InterruptedException {
         int opponent = 0;
-        int totalToons = GetData.dbQuery(save, "*", savetoons, "toonID", "*", 
-            true).size();
+        int totalToons = GetData.dataQuery("*", savetoons, "toonID", "*", 
+            true,false,null,null).size();
         opponent = randomOpponent(Integer.parseInt(MainControls.selectedToon), 
             totalToons);
         if(String.valueOf(opponent).equals(MainControls.selectedToon)) {
@@ -77,9 +70,9 @@ public class BattleEngine {
     
     public static void battleStart(String save, String btoons, String bmax) 
         throws SQLException, InterruptedException {
-        battleOpener(save,btoons,bmax,GetData.dbQuery(save,"*",btoons,"toonID",
-            team0[0],false).get(1),GetData.dbQuery(save,"*",btoons,"toonID",
-            team1[0],false).get(1));
+        battleOpener(save,btoons,bmax,GetData.dataQuery("*",btoons,"toonID",
+            team0[0],false,false,null,null).get(1),GetData.dataQuery("*",btoons,
+            "toonID",team1[0],false,false,null,null).get(1));
     }
     
     private static void battleOpener(String save, String btoons, String bmax, 
@@ -139,10 +132,10 @@ public class BattleEngine {
     
     private static void battleTurn(String save,String btoons,String bmax,int a, 
         int b) throws SQLException, InterruptedException {
-        String player = GetData.dbQuery(save,"*",btoons,"toonID",String.valueOf(
-            tTrack[a][0]),false).get(1);
-        String target = GetData.dbQuery(save,"*",btoons,"toonID",String.valueOf(
-            tTrack[b][0]),false).get(1);
+        String player = GetData.dataQuery("*",btoons,"toonID",String.valueOf(
+            tTrack[a][0]),false,false,null,null).get(1);
+        String target = GetData.dataQuery("*",btoons,"toonID",String.valueOf(
+            tTrack[b][0]),false,false,null,null).get(1);
         System.out.println("Player: " + player + ":" + a + " is attacking.");
         tTrack[a][1] = 0;
         tTrack[b][1] += tTrack[b][2];
@@ -204,14 +197,14 @@ public class BattleEngine {
             battleTurn(save,btoons,bmax,a,b);
         } else {
             if(hp1 <= 0) {
-                BattleGUI.writeBattle(GetData.dbQuery(save,"*",btoons,"toonID",String.valueOf(
-            tTrack[0][0]),false).get(1) + " is the winner!");
+                BattleGUI.writeBattle(GetData.dataQuery("*",btoons,"toonID",String.valueOf(
+            tTrack[0][0]),false,false,null,null).get(1) + " is the winner!");
                 MPlayer.stopMedia();
                 MainControls.turnonMusic(MainControls.checkforcustMusic("win"), "win");
                 battleDone = true;
             } else {
-                BattleGUI.writeBattle(GetData.dbQuery(save,"*",btoons,"toonID",String.valueOf(
-            tTrack[1][0]),false).get(1) + " is the winner!");
+                BattleGUI.writeBattle(GetData.dataQuery("*",btoons,"toonID",String.valueOf(
+            tTrack[1][0]),false,false,null,null).get(1) + " is the winner!");
                 MPlayer.stopMedia();
                 MainControls.turnonMusic(MainControls.checkforcustMusic("lose"), "lose");
                 battleDone = true;

@@ -30,11 +30,10 @@ import javax.swing.SwingWorker;
 // </editor-fold>
 
 public class MainControls {
-    
-    
+
     //Main Controls Variables
     static String appName = "Limitless";
-    static String appVer = "0.0.037";
+    static String appVer = "0.0.038";
     static String appTitle = appName + " [ALPHA v" + appVer + "]";
     static String settingsFile = "settings.ini";
     static String defaultIntro = "sounds/intro.mp3";
@@ -96,7 +95,6 @@ public class MainControls {
         lookandfeelSettings();
         startupChecks();
         Limitless.main(args);
-
     }
     
     private static void startupChecks() throws IOException, Exception {
@@ -147,7 +145,6 @@ public class MainControls {
             }
             dagger = Converters.resourcefileToList("all.cmp").get(0);
             price = Converters.resourcefileToList("magic.cmp").get(0);
-            
         } catch(IOException ex) {
             LogWriter.logFile("severe","Donate Popup Error.  Exception: " + ex);
         }
@@ -375,7 +372,7 @@ public class MainControls {
             
             //create reset variables method
             
-            MainControls.created = false;
+            created = false;
             //this is temp for now
             if(!samedbOn) {
                 limitSelect();
@@ -396,33 +393,22 @@ public class MainControls {
             }
             if(continueon) {
                 //method to change screen here
-                //newButton.setText("Building Save Game");
-//                currentgame=currentgamePath.substring(
-//                    currentgamePath.indexOf("/",0),MainControls
-//                    .currentgamePath.indexOf("/",currentgamePath
-//                    .indexOf("/") + 1)).replaceAll("/","");
                 Popups.infoPopup("Building Save Game","Your new game world will"
                     + " now be built.  Please be patient.");
-//                savesDir="saves/" + currentgame + "/";
-//                GetData.createnewSave(Converters.capFirstLetter((MainControls
-//                    .selectedSave).substring(0,(selectedSave)
-//                    .indexOf("." + saveExt))), MainControls
-//                    .currentgame);
-
                 backgroundBuild();
-                while(!MainControls.created) {
+                while(!created) {
                     Thread.sleep(1);
                 }
-                MainControls.rawTime = Integer.parseInt(GetData.dataQuery("*", 
-                    "sav"+Converters.capFirstLetter(Limitless.ngText.getText())+
-                    "Time","timeID","0",false,false,null,null).get(1));
-                String[] dateTime=Converters.convertTime(MainControls.rawTime);
-                MainControls.gameYear=Integer.parseInt(dateTime[0]);
-                MainControls.gameMonth=Integer.parseInt(dateTime[1]);
-                MainControls.gameWeek=Integer.parseInt(dateTime[2]);
-                MainControls.gameDay=Integer.parseInt(dateTime[3]);
-                MainControls.gameHour=Integer.parseInt(dateTime[4]);
-                MainControls.gameMin=Integer.parseInt(dateTime[5]);
+                rawTime = Integer.parseInt(GetData.dataQuery("*","sav"+
+                    Converters.capFirstLetter(Limitless.ngText.getText())+"Time"
+                    ,"timeID","0",false,false,null,null).get(1));
+                String[] dateTime=Converters.convertTime(rawTime);
+                gameYear=Integer.parseInt(dateTime[0]);
+                gameMonth=Integer.parseInt(dateTime[1]);
+                gameWeek=Integer.parseInt(dateTime[2]);
+                gameDay=Integer.parseInt(dateTime[3]);
+                gameHour=Integer.parseInt(dateTime[4]);
+                gameMin=Integer.parseInt(dateTime[5]);
 
                 Limitless.setLoadingAvatars();
                 Limitless.loadingLabel.setText("Game World Has Been Built!");
@@ -460,12 +446,12 @@ public class MainControls {
             @Override
             protected Void doInBackground() throws Exception {
                 currentgame=currentgamePath.substring(currentgamePath.indexOf(
-                    "/",0),MainControls.currentgamePath.indexOf("/",
+                    "/",0),currentgamePath.indexOf("/",
                     currentgamePath.indexOf("/") + 1)).replaceAll("/","");
                 savesDir="saves/" + currentgame + "/";
-                GetData.createnewSave(Converters.capFirstLetter((MainControls
-                    .selectedSave).substring(0,(selectedSave).indexOf("."+
-                    saveExt))),MainControls.currentgame);
+                GetData.createnewSave(Converters.capFirstLetter((selectedSave).
+                    substring(0,(selectedSave).indexOf("."+saveExt))),
+                    currentgame);
                 return null;
             }
         };
@@ -515,7 +501,7 @@ public class MainControls {
     
     private static void worldtextInfo() throws SQLException {
         //add game date method here
-        String save=MainControls.savesDir.replaceAll("saves/","").replaceAll("/"
+        String save=savesDir.replaceAll("saves/","").replaceAll("/"
             , "");
         String savetoons = "sav" + save + "Toons";
         String rawtime = GetData.dataQuery("*", "sav"+save+"Time","timeID","0",
@@ -577,8 +563,8 @@ public class MainControls {
     
     public static void ngToonSelect(String selectedToonID) throws SQLException, 
         IOException {
-        String[] selectedToon =(Converters.getSpecificLine((MainControls.
-            currentgamePath.replaceAll(MainControls.saveExt, "toons")),Integer.
+        String[] selectedToon =(Converters.getSpecificLine((
+            currentgamePath.replaceAll(saveExt, "toons")),Integer.
             parseInt(selectedToonID))).split(",");
         Limitless.charName.setText(selectedToon[1]);
         Avatars.setAvatar(Limitless.charToon, selectedToon[1],selectedToon[10]);
@@ -617,8 +603,8 @@ public class MainControls {
         String UID = selectedToon[5];
         if(UID.startsWith("7")) {
             String ogID = UID.replace("7x", "");
-            String[] ogToon =(Converters.getSpecificLine((MainControls.
-            currentgamePath.replaceAll(MainControls.saveExt, "toons")),Integer.
+            String[] ogToon =(Converters.getSpecificLine((
+            currentgamePath.replaceAll(saveExt, "toons")),Integer.
             parseInt(ogID))).split(",");
             String jobID=(GetData.dataQuery("*","dbAlias","aliasID",ogToon[18],
                 false,false,null,null)).get(6);
@@ -669,10 +655,10 @@ public class MainControls {
     
     public static void ngToonSelectButtons(String option) throws SQLException, 
         IOException {
-        String selectedToonID=MainControls.newgametoonList[Limitless.newgameList
+        String selectedToonID=newgametoonList[Limitless.newgameList
             .getSelectedIndex()][1];
-        String[] selectedToon =(Converters.getSpecificLine((MainControls.
-            currentgamePath.replaceAll(MainControls.saveExt, "toons")),Integer.
+        String[] selectedToon =(Converters.getSpecificLine((
+            currentgamePath.replaceAll(saveExt, "toons")),Integer.
             parseInt(selectedToonID))).split(",");
         if(!selectedToon[18].isEmpty() && !selectedToon[18].equals("null") && 
             !selectedToon[18].equals("")) {
@@ -702,8 +688,8 @@ public class MainControls {
     
     private static void ngToonSelectStats(String[] selectedToon) throws 
         SQLException, IOException {
-        String[] newstats=(Converters.getSpecificLine((MainControls.
-            currentgamePath.replaceAll(MainControls.saveExt, "temp")),Integer.
+        String[] newstats=(Converters.getSpecificLine((
+            currentgamePath.replaceAll(saveExt, "temp")),Integer.
             parseInt(selectedToon[0]))).split(",");
         String statsinfo="[" + selectedToon[1] + " Stats]\n\n"
             + " Health Points:  " + newstats[9] + "\n"
@@ -789,8 +775,8 @@ public class MainControls {
         if(UID.startsWith("7x")) {
             Limitless.altName.setVisible(true);
             String ogID = UID.replace("7x", "");
-            String[] ogToon =(Converters.getSpecificLine((MainControls.
-            currentgamePath.replaceAll(MainControls.saveExt, "toons")),Integer.
+            String[] ogToon =(Converters.getSpecificLine((
+            currentgamePath.replaceAll(saveExt, "toons")),Integer.
             parseInt(ogID))).split(",");
             String jobID=(GetData.dataQuery("*","dbAlias","aliasID",ogToon[18],
                 false,false,null,null)).get(6);
@@ -805,8 +791,8 @@ public class MainControls {
             ".\n\n"+selectedToon[9];
         if(UID.startsWith("7x")) {
             String ogID = UID.replace("7x", "");
-            String[] ogToon =(Converters.getSpecificLine((MainControls.
-            currentgamePath.replaceAll(MainControls.saveExt, "toons")),Integer.
+            String[] ogToon =(Converters.getSpecificLine((
+            currentgamePath.replaceAll(saveExt, "toons")),Integer.
             parseInt(ogID))).split(",");
             if(!ogToon[18].equals("null") && !(ChecksBalances.isNullOrEmpty
                 (ogToon[18]))) {
@@ -879,10 +865,10 @@ public class MainControls {
     
     public static void altnameButton(String opt) throws IOException, 
         SQLException {
-        String selectedToonID=MainControls.newgametoonList[Limitless.newgameList
+        String selectedToonID=newgametoonList[Limitless.newgameList
             .getSelectedIndex()][1];
-        String[] selectedToon =(Converters.getSpecificLine((MainControls.
-             currentgamePath.replaceAll(MainControls.saveExt, "toons")),Integer.
+        String[] selectedToon =(Converters.getSpecificLine((
+             currentgamePath.replaceAll(saveExt, "toons")),Integer.
              parseInt(selectedToonID))).split(",");
         switch(opt) {
             case "Change" :
@@ -900,10 +886,10 @@ public class MainControls {
                     }
                 } else {
                     if(selectedToon[5].startsWith("7x")) {
-                        String[]ogToon=(Converters.getSpecificLine((MainControls
-                            .currentgamePath.replaceAll(MainControls.saveExt,
-                            "toons")),Integer.parseInt(selectedToon[5].
-                            replaceAll("7x","")))).split(",");
+                        String[]ogToon=(Converters.getSpecificLine((
+                            currentgamePath.replaceAll(saveExt,"toons")),Integer
+                            .parseInt(selectedToon[5].replaceAll("7x","")))).
+                            split(",");
                         for(int i=0;i<Limitless.newgameList.getModel().getSize()
                             ;i++) {
                             if(Limitless.newgameList.getModel().getElementAt(i).
@@ -944,29 +930,26 @@ public class MainControls {
 
     public static void ngStartButton(String toonID) throws SQLException, 
         IOException, InterruptedException {
-        String ngsaveName=Converters.capFirstLetter((MainControls.selectedSave)
-            .substring(0,(MainControls.selectedSave).indexOf("."+MainControls
-            .saveExt)));
-        String ngsaveToon=((MainControls.savesDir).substring(((MainControls.
-            savesDir).indexOf("/",0)))).substring(1,((MainControls.savesDir)
-            .substring(((MainControls.savesDir).indexOf("/",0)))).indexOf("/",1)
-            );
+        String ngsaveName=Converters.capFirstLetter((selectedSave).substring(0,
+            (selectedSave).indexOf("."+saveExt)));
+        String ngsaveToon=((savesDir).substring(((savesDir).indexOf("/",0)))).
+            substring(1,((savesDir).substring(((savesDir).indexOf("/",0)))).
+            indexOf("/",1));
         String ngsaveToons = "sav" + ngsaveToon + "Toons";
         String ngsaveMax = "sav" + ngsaveToon + "Max";
-        MainControls.selectedToon = GetData.dataQuery("*",ngsaveToons, 
-            "toonID",String.valueOf(toonID),false,false,null,null).get(0);
+        selectedToon=GetData.dataQuery("*",ngsaveToons,"toonID",String.valueOf
+            (toonID),false,false,null,null).get(0);
         boolean yesno=Popups.yesnoPopup("Character Selection", "You've selected"
             +" "+GetData.dataQuery("*",ngsaveToons,"toonID",String.valueOf
             (toonID),false,false,null,null).get(1)+" as your character.\n\n"
             +"Are you sure you want to start the game?");
         if(yesno) {
             ChecksBalances.newfileCheck(savesDir+".lastused",true,selectedToon+
-            "\n"+selectedSave+"\n"+MainControls.rawTime+"\n"
-            ,true);
+            "\n"+selectedSave+"\n"+rawTime+"\n",true);
             System.gc();
             StartGame.startGame(ngsaveName, ngsaveToons, ngsaveMax);
         } else {
-            MainControls.selectedToon = "";
+            selectedToon = "";
         }
     }
     
@@ -977,13 +960,11 @@ public class MainControls {
         JComboBox dboptions = new JComboBox();
         popLimit(dboptions,limitdml);
         if(dboptions.getItemCount() > 1) {
-            String selection=Popups.comboboxPopup(title, message, dboptions,null
-                );
+            String selection=Popups.comboboxPopup(title,message,dboptions,null);
             if(ChecksBalances.isNullOrEmpty(selection)) {
                 //
             } else {
-                selectedSave = (selection.toLowerCase() + "." + 
-                    saveExt);
+                selectedSave = (selection.toLowerCase() + "." + saveExt);
                 String confirmMessage = selection + " Loaded";
                 Popups.infoPopup(confirmMessage,confirmMessage + "!");
             }
@@ -995,9 +976,8 @@ public class MainControls {
     private static void popLimit(JComboBox box, DefaultComboBoxModel dml) throws 
         IOException {
         try {
-            List<String> savelist = (Converters.foldertoList(MainControls
-                .savesDir, saveExt)).stream().map(Object::toString)
-                .collect(Collectors.toList());
+            List<String> savelist = (Converters.foldertoList(savesDir,saveExt)).
+                stream().map(Object::toString).collect(Collectors.toList());
             fillLimit(box,savelist,dml);
         } catch (IOException ex) {
             LogWriter.logFile("severe","SAV Select Error.\nEx: "+ex.toString());
@@ -1013,8 +993,8 @@ public class MainControls {
         lrCenter.setFont(font.deriveFont(Font.BOLD));
         for(int i = 0; i < list.size(); i++) {
             String x = (list.get(i));
-            String y = Converters.capFirstLetter(x.substring(x.indexOf("\\") + 1
-                , x.indexOf(".",x.indexOf(saveExt) - 2)));
+            String y = Converters.capFirstLetter(x.substring(x.indexOf("\\")+1,
+                x.indexOf(".",x.indexOf(saveExt) - 2)));
             dml.addElement(y);
         }
         save.setModel(dml);
@@ -1118,5 +1098,4 @@ public class MainControls {
             Updater.updateMessage(name, ver);
         }
     }
-       
 }
