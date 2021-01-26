@@ -16,7 +16,7 @@ import java.net.URL;
  */
 // </editor-fold>
 
-public class verCheck {
+public class VersionCheck {
     
     public static boolean checkVersion(String installedName, String 
         installedVersion) throws IOException {

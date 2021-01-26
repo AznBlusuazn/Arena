@@ -1,6 +1,6 @@
 =======================================
 LIMITLESS by Geoff Clark
-VERSION ALPHA 0.0.038 / 2021.01.25-1157
+VERSION ALPHA 0.0.038 / 2021.01.25-2350
 =======================================
 
 SUPPORT THE DEVELOPMENT OF THIS GAME @ 
@@ -47,13 +47,17 @@ Contact the author:  info@clarktribegames.com
 
 DEVELOPMENT NOTES
 
-ALPHA 0.0.038 / 2021.01.25-1157 (IN PROGRESS)
+ALPHA 0.0.038 / 2021.01.25-2350
 
+- fixed issue where passive aliases where not being created
+- optimized world build time by shortening method paths
 - removed older db query method and replaced all references with newer version
 - removed older record retrieval and replaced all references with newer version
 - cleaned up legacy and nulled out code
 - revamped update check with integrated clean up for alpha testers
 - added update check button to options menu
+- fixed game crash due to no images being in avatars folder
+- disabled the ability to start game as a generated generic character
 
 ALPHA 0.0.037 / 2021.01.24-2313
 

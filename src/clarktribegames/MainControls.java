@@ -371,7 +371,6 @@ public class MainControls {
         try {
             
             //create reset variables method
-            
             created = false;
             //this is temp for now
             if(!samedbOn) {
@@ -645,7 +644,7 @@ public class MainControls {
         Limitless.charStat05.setForeground((Converters.figureoutColor
             (statuscolor)));
         Limitless.charStat05.setToolTipText(statusdesc);
-        if(selectedToon[19].equals(passiveDestinyID)) {
+        if(selectedToon[19].equals(passiveDestinyID) || selectedToon[5].equals("1")) {
             Limitless.ngstartButton.setEnabled(false);
         } else {
             Limitless.ngstartButton.setEnabled(true);
@@ -854,12 +853,18 @@ public class MainControls {
                     }
             }
         }
-        if(selectedToon[19].equals(passiveDestinyID)) {
+        if(selectedToon[5].equals("1")) {
+            bioInfo+="\n\n"+
+                "***This character is generated generic character.  You cannot "
+                + "start a game with this character.***";
+        }
+        if(selectedToon[19].equals(passiveDestinyID) && !selectedToon[5].equals(
+            "1")) {
             bioInfo+="\n\n"+
                 "***This character is set to Passive.  You cannot start a game "
                 + "with this character.***";
         }
-            //update health status above
+        //update health status above
         Limitless.charStatText.setText(bioInfo);
     }
     
@@ -1094,7 +1099,7 @@ public class MainControls {
     
     private static void checkVersion (String name, String ver) throws 
         IOException, InterruptedException {
-        if((verCheck.checkVersion(name, ver))) {
+        if((VersionCheck.checkVersion(name, ver))) {
             Updater.updateMessage(name, ver);
         }
     }

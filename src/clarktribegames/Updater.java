@@ -22,7 +22,7 @@ public class Updater {
                 + "e.\n\nWould you like to download the latest update?";
         boolean updateNow = Popups.yesnoPopup("Needs an Update",messageString);
         if(updateNow == true) {
-            cleanUpdate.cleanUpdate();
+            CleanUpdate.cleanUpdate();
         } else {
             String reminderTitle="This is an older release!";
             String reminderMessage="As a reminder, this is an older ALPHA "+

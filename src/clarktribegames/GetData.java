@@ -113,8 +113,13 @@ public class GetData {
     
     public static void createnewSave(String save,String game)throws SQLException
         , IOException, InterruptedException, Exception {
+        try{
         copyTab(save,"dbToons", "sav" + game.toLowerCase() + "Toons");
         buildtoonSave(game);
+        while(!(new File(MainControls.savesDir + ".tmp0").exists())) {
+            Thread.sleep(1);
+        }
+        Thread.sleep(150);
         String savetoons = "sav" + game.toLowerCase() + "Toons";
         //includes generics and alts
         int numbertoons=dataQuery("*",savetoons,"toonID",null,true,false,null,
@@ -123,11 +128,8 @@ public class GetData {
         while(!(new File(MainControls.savesDir + ".tmp1").exists())) {
             Thread.sleep(1);
         }
-        Thread.sleep(250);
-        int newnumbertoons=dataQuery("*",savetoons,"toonID",null,true,false,null
-            ,null).size();
-        buildAlts(game,newnumbertoons);        
-        while(!(new File(MainControls.savesDir + ".tmp1").exists())) {
+        buildAlts(game);        
+        while(!(new File(MainControls.savesDir + ".tmp2").exists())) {
             Thread.sleep(1);
         }
         Converters.dbtabletoFile("sav"+game.toLowerCase()+"Toons","toonID",(
@@ -136,8 +138,13 @@ public class GetData {
         ChecksBalances.fileCheck((MainControls.currentgamePath.replaceAll(
             MainControls.saveExt,"toons")),(MainControls.currentgamePath.
             replaceAll(MainControls.saveExt, "max")),false,true);
+        ChecksBalances.ifexistDelete(MainControls.savesDir + ".tmp0");
         ChecksBalances.ifexistDelete(MainControls.savesDir + ".tmp1");
+        ChecksBalances.ifexistDelete(MainControls.savesDir + ".tmp2");
         MainControls.created = true;
+        } catch (Exception ex) {
+            LogWriter.logFile("severe", "Alt Build Error. EX: " + ex);
+        }
     }
     
     private static void copyTab(String save,String oldtable,String newtable) 
@@ -154,7 +161,7 @@ public class GetData {
             try (Statement s = con.createStatement()) {
                 try (ResultSet rs = s.executeQuery("SELECT * FROM [" + oldtable 
                     + "]")) {
-                    Thread.sleep(750);
+                    //Thread.sleep(750);
                     Database db=new DatabaseBuilder().setAutoSync(false).setFile
                         (new File(savepath)).open();
                     ImportUtil.importResultSet(rs,db,newtable,new 
@@ -208,7 +215,7 @@ public class GetData {
             String savepath=(MainControls.savesDir+Converters.capFirstLetter((
                 MainControls.selectedSave))).replaceAll(MainControls.saveExt+"."
                 +MainControls.saveExt,MainControls.saveExt);;
-            Thread.sleep(750);
+            //Thread.sleep(250);
             try (Connection con=DriverManager.getConnection("jdbc:ucanaccess://"
                 + savepath, db2, db3)) {
                 try (Statement s = con.createStatement()) {
@@ -227,12 +234,16 @@ public class GetData {
             } catch (Exception e) {
                 e.printStackTrace(System.err);
             }
+            if(toonidx == numbertoons -1) {
+                ChecksBalances.newfileCheck(MainControls.savesDir+".tmp0",true,"",true);
+            }
         }
     }
     
     private static void buildGenerics(String game, int numbertoons) throws 
         SQLException, IOException, InterruptedException {
         String savetoons = "sav" + game.toLowerCase() + "Toons";
+//        int gensneeded=numbertoons * 3;
         int gensneeded=numbertoons - (numbertoons / 3);
         int numbergens=dataQuery("*","dbGeneric","genericID",null,true,
             false,null,null).size();
@@ -327,7 +338,7 @@ public class GetData {
                                     selectedSave))).replaceAll(MainControls.
                                     saveExt+"."+MainControls.saveExt,
                                     MainControls.saveExt);
-                                Thread.sleep(750);    
+                                //Thread.sleep(750);    
                                 try (Connection con=DriverManager.getConnection(
                                     "jdbc:ucanaccess://"+savepath,db2,db3)) {
                                     try (Statement s = con.createStatement()) {
@@ -352,7 +363,7 @@ public class GetData {
                                         "null",""),gentoonstats.get(18),
                                         gentoonstats.get(19),genStats,genExp,
                                         genSize,"0");
-                                    Thread.sleep(350);
+                                    Thread.sleep(250);
                                     }
                                     con.close();
                                 } catch (Exception e) {
@@ -361,19 +372,24 @@ public class GetData {
                             }
                             gensremain -= makenumber;
                         } 
-                    } 
+                    }
+                    if(x == numbergens -1) {
+                        ChecksBalances.newfileCheck(MainControls.savesDir+".tmp1",true,"",true);
+                    }
                 }
             } 
         } 
-        ChecksBalances.newfileCheck(MainControls.savesDir+".tmp1",true,"",true);
+        
     }
     
-    private static void buildAlts(String game, int numbertoons) throws 
+    private static void buildAlts(String game) throws 
         SQLException, IOException, InterruptedException {
-        Thread.sleep(250);
+        Thread.sleep(15000);
         String savetoons = "sav" + game.toLowerCase() + "Toons";
+        int numbertoons=dataQuery("*",savetoons,"toonID",null,true,false,null,
+            null).size();
         int nextnumber = numbertoons;
-        for(int toonidx = 0; toonidx < nextnumber; toonidx++) {
+        for(int toonidx = 0; toonidx < numbertoons; toonidx++) {
             Thread.sleep(250);
             String toonuid=dataQuery("*",savetoons,"toonID",
                 String.valueOf(toonidx),false,false,null,null).get(5);
@@ -398,7 +414,7 @@ public class GetData {
                             .capFirstLetter((MainControls.selectedSave)))
                             .replaceAll(MainControls.saveExt+"."+MainControls
                             .saveExt,MainControls.saveExt);
-                        Thread.sleep(750);    
+                        Thread.sleep(250);    
                         try (Connection con=DriverManager.getConnection(
                             "jdbc:ucanaccess://"+savepath,db2,db3)) {
                             try (Statement s = con.createStatement()) {
@@ -422,7 +438,7 @@ public class GetData {
                                 alttoonstats.get(19),alttoonstats.get(20),
                                 alttoonstats.get(21),alttoonstats.get(22),
                                 alttoonstats.get(23));
-                            Thread.sleep(350);
+                            Thread.sleep(250);
                             }
                             con.close();
                         } catch (Exception e) {
@@ -431,11 +447,14 @@ public class GetData {
                     }
                 }
             } 
+            if(toonidx == numbertoons -1) {
+                        ChecksBalances.newfileCheck(MainControls.savesDir+".tmp2",true,"",true);
+            }
         }
     }
     
     private static List<String> altBuilder(String savetoons,int toonidx,
-        int nextnumber,List<String> altstats) throws SQLException, IOException {
+        int nextnumber,List<String> altstats) throws SQLException, IOException, InterruptedException {
         List<String> ogtoonstats = dataQuery("*",savetoons,"toonID",
             String.valueOf(toonidx),false,false,null,null);
         List<String> alttoonstats = new ArrayList<>();

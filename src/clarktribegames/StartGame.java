@@ -22,19 +22,27 @@ public class StartGame {
     
     private static void startTime(String save, String savetoons, String savemax) 
         throws SQLException, IOException, InterruptedException{
-        String tempstartMsg = "This is normally where the game would start, but"
-            + " for now, it's just battle mode.\n\n" + save + "\n" + savetoons;
-        Popups.infoPopup("Starting " + Converters.capFirstLetter(savetoons.
-            substring(3,savetoons.length()-5)) + " Game!",GetData.dataQuery("*",
-            savetoons,"toonID",MainControls.selectedToon,false,false,null,null).
-            get(1)+"\n"+"\n Week "+MainControls.gameWeek+", Month "+MainControls
-            .gameMonth+", Day "+MainControls.gameDay+", Year "+MainControls.
-            gameYear+"\n\n"+tempstartMsg);
-        ChecksBalances.ifexistDelete(MainControls.currentgamePath.replaceAll(
-            MainControls.saveExt,"temp"));
-
+        Popups.infoPopup("ALPHA TESTING IN PROGRESS", "This is where the game "
+            + "would start, but the game is still in ALPHA.\n\nThank you for " +
+            "testing!\n\nGeoff @ ClarkTribeGames");
+//        String tempstartMsg = "This is normally where the game would start, but"
+//            + " for now, it's just battle mode.\n\n" + save + "\n" + savetoons;
+//        Popups.infoPopup("Starting " + Converters.capFirstLetter(savetoons.
+//            substring(3,savetoons.length()-5)) + " Game!",GetData.dataQuery("*",
+//            savetoons,"toonID",MainControls.selectedToon,false,false,null,null).
+//            get(1)+"\n"+"\n Week "+MainControls.gameWeek+", Month "+MainControls
+//            .gameMonth+", Day "+MainControls.gameDay+", Year "+MainControls.
+//            gameYear+"\n\n"+tempstartMsg);
+        String tempfile = MainControls.currentgamePath.replaceAll(
+            MainControls.saveExt,"temp");
+        if(tempfile.length() > 0) {
+            ChecksBalances.ifexistDelete(tempfile);
+        }
+        MainControls.clearTemp();
+        System.gc();
+        System.exit(0);
         //revamp Battle Engine
-        BattleEngine.battleEngine(save, savetoons, savemax);
+        //BattleEngine.battleEngine(save, savetoons, savemax);
     }
     
 }

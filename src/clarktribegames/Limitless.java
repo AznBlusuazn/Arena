@@ -2239,7 +2239,12 @@ public class Limitless extends javax.swing.JFrame {
         try {
             ArrayList<Path> avatarList = (ArrayList<Path>) Avatars
                 .startmenuAvatars();
-            int listsize = avatarList.size();
+            int listsize = 0;
+            try {
+                listsize = avatarList.size();
+            } catch (NullPointerException e) {
+                //
+            }
             if(listsize > 0) {
                 setAvatarBox(avatarList,mToon,0);
             }
@@ -2264,7 +2269,12 @@ public class Limitless extends javax.swing.JFrame {
         try {
             ArrayList<Path> loadingavatarList = (ArrayList<Path>) Avatars
                 .startmenuAvatars();
-            int listsize = loadingavatarList.size();
+            int listsize = 0;
+            try {
+                listsize = loadingavatarList.size();
+            } catch (NullPointerException e) {
+                //
+            }  
             if(listsize > 0) {
                 setAvatarBox(loadingavatarList,loadToon1,0);
             }
@@ -2289,7 +2299,12 @@ public class Limitless extends javax.swing.JFrame {
         try {
             ArrayList<Path> avatarList = (ArrayList<Path>) Avatars
                 .startmenuAvatars();
-            int listsize = avatarList.size();
+            int listsize = 0;
+            try {
+                listsize = avatarList.size();
+            } catch (NullPointerException e) {
+                //
+            }
             ngmToon.setVisible(false);
             ngtlToon.setVisible(false);
             ngtrToon.setVisible(false);
@@ -2548,7 +2563,7 @@ public class Limitless extends javax.swing.JFrame {
     
     private static void updateoptButton() throws IOException, 
         InterruptedException {
-        if((verCheck.checkVersion(MainControls.appName,MainControls.appVer))) {
+        if((VersionCheck.checkVersion(MainControls.appName,MainControls.appVer))) {
             Updater.updateMessage(MainControls.appName,MainControls.appVer);
         } else {
             Popups.infoPopup("No Update Available", "There is no update "
