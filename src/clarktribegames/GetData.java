@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import javax.swing.JLabel;
 import javax.swing.JList;
 
@@ -76,7 +75,7 @@ public class GetData {
             tempList = (getSingList(st,search,table,col)).replaceAll("\\[","").
                 replaceAll("\\]","");
         }
-        String[] stringList = tempList.split(",");
+        String[] stringList = tempList.replaceAll(", ",",").split(",");;
         List<String> convertedList = Arrays.asList(stringList);       
         if(!SecondaryQ) {
             st.close();
@@ -119,43 +118,25 @@ public class GetData {
     public static void createnewSave(String save,String game)throws SQLException
         , IOException, InterruptedException, Exception {
         try{
+        
+        //reset variables
         buildingToons = 0;
         buildingToonsOG = 0;
+        StartGame.savToons = new ArrayList<>();
+        StartGame.genToons = new ArrayList<>();
+        StartGame.altToons = new ArrayList<>();
         String savetoons = "sav" + game.toLowerCase() + "Toons";
         createSav(save,"dbToons",savetoons);
-        buildtoonSave(game);
-        while(!(new File(MainControls.savesDir+game.toLowerCase()+".savtoons").
-            exists())) {
-            Thread.sleep(1);
-        }
-        buildGenerics(game);
-        while(!(new File(MainControls.savesDir+game.toLowerCase()+".gens").
-            exists())) {
-            Thread.sleep(1);
-        }
-        buildAlts(game);        
-        while(!(new File(MainControls.savesDir+game.toLowerCase()+".alts").
-            exists())) {
-            Thread.sleep(1);
-        }
-        sendtoNewDB(game.toLowerCase(),MainControls.savesDir+game.toLowerCase()+
-            ".savtoons",MainControls.savesDir+game.toLowerCase()+".gens",
-            MainControls.savesDir+game.toLowerCase()+".alts");
-        while(!(new File(MainControls.savesDir+game.toLowerCase()+".alts").
-            exists())) {
-            Thread.sleep(1);
-        }
-        Converters.dbtabletoFile(savetoons,"toonID",(MainControls.
-            currentgamePath.replaceAll(MainControls.saveExt,"toons")));
-        ChecksBalances.fileCheck((MainControls.currentgamePath.replaceAll(
-            MainControls.saveExt,"toons")),(MainControls.currentgamePath.
-            replaceAll(MainControls.saveExt,"max")),false,true);
-        ChecksBalances.ifexistDelete(MainControls.savesDir+game.toLowerCase()+
-            ".savtoons");
-        ChecksBalances.ifexistDelete(MainControls.savesDir+game.toLowerCase()+
-            ".gens");
-        ChecksBalances.ifexistDelete(MainControls.savesDir+game.toLowerCase()+
-            ".alts");
+        buildtoonSave(StartGame.savToons);
+        buildGenerics(StartGame.genToons);
+        buildAlts(StartGame.altToons);
+        sendtoNewDB(game.toLowerCase(),StartGame.savToons,StartGame.genToons,
+            StartGame.altToons);
+//        Converters.dbtabletoFile(savetoons,"toonID",(MainControls.
+//            currentgamePath.replaceAll(MainControls.saveExt,"toons")));
+//        ChecksBalances.fileCheck((MainControls.currentgamePath.replaceAll(
+//            MainControls.saveExt,"toons")),(MainControls.currentgamePath.
+//            replaceAll(MainControls.saveExt,"max")),false,true);
         MainControls.created = true;
         } catch (Exception ex) {
             LogWriter.logFile("severe", "Alt Build Error. EX: " + ex);
@@ -276,56 +257,45 @@ public class GetData {
         }
     }
     
-    private static void buildtoonSave(String game) throws SQLException, 
+    private static void buildtoonSave(List<String> savtoons) throws SQLException, 
         IOException,InterruptedException {
-        String savTempFile = game.toLowerCase()+".savtoons";
-        ChecksBalances.newfileCheck(MainControls.savesDir+savTempFile,true,"",
-            true); 
-        int numbertoons=dataQuery("*","dbToons","toonID",null,true,false,null,
-            null).size();
+        int numbertoons=MemoryBank.dbToons.size();
         buildingToons = numbertoons;
         buildingToonsOG = numbertoons;
         for(int toonidx = 0; toonidx < numbertoons; toonidx++) {
-            List<String> toonstats=dataQuery("*","dbToons","toonID",String.
-                valueOf(toonidx),false,false,null,null);
+            String[] toonstats = (Converters.expListtoArray(MemoryBank.dbToons.
+                get(toonidx)));
             String toonExp = String.valueOf((int) Double.parseDouble(Calculator
-                .getLevel("ranxp",(toonstats.get(8)))));
+                .getLevel("ranxp",(toonstats[8]))));
             double ratioXP = Double.parseDouble(toonExp) / (Double.parseDouble
                 (Calculator.getLevel("stalv", String.valueOf(Integer.parseInt
-                (toonstats.get(8) + 1)))));
+                (toonstats[8] + 1)))));
             String toonSize=dataQuery("*","dbSize","sizeName",(Calculator.
-                getSize(((dataQuery("*","dbRace","raceID",toonstats.get(2),false
-                ,false,null,null)).get(1)),(Calculator.getAge(Integer.parseInt(
-                toonstats.get(7)),toonstats.get(2))))),false,false,null,null).
-                get(0);
-            String toonStats = (GetStats.getStats("Toon",toonstats.toArray(new 
-                String[0]),ratioXP,true).toString()).replaceAll(", ","x");
+                getSize(Converters.fetchString(MemoryBank.dbRace,toonstats[2],1)
+                ,(Calculator.getAge(Integer.parseInt(toonstats[7]),toonstats[2])
+                ))),false,false,null,null).get(0);
+            String toonStats = (GetStats.getStats("Toon",toonstats,ratioXP,true)
+                .toString()).replaceAll(", ","x");
             toonStats = toonStats.substring(1, toonStats.length() - 1);
-            String tempSav=(Arrays.toString(toonstats.toArray()));
+            String tempSav=(Arrays.toString(toonstats));
             tempSav=tempSav.substring(1,tempSav.length() -1).replace(", ",",");
             tempSav=tempSav+","+toonStats+","+toonExp+","+toonSize+",0";
-            Files.write(Paths.get(MainControls.savesDir+savTempFile),(tempSav.
-                replaceAll("null", "")+"\n").getBytes(),StandardOpenOption.
-                APPEND);
+            savtoons.add(tempSav);
         }
     }
     
-    private static void buildGenerics(String game) throws 
+    private static void buildGenerics(List<String> gentoons) throws 
         SQLException, IOException, InterruptedException {
-        String genTempFile = game.toLowerCase() + ".gens";
-        ChecksBalances.newfileCheck(MainControls.savesDir+genTempFile,true,"",
-            true);        
 //        int gensneeded=numbertoons * 3;
         int gensneeded=buildingToons - (buildingToons / 3);
-        int numbergens=dataQuery("*","dbGeneric","genericID",null,true,false,
-            null,null).size();
+        int numbergens=MemoryBank.dbGeneric.size();
         int gensremain = gensneeded;
         if(numbergens > 0) {
             if(gensremain > 0) {
                 for(int x=0; x < numbergens; x++) {
                     if(gensremain > 0) {
-                        String rawmax=dataQuery("*","dbGeneric","genericID",
-                            String.valueOf(x),false,false,null,null).get(17);
+                        String rawmax=Converters.fetchString(MemoryBank.
+                            dbGeneric,String.valueOf(x),17);
                         int makenumber = 0;
                         if(rawmax.toLowerCase().equals("null") || rawmax.equals
                             ("0") || rawmax.isEmpty() || rawmax.equals("") || 
@@ -343,60 +313,56 @@ public class GetData {
                             int[]genidnums=Randomizer.randomNumbers(makenumber);
                             //add genidnums method here;
                             for(int y=1; y <= makenumber; y++) {
-                                List<String> genstats=dataQuery("*",
-                                    "dbGeneric","genericID",String.valueOf(x),
-                                    false,false,null,null);
-                                int startlv=(int) ((Integer.parseInt(genstats.
-                                    get(8))-Integer.parseInt(genstats.get(7)))*
-                                    Math.random())+Integer.parseInt(genstats.get
-                                    (7));
+                                String[] genstats = Converters.expListtoArray(
+                                    MemoryBank.dbGeneric.get(x));
+                                int startlv=(int) ((Integer.parseInt(genstats[8]
+                                    )-Integer.parseInt(genstats[7]))*Math.random
+                                    ())+Integer.parseInt(genstats[7]);
                                 String genExp=String.valueOf((int) Double.
                                     parseDouble(Calculator.getLevel("ranxp",(
                                     String.valueOf(startlv)))));
                                 double ratioXP=Double.parseDouble(genExp)/(
                                     Double.parseDouble(Calculator.getLevel(
                                     "stalv",String.valueOf(startlv + 1))));
-                                int genage=(int) (((Integer.parseInt((
-                                    dataQuery("*","dbRace","raceID",genstats.get
-                                    (2),false,false,null,null).get(5)))) * .15)+ 
-                                    Math.random()*(((Integer.parseInt((
-                                    dataQuery("*","dbRace","raceID",genstats.get
-                                    (2),false,false,null,null).get(5))))*.40)));
-                                
+                                int genage=(int) (((Integer.parseInt((Converters
+                                    .fetchString(MemoryBank.dbRace,genstats[2],5
+                                    ))))*.15)+Math.random()*(((Integer.parseInt(
+                                    (Converters.fetchString(MemoryBank.dbRace,
+                                    genstats[2],5))))*.40)));
+
                                 //defines age: min 15% race age/max 40% race age
                                 
-                                String genSize=dataQuery("*","dbSize",
-                                    "sizeName",(Calculator.getSize(((
-                                    dataQuery("*","dbRace","raceID",genstats.get
-                                    (2), false,false,null,null)).get(1)),(
-                                    Calculator.getAge(genage,genstats.get(2)))))
-                                    ,false,false,null,null).get(0);
+                                String genSize=dataQuery("*","dbSize","sizeName"
+                                    ,(Calculator.getSize((Converters.fetchString
+                                    (MemoryBank.dbRace,genstats[2],1)),
+                                    Calculator.getAge(genage,genstats[2]))),
+                                    false,false,null,null).get(0);
                                 List<String> gentoonstats = new ArrayList<>();
-                                int genalign=(int) ((Integer.parseInt(genstats.
-                                    get(5))-Integer.parseInt(genstats.get(4)))*
-                                    Math.random())+Integer.parseInt(genstats.get
-                                    (4));
+                                
+                                int genalign=(int)((Integer.parseInt(genstats[5]
+                                    )-Integer.parseInt(genstats[4]))*Math.random
+                                    ())+Integer.parseInt(genstats[4]);
                                 gentoonstats.add(0, "");
-                                gentoonstats.add(1, (genstats.get(1) + " #" + 
-                                    genidnums[y-1]));
-                                gentoonstats.add(2, genstats.get(2));
-                                gentoonstats.add(3, genstats.get(3));
-                                gentoonstats.add(4, String.valueOf(genalign));
-                                gentoonstats.add(5, "1");
-                                gentoonstats.add(6, genstats.get(6));
-                                gentoonstats.add(7, String.valueOf(genage));
-                                gentoonstats.add(8, String.valueOf(startlv));
-                                gentoonstats.add(9, genstats.get(9));
-                                gentoonstats.add(10, genstats.get(10));
-                                gentoonstats.add(11, genstats.get(11));
-                                gentoonstats.add(12, genstats.get(12));
-                                gentoonstats.add(13, genstats.get(13));
-                                gentoonstats.add(14, genstats.get(14));
-                                gentoonstats.add(15, genstats.get(15));
-                                gentoonstats.add(16, genstats.get(16));
-                                gentoonstats.add(17, "");
-                                gentoonstats.add(18, "");
-                                gentoonstats.add(19, "0");
+                                gentoonstats.add(1,(genstats[1]+" #"+genidnums
+                                    [y-1]));
+                                gentoonstats.add(2,genstats[2]);
+                                gentoonstats.add(3,genstats[3]);
+                                gentoonstats.add(4,String.valueOf(genalign));
+                                gentoonstats.add(5,"1");
+                                gentoonstats.add(6,genstats[6]);
+                                gentoonstats.add(7,String.valueOf(genage));
+                                gentoonstats.add(8,String.valueOf(startlv));
+                                gentoonstats.add(9,genstats[9]);
+                                gentoonstats.add(10,genstats[10]);
+                                gentoonstats.add(11,genstats[11]);
+                                gentoonstats.add(12,genstats[12]);
+                                gentoonstats.add(13,genstats[13]);
+                                gentoonstats.add(14,genstats[14]);
+                                gentoonstats.add(15,genstats[15]);
+                                gentoonstats.add(16,genstats[16]);
+                                gentoonstats.add(17,"");
+                                gentoonstats.add(18,"");
+                                gentoonstats.add(19,"0");
                                 String genStats=(GetStats.getStats("Toon",
                                     gentoonstats.toArray(new String[0]),ratioXP,
                                     true).toString()).replaceAll(", ","x");
@@ -408,9 +374,7 @@ public class GetData {
                                     .replace(", ", ",");
                                 tempGen=tempGen+","+genStats+","+genExp+","+
                                     genSize+",0";
-                                Files.write(Paths.get(MainControls.savesDir+
-                                    genTempFile),(tempGen.replaceAll("null","")+
-                                    "\n").getBytes(),StandardOpenOption.APPEND);
+                                gentoons.add(tempGen);
                             }
                             gensremain -= makenumber;
                         }
@@ -420,22 +384,18 @@ public class GetData {
         } 
     }
 
-    private static void buildAlts(String game) throws 
+    private static void buildAlts(List<String> alttoons) throws 
         SQLException, IOException, InterruptedException {
-        String altTempFile = game.toLowerCase() + ".alts";
-        ChecksBalances.newfileCheck(MainControls.savesDir+altTempFile,true,"",
-            true);
         for(int toonidx = 0; toonidx < buildingToonsOG; toonidx++) {
-            String[] toon = Converters.getSpecificLine(MainControls.savesDir+
-                altTempFile.replaceAll(".alts",".savtoons"),toonidx).split(",");
+            String[] toon = (StartGame.savToons.get(toonidx)).replaceAll(", ",
+                ",").split(",");
             String toonuid=toon[5];
             if(!toonuid.startsWith("7")) {
-
                 String altvalue=toon[18];
                 if(!altvalue.equals("null") && !altvalue.isEmpty()) {
-                    List<String> altstats = dataQuery("*","dbAlias","aliasID",
-                        altvalue,false,false,null,null);
-                    String alttype=altstats.get(2);
+                    String[] altstats = Converters.expListtoArray(MemoryBank.
+                        dbAlias.get(Integer.parseInt(altvalue)));
+                    String alttype=altstats[2];
                     if(!alttype.equals("1") && !alttype.equals("2") && !alttype.
                         equals("3")) {
                         //0 name only no secret -- nothing
@@ -448,137 +408,136 @@ public class GetData {
                         String tmpAlt=(Arrays.toString(alttoonstats.toArray()));
                         tmpAlt = tmpAlt.substring(3,tmpAlt.length() -1).replace(
                             ", ", ",");
-                        Files.write(Paths.get(MainControls.savesDir+altTempFile)
-                            ,(tmpAlt.replaceAll("null", "")+"\n").getBytes(),
-                            StandardOpenOption.APPEND);
+                        alttoons.add(tmpAlt);
                     }
                 }
             }
         }
     }
     
-    private static List<String> altBuilder(String[] ogtoonstats,int toonidx,List 
-        <String> altstats) throws SQLException,IOException,InterruptedException{
+    private static List<String> altBuilder(String[] ogtoonstats,int toonidx,
+        String[]altstats) throws SQLException,IOException,InterruptedException{
         List<String> alttoonstats = new ArrayList<>();
         //alt id 0
         alttoonstats.add(0,"");
         //alt name 1
-        alttoonstats.add(1, (altstats.get(1)));
+        alttoonstats.add(1,altstats[1]);
         //alt race 2
-        if(altstats.get(3).equals("=") || altstats.get(3).equals("null") || 
-            altstats.get(3).isEmpty()) {
-            alttoonstats.add(2, ogtoonstats[2]);
+        if(altstats[3].equals("=") || altstats[3].equals("null") || 
+            altstats[3].isEmpty()) {
+            alttoonstats.add(2,ogtoonstats[2]);
         } else  {
-            alttoonstats.add(2, altstats.get(3));
+            alttoonstats.add(2,altstats[3]);
         }
         //alt class 3
-        String jobid = altstats.get(6);
+        String jobid = altstats[6];
         if(jobid.equals("=") || jobid.equals("null") || jobid.isEmpty()) {
-            alttoonstats.add(3, ogtoonstats[3]);
+            alttoonstats.add(3,ogtoonstats[3]);
         } else {
-            List<String> jobstats = dataQuery("*","dbJobs","jobID",jobid,false,
-                false,null,null);
-            alttoonstats.set(2, jobstats.get(2));
-            alttoonstats.add(3, jobstats.get(3));
+            String[] jobstats = Converters.expListtoArray(MemoryBank.dbJobs.get(
+                Integer.parseInt(jobid)));
+            alttoonstats.set(2,jobstats[2]);
+            alttoonstats.add(3, jobstats[3]);
         }
         //alt align 4
-        alttoonstats.add(4, String.valueOf(ogtoonstats[4]));
+        alttoonstats.add(4,String.valueOf(ogtoonstats[4]));
         //alt uid 5
-        alttoonstats.add(5, "7x" + toonidx);
+        alttoonstats.add(5,"7x"+toonidx);
         //alt gender 6
-        if(altstats.get(5).equals("=") || altstats.get(5).equals("null") || 
-            altstats.get(5).isEmpty()) {
-            alttoonstats.add(6, ogtoonstats[6]);
+        if(altstats[5].equals("=") || altstats[5].equals("null") || 
+            altstats[5].isEmpty()) {
+            alttoonstats.add(6,ogtoonstats[6]);
         } else  {
-            alttoonstats.add(6, altstats.get(5));
+            alttoonstats.add(6,altstats[5]);
         }
         //alt age 7
         if(!ogtoonstats[2].equals(alttoonstats.get(2))) {
             double ageratio=Double.parseDouble(ogtoonstats[7])/Double.
-                parseDouble(dataQuery("*","dbRace","raceID",ogtoonstats[2],
-                false,false,null,null).get(5));
-            int altage=(int) (ageratio*(Integer.parseInt(GetData.dataQuery("*",
-                "dbRace","raceID",alttoonstats.get(2),false,false,null,null).get
-                (5))));
-            alttoonstats.add(7, String.valueOf(altage));
+                parseDouble(Converters.fetchString(MemoryBank.dbRace,ogtoonstats
+                [2],5));
+            int altage=(int)(ageratio*(Integer.parseInt(Converters.fetchString(
+                MemoryBank.dbRace,alttoonstats.get(2),5))));
+            alttoonstats.add(7,String.valueOf(altage));
         } else {
-            alttoonstats.add(7, ogtoonstats[7]);
+            alttoonstats.add(7,ogtoonstats[7]);
         }
         //alt startlv 8
-        int altlv = (int)(Integer.parseInt(ogtoonstats[8])
-            *(.01*(20+(Math.random()*80))));
+        int altlv = (int)(Integer.parseInt(ogtoonstats[8])*(.01*(20+(Math.random
+            ()*80))));
         String altexp=String.valueOf((int)Double.parseDouble(Calculator.getLevel
             ("ranxp",(String.valueOf(altlv)))));
         double altratioXP=Double.parseDouble(altexp)/(Double.parseDouble(
             Calculator.getLevel("stalv",String.valueOf(altlv + 1))));                        
-        alttoonstats.add(8, String.valueOf(altlv));
+        alttoonstats.add(8,String.valueOf(altlv));
         //alt bio 9
-        alttoonstats.add(9, altstats.get(7));
+        alttoonstats.add(9,altstats[7]);
         //alt image 10
-        alttoonstats.add(10, altstats.get(8));
+        alttoonstats.add(10,altstats[8]);
         //alt abl 11
-        alttoonstats.add(11, "");
+        alttoonstats.add(11,"");
         //alt eff 12
-        alttoonstats.add(12, "");
+        alttoonstats.add(12,"");
         //alt held 13
         if(jobid.equals("=") || jobid.equals("null") || jobid.isEmpty()) {
-            alttoonstats.add(13, ogtoonstats[13]);
+            alttoonstats.add(13,ogtoonstats[13]);
         } else {                  
-            alttoonstats.add(13,dataQuery("*","dbJobs","jobID",jobid,false,false
-                ,null,null).get(5));
+            alttoonstats.add(13,Converters.fetchString(MemoryBank.dbJobs,jobid,5
+                ));
         }
         //alt wear 14
         if(jobid.equals("=") || jobid.equals("null") || jobid.isEmpty()) {
-            alttoonstats.add(14, ogtoonstats[14]);
+            alttoonstats.add(14,ogtoonstats[14]);
         } else {    
-            alttoonstats.add(14,dataQuery("*","dbJobs","jobID",jobid,false,false
-                ,null,null).get(6));
+            alttoonstats.add(14,Converters.fetchString(MemoryBank.dbJobs,jobid,6
+                ));
         }
         //alt charms 15
         if(jobid.equals("=") || jobid.equals("null") || jobid.isEmpty()) {
-            alttoonstats.add(15, ogtoonstats[15]);
+            alttoonstats.add(15,ogtoonstats[15]);
         } else {                  
-            alttoonstats.add(15,dataQuery("*","dbJobs","jobID",jobid,false,false
-                ,null,null).get(7));
+            alttoonstats.add(15,Converters.fetchString(MemoryBank.dbJobs,jobid,7
+                ));
         }
         //alt inv 16
         if(jobid.equals("=") || jobid.equals("null") || jobid.isEmpty()) {
-            alttoonstats.add(16, ogtoonstats[16]);
+            alttoonstats.add(16,ogtoonstats[16]);
         } else {                  
-            alttoonstats.add(16,dataQuery("*","dbJobs","jobID",jobid,false,false
-                ,null,null).get(8));
+            alttoonstats.add(16,Converters.fetchString(MemoryBank.dbJobs,jobid,8
+                ));
         }
         //alt inv 17
-        alttoonstats.add(17, ogtoonstats[17]);
+        alttoonstats.add(17,ogtoonstats[17]);
         //alt alias 18
-        alttoonstats.add(18, null);
+        alttoonstats.add(18,null);
         //alt destiny 19
-        alttoonstats.add(19, dataQuery("*","dbDestiny","destinyName","Passive",
+        alttoonstats.add(19,dataQuery("*","dbDestiny","destinyName","Passive",
             false,false,null,null).get(0));
         //alt toonstats 20
         String altStats=(GetStats.getStats("Toon",alttoonstats.toArray(
             new String[0]),altratioXP,true).toString()).replaceAll(", ","x");
-        altStats=altStats.substring(1,altStats.length() - 1);
-        alttoonstats.add(20, altStats);
+        altStats=altStats.substring(1,altStats.length()-1);
+        alttoonstats.add(20,altStats);
         //alt toonexp 21
-        alttoonstats.add(21, String.valueOf(altexp));
+        alttoonstats.add(21,String.valueOf(altexp));
         //alt toonsize 22
-        String altsize=dataQuery("*","dbSize","sizeName",(Calculator.getSize(((
-            dataQuery("*","dbRace","raceID",alttoonstats.get(2),false,false,null
-            ,null)).get(1)),(Calculator.getAge(Integer.parseInt(alttoonstats.get
-            (7)),alttoonstats.get(2))))),false,false,null,null).get(0);
-        alttoonstats.add(22, altsize);
+        String altsize=dataQuery("*","dbSize","sizeName",(Calculator.
+            getSize((Converters.fetchString(MemoryBank.dbRace,alttoonstats.
+            get(2),1)),(Calculator.getAge(Integer.parseInt(alttoonstats.get(7)),
+            alttoonstats.get(2))))),false,false,null,null).get(0);
+        alttoonstats.add(22,altsize);
         //alt toonteam 23
-        alttoonstats.add(23, ogtoonstats[23]);
+        alttoonstats.add(23,ogtoonstats[23]);
         return alttoonstats;
     }
 
-    private static void sendtoNewDB(String game,String savtoons,String gens,
-        String alts) throws IOException, InterruptedException, SQLException {
+    private static void sendtoNewDB(String game,List<String> savtoons,
+        List<String> gentoons,List<String> alttoons) throws IOException, 
+        InterruptedException, SQLException {
         String savetoons = "sav" + game.toLowerCase() + "Toons";
         String savepath=(MainControls.savesDir+Converters.capFirstLetter((
             MainControls.selectedSave))).replaceAll(MainControls.saveExt+"."
             +MainControls.saveExt,MainControls.saveExt);
+        List<String> newSaveToons = new ArrayList<>();
         try (Connection con=DriverManager.getConnection("jdbc:ucanaccess://"+
             savepath,db2,db3)) {
             try (Statement s = con.createStatement()) {
@@ -586,14 +545,13 @@ public class GetData {
                     new File(savepath)).open();
         // sav
                 Table tbl = db.getTable(savetoons);
-                long totalsavtoons;
-                try (Stream<String> savtoonstream = Files.lines(Paths.
-                    get(savtoons),determineCharset(Paths.get(savtoons)))) {
-                    totalsavtoons = savtoonstream.count();
-                }
+                long totalsavtoons = savtoons.size();
                 for(int i=0;i<totalsavtoons;i++) {
-                    String[] tempsavToon = Converters.getSpecificLine(savtoons,i
-                        ).split(",");
+                    String[] tempsavToon = savtoons.get(i).replaceAll(", ",",").
+                        split(",");
+                    newSaveToons.add(Arrays.toString(tempsavToon).substring(1,
+                        Arrays.toString(tempsavToon).length()-1).replaceAll(", "
+                        ,","));
                     tbl.addRow(tempsavToon[0],tempsavToon[1],
                         tempsavToon[2],tempsavToon[3],tempsavToon[4],
                         tempsavToon[5],tempsavToon[6],tempsavToon[7],
@@ -605,15 +563,14 @@ public class GetData {
                         tempsavToon[23]);
                 }
         //gens
-                long totalgentoons;
-                try (Stream<String> gentoonstream = Files.lines(Paths.get(gens),
-                    determineCharset(Paths.get(gens)))) {
-                    totalgentoons = gentoonstream.count();
-                }
+                long totalgentoons = gentoons.size();
                 for(int i=0;i<totalgentoons;i++) {
-                    String[] tempgenToon = Converters.getSpecificLine(gens,i).
+                    String[] tempgenToon = gentoons.get(i).replaceAll(", ",",").
                         split(",");
                     int genid = buildingToons;
+                    newSaveToons.add(genid+", "+Arrays.toString(tempgenToon)
+                        .substring(1,Arrays.toString(tempgenToon).length()-1).
+                        replaceAll(", ",","));
                     tbl.addRow(genid, tempgenToon[0],
                         tempgenToon[1],tempgenToon[2],
                         tempgenToon[3],tempgenToon[4],
@@ -629,15 +586,14 @@ public class GetData {
                     buildingToons += 1;
                 }
         //alts
-                long totalalttoons;
-                try (Stream<String> alttoonstream=Files.lines(Paths.get(alts),
-                    determineCharset(Paths.get(alts)))) {
-                    totalalttoons = alttoonstream.count();
-                }
+                long totalalttoons = alttoons.size();
                 for(int i=0;i<totalalttoons;i++) {
-                    String[] tempaltToon = Converters.getSpecificLine(alts,i).
+                    String[] tempaltToon = alttoons.get(i).replaceAll(", ",",").
                         split(",");
                     int altid = buildingToons;
+                    newSaveToons.add(altid+", "+Arrays.toString(tempaltToon)
+                        .substring(1,Arrays.toString(tempaltToon).length()-1).
+                        replaceAll(", ",","));
                     tbl.addRow(String.valueOf(altid),tempaltToon[0],
                         tempaltToon[1],tempaltToon[2],tempaltToon[3],
                         tempaltToon[4],tempaltToon[5],tempaltToon[6],
@@ -651,14 +607,21 @@ public class GetData {
                 }
             }
         }
+        MemoryBank.savToons = newSaveToons;
+        for(int i=0;i<MemoryBank.savToons.size();i++) {
+            System.out.println(MemoryBank.savToons.get(i));
+        }
+        StartGame.savToons = new ArrayList<>();
+        StartGame.genToons = new ArrayList<>();
+        StartGame.altToons = new ArrayList<>();
     }
     
     public static void buildBattle(String save, String game) throws IOException,
         SQLException, InterruptedException {
         createBattleTbl(save,game);
-        buildBattleTable(save,game,Arrays.asList(BattleEngine.team0),"0");
+        buildBattleTable(game,Arrays.asList(BattleEngine.team0),"0");
         Thread.sleep(350);
-        buildBattleTable(save,game,Arrays.asList(BattleEngine.team1),"1");
+        buildBattleTable(game,Arrays.asList(BattleEngine.team1),"1");
         Thread.sleep(700);
         copyTab(save,"battle"+game.toLowerCase()+"Toons","battle"+game
             .toLowerCase()+"Max");
@@ -734,17 +697,14 @@ public class GetData {
         }
     }
     
-    private static void buildBattleTable(String save,String game,List<String> 
+    private static void buildBattleTable(String game,List<String> 
         team,String teamno) throws SQLException,InterruptedException,IOException
         {
-        String savetoons = "sav" + game.toLowerCase() + "Toons";
         String battletable = "battle" + game.toLowerCase() + "Toons";
         int numbertoons = team.size();
         for(int toonidx = 0; toonidx < numbertoons; toonidx++) {
-            String[] toonstats = (Converters.getSpecificLine((MainControls.
-                currentgamePath.replaceAll(MainControls.saveExt,"toons")),
-                Integer.parseInt(String.valueOf(team.get(toonidx))))).split(",")
-                ;
+            String[] toonstats = MemoryBank.savToons.get(Integer.parseInt(String
+                .valueOf(team.get(toonidx)))).replaceAll(", ",",").split(",");
             String raceSize=dataQuery("*","dbRace","raceID",toonstats[2],false,
                 false,null,null).get(1);
             String toonSize=dataQuery("*","dbSize","sizeName",(Calculator.
@@ -756,11 +716,11 @@ public class GetData {
             String[] toonbasestats = (toonstats[20]).split("x");
             List<String> baselist = new ArrayList<>();
             baselist.addAll(Arrays.asList(toonbasestats));
-            String[] charmlist = GetStats.fetchitemStats(save,"Charm",toonstats,
+            String[] charmlist = GetStats.fetchitemStats("Charm",toonstats,
                 baselist);
-            String[] wearlist = GetStats.fetchitemStats(save,"Wear",toonstats,
+            String[] wearlist = GetStats.fetchitemStats("Wear",toonstats,
                 baselist);
-            String[] heldlist = GetStats.fetchitemStats(save,"Held",toonstats,
+            String[] heldlist = GetStats.fetchitemStats("Held",toonstats,
                 baselist);
             List<String> combined = new ArrayList<>();
             for(int x = 0; x < charmlist.length; x++) {
@@ -899,5 +859,5 @@ public class GetData {
         }
         return StandardCharsets.UTF_8;
     }
-
+    
 }

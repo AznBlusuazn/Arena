@@ -2,6 +2,7 @@ package clarktribegames;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 // <editor-fold defaultstate="collapsed" desc="credits">
 
@@ -13,26 +14,24 @@ import java.sql.SQLException;
  * 
  */
 // </editor-fold>
+
 public class StartGame {
+    
+    static List<String> savToons;
+    static List<String> genToons;
+    static List<String> altToons;
+    
     
     public static void startGame(String save, String savetoons, String savemax) 
         throws SQLException, IOException, InterruptedException {
-        startTime(save,savetoons,savemax);
+        startTime();
     }
     
-    private static void startTime(String save, String savetoons, String savemax) 
+    private static void startTime() 
         throws SQLException, IOException, InterruptedException{
         Popups.infoPopup("ALPHA TESTING IN PROGRESS", "This is where the game "
             + "would start, but the game is still in ALPHA.\n\nThank you for " +
             "testing!\n\nGeoff @ ClarkTribeGames");
-//        String tempstartMsg = "This is normally where the game would start, but"
-//            + " for now, it's just battle mode.\n\n" + save + "\n" + savetoons;
-//        Popups.infoPopup("Starting " + Converters.capFirstLetter(savetoons.
-//            substring(3,savetoons.length()-5)) + " Game!",GetData.dataQuery("*",
-//            savetoons,"toonID",MainControls.selectedToon,false,false,null,null).
-//            get(1)+"\n"+"\n Week "+MainControls.gameWeek+", Month "+MainControls
-//            .gameMonth+", Day "+MainControls.gameDay+", Year "+MainControls.
-//            gameYear+"\n\n"+tempstartMsg);
         String tempfile = MainControls.currentgamePath.replaceAll(
             MainControls.saveExt,"temp");
         if(tempfile.length() > 0) {

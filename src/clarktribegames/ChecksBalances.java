@@ -369,8 +369,8 @@ public class ChecksBalances {
             .toLowerCase() + "/" + MainControls.selectedSave;
         fileCheck(MainControls.savesDir+MainControls.selectedSave,MainControls
             .currentgamePath,false,false);
-        newfileCheck(MainControls.currentgamePath.replaceAll(MainControls.
-            saveExt, "temp"),true,"",true);
+//        newfileCheck(MainControls.currentgamePath.replaceAll(MainControls.
+//            saveExt, "temp"),true,"",true);
         if(!(new File(MainControls.currentgamePath).exists())) {
             Popups.warnPopup("Error creating " + newgamename + " save file", 
                 "There was an error creating the "+newgamename+" save file.");

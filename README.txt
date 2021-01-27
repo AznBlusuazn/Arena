@@ -1,6 +1,6 @@
 =======================================
 LIMITLESS by Geoff Clark
-VERSION ALPHA 0.0.039 / 2021.01.26-1955
+VERSION ALPHA 0.0.040 / 2021.01.27-1900
 =======================================
 
 SUPPORT THE DEVELOPMENT OF THIS GAME @ 
@@ -46,6 +46,11 @@ Contact the author:  info@clarktribegames.com
 ====================================
 
 DEVELOPMENT NOTES
+
+ALPHA 0.0.040 / 2021.01.27-1900
+
+- optimized the load time more by shifting lookups to memory instead of the database
+- removed methods for all temp files that were previously used for placeholders
 
 ALPHA 0.0.039 / 2021.01.26-1955
 

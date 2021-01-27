@@ -355,7 +355,16 @@ public class Converters {
             }
         }   
     }
+    
+    public static String fetchString (List<String> list,String id,int field) {
+        return Converters.expListtoArray(list.get(Integer.parseInt(id)))[field];
+    }
 
+    public static String[] expListtoArray (String exportedList) {
+        String finalExport = exportedList.substring(1,exportedList.length()-1).
+            replaceAll(", ", ",");
+        return finalExport.split(",");
+    }
     
     //<editor-fold defaultstate="collapsed" desc="Log File Method">
     private static void logFile (String type, String loginfo) throws IOException
