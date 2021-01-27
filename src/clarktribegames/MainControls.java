@@ -33,7 +33,7 @@ public class MainControls {
 
     //Main Controls Variables
     static String appName = "Limitless";
-    static String appVer = "0.0.038";
+    static String appVer = "0.0.039";
     static String appTitle = appName + " [ALPHA v" + appVer + "]";
     static String settingsFile = "settings.ini";
     static String defaultIntro = "sounds/intro.mp3";

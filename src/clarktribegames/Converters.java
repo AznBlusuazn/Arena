@@ -337,7 +337,7 @@ public class Converters {
     }
     
     public static void dbtabletoFile(String table, String icol, String dest) 
-        throws SQLException, IOException {
+        throws SQLException, IOException, InterruptedException {
         ChecksBalances.newfileCheck(dest, true, "", true);
         int tableLines=GetData.dataQuery("*",table,icol,null,true,false,null,
             null).size();
