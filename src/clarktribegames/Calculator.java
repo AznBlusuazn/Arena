@@ -71,8 +71,10 @@ public class Calculator {
     
     private static int getMaxAge(String race) throws SQLException {
         String save = savenameCheck();
-        return Integer.parseInt(GetData.dataQuery("*","dbRace","raceID",race,
-            false,false,null,null).get(5));
+        return Integer.parseInt(Converters.fetchfromTable(MemoryBank.dbRace,race,0,5));
+//                
+//                GetData.dataQuery("*","dbRace","raceID",race,
+//            false,false,null,null).get(5));
     }
     
     public static double getageAdjuster(double ratio) {
@@ -107,8 +109,12 @@ public class Calculator {
     private static String analyzeAgemath(int age, int max) throws SQLException {
         String save = savenameCheck();
         
-        List<String> agelist = GetData.dataQuery( "*","dbAge","ageCriteria",
-            null, true,false,null,null);
+        List<String> agelist = new ArrayList<>();
+        for(int i=0;i<MemoryBank.dbAge.size();i++) {
+            agelist.add(Converters.expListtoArray(MemoryBank.dbAge.get(i))[2]);
+        }
+//                GetData.dataQuery( "*","dbAge","ageCriteria",
+//            null, true,false,null,null);
         List<Integer> results = new ArrayList();
 
         for (int i = 0; i < agelist.size(); i++) {
@@ -1343,8 +1349,10 @@ public class Calculator {
                results.add(i);
             }
         }
-        return (GetData.dataQuery("*","dbAge","ageID",((
-            results.get(0)).toString()), false,false,null,null).get(1));
+        return Converters.fetchfromTable(MemoryBank.dbAge,results.get(0).
+            toString(),0,1);
+//                (GetData.dataQuery("*","dbAge","ageID",((
+//            results.get(0)).toString()), false,false,null,null).get(1));
     }
     
     public static String getAlign(int alignCode) throws SQLException {
@@ -1352,14 +1360,22 @@ public class Calculator {
     }
     
     private static String findAlign(int code) throws SQLException {
-        String save = savenameCheck();
-        List<String> alignname = GetData.dataQuery("*","dbAlign","alignID",
-            "*",true,false,null,null);
+        //String save = savenameCheck();
+        List<String> alignname = new ArrayList<>();
         List<Integer> alignval = new ArrayList<>();
-        for (String s : (GetData.dataQuery("*","dbAlign","alignRank","*",true
-            ,false,null,null))) {
-            alignval.add(Integer.valueOf(s));
+        for(int i=0;i<MemoryBank.dbAlign.size();i++) {
+            alignname.add(Converters.expListtoArray(MemoryBank.dbAlign.get(i))
+                [0]);
+            alignval.add(Integer.parseInt(Converters.expListtoArray(MemoryBank.
+                dbAlign.get(i))[3]));
         }
+//                GetData.dataQuery("*","dbAlign","alignID",
+//            "*",true,false,null,null);
+//        List<Integer> alignval = new ArrayList<>();
+//        for (String s : (GetData.dataQuery("*","dbAlign","alignRank","*",true
+//            ,false,null,null))) {
+//            alignval.add(Integer.valueOf(s));
+//        }
         if(code > alignval.get(1)) {
             return alignname.get(0);
         } else {
@@ -1402,9 +1418,15 @@ public class Calculator {
         }
     }
     
-    public static String alignvaltoID(String saveGame, int alignVal) throws SQLException {
-        List<String> alignids = GetData.dataQuery("*","dbAlign","alignID",
-            "*",true,false,null,null);
+    public static String alignvaltoID(int alignVal) throws 
+        SQLException {
+        List<String> alignids = new ArrayList<>();
+        for(int i=0;i<MemoryBank.dbAlign.size();i++) {
+            alignids.add(Converters.expListtoArray(MemoryBank.dbAlign.get(i))[0]
+                );
+        }                
+//                GetData.dataQuery("*","dbAlign","alignID",
+//            "*",true,false,null,null);
         double alignvalue = (double) alignVal;
         if(alignvalue < 13) {
             return alignids.get(8);
@@ -1442,11 +1464,15 @@ public class Calculator {
     }
     
     private static String findSize(String race,String age) throws SQLException {
-        String save = savenameCheck();
-        int racesize = Integer.parseInt(GetData.dataQuery("*","dbRace","race"
-            + "Name",race,false,false,null,null).get(3));
-        int ageid = Integer.parseInt(GetData.dataQuery("*","dbAge","ageName",
-            age,false,false,null,null).get(0));
+//        String save = savenameCheck();
+        int racesize = Integer.parseInt(Converters.fetchfromTable(MemoryBank.
+            dbRace,race,1,3));
+//                GetData.dataQuery("*","dbRace","race"
+//            + "Name",race,false,false,null,null).get(3));
+        int ageid = Integer.parseInt(Converters.fetchfromTable(MemoryBank.dbAge,
+            age,1,0));
+//            GetData.dataQuery("*","dbAge","ageName",
+//            age,false,false,null,null).get(0));
         String sizeid = "0";
         if(racesize > 0) {
             if(racesize == 1 && ageid <= 1) {
@@ -1516,7 +1542,8 @@ public class Calculator {
                 sizeid = "8";
             }
         }
-        return GetData.dataQuery("*","dbSize","sizeID",sizeid,false,false,null,null).get(1);
+        return Converters.fetchfromTable(MemoryBank.dbSize,sizeid,0,1);
+//                GetData.dataQuery("*","dbSize","sizeID",sizeid,false,false,null,null).get(1);
     }
     
     private static String savenameCheck() {

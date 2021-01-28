@@ -22,7 +22,8 @@ public class VersusGUI extends javax.swing.JFrame {
     public VersusGUI() throws SQLException, IOException, FileNotFoundException, JavaLayerException, InterruptedException, Exception {
         initComponents();
         setLocationRelativeTo(null);  
-        popVersus(BattleEngine.saveName, BattleEngine.saveToons);
+        popVersus();
+//        popVersus(BattleEngine.saveName, BattleEngine.saveToons);
     }
     
     private boolean checkforCustom(String toon,List<String> custlist) {
@@ -39,18 +40,26 @@ public class VersusGUI extends javax.swing.JFrame {
         }
     }
     
-    private void popVersus(String save, String savetoons) throws SQLException, IOException, FileNotFoundException, JavaLayerException, InterruptedException, Exception {
+    private void popVersus() throws SQLException, IOException, FileNotFoundException, JavaLayerException, InterruptedException, Exception {
         //add if multiple team captains instead
-        char1Label.setText(GetData.dataQuery("*",savetoons, "toonID",
-            BattleEngine.team0[0], false,false,null,null).get(1));
-        char2Label.setText(GetData.dataQuery("*",savetoons, "toonID",
-            BattleEngine.team1[0], false,false,null,null).get(1));
-         Avatars.setAvatar(char1Toon, char1Label.getText(),
-            (GetData.dataQuery("*",savetoons, "toonName",char1Label.getText(), false,false,null,null).get(10)));
-        Avatars.setAvatar(char2Toon, char2Label.getText(),
-            (GetData.dataQuery("*",savetoons,"toonName",char2Label.getText(), false,false,null,null).get(10)));
-        List<String> custTList = GetData.dataQuery("*","dbCustM","toonID",null,true,false,null,null);
-        boolean toontheme = checkforCustom(char2Label.getText().toLowerCase(),custTList);
+        char1Label.setText(Converters.fetchfromTable(MemoryBank.savToons,
+            BattleEngine.team0[0],0,1));
+//                GetData.dataQuery("*",savetoons, "toonID",
+//            BattleEngine.team0[0], false,false,null,null).get(1));
+        char2Label.setText(Converters.fetchfromTable(MemoryBank.savToons,
+            BattleEngine.team1[0],0,1));
+//                GetData.dataQuery("*",savetoons, "toonID",
+//            BattleEngine.team1[0], false,false,null,null).get(1));
+        Avatars.setAvatar(char1Toon, char1Label.getText(),Converters.
+            fetchfromTable(MemoryBank.savToons,char1Label.getText(),1,10));
+//            (GetData.dataQuery("*",savetoons, "toonName",char1Label.getText(), false,false,null,null).get(10)));
+        Avatars.setAvatar(char2Toon, char2Label.getText(),Converters.
+            fetchfromTable(MemoryBank.savToons,char2Label.getText(),1,10));
+//            (GetData.dataQuery("*",savetoons,"toonName",char2Label.getText(), false,false,null,null).get(10)));
+        List<String> custTList=GetData.dataQuery("*","dbCustM","toonID",null,
+            true,false,null,null);
+        boolean toontheme = checkforCustom(char2Label.getText().toLowerCase(),
+            custTList);
         if(MainControls.musicPlaying) {
             MPlayer.stopMedia();
         }
@@ -58,19 +67,23 @@ public class VersusGUI extends javax.swing.JFrame {
         if(toontheme) {
             for (String s : custTList) {
                 if(s.equals(BattleEngine.team1[0])) {
-                    String custpath = MainControls.custommusicPath + "/" + (GetData.dataQuery("*","dbCustM","toonID",BattleEngine.team1[0],false,false,null,null).get(1)) + ".mp3";
+                    String custpath=MainControls.custommusicPath+"/"+(GetData.
+                        dataQuery("*","dbCustM","toonID",BattleEngine.team1[0],
+                        false,false,null,null).get(1)) + ".mp3";
                     if(new File(custpath).exists()) {
                         MainControls.musicPath = custpath;
                         break;
                     }
-                    MainControls.musicPath = MainControls.custommusicPath + "/" + char2Label.getText() + ".mp3";
+                    MainControls.musicPath=MainControls.custommusicPath+"/"+
+                        char2Label.getText()+".mp3";
                 } else {
                     
             }
             }
                 MainControls.turnonMusic(MainControls.musicPath, "battle");
         } else {
-            MainControls.turnonMusic(MainControls.checkforcustMusic("battle"), "battle");
+            MainControls.turnonMusic(MainControls.checkforcustMusic("battle"),
+                "battle");
         }
         
     }
@@ -180,7 +193,8 @@ public class VersusGUI extends javax.swing.JFrame {
             public void run() {
                 try {
                     new VersusGUI().setVisible(true);
-                } catch (SQLException | IOException | JavaLayerException | InterruptedException ex) {
+                } catch (SQLException | IOException | JavaLayerException | 
+                    InterruptedException ex) {
                     ex.printStackTrace();
                 } catch (Exception ex) {
                     ex.printStackTrace();

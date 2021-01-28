@@ -2,6 +2,9 @@ package clarktribegames;
 
 // <editor-fold defaultstate="collapsed" desc="credits">
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -50,8 +53,10 @@ public class MemoryBank {
     static List<String> dbSize;
     static List<String> dbStatus;
     static List<String> dbToons;
+    static int dbTime;
     
-    public static void fillMemory() throws SQLException {
+    public static void fillMemory(boolean newgame) throws SQLException, 
+        IOException {
         
         dbTabletoMem(dbAbl,GetData.dataQuery("*","dbAbl","ablID",null,true,false
             ,null,null).size(),"dbAbl","ablID");
@@ -92,6 +97,17 @@ public class MemoryBank {
             true,false,null,null).size(),"dbStatus","statusID");
         dbTabletoMem(dbToons,GetData.dataQuery("*","dbToons","toonID",null,true,
             false,null,null).size(),"dbToons","toonID");
+        if(!newgame) {
+            dbTime = Integer.parseInt(Converters.getSpecificLine(MainControls.
+                savesDir+".lastused",2));
+        } else {
+            dbTime = 0;
+        }
+//            
+//        dbTime = Integer.parseInt(GetData.dataQuery("*","sav"+MainControls.
+//            currentgame.toLowerCase()+"Time","timeID","0",false,false,null,null)
+//            .get(1));
+        
     }
     
     private static void dbTabletoMem (List<String> list,int rows,String table,
@@ -133,6 +149,7 @@ public class MemoryBank {
         dbStatus = new ArrayList<>();
         dbToons = new ArrayList<>();
         
+        dbTime = 0;
     }
     
 }

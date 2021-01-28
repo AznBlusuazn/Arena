@@ -47,6 +47,11 @@ Contact the author:  info@clarktribegames.com
 
 DEVELOPMENT NOTES
 
+ALPHA 0.0.041 / 2021.01.28-1132
+
+- removed all db queries except initial load -- all game queries are from memory now
+- greatly decreased lag between menu selection
+
 ALPHA 0.0.040 / 2021.01.27-1900
 
 - optimized the load time more by shifting lookups to memory instead of the database

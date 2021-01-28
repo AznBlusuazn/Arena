@@ -46,26 +46,49 @@ public class GetStats {
         boolean forNewGame) throws SQLException, 
         IOException {
         double lvl = Double.parseDouble(toonstats[8]) + XPratio;
-        List<String> racestats=statEncoder(Converters.fetchString(MemoryBank.
-            dbRace,toonstats[2],6),Converters.createBlank("0",30));
-        List<String> classstats=statEncoder(Converters.fetchString(MemoryBank.
-            dbClass,toonstats[3],3),Converters.createBlank("0",30));
-        List<String> alignstats=statEncoder(Converters.fetchString(MemoryBank.
-            dbAlign,(Calculator.getAlign(Integer.parseInt(toonstats[4]))),4),
+        List<String> racestats=statEncoder(Converters.fetchfromTable(MemoryBank.
+            dbRace,toonstats[2],0,6),Converters.createBlank("0",30));
+//            dbRace,toonstats[2],6
+//                Converters.fetchString(MemoryBank.
+//                
+//                ),Converters.createBlank("0",30));
+        List<String> classstats=statEncoder(Converters.fetchfromTable(MemoryBank
+            .dbClass,toonstats[3],0,3),Converters.createBlank("0",30));
+//                
+//                
+//                Converters.fetchString(MemoryBank.
+//            dbClass,toonstats[3],3),Converters.createBlank("0",30));
+        List<String> alignstats=statEncoder(Converters.fetchfromTable(MemoryBank
+            .dbAlign,Calculator.getAlign(Integer.parseInt(toonstats[4])),0,4),
             Converters.createBlank("0",30));
-        List<String> gendstats=statEncoder(Converters.fetchString(MemoryBank.
-            dbGender,toonstats[6],3),Converters.createBlank("0",30));
-        String raceSiz=Converters.fetchString(MemoryBank.dbRace,toonstats[2],1);
-        List<String> sizestats=statEncoder(GetData.dataQuery("*","dbSize",
-            "sizeName",(Calculator.getSize(raceSiz,(Calculator.getAge(Integer.
-            parseInt(toonstats[7]),toonstats[2])))),false,false,null,null).get
-            (3),Converters.createBlank("0",30));
+//                Converters.fetchString(MemoryBank.
+//            dbAlign,(Calculator.getAlign(Integer.parseInt(toonstats[4]))),4),
+//            Converters.createBlank("0",30));
+        List<String> gendstats=statEncoder(Converters.fetchfromTable(MemoryBank.
+            dbGender,toonstats[6],0,3),Converters.createBlank("0",30));
+//                Converters.fetchString(MemoryBank.
+//            dbGender,toonstats[6],3),Converters.createBlank("0",30));
+        String raceSize=Converters.fetchfromTable(MemoryBank.dbRace,toonstats[2]
+            ,0,1);
+//                Converters.fetchString(MemoryBank.dbRace,toonstats[2],1);
+        List<String> sizestats=statEncoder(Converters.fetchfromTable(MemoryBank.
+            dbSize,Calculator.getSize(raceSize,(Calculator.getAge(Integer.
+            parseInt(toonstats[7]),toonstats[2]))),1,3),Converters.createBlank(
+            "0",30));
+//        
+//        
+//        (GetData.dataQuery("*","dbSize",
+//            "sizeName",(Calculator.getSize(raceSize,(Calculator.getAge(Integer.
+//            parseInt(toonstats[7]),toonstats[2])))),false,false,null,null).get
+//            (3),Converters.createBlank("0",30));
         String nul = toonstats[5];
         String age = toonstats[7];
 
         double ageadjuster = Calculator.getageAdjuster(Double.parseDouble(age) /
-            Double.parseDouble(Converters.fetchString(MemoryBank.dbRace,
-            toonstats[2],5)));
+            Double.parseDouble(Converters.fetchfromTable(MemoryBank.dbRace,
+            toonstats[2],0,5)));
+//                    Converters.fetchString(MemoryBank.dbRace,
+//            toonstats[2],5)));
 
         List<String> basestatslist = new ArrayList<>();
         for(int r = 0; r <= 29; r++ ) {
@@ -113,14 +136,18 @@ public class GetStats {
         }
     }    
 
-    public static void getitemsfromIDtoJList(String save, List<String> list, 
-        DefaultListModel dml, JList<String> jlist, String dbname, String 
-        searchcol, String matchcol) throws SQLException {
+    public static void getitemsfromIDtoJList(List<String> list, 
+        DefaultListModel dml, JList<String> jlist,List<String> table,int 
+        matchcol,int fetchcol)
+//        String dbname, String searchcol, String matchcol)
+        throws SQLException {
         for(int i = 0; i < list.size(); i++) {
             if(!(ChecksBalances.isNullOrEmpty(list.get(i))) && !(list.get(i).
                 equals("null"))) {
-                String temp = GetData.dataQuery("*",dbname,searchcol,list.get(i)
-                    ,false,false,null,null).get(1);
+                String temp = Converters.fetchfromTable(table,list.get(i),
+                    matchcol,fetchcol);
+//                        GetData.dataQuery("*",dbname,searchcol,list.get(i)
+//                    ,false,false,null,null).get(1);
                 dml.addElement(temp);
             }
         }
@@ -133,16 +160,20 @@ public class GetStats {
         jlist.setModel(dml);
     }
 
-    public static String getitemsfromIDtoString(String[] list, 
-        String dbname, String searchcol, String matchcol) throws SQLException {
+    public static String getitemsfromIDtoString(String[] list,List<String> table
+        ,int matchcol,int fetchcol) throws SQLException {
+//        String dbname, String searchcol, String matchcol
+//        ) throws SQLException {
         String finalString = "";
         DefaultListModel tempdml = new DefaultListModel();
 
         for(int i = 0; i < list.length; i++) {
             if(!(ChecksBalances.isNullOrEmpty(list[i])) && !(list[i].
                 equals("null"))) {
-                String temp = GetData.dataQuery("*",dbname,searchcol,list[i]
-                    ,false,false,null,null).get(1);
+                String temp = Converters.fetchfromTable(table,list[i],
+                    matchcol,fetchcol);
+//                        GetData.dataQuery("*",dbname,searchcol,list[i]
+//                    ,false,false,null,null).get(1);
                 tempdml.addElement(temp);
                 finalString+=temp + "\n";
             }
@@ -171,19 +202,31 @@ public class GetStats {
     
     private static String[] getEffectStats(String[] toonstats) throws 
         SQLException {
-        String sizeName = Calculator.getSize(Converters.fetchString(MemoryBank.
-            dbRace,toonstats[2],1),(Calculator.getAge(Integer.parseInt(toonstats
-            [7]),toonstats[2])));
+        String sizeName=Calculator.getSize(Converters.fetchfromTable(MemoryBank.
+            dbRace,toonstats[2],0,1),(Calculator.getAge(Integer.parseInt(
+            toonstats[7]),toonstats[2])));
+//                Converters.fetchString(MemoryBank.
+//            dbRace,toonstats[2],1),(Calculator.getAge(Integer.parseInt(toonstats
+//            [7]),toonstats[2])));
         String tooneff = toonstats[12];
-        String raceeff=Converters.fetchString(MemoryBank.dbRace,toonstats[2],9);
-        String classeff=Converters.fetchString(MemoryBank.dbClass,toonstats[3],6
-            );
-        String aligneff=Converters.fetchString(MemoryBank.dbAlign,(Calculator.
-            getAlign(Integer.parseInt(toonstats[4]))),8);
-        String gendeff=Converters.fetchString(MemoryBank.dbGender,toonstats[6],7
-            );
-        String sizeeff=GetData.dataQuery("*","dbSize","sizeName",sizeName,false,
-            false,null,null).get(6);
+        String raceeff=Converters.fetchfromTable(MemoryBank.dbRace,toonstats[2],
+            0,9);
+//                Converters.fetchString(MemoryBank.dbRace,toonstats[2],9);
+        String classeff=Converters.fetchfromTable(MemoryBank.dbClass,toonstats
+            [3],0,6);
+//                Converters.fetchString(MemoryBank.dbClass,toonstats[3],6
+//            );
+        String aligneff=Converters.fetchfromTable(MemoryBank.dbAlign,Calculator
+            .getAlign(Integer.parseInt(toonstats[4])),0,8);
+//                Converters.fetchString(MemoryBank.dbAlign,(Calculator.
+//            getAlign(Integer.parseInt(toonstats[4]))),8);
+        String gendeff=Converters.fetchfromTable(MemoryBank.dbGender,toonstats
+            [6],0,7);
+//                Converters.fetchString(MemoryBank.dbGender,toonstats[6],7
+//            );
+        String sizeef=Converters.fetchfromTable(MemoryBank.dbSize,sizeName,1,6);
+//                GetData.dataQuery("*","dbSize","sizeName",sizeName,false,
+//            false,null,null).get(6);
         String itemequipped = "";
        for(int c = 13; c <= 15; c++) {
             if(!ChecksBalances.isNullOrEmpty(toonstats[c]) && (!(toonstats[c]).
@@ -200,8 +243,10 @@ public class GetStats {
             } 
             String tempitemeff = "";
             for(int i = 0; i < itemlist.size(); i++) {
-                tempitemeff += (Converters.fetchString(MemoryBank.dbItems,
-                    itemlist.get(i),12))+"x";
+                tempitemeff += Converters.fetchfromTable(MemoryBank.dbItems,
+                    itemlist.get(i),0,12)+"x";
+//                        (Converters.fetchString(MemoryBank.dbItems,
+//                    itemlist.get(i),12))+"x";
             }
             itemeff = tempitemeff;
             if(tempitemeff.endsWith("x")) {
@@ -211,7 +256,7 @@ public class GetStats {
             itemeff = "";
         }
         String master = (tooneff+"x"+raceeff+"x"+classeff+"x"+aligneff+"x"+
-            gendeff+"x"+sizeeff+"x"+itemeff).replaceAll("null","");
+            gendeff+"x"+sizeef+"x"+itemeff).replaceAll("null","");
         if((master.replaceAll(",","")).equals("")) {
             master = "0";
         }
@@ -221,19 +266,30 @@ public class GetStats {
     }
 
     private static String[] getAblStats(String[] toonstats) throws SQLException{
-        String raceSiz=Converters.fetchString(MemoryBank.dbRace,toonstats[2],1);
-        String sizeName=Calculator.getSize(raceSiz,(Calculator.getAge(Integer.
+        String raceSize=Converters.fetchfromTable(MemoryBank.dbRace,toonstats[2]
+            ,0,1);
+//                Converters.fetchString(MemoryBank.dbRace,toonstats[2],1);
+        String sizeName=Calculator.getSize(raceSize,(Calculator.getAge(Integer.
             parseInt(toonstats[7]),toonstats[2])));
         String toonabl = toonstats[11];
-        String raceabl=Converters.fetchString(MemoryBank.dbRace,toonstats[2],8);
-        String classabl=Converters.fetchString(MemoryBank.dbClass,toonstats[3],5
-            );
-        String alignabl=Converters.fetchString(MemoryBank.dbAlign,Calculator.
-            getAlign(Integer.parseInt(toonstats[4])),7);
-        String gendabl=Converters.fetchString(MemoryBank.dbGender,toonstats[6],6
-            );
-        String sizeabl=GetData.dataQuery("*","dbSize","sizeName",sizeName,false,
-            false,null,null).get(5);
+        String raceabl=Converters.fetchfromTable(MemoryBank.dbRace,toonstats[2],
+            0,8);
+//                Converters.fetchString(MemoryBank.dbRace,toonstats[2],8);
+        String classabl=Converters.fetchfromTable(MemoryBank.dbClass,toonstats
+            [3],0,5);
+//                Converters.fetchString(MemoryBank.dbClass,toonstats[3],5
+//            );
+        String alignabl=Converters.fetchfromTable(MemoryBank.dbAlign,Calculator.
+            getAlign(Integer.parseInt(toonstats[4])),0,7);
+//            Converters.fetchString(MemoryBank.dbAlign,Calculator.
+//            getAlign(Integer.parseInt(toonstats[4])),7);
+        String gendabl=Converters.fetchfromTable(MemoryBank.dbGender,toonstats
+            [6],0,6);
+//                Converters.fetchString(MemoryBank.dbGender,toonstats[6],6
+//            );
+        String sizeab=Converters.fetchfromTable(MemoryBank.dbSize,sizeName,1,5);
+//                GetData.dataQuery("*","dbSize","sizeName",sizeName,false,
+//            false,null,null).get(5);
         String itemequipped = "";
         for(int c = 13; c <= 15; c++) {
             if(!ChecksBalances.isNullOrEmpty(toonstats[c]) && (!(toonstats[c])
@@ -250,8 +306,10 @@ public class GetStats {
             } 
             String tempitemabl = "";
             for(int i = 0; i < itemlist.size(); i++) {
-                tempitemabl += (Converters.fetchString(MemoryBank.dbItems,
-                    itemlist.get(i),11))+"x";
+                tempitemabl += Converters.fetchfromTable(MemoryBank.dbItems,
+                    itemlist.get(i),0,11)+"x";
+//                        (Converters.fetchString(MemoryBank.dbItems,
+//                    itemlist.get(i),11))+"x";
             }
             itemabl = tempitemabl;
             if(tempitemabl.endsWith("x")) {
@@ -261,7 +319,7 @@ public class GetStats {
             itemabl = "";
         }
         String master=(toonabl+"x"+raceabl+"x"+classabl+"x"+alignabl+"x"+gendabl
-            +"x"+sizeabl+"x"+itemabl).replaceAll("null","");
+            +"x"+sizeab+"x"+itemabl).replaceAll("null","");
         List<String> results = Arrays.asList(master.split("x"));
         Collections.sort(results);
         return results.toArray(new String[0]);
@@ -338,8 +396,10 @@ public class GetStats {
         if(invlist.length > 0 ) {
             for(int i = 0; i  < invlist.length; i++ ) {
                 baselist = processitemStats(baselist,(Arrays.asList((Converters.
-                    fetchString(MemoryBank.dbItems,String.valueOf(invlist[i]),9)
-                    .split("x")))));
+                    fetchfromTable(MemoryBank.dbItems,String.valueOf(invlist[i])
+                    ,0,9).split("x")))));
+//                        fetchString(MemoryBank.dbItems,String.valueOf(invlist[i]),9)
+//                    .split("x")))));
             }
         }
         return baselist.toArray(new String[0]);

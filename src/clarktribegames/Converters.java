@@ -336,33 +336,47 @@ public class Converters {
                 ,String.valueOf(minutes) };
     }
     
-    public static void dbtabletoFile(String table, String icol, String dest) 
-        throws SQLException, IOException, InterruptedException {
-        ChecksBalances.newfileCheck(dest, true, "", true);
-        int tableLines=GetData.dataQuery("*",table,icol,null,true,false,null,
-            null).size();
-        for(int index = 0; index < tableLines; index++) {
-            List<String> tabledata=GetData.dataQuery("*",table,icol,String.
-                valueOf(index),false,false,null,null);
-            String rawdata = Arrays.toString(tabledata.toArray());
-            try {
-                Files.write(Paths.get(dest),
-                    (rawdata.substring(1, rawdata.length()-1).replaceAll(", ",
-                        ",").replaceAll("null", "")+"\n").getBytes(),
-                        StandardOpenOption.APPEND);
-            } catch (IOException ex) {
-                //
-            }
-        }   
-    }
+//    public static void dbtabletoFile(String table, String icol, String dest) 
+//        throws SQLException, IOException, InterruptedException {
+//        ChecksBalances.newfileCheck(dest, true, "", true);
+//        int tableLines=GetData.dataQuery("*",table,icol,null,true,false,null,
+//            null).size();
+//        for(int index = 0; index < tableLines; index++) {
+//            List<String> tabledata=GetData.dataQuery("*",table,icol,String.
+//                valueOf(index),false,false,null,null);
+//            String rawdata = Arrays.toString(tabledata.toArray());
+//            try {
+//                Files.write(Paths.get(dest),
+//                    (rawdata.substring(1, rawdata.length()-1).replaceAll(", ",
+//                        ",").replaceAll("null", "")+"\n").getBytes(),
+//                        StandardOpenOption.APPEND);
+//            } catch (IOException ex) {
+//                //
+//            }
+//        }   
+//    }
     
-    public static String fetchString (List<String> list,String id,int field) {
-        return Converters.expListtoArray(list.get(Integer.parseInt(id)))[field];
-    }
+//    public static String fetchString (List<String> list,String id,int field) {
+//        return Converters.expListtoArray(list.get(Integer.parseInt(id)))[field];
+//    }
 
+    public static String fetchfromTable (List<String> table,String name,
+        int matchcol,int fetchcol) {
+        String retval="0";
+        for(int i=0;i<table.size();i++) {
+            String tmp[]=Converters.expListtoArray(table.get(i));
+            if(tmp[matchcol].replaceAll("\\[","").replaceAll("\\]","").
+                replaceAll(", ",",").equals(name.replaceAll("\\[","").replaceAll
+                ("\\]","").replaceAll(", ",","))) {
+                retval=tmp[fetchcol];
+            }
+        }
+        return retval;
+    }    
+    
     public static String[] expListtoArray (String exportedList) {
-        String finalExport = exportedList.substring(1,exportedList.length()-1).
-            replaceAll(", ", ",");
+        String finalExport = exportedList.replaceAll("\\[","").replaceAll("\\]",
+            "").replaceAll(", ",",");
         return finalExport.split(",");
     }
     

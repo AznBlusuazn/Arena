@@ -32,11 +32,19 @@ public class BattleGUI extends javax.swing.JFrame {
     public BattleGUI() throws SQLException, InterruptedException {
         initComponents();
         setLocationRelativeTo(null);
-        prepBattle(BattleEngine.saveName,BattleEngine.saveToons.replaceAll("sav"
-            ,"battle"),BattleEngine.saveMax.replaceAll("sav", "battle"),Arrays.
+        prepBattle(
+//                BattleEngine.saveName,
+                MemoryBank.savToons,
+//                ,BattleEngine.saveToons.replaceAll("sav"
+//            ,"battle"),
+//            BattleEngine.saveMax.replaceAll("sav", "battle"),
+            Arrays.
             asList(BattleEngine.team0),Arrays.asList(BattleEngine.team1));
-        BattleEngine.battleStart(BattleEngine.saveName, BattleEngine.saveToons.replaceAll("sav"
-            ,"battle"),BattleEngine.saveMax.replaceAll("sav", "battle"));
+        BattleEngine.battleStart(MemoryBank.savToons
+//                BattleEngine.saveName, BattleEngine.saveToons.
+//            replaceAll("sav","battle"),BattleEngine.saveMax.replaceAll("sav",
+//            "battle")
+        );
         
     }
 
@@ -177,12 +185,16 @@ public class BattleGUI extends javax.swing.JFrame {
         saveLabel.setFont(new java.awt.Font("Lucida Console", 1, 12)); // NOI18N
         saveLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         saveLabel.setText("Current Limitless Save Game:");
+        saveLabel.setEnabled(false);
         saveLabel.setFocusable(false);
         getContentPane().add(saveLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(616, 11, 230, 21));
 
         limitLabel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        limitLabel.setText("[" + Converters.capFirstLetter(BattleEngine.saveToons.substring(3,BattleEngine.saveToons.length()).replaceAll("Toons","")) +
-            "] • [Database: " + Converters.capFirstLetter(BattleEngine.saveName).replaceAll("." + MainControls.saveExt,"") + "]");
+        limitLabel.setText(" "
+            //"[" + Converters.capFirstLetter(BattleEngine.saveToons.substring(3,BattleEngine.saveToons.length()).replaceAll("Toons","")) +
+            //            "] • [Database: " + Converters.capFirstLetter(BattleEngine.saveName).replaceAll("." + MainControls.saveExt,"") + "]"
+        );
+        limitLabel.setEnabled(false);
         limitLabel.setFocusable(false);
         limitLabel.setMaximumSize(new java.awt.Dimension(1200, 800));
         limitLabel.setMinimumSize(new java.awt.Dimension(1200, 800));
@@ -435,8 +447,10 @@ public class BattleGUI extends javax.swing.JFrame {
 
     private void team1DetailsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_team1DetailsButtonActionPerformed
          try {
-             detailsButton(BattleEngine.saveName,BattleEngine.saveToons
-                .replaceAll("sav","battle"),Arrays.asList(BattleEngine.team1),
+             detailsButton(MemoryBank.savToons,
+//                     BattleEngine.saveName,BattleEngine.saveToons
+//                .replaceAll("sav","battle"),
+                     Arrays.asList(BattleEngine.team1),
                 team1List);
          } catch (SQLException ex) {
             ex.printStackTrace();
@@ -445,8 +459,10 @@ public class BattleGUI extends javax.swing.JFrame {
 
     private void team0DetailsButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_team0DetailsButton1ActionPerformed
          try {
-             detailsButton(BattleEngine.saveName,BattleEngine.saveToons
-                .replaceAll("sav","battle"),Arrays.asList(BattleEngine.team0),
+             detailsButton(MemoryBank.savToons,
+//                     BattleEngine.saveName,BattleEngine.saveToons
+//                .replaceAll("sav","battle"),
+                     Arrays.asList(BattleEngine.team0),
                 team0List);
          } catch (SQLException ex) {
             ex.printStackTrace();
@@ -455,8 +471,11 @@ public class BattleGUI extends javax.swing.JFrame {
 
     private void team1ItemsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_team1ItemsButtonActionPerformed
         try {
-            itemsButton(BattleEngine.saveName,BattleEngine.saveToons.replaceAll(
-                "sav","battle"),Arrays.asList(BattleEngine.team1),team1List);
+            itemsButton(MemoryBank.savToons,
+//                    BattleEngine.saveName,MemoryBank.savToons,
+//                    BattleEngine.saveToons.replaceAll(
+//                "sav","battle"),
+                    Arrays.asList(BattleEngine.team1),team1List);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -464,8 +483,10 @@ public class BattleGUI extends javax.swing.JFrame {
 
     private void team1AblButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_team1AblButtonActionPerformed
         try {
-            ablButton(BattleEngine.saveName,BattleEngine.saveToons.replaceAll(
-                "sav","battle"),Arrays.asList(BattleEngine.team1),team1List);
+            ablButton(MemoryBank.savToons,Arrays.asList(BattleEngine.team1),
+                team1List);
+//                    BattleEngine.saveName,BattleEngine.saveToons.replaceAll(
+//                "sav","battle"),Arrays.asList(BattleEngine.team1),team1List);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -473,8 +494,10 @@ public class BattleGUI extends javax.swing.JFrame {
 
     private void team1EffButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_team1EffButtonActionPerformed
         try {
-            effButton(BattleEngine.saveName,BattleEngine.saveToons.replaceAll(
-                "sav","battle"),Arrays.asList(BattleEngine.team1),team1List);
+            effButton(MemoryBank.savToons,Arrays.asList(BattleEngine.team1),
+                team1List);            
+//            effButton(BattleEngine.saveName,BattleEngine.saveToons.replaceAll(
+//                "sav","battle"),Arrays.asList(BattleEngine.team1),team1List);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -482,8 +505,11 @@ public class BattleGUI extends javax.swing.JFrame {
 
     private void team0ItemsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_team0ItemsButtonActionPerformed
         try {
-            itemsButton(BattleEngine.saveName,BattleEngine.saveToons.replaceAll(
-                "sav","battle"),Arrays.asList(BattleEngine.team0),team0List);
+            itemsButton(MemoryBank.savToons,
+//                    BattleEngine.saveName,MemoryBank.savToons,
+//                    BattleEngine.saveToons.replaceAll(
+//                "sav","battle"),
+                    Arrays.asList(BattleEngine.team0),team0List);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -491,8 +517,10 @@ public class BattleGUI extends javax.swing.JFrame {
 
     private void team0AblButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_team0AblButtonActionPerformed
         try {
-            ablButton(BattleEngine.saveName,BattleEngine.saveToons.replaceAll(
-                "sav","battle"),Arrays.asList(BattleEngine.team0),team0List);
+            ablButton(MemoryBank.savToons,Arrays.asList(BattleEngine.team0),
+                team0List);
+//            ablButton(BattleEngine.saveName,BattleEngine.saveToons.replaceAll(
+//                "sav","battle"),Arrays.asList(BattleEngine.team0),team0List);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -500,61 +528,71 @@ public class BattleGUI extends javax.swing.JFrame {
 
     private void team0EffButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_team0EffButtonActionPerformed
         try {
-            effButton(BattleEngine.saveName,BattleEngine.saveToons.replaceAll(
-                "sav","battle"),Arrays.asList(BattleEngine.team0),team0List);
+            effButton(MemoryBank.savToons,Arrays.asList(BattleEngine.team0),
+                    team0List);
+//            effButton(BattleEngine.saveName,BattleEngine.saveToons.replaceAll(
+//                "sav","battle"),Arrays.asList(BattleEngine.team0),team0List);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_team0EffButtonActionPerformed
     //</editor-fold> 
 
-    private static void prepBattle(String save,String toons,String max,
+    private static void prepBattle(List<String>toons,
+//        String toons,
+//        String max,
         List<String> team0,List<String> team1) throws SQLException {
-        popteamLists(save,toons,team0,team0Pane,team0List);
-        popteamLists(save,toons,team1,team1Pane,team1List);
-        popAvatars(save,toons,team0Toon,team0List);
-        popAvatars(save,toons,team1Toon,team1List);
-        popTooninfo(save,toons,team0,team0Label,team0Info,team0List,team0Table);
-        popTooninfo(save,toons,team1,team1Label,team1Info,team1List,team1Table);
+        popteamLists(toons,team0,team0Pane,team0List);
+        popteamLists(toons,team1,team1Pane,team1List);
+        popAvatars(team0Toon,team0List);
+        popAvatars(team1Toon,team1List);
+        popTooninfo(toons,team0,team0Label,team0Info,team0List,team0Table);
+        popTooninfo(toons,team1,team1Label,team1Info,team1List,team1Table);
     }
 
-    private static void popteamLists(String save,String toons,List<String> team,
-        JScrollPane jpane, JList jlist) throws SQLException { 
+    private static void popteamLists(List<String>toons,
+//        String toons,
+        List<String> team,JScrollPane jpane, JList jlist) throws SQLException { 
         DefaultListModel dml = new DefaultListModel();
         int totalteam = team.size();
 
         if(totalteam > 1) {
             jpane.setEnabled(true);
             for(int player = 0; player < totalteam; player++) {
-                GetStats.getitemsfromIDtoJList(save,team,dml,jlist,toons,
-                    "toonID","toonName");
+                GetStats.getitemsfromIDtoJList(team,dml,jlist,toons,0,1);
+//                GetStats.getitemsfromIDtoJList(save,team,dml,jlist,toons,
+//                    "toonID","toonName");
             }
         } else {
-            GetStats.getitemsfromIDtoJList(save,team,dml,jlist,toons,"toonID",
-                "toonName");
+            GetStats.getitemsfromIDtoJList(team,dml,jlist,toons,0,1);            
+//            GetStats.getitemsfromIDtoJList(save,team,dml,jlist,toons,"toonID",
+//                "toonName");
             jlist.setSelectedIndex(0);
             jpane.setVisible(false);
         }
     }
     
-    private static void popAvatars(String save,String toons,JLabel avatar, JList
-        jlist) throws SQLException {
-        Avatars.setAvatar(avatar,GetData.dataQuery("*",toons,"toonName",jlist
-            .getSelectedValue().toString(),false,false,null,null).get(1),save);
+    private static void popAvatars(JLabel avatar, JList jlist) {
+        Avatars.setAvatar(avatar,jlist.getSelectedValue().toString(),Converters.
+            capFirstLetter((MainControls.selectedSave).substring(0,(MainControls
+            .selectedSave).indexOf("."+MainControls.saveExt))));
+//                GetData.dataQuery("*",toons,"toonName",jlist
+//            .getSelectedValue().toString(),false,false,null,null).get(1),save);
     }
     
-    private static void popTooninfo(String save,String toons,List<String> team,
-        JLabel namebox,JLabel infobox, JList jlist,JTable table) 
-        throws SQLException {
-        List<String> tooninfo=GetData.dataQuery("*",toons,"toonID",team.get(
-            jlist.getSelectedIndex()),false,false,null,null);
-        namebox.setText(tooninfo.get(1));
+    private static void popTooninfo(List<String> toons,List<String> 
+        team,JLabel namebox,JLabel infobox, JList jlist,JTable table) throws 
+        SQLException { 
+        String[] tooninfo=Converters.expListtoArray(toons.get(Integer.parseInt(
+            team.get(jlist.getSelectedIndex()))));
+//                GetData.dataQuery("*",toons,"toonID",team.get(
+//            jlist.getSelectedIndex()),false,false,null,null);
+        namebox.setText(tooninfo[1]);
         List<String> combined = new ArrayList<>();
-        combined.addAll(Arrays.asList((tooninfo.get(23)).split("x")));
+        combined.addAll(Arrays.asList((tooninfo[23]).split("x")));
         infobox.setForeground((Converters.figureoutColor(GetStats.getalignColor(
-            Integer.parseInt(tooninfo.get(4))))));
-        infobox.setText(tooninfo.get(28) + " " + tooninfo.get(29) + " ("
-            + tooninfo.get(8) + ")");
+            Integer.parseInt(tooninfo[4])))));
+        infobox.setText(tooninfo[28]+" "+tooninfo[29]+" ("+tooninfo[8]+")");
         DefaultTableModel dml = (DefaultTableModel)table.getModel();
         dml.setValueAt("Normal", 0, 1);
         for(int item = 1; item < dml.getRowCount(); item++) {
@@ -562,39 +600,47 @@ public class BattleGUI extends javax.swing.JFrame {
         }
     }
 
-    private static void detailsButton(String save,String toons,List<String>team,
-        JList jlist) throws SQLException {
-        List<String> tooninfo=GetData.dataQuery("*",toons,"toonID",team.get(
-            jlist.getSelectedIndex()),false,false,null,null);
-        String message = tooninfo.get(1)+"\n\n"+
-            "Age: " + tooninfo.get(26) + "\n" +
-            "Alignment: " + tooninfo.get(24) + "\n" +
-            "Gender: " + tooninfo.get(25) + "\n" +
-            "Size: " + tooninfo.get(27) + "\n" +
-            "Race: " + tooninfo.get(28) + "\n" +
-            "Class: " + tooninfo.get(29) + "\n" +
-            "Level: " + tooninfo.get(8) + "\n" +
-            "Experience: " + tooninfo.get(20) + "\n" +
+    private static void detailsButton(List<String> toons,
+        List<String> team,JList jlist) throws SQLException {
+        String[] tooninfo=Converters.expListtoArray(toons.get(Integer.parseInt(
+            team.get(jlist.getSelectedIndex()))));
+//                GetData.dataQuery("*",toons,"toonID",team.get(
+//            jlist.getSelectedIndex()),false,false,null,null);
+        String message = tooninfo[1]+"\n\n"+
+            "Age: " + tooninfo[26] + "\n" +
+            "Alignment: " + tooninfo[24] + "\n" +
+            "Gender: " + tooninfo[25] + "\n" +
+            "Size: " + tooninfo[27] + "\n" +
+            "Race: " + tooninfo[28] + "\n" +
+            "Class: " + tooninfo[29] + "\n" +
+            "Level: " + tooninfo[8] + "\n" +
+            "Experience: " + tooninfo[20] + "\n" +
             "Current Status: " + "Normal" + "\n" +
             //status to be fixed at a later time 
             "Status is not accurate at this time." 
             + "\n\nNOTE: More functionality will be added here.";
-        Popups.infoPopup("[" + tooninfo.get(1) + "]", 
+        Popups.infoPopup("[" + tooninfo[1] + "]", 
             message);
     }    
 
-    private static void itemsButton(String save,String toons,List<String> team,
+    private static void itemsButton(List<String> toons,List<String> team,
         JList jlist) throws SQLException {
-        List<String> tooninfo=GetData.dataQuery("*",toons,"toonID",team.get(
-            jlist.getSelectedIndex()),false,false,null,null);
-        String[] heldlist=collectStats(((tooninfo.get(13).replaceAll("nullx","")
-            ).replaceAll("null","").split("x")),save,"dbItems","itemID",1);
-        String[] wearlist=collectStats(((tooninfo.get(14).replaceAll("nullx","")
-            ).replaceAll("null","").split("x")),save,"dbItems","itemID",1);
-        String[] charmslist=collectStats(((tooninfo.get(15).replaceAll("nullx",
-            "")).replaceAll("null","").split("x")),save,"dbItems","itemID",1);
-        String[] invlist=collectStats(((tooninfo.get(16).replaceAll("nullx",""))
-            .replaceAll("null","").split("x")),save,"dbItems","itemID",1);
+        String[] tooninfo=Converters.expListtoArray(toons.get(Integer.parseInt(
+                team.get(jlist.getSelectedIndex()))));
+//                GetData.dataQuery("*",toons,"toonID",team.get(
+//            jlist.getSelectedIndex()),false,false,null,null);
+        String[] heldlist=collectStats(((tooninfo[13].replaceAll("nullx","")
+            ).replaceAll("null","").split("x")),MemoryBank.dbItems,0,1);
+//                ,save,"dbItems","itemID",1);
+        String[] wearlist=collectStats(((tooninfo[14].replaceAll("nullx","")
+            ).replaceAll("null","").split("x")),MemoryBank.dbItems,0,1);
+//                ,save,"dbItems","itemID",1);
+        String[] charmslist=collectStats(((tooninfo[15].replaceAll("nullx",
+            "")).replaceAll("null","").split("x")),MemoryBank.dbItems,0,1);
+//                ,save,"dbItems","itemID",1);
+        String[] invlist=collectStats(((tooninfo[16].replaceAll("nullx",""))
+            .replaceAll("null","").split("x")),MemoryBank.dbItems,0,1);
+//                ,save,"dbItems","itemID",1);
         String finallist = "";
         if(heldlist.length >= 1) {
             finallist += "[Equipment Held]\n\n";
@@ -627,18 +673,21 @@ public class BattleGUI extends javax.swing.JFrame {
         if(finallist.replaceAll("[^a-zA-Z0-9]", "").length() <= 0) {
             finallist = "[Inventory is Empty]";
         }
-        Popups.infoPopup(tooninfo.get(1) + " Inventory", finallist + "\n"
+        Popups.infoPopup(tooninfo[1] + " Inventory", finallist + "\n"
             +"NOTE:  There will be a future\noption to change inventory here.");
     }
 
-    private static String [] collectStats(String[] raw,String save,String table,
-        String col,int field) throws SQLException {
+    private static String [] collectStats(String[] raw,List<String> table,
+        int matchcol,int fetchcol) throws SQLException {
+//            String col,int field) throws SQLException {
         List<Object> rawlist = Arrays.stream(raw).collect(Collectors.toList());
         List<Object> newlist = new ArrayList<>();
         if(!rawlist.get(0).equals("null") && !rawlist.get(0).equals("")) {
             for(int item = 0; item < rawlist.size(); item++) {
-                newlist.add(getStat(save,table,col,rawlist.get(item).toString(),
-                    field));
+                newlist.add(getStat(table,rawlist.get(item).toString(),matchcol,
+                    fetchcol));
+//                        save,table,col,rawlist.get(item).toString(),
+//                    field));
             }
         } else {
             return new String[0];
@@ -646,38 +695,51 @@ public class BattleGUI extends javax.swing.JFrame {
         return newlist.toArray(new String[newlist.size()]);
     }
     
-    private static String getStat(String save,String table,String col,String 
-        id,int field) throws SQLException {
-        return GetData.dataQuery("*",table,col,id,false,false,null,null).get(field);
+    private static String getStat(List<String> table,String id,int matchcol,int 
+        fetchcol) throws SQLException {
+//            String col,
+//        String id,int field) throws SQLException {
+        return Converters.fetchfromTable(table,id,matchcol,fetchcol);
+//        return GetData.dataQuery("*",table,col,id,false,false,null,null).get(field);
     }
     
-    private static void ablButton(String save,String toons,List<String> team,
+    private static void ablButton(List<String> toons,List<String> team,
         JList jlist) throws SQLException {
-        List<String> tooninfo=GetData.dataQuery("*",toons,"toonID",team.get(
-            jlist.getSelectedIndex()),false,false,null,null);
+        String[] tooninfo=Converters.expListtoArray(MemoryBank.dbToons.get(
+            Integer.parseInt(team.get(jlist.getSelectedIndex()))));
+//        List<String> tooninfo=GetData.dataQuery("*",toons,"toonID",team.get(
+//            jlist.getSelectedIndex()),false,false,null,null);
         //toon,align,gender,items,race,class,size
-        String toonAbl = tooninfo.get(11);
-        String alignAbl=GetData.dataQuery("*","dbAlign","alignID",Calculator.
-            alignvaltoID(save,Integer.parseInt(tooninfo.get(4))),false,false,null,null).get(7);
-        String gendAbl = GetData.dataQuery("*","dbGender","genderID",tooninfo
-            .get(6),false,false,null,null).get(7);
-        String raceAbl = GetData.dataQuery("*","dbRace","raceID",tooninfo.get
-            (2),false,false,null,null).get(8);
-        String classAbl = GetData.dataQuery("*","dbClass","classID",tooninfo.
-            get(3),false,false,null,null).get(5);
-        String sizeAbl = (GetData.dataQuery("*","dbSize","sizeID",tooninfo.
-            get(21),false,false,null,null).get(5));
-        String tempAbl = toonAbl+"x"+alignAbl+"x"+gendAbl+"x"+raceAbl+"x"+
-            classAbl+"x"+sizeAbl+"x";
-        String abltemp = tempAbl.replaceAll("xnull","").replaceAll("null","");
-        String[] itemlist=((tooninfo.get(13)+"x"+tooninfo.get(14)+"x"+
-            tooninfo.get(15)).split("x"));
+        String toonAbl=tooninfo[11];
+        String alignAbl=Converters.fetchfromTable(MemoryBank.dbAlign,Calculator.
+            alignvaltoID(Integer.parseInt(tooninfo[4])),0,7);
+//                GetData.dataQuery("*","dbAlign","alignID",Calculator.
+//            alignvaltoID(Integer.parseInt(tooninfo[4])),false,false,null,null).get(7);
+        String gendAbl=Converters.fetchfromTable(MemoryBank.dbGender,tooninfo[6]
+            ,0,7);
+//                GetData.dataQuery("*","dbGender","genderID",tooninfo[6],false,false,null,null).get(7);
+        String raceAbl=Converters.fetchfromTable(MemoryBank.dbRace,tooninfo[2],0
+            ,8);
+//                GetData.dataQuery("*","dbRace","raceID",tooninfo[2],false,false,null,null).get(8);
+        String classAbl=Converters.fetchfromTable(MemoryBank.dbClass,tooninfo[3]
+            ,0,5);
+//                GetData.dataQuery("*","dbClass","classID",tooninfo[3],false,false,null,null).get(5);
+        String sizeAbl=Converters.fetchfromTable(MemoryBank.dbSize,tooninfo[21],
+            0,5);
+//                (GetData.dataQuery("*","dbSize","sizeID",tooninfo[21],false,false,null,null).get(5));
+        String tempAbl=toonAbl+"x"+alignAbl+"x"+gendAbl+"x"+raceAbl+"x"+classAbl
+            +"x"+sizeAbl+"x";
+        String abltemp=tempAbl.replaceAll("xnull","").replaceAll("null","");
+        String[] itemlist=((tooninfo[13]+"x"+tooninfo[14]+"x"+tooninfo[15]).
+            split("x"));
         List<String> itemabls = Arrays.stream(itemlist).collect(Collectors
             .toList());
         itemabls.removeAll(Collections.singleton("null"));
         for (int x = 0; x < itemabls.size(); x++) {
-            abltemp += (GetData.dataQuery("*","dbItems","itemID",itemabls
-                .get(x),false,false,null,null).get(11)).replaceAll("null", "") + "x";
+            abltemp += Converters.fetchfromTable(MemoryBank.dbItems,itemabls.get
+                (x),0,11).replaceAll("null", "") + "x";
+//                    GetData.dataQuery("*","dbItems","itemID",itemabls
+//                .get(x),false,false,null,null).get(11)).replaceAll("null", "") + "x";
         }
         String ablfinalist= abltemp.charAt(0)+"";
         char [] cA =abltemp.toCharArray();
@@ -697,10 +759,14 @@ public class BattleGUI extends javax.swing.JFrame {
         if(ablfinalist.endsWith("x")) {
             ablfinalist = ablfinalist.substring(0,ablfinalist.length() - 1);
         }
-         String[] abllist = collectStats((ablfinalist.split("x")),save,
-            "dbAbl","ablID",1);
-         String[] abldesclist = collectStats((ablfinalist.split("x")),save,
-            "dbAbl","ablID",2);
+         String[] abllist = collectStats((ablfinalist.split("x")),MemoryBank.
+            dbAbl,0,1);
+//                 ,save,
+//            "dbAbl","ablID",1);
+         String[] abldesclist = collectStats((ablfinalist.split("x")),MemoryBank
+            .dbAbl,0,2);
+//                 ,save,
+//            "dbAbl","ablID",2);
         String message="";
         if(abllist.length >= 1) {
             message += "[Ablilities List]\n\n";
@@ -712,39 +778,62 @@ public class BattleGUI extends javax.swing.JFrame {
         if(message.replaceAll("[^a-zA-Z0-9]", "").length() <= 0) {
             message = "<No Abilities>\n";
         }
-        Popups.infoPopup((GetData.dataQuery("*",toons,"toonID",team.get(jlist
-            .getSelectedIndex()),false,false,null,null).get(1)) + " Abilities List", message +
-            "\n" +"NOTE:  There will be a future option to navigate\nfurther in"
-            + "to abilities here.");
+        Popups.infoPopup(Converters.fetchfromTable(toons,team.get(jlist.
+            getSelectedIndex()),0,1)+" Abilities List",message+"\n"+
+//                (GetData.dataQuery("*",toons,"toonID",team.get(jlist
+//            .getSelectedIndex()),false,false,null,null).get(1))+
+            "NOTE:  There will be a future option to navigate\nfurther into "
+            + "abilities here.");
     }    
 
-    private static void effButton(String save,String toons,List<String> team,
+    private static void effButton(List<String> toons,List<String> team,
         JList jlist) throws SQLException {
-        List<String> tooninfo=GetData.dataQuery("*",toons,"toonID",team.get(
-            jlist.getSelectedIndex()),false,false,null,null);
-        //toon,align,gender,items,race,class,size
-        String toonEff = tooninfo.get(11);
-        String alignEff=GetData.dataQuery("*","dbAlign","alignID",Calculator.
-            alignvaltoID(save,Integer.parseInt(tooninfo.get(4))),false,false,null,null).get(7);
-        String gendEff = GetData.dataQuery("*","dbGender","genderID",tooninfo
-            .get(6),false,false,null,null).get(7);
-        String raceEff = GetData.dataQuery("*","dbRace","raceID",tooninfo.get
-            (2),false,false,null,null).get(8);
-        String classEff = GetData.dataQuery("*","dbClass","classID",tooninfo.
-            get(3),false,false,null,null).get(5);
-        String sizeEff = (GetData.dataQuery("*","dbSize","sizeID",tooninfo.
-            get(21),false,false,null,null).get(5));
+        String[] tooninfo=Converters.expListtoArray(MemoryBank.dbToons.get(
+            Integer.parseInt(team.get(jlist.getSelectedIndex()))));
+        String toonEff=tooninfo[11];
+        String alignEff=Converters.fetchfromTable(MemoryBank.dbAlign,Calculator.
+            alignvaltoID(Integer.parseInt(tooninfo[4])),0,8);
+        String gendEff=Converters.fetchfromTable(MemoryBank.dbGender,tooninfo[7]
+            ,0,7);
+        String raceEff=Converters.fetchfromTable(MemoryBank.dbRace,tooninfo[2],0
+            ,9);
+        String classEff=Converters.fetchfromTable(MemoryBank.dbClass,tooninfo[3]
+            ,0,6);
+        String sizeEff=Converters.fetchfromTable(MemoryBank.dbSize,tooninfo[21],
+            0,6);
         String tempEff = toonEff+"x"+alignEff+"x"+gendEff+"x"+raceEff+"x"+
             classEff+"x"+sizeEff+"x";
         String efftemp = tempEff.replaceAll("xnull","").replaceAll("null","");
-        String[] itemlist=((tooninfo.get(13)+"x"+tooninfo.get(14)+"x"+(
-            tooninfo.get(15))).split("x"));
+        String[] itemlist=((tooninfo[13]+"x"+tooninfo[14]+"x"+tooninfo[15]).
+            split("x"));
+        
+//        List<String> tooninfo=GetData.dataQuery("*",toons,"toonID",team.get(
+//            jlist.getSelectedIndex()),false,false,null,null);
+//        //toon,align,gender,items,race,class,size
+//        String toonEff = tooninfo.get(11);
+//        String alignEff=GetData.dataQuery("*","dbAlign","alignID",Calculator.
+//            alignvaltoID(Integer.parseInt(tooninfo.get(4))),false,false,null,null).get(7);
+//        String gendEff = GetData.dataQuery("*","dbGender","genderID",tooninfo
+//            .get(6),false,false,null,null).get(7);
+//        String raceEff = GetData.dataQuery("*","dbRace","raceID",tooninfo.get
+//            (2),false,false,null,null).get(8);
+//        String classEff = GetData.dataQuery("*","dbClass","classID",tooninfo.
+//            get(3),false,false,null,null).get(5);
+//        String sizeEff = (GetData.dataQuery("*","dbSize","sizeID",tooninfo.
+//            get(21),false,false,null,null).get(5));
+//        String tempEff = toonEff+"x"+alignEff+"x"+gendEff+"x"+raceEff+"x"+
+//            classEff+"x"+sizeEff+"x";
+//        String efftemp = tempEff.replaceAll("xnull","").replaceAll("null","");
+//        String[] itemlist=((tooninfo.get(13)+"x"+tooninfo.get(14)+"x"+(
+//            tooninfo.get(15))).split("x"));
         List<String> itemeffs = Arrays.stream(itemlist).collect(Collectors
             .toList());
         itemeffs.removeAll(Collections.singleton("null"));
         for (int x = 0; x < itemeffs.size(); x++) {
-            efftemp += (GetData.dataQuery("*","dbItems","itemID",itemeffs
-                .get(x),false,false,null,null).get(12)).replaceAll("null", "") + "x";
+            efftemp += Converters.fetchfromTable(MemoryBank.dbItems,itemeffs.get
+                (x),0,12).replaceAll("null", "") + "x";
+//            efftemp += (GetData.dataQuery("*","dbItems","itemID",itemeffs
+//                .get(x),false,false,null,null).get(12)).replaceAll("null", "") + "x";
         }
         String efffinalist= efftemp.charAt(0)+"";
         char [] cA =efftemp.toCharArray();
@@ -764,10 +853,14 @@ public class BattleGUI extends javax.swing.JFrame {
         if(efffinalist.endsWith("x")) {
             efffinalist = efffinalist.substring(0,efffinalist.length() - 1);
         }
-         String[] efflist = collectStats((efffinalist.split("x")),save,
-            "dbEffects","effID",1);
-         String[] effdesclist = collectStats((efffinalist.split("x")),save,
-            "dbEffects","effID",2);
+         String[] efflist = collectStats((efffinalist.split("x")),MemoryBank.
+            dbEffects,0,1);
+//                 ,save,
+//            "dbEffects","effID",1);
+         String[] effdesclist = collectStats((efffinalist.split("x")),MemoryBank
+            .dbEffects,0,2);
+//                 ,save,
+//            "dbEffects","effID",2);
         String message="";
         if(efflist.length >= 1) {
             message += "[Effects List]\n\n";
@@ -779,27 +872,37 @@ public class BattleGUI extends javax.swing.JFrame {
         if(message.replaceAll("[^a-zA-Z0-9]", "").length() <= 0) {
             message = "<No Effects>\n";
         }
-        Popups.infoPopup((GetData.dataQuery("*",toons,"toonID",team.get(jlist
-            .getSelectedIndex()),false,false,null,null).get(1)) + " Effects List", message +
-            "\n" +"NOTE:  There will be a future option to navigate\nfurther in"
-            + "to effects here.");
-    }    
+        Popups.infoPopup(Converters.fetchfromTable(toons,team.get(jlist.
+            getSelectedIndex()),0,1)+" Effects List",message+"\n"+
+//                (GetData.dataQuery("*",toons,"toonID",team.get(jlist
+//            .getSelectedIndex()),false,false,null,null).get(1))+
+            "NOTE:  There will be a future option to navigate\nfurther into "
+            + "effects here.");
+    }          
+//        Popups.infoPopup((GetData.dataQuery("*",toons,"toonID",team.get(jlist
+//            .getSelectedIndex()),false,false,null,null).get(1))+" Effects List",
+//            message+"\n"+"NOTE:  There will be a future option to navigate\n"
+//            + "further into effects here.");
+//    }    
 
-    private static void confirmButton() throws BadLocationException, SQLException, InterruptedException, Exception {
+    private static void confirmButton() throws BadLocationException, 
+        SQLException, InterruptedException, Exception {
         //String userInput = inputText.getText();
         //new TypeEffect(mainText,userInput + "\n",10,true,inputText,confirmButton).start();
-        BattleEngine.nextTurn();
+        BattleEngine.nextTurn(MemoryBank.savToons);
         //more function here
 
     }
     
     public static void writeBattle(String string) {
 
-        new TypeEffect(mainText,string + "\n",10,true,inputText,confirmButton).start();
+        new TypeEffect(mainText,string + "\n",10,true,inputText,confirmButton).
+            start();
 
     }
     
-    public static void pressConfirm() throws BadLocationException, SQLException, InterruptedException, Exception {
+    public static void pressConfirm() throws BadLocationException, SQLException,
+        InterruptedException, Exception {
         confirmButton();
     }
     

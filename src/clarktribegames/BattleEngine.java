@@ -21,35 +21,38 @@ public class BattleEngine {
     
     static String[] team0;
     static String[] team1;
-    static String saveName;
-    static String saveToons;
-    static String saveMax;
+//    static String saveName;
+//    static String saveToons;
+//    static String saveMax;
     static int[][] tTrack = new int[2][3];
     volatile static boolean battleDone = false;
     
-    public static void battleEngine(String save,String savetoons,String savemax)
+    public static void battleEngine(List<String> toons)
         throws SQLException, IOException, InterruptedException{
         battleDone = false;
-        saveName = save;
-        saveToons = savetoons;
-        saveMax = savemax;
-        battleTime(save, savetoons, savemax);
+//        saveName = save;
+//        saveToons = savetoons;
+//        saveMax = savemax;
+        battleTime(toons);
     }
     
-    private static void battleTime(String save, String savetoons, String savemax
-        ) throws SQLException, IOException, InterruptedException {
+    private static void battleTime(List<String> toons) throws SQLException, 
+        IOException, InterruptedException {
         int opponent = 0;
-        int totalToons = GetData.dataQuery("*", savetoons, "toonID", "*", 
-            true,false,null,null).size();
+        int totalToons = MemoryBank.savToons.size();
+//                GetData.dataQuery("*", savetoons, "toonID", "*", 
+//            true,false,null,null).size();
         opponent = randomOpponent(Integer.parseInt(MainControls.selectedToon), 
             totalToons);
         if(String.valueOf(opponent).equals(MainControls.selectedToon)) {
-            battleTime(save,savetoons,savemax);
+            battleTime(toons);
         }
         team0 = new String[] {MainControls.selectedToon};
         team1 = new String[] {String.valueOf(opponent)};
-        GetData.buildBattle(save, Converters.capFirstLetter(saveToons.substring(
-            3,saveToons.length()).replace("Toons", "")));
+        
+//        GetData.buildBattle(MainControls.currentgame);
+//                save, Converters.capFirstLetter(saveToons.substring(
+//            3,saveToons.length()).replace("Toons", "")));
         VersusGUI.main(null);
     }
         
@@ -68,15 +71,19 @@ public class BattleEngine {
         return random;
     }
     
-    public static void battleStart(String save, String btoons, String bmax) 
+    public static void battleStart(List<String> toons) 
         throws SQLException, InterruptedException {
-        battleOpener(save,btoons,bmax,GetData.dataQuery("*",btoons,"toonID",
-            team0[0],false,false,null,null).get(1),GetData.dataQuery("*",btoons,
-            "toonID",team1[0],false,false,null,null).get(1));
+        battleOpener(Converters.fetchfromTable(toons,team0[0],0,1),
+            Converters.fetchfromTable(toons,team1[0],0,1));
+//                GetData.dataQuery("*",btoons,"toonID",
+//            team0[0],false,false,null,null).get(1),
+//                GetData.dataQuery("*",btoons,
+//            "toonID",team1[0],false,false,null,null).get(1)
+//        );
     }
     
-    private static void battleOpener(String save, String btoons, String bmax, 
-        String team0lead, String team1lead) throws SQLException, InterruptedException {
+    private static void battleOpener(String team0lead, String team1lead) throws
+        SQLException, InterruptedException {
         if(team0.length > 1) {
             team0lead = "Team " + team0lead;
         }
@@ -130,12 +137,16 @@ public class BattleEngine {
         BattleGUI.getHidden(1).setText("Counter: " + tTrack[1][1] + " / Rate: " + tTrack[1][2]);
     }
     
-    private static void battleTurn(String save,String btoons,String bmax,int a, 
-        int b) throws SQLException, InterruptedException {
-        String player = GetData.dataQuery("*",btoons,"toonID",String.valueOf(
-            tTrack[a][0]),false,false,null,null).get(1);
-        String target = GetData.dataQuery("*",btoons,"toonID",String.valueOf(
-            tTrack[b][0]),false,false,null,null).get(1);
+    private static void battleTurn(List<String> toons,int a,int b) throws 
+        SQLException, InterruptedException {
+        String player=Converters.fetchfromTable(toons,String.valueOf(tTrack[a]
+            [0]),0,1);
+//                GetData.dataQuery("*",btoons,"toonID",String.valueOf(
+//            tTrack[a][0]),false,false,null,null).get(1);
+        String target=Converters.fetchfromTable(toons,String.valueOf(tTrack[b]
+            [0]),0,1);
+//                GetData.dataQuery("*",btoons,"toonID",String.valueOf(
+//            tTrack[b][0]),false,false,null,null).get(1);
         System.out.println("Player: " + player + ":" + a + " is attacking.");
         tTrack[a][1] = 0;
         tTrack[b][1] += tTrack[b][2];
@@ -174,12 +185,14 @@ public class BattleEngine {
         }
     }
     
-    public static void nextTurn() throws SQLException, InterruptedException, Exception {
-        betweenTurns(BattleEngine.saveName, BattleEngine.saveToons.replaceAll("sav"
-            ,"battle"),BattleEngine.saveMax.replaceAll("sav", "battle"));
+    public static void nextTurn(List<String> toons) throws SQLException, 
+        InterruptedException, Exception {
+        betweenTurns(toons);
+//        betweenTurns(BattleEngine.saveName, BattleEngine.saveToons.replaceAll("sav"
+//            ,"battle"),BattleEngine.saveMax.replaceAll("sav", "battle"));
     }
     
-    private static void betweenTurns(String save, String btoons, String bmax) throws SQLException, InterruptedException, Exception {
+    private static void betweenTurns(List<String> toons) throws SQLException, InterruptedException, Exception {
         int hp0 = Integer.parseInt((String) BattleGUI.getTable(0).getValueAt(1,1));
         int hp1 = Integer.parseInt((String) BattleGUI.getTable(1).getValueAt(1,1));
         if(hp0 > 0 && hp1 > 0) {
@@ -194,17 +207,22 @@ public class BattleEngine {
                 b = 1;
             }
             System.out.println(a + ":" + b);
-            battleTurn(save,btoons,bmax,a,b);
+            battleTurn(toons,a,b);
         } else {
             if(hp1 <= 0) {
-                BattleGUI.writeBattle(GetData.dataQuery("*",btoons,"toonID",String.valueOf(
-            tTrack[0][0]),false,false,null,null).get(1) + " is the winner!");
+                BattleGUI.writeBattle(Converters.fetchfromTable(toons,String.
+                    valueOf(tTrack[0][0]),0,1)
+//                        GetData.dataQuery("*",btoons,"toonID",String.valueOf(
+//            tTrack[0][0]),false,false,null,null).get(1) 
+                + " is the winner!");
                 MPlayer.stopMedia();
                 MainControls.turnonMusic(MainControls.checkforcustMusic("win"), "win");
                 battleDone = true;
             } else {
-                BattleGUI.writeBattle(GetData.dataQuery("*",btoons,"toonID",String.valueOf(
-            tTrack[1][0]),false,false,null,null).get(1) + " is the winner!");
+                BattleGUI.writeBattle(Converters.fetchfromTable(toons,String.valueOf(tTrack[1][0]),0,1)
+//                BattleGUI.writeBattle(GetData.dataQuery("*",btoons,"toonID",String.valueOf(
+//            tTrack[1][0]),false,false,null,null).get(1)
+                + " is the winner!");
                 MPlayer.stopMedia();
                 MainControls.turnonMusic(MainControls.checkforcustMusic("lose"), "lose");
                 battleDone = true;
