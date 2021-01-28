@@ -70,11 +70,8 @@ public class Calculator {
     }
     
     private static int getMaxAge(String race) throws SQLException {
-        String save = savenameCheck();
-        return Integer.parseInt(Converters.fetchfromTable(MemoryBank.dbRace,race,0,5));
-//                
-//                GetData.dataQuery("*","dbRace","raceID",race,
-//            false,false,null,null).get(5));
+        return Integer.parseInt(Converters.fetchfromTable(MemoryBank.dbRace,race
+            ,0,5));
     }
     
     public static double getageAdjuster(double ratio) {
@@ -113,8 +110,6 @@ public class Calculator {
         for(int i=0;i<MemoryBank.dbAge.size();i++) {
             agelist.add(Converters.expListtoArray(MemoryBank.dbAge.get(i))[2]);
         }
-//                GetData.dataQuery( "*","dbAge","ageCriteria",
-//            null, true,false,null,null);
         List<Integer> results = new ArrayList();
 
         for (int i = 0; i < agelist.size(); i++) {
@@ -182,7 +177,7 @@ public class Calculator {
                         }
                 } else {
                         if(x1.equals("%") && x2.equals("%")) {
-                            if((age < n1 * .01 * max) && (age < n2 * .01 * max)) {
+                            if((age < n1 * .01 * max) && (age < n2 *.01* max)) {
                                 addit = true;
                             }
                     } else {
@@ -1351,8 +1346,6 @@ public class Calculator {
         }
         return Converters.fetchfromTable(MemoryBank.dbAge,results.get(0).
             toString(),0,1);
-//                (GetData.dataQuery("*","dbAge","ageID",((
-//            results.get(0)).toString()), false,false,null,null).get(1));
     }
     
     public static String getAlign(int alignCode) throws SQLException {
@@ -1360,7 +1353,6 @@ public class Calculator {
     }
     
     private static String findAlign(int code) throws SQLException {
-        //String save = savenameCheck();
         List<String> alignname = new ArrayList<>();
         List<Integer> alignval = new ArrayList<>();
         for(int i=0;i<MemoryBank.dbAlign.size();i++) {
@@ -1369,13 +1361,6 @@ public class Calculator {
             alignval.add(Integer.parseInt(Converters.expListtoArray(MemoryBank.
                 dbAlign.get(i))[3]));
         }
-//                GetData.dataQuery("*","dbAlign","alignID",
-//            "*",true,false,null,null);
-//        List<Integer> alignval = new ArrayList<>();
-//        for (String s : (GetData.dataQuery("*","dbAlign","alignRank","*",true
-//            ,false,null,null))) {
-//            alignval.add(Integer.valueOf(s));
-//        }
         if(code > alignval.get(1)) {
             return alignname.get(0);
         } else {
@@ -1425,8 +1410,6 @@ public class Calculator {
             alignids.add(Converters.expListtoArray(MemoryBank.dbAlign.get(i))[0]
                 );
         }                
-//                GetData.dataQuery("*","dbAlign","alignID",
-//            "*",true,false,null,null);
         double alignvalue = (double) alignVal;
         if(alignvalue < 13) {
             return alignids.get(8);
@@ -1464,15 +1447,10 @@ public class Calculator {
     }
     
     private static String findSize(String race,String age) throws SQLException {
-//        String save = savenameCheck();
         int racesize = Integer.parseInt(Converters.fetchfromTable(MemoryBank.
             dbRace,race,1,3));
-//                GetData.dataQuery("*","dbRace","race"
-//            + "Name",race,false,false,null,null).get(3));
         int ageid = Integer.parseInt(Converters.fetchfromTable(MemoryBank.dbAge,
             age,1,0));
-//            GetData.dataQuery("*","dbAge","ageName",
-//            age,false,false,null,null).get(0));
         String sizeid = "0";
         if(racesize > 0) {
             if(racesize == 1 && ageid <= 1) {
@@ -1543,19 +1521,10 @@ public class Calculator {
             }
         }
         return Converters.fetchfromTable(MemoryBank.dbSize,sizeid,0,1);
-//                GetData.dataQuery("*","dbSize","sizeID",sizeid,false,false,null,null).get(1);
     }
     
     private static String savenameCheck() {
-//        if(MainControls.selectedSave.contains("." + MainControls.saveExt)) {
-//            System.out.println("DOES: " + MainControls.selectedSave);
-//            return Converters.capFirstLetter((MainControls.selectedSave)
-//        .substring(0,(MainControls.selectedSave).indexOf("." + 
-//            MainControls.saveExt)));
-//        } else {
-//            System.out.println("DOES NOT: " + MainControls.selectedSave);
-            return MainControls.selectedSave;
-//        }
+        return MainControls.selectedSave;
     }
         
     

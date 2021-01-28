@@ -15,21 +15,41 @@ import java.io.IOException;
 
 public class Updater {
 
-    public static void updateMessage(String appName, String installedVersion) 
-        throws IOException, InterruptedException {
-        String messageString = (appName) + " v" + installedVersion + " is not t"
-                + "he most current version.  You will need to update to continu"
-                + "e.\n\nWould you like to download the latest update?";
-        boolean updateNow = Popups.yesnoPopup("Needs an Update",messageString);
-        if(updateNow == true) {
-            CleanUpdate.cleanUpdate();
+    public static void updateMessage(boolean dborno,String appName,
+        String installedVersion) throws IOException, InterruptedException {
+        String messageStr="";
+        if(!dborno) {
+            messageStr+=(appName)+" v"+installedVersion+" is not the most "+
+                "current version.  You will need to update to continue.\n\n"+
+                "Would you like to download the latest update?";
+            boolean updateNow=Popups.yesnoPopup("Needs an Update",messageStr);
+            if(updateNow == true) {
+                CleanUpdate.cleanUpdate();
+            } else {
+                String reminderTitle="This is an older release!";
+                String reminderMessage="As a reminder, this is an older ALPHA "+
+                    "release of "+MainControls.appName+"!\n\nPlease be sure to"+
+                    " update in order to ensure the best experience.\n\n"+
+                    "Thank you\n\nGeoff @ ClarkTribeGames";
+                Popups.warnPopup(reminderTitle, reminderMessage);
+            }
         } else {
-            String reminderTitle="This is an older release!";
-            String reminderMessage="As a reminder, this is an older ALPHA "+
-                "release of "+MainControls.appName+"!\n\nPlease be sure to "+
-                "update in order to ensure the best experience.\n\nThank you\n"+
-                "\nGeoff @ ClarkTribeGames";
-            Popups.warnPopup(reminderTitle, reminderMessage);
+            messageStr+="Your default "+(appName)+" database is not the most "+
+                "current version.  You will need to update to continue.\n\n"+
+                "Would you like to download the latest update?";
+            boolean updateNow=Popups.yesnoPopup("Needs an Update",messageStr);
+            if(updateNow == true) {
+                CleanUpdate.cleanUpdate();
+            } else {
+                String reminderTitle="This is an older release!";
+                String reminderMessage="You cannot continue forward with this "+
+                    "older version of the database.\n\nYou will need to update"+
+                    " before you can proceed.\n\n"+
+                    "Thank you\n\nGeoff @ ClarkTribeGames";
+                Popups.warnPopup(reminderTitle, reminderMessage);
+                System.gc();
+                System.exit(0);
+            }
         }
     }
     

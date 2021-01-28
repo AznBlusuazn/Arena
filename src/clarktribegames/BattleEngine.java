@@ -40,8 +40,6 @@ public class BattleEngine {
         IOException, InterruptedException {
         int opponent = 0;
         int totalToons = MemoryBank.savToons.size();
-//                GetData.dataQuery("*", savetoons, "toonID", "*", 
-//            true,false,null,null).size();
         opponent = randomOpponent(Integer.parseInt(MainControls.selectedToon), 
             totalToons);
         if(String.valueOf(opponent).equals(MainControls.selectedToon)) {
@@ -49,10 +47,6 @@ public class BattleEngine {
         }
         team0 = new String[] {MainControls.selectedToon};
         team1 = new String[] {String.valueOf(opponent)};
-        
-//        GetData.buildBattle(MainControls.currentgame);
-//                save, Converters.capFirstLetter(saveToons.substring(
-//            3,saveToons.length()).replace("Toons", "")));
         VersusGUI.main(null);
     }
         
@@ -73,13 +67,8 @@ public class BattleEngine {
     
     public static void battleStart(List<String> toons) 
         throws SQLException, InterruptedException {
-        battleOpener(Converters.fetchfromTable(toons,team0[0],0,1),
-            Converters.fetchfromTable(toons,team1[0],0,1));
-//                GetData.dataQuery("*",btoons,"toonID",
-//            team0[0],false,false,null,null).get(1),
-//                GetData.dataQuery("*",btoons,
-//            "toonID",team1[0],false,false,null,null).get(1)
-//        );
+        battleOpener(Converters.fetchfromTable(toons,team0[0],0,1),Converters.
+            fetchfromTable(toons,team1[0],0,1));
     }
     
     private static void battleOpener(String team0lead, String team1lead) throws
@@ -123,10 +112,12 @@ public class BattleEngine {
         tTrack[0][2] = (int)(double)(((t0sp/(t0sp+t1sp))*50)+rand.nextInt(50));
         //t1rate
         tTrack[1][2] = (int)(double)(((t1sp/(t0sp+t1sp))*50)+rand.nextInt(50));
-        String opening = "Begin Battle: " + team0lead + " vs. " + team1lead + "\n";
-        opening += team0lead + " start: " + (int) t0start + " / " + team1lead + " start: " + (int) t1start + "\n";
-        opening += team0lead + " rate: " + tTrack[0][2] + " / " + team1lead + " rate: " + tTrack[1][2] + "\n";
-        opening += whosfirst + " is first." + "\n";
+        String opening="Begin Battle: "+team0lead+" vs. "+team1lead+"\n";
+        opening += team0lead+" start: "+(int)t0start+" / "+team1lead+" start: "+
+            (int)t1start+"\n";
+        opening += team0lead+" rate: "+tTrack[0][2]+" / "+team1lead+" rate: "+
+            tTrack[1][2]+"\n";
+        opening += whosfirst+" is first."+"\n";
         updateHidden();
         BattleGUI.writeBattle(opening);
         Thread.sleep(1500);
@@ -141,33 +132,36 @@ public class BattleEngine {
         SQLException, InterruptedException {
         String player=Converters.fetchfromTable(toons,String.valueOf(tTrack[a]
             [0]),0,1);
-//                GetData.dataQuery("*",btoons,"toonID",String.valueOf(
-//            tTrack[a][0]),false,false,null,null).get(1);
         String target=Converters.fetchfromTable(toons,String.valueOf(tTrack[b]
             [0]),0,1);
-//                GetData.dataQuery("*",btoons,"toonID",String.valueOf(
-//            tTrack[b][0]),false,false,null,null).get(1);
         System.out.println("Player: " + player + ":" + a + " is attacking.");
         tTrack[a][1] = 0;
         tTrack[b][1] += tTrack[b][2];
         if(tTrack[b][1] > 100) {
             tTrack[b][1] = 100;
         }
-        String turnhappenings = "This would be " + player + "'s turn with " + target + " being the target.\n";
+        String turnhappenings = "This would be " + player + "'s turn with " + 
+            target + " being the target.\n";
         //simulating battle
         Random rand = new Random();
         if(a == 1) {
-            int damage = (int) (Integer.parseInt((String) BattleGUI.getTable(1).getValueAt(4,1)) * (rand.nextInt(100) * 0.01));
-            turnhappenings += player + " attacks " + target + " for " + damage + " damage.\n";
-            int hp = Integer.parseInt((String) BattleGUI.getTable(0).getValueAt(1,1)) - damage;
+            int damage = (int) (Integer.parseInt((String) BattleGUI.getTable(1).
+                getValueAt(4,1)) * (rand.nextInt(100) * 0.01));
+            turnhappenings += player + " attacks " + target + " for " + damage +
+                " damage.\n";
+            int hp=Integer.parseInt((String) BattleGUI.getTable(0).getValueAt(1,
+                1)) - damage;
             if(hp<0) {
                 hp = 0;
             }
             BattleGUI.getTable(0).setValueAt(String.valueOf(hp), 1, 1);
         } else {
-            int damage = (int) (Integer.parseInt((String) BattleGUI.getTable(0).getValueAt(4,1)) * (rand.nextInt(100) * 0.01));
-            turnhappenings += player + " attacks " + target + " for " + damage + " damage.\n";
-            int hp = Integer.parseInt((String) BattleGUI.getTable(1).getValueAt(1,1)) - damage;
+            int damage = (int) (Integer.parseInt((String) BattleGUI.getTable(0).
+                getValueAt(4,1)) * (rand.nextInt(100) * 0.01));
+            turnhappenings += player + " attacks " + target + " for " + damage +
+                " damage.\n";
+            int hp = Integer.parseInt((String) BattleGUI.getTable(1).getValueAt(
+                1,1)) - damage;
             if(hp<0) {
                 hp = 0;
             }
@@ -188,13 +182,12 @@ public class BattleEngine {
     public static void nextTurn(List<String> toons) throws SQLException, 
         InterruptedException, Exception {
         betweenTurns(toons);
-//        betweenTurns(BattleEngine.saveName, BattleEngine.saveToons.replaceAll("sav"
-//            ,"battle"),BattleEngine.saveMax.replaceAll("sav", "battle"));
     }
     
-    private static void betweenTurns(List<String> toons) throws SQLException, InterruptedException, Exception {
-        int hp0 = Integer.parseInt((String) BattleGUI.getTable(0).getValueAt(1,1));
-        int hp1 = Integer.parseInt((String) BattleGUI.getTable(1).getValueAt(1,1));
+    private static void betweenTurns(List<String> toons) throws SQLException, 
+        InterruptedException, Exception {
+        int hp0=Integer.parseInt((String)BattleGUI.getTable(0).getValueAt(1,1));
+        int hp1=Integer.parseInt((String)BattleGUI.getTable(1).getValueAt(1,1));
         if(hp0 > 0 && hp1 > 0) {
             int turn = whosturnisIt();
             int a;
@@ -211,20 +204,17 @@ public class BattleEngine {
         } else {
             if(hp1 <= 0) {
                 BattleGUI.writeBattle(Converters.fetchfromTable(toons,String.
-                    valueOf(tTrack[0][0]),0,1)
-//                        GetData.dataQuery("*",btoons,"toonID",String.valueOf(
-//            tTrack[0][0]),false,false,null,null).get(1) 
-                + " is the winner!");
+                    valueOf(tTrack[0][0]),0,1)+" is the winner!");
                 MPlayer.stopMedia();
-                MainControls.turnonMusic(MainControls.checkforcustMusic("win"), "win");
+                MainControls.turnonMusic(MainControls.checkforcustMusic("win"),
+                    "win");
                 battleDone = true;
             } else {
-                BattleGUI.writeBattle(Converters.fetchfromTable(toons,String.valueOf(tTrack[1][0]),0,1)
-//                BattleGUI.writeBattle(GetData.dataQuery("*",btoons,"toonID",String.valueOf(
-//            tTrack[1][0]),false,false,null,null).get(1)
-                + " is the winner!");
+                BattleGUI.writeBattle(Converters.fetchfromTable(toons,String.
+                    valueOf(tTrack[1][0]),0,1)+" is the winner!");
                 MPlayer.stopMedia();
-                MainControls.turnonMusic(MainControls.checkforcustMusic("lose"), "lose");
+                MainControls.turnonMusic(MainControls.checkforcustMusic("lose"),
+                    "lose");
                 battleDone = true;
             }
         }

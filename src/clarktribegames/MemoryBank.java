@@ -27,6 +27,8 @@ import java.util.List;
 
 public class MemoryBank {
     
+    static List<String> mainSettings;
+    
     static List<String> savToons;
     static List<String> genToons;
     static List<String> altToons;    
@@ -57,7 +59,7 @@ public class MemoryBank {
     
     public static void fillMemory(boolean newgame) throws SQLException, 
         IOException {
-        
+
         dbTabletoMem(dbAbl,GetData.dataQuery("*","dbAbl","ablID",null,true,false
             ,null,null).size(),"dbAbl","ablID");
         dbTabletoMem(dbAblType,GetData.dataQuery("*","dbAblType","abtID",null,
@@ -103,10 +105,6 @@ public class MemoryBank {
         } else {
             dbTime = 0;
         }
-//            
-//        dbTime = Integer.parseInt(GetData.dataQuery("*","sav"+MainControls.
-//            currentgame.toLowerCase()+"Time","timeID","0",false,false,null,null)
-//            .get(1));
         
     }
     

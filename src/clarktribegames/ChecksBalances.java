@@ -353,27 +353,25 @@ public class ChecksBalances {
             return continueGame;
         }
         if(newgamename.contains(newgamename))
-        if(new File(MainControls.savesDir + newgamename + "/").exists()) {
-            Popups.warnPopup(newgamename + " already exists!", "There is " +
-                "already a save with the name " + newgamename);
+        if(new File(MainControls.savesDir+newgamename+"/").exists()) {
+            Popups.warnPopup(newgamename+" already exists!","There is already "+
+                "a save with the name "+newgamename+".");
             return continueGame;
         };
         newdirCheck(MainControls.savesDir+newgamename.toLowerCase()+"/",false);
-        if(!(new File(MainControls.savesDir + newgamename.toLowerCase() + "/")
-            .exists())) {
-            Popups.warnPopup("Error creating " + newgamename + " folder","There"
-                + " was an error creating the " + newgamename + " folder.");
+        if(!(new File(MainControls.savesDir+newgamename.toLowerCase()+"/").
+            exists())) {
+            Popups.warnPopup("Error creating "+newgamename+" folder","There was"
+                +" an error creating the "+newgamename+" folder.");
             return continueGame;
         }
-        MainControls.currentgamePath = MainControls.savesDir + newgamename
-            .toLowerCase() + "/" + MainControls.selectedSave;
-        fileCheck(MainControls.savesDir+MainControls.selectedSave,MainControls
-            .currentgamePath,false,false);
-//        newfileCheck(MainControls.currentgamePath.replaceAll(MainControls.
-//            saveExt, "temp"),true,"",true);
+        MainControls.currentgamePath=MainControls.savesDir+newgamename.
+            toLowerCase()+"/"+MainControls.selectedSave;
+        fileCheck(MainControls.savesDir+MainControls.selectedSave,MainControls.
+            currentgamePath,false,false);
         if(!(new File(MainControls.currentgamePath).exists())) {
-            Popups.warnPopup("Error creating " + newgamename + " save file", 
-                "There was an error creating the "+newgamename+" save file.");
+            Popups.warnPopup("Error creating "+newgamename+" save file","There"+
+                " was an error creating the "+newgamename+" save file.");
             ifexistDelete(MainControls.savesDir+newgamename.toLowerCase()+"/");
             return continueGame;
         }
@@ -381,8 +379,7 @@ public class ChecksBalances {
     }
     
     public static boolean checknoofSubdirs (String dir) {
-        int noofSubdirs = (Arrays.asList(new File(dir).list(new FilenameFilter()
-        {
+        int noofSubdirs=(Arrays.asList(new File(dir).list(new FilenameFilter() {
             @Override
             public boolean accept(File current, String name) {
                 return new File(current, name).isDirectory();
@@ -406,16 +403,16 @@ public class ChecksBalances {
         boolean cancel = false;
         FileNameExtensionFilter filter = null;
         if(type.equals("music")) {
-            filter=new FileNameExtensionFilter("MP3 Files (*.mp3)", "mp3");
+            filter=new FileNameExtensionFilter("MP3 Files (*.mp3)","mp3");
             destpath = MainControls.custommusicPath;
         } else {
             if(type.equals("sound")) {
-                filter=new FileNameExtensionFilter("MP3 Files (*.mp3)", "mp3");
+                filter=new FileNameExtensionFilter("MP3 Files (*.mp3)","mp3");
                 destpath = MainControls.custommusicSounds;
             } else {
                 if(type.equals("avatar")) {
-                    filter=new FileNameExtensionFilter("PNG Files (200x200 " +
-                        "Only) (*.png)", "png");
+                    filter=new FileNameExtensionFilter("PNG Files (200x200 Only"
+                        +") (*.png)", "png");
                     destpath = MainControls.imageDir;
                 } else {
                     cancel = true;
@@ -429,22 +426,21 @@ public class ChecksBalances {
             if(retVal == JFileChooser.APPROVE_OPTION) {
                 filename = chooser.getSelectedFile().getName();
                 absolpath = chooser.getSelectedFile().getAbsolutePath();
-                boolean importChoice=Popups.yesnoPopup("Are you sure you want "
-                    + "to import "+filename+"?","Are you sure you want to "
-                    + "import\n" + filename+"\n" + "into the custom " + type + 
-                    " library?");
+                boolean importChoice=Popups.yesnoPopup("Are you sure you want "+
+                    "to import "+filename+"?","Are you sure you want to import"+
+                    "\n" + filename+"\n" + "into the custom "+type+" library?");
                 if(!importChoice) {
                     filename=null;
-                    Popups.infoPopup("Cancelled", "Operation cancelled.");
+                    Popups.infoPopup("Cancelled","Operation cancelled.");
                 } else {
                     try {
                         ChecksBalances.fileCheck(absolpath,destpath+"/"+filename
                             ,false,false);
-                        Popups.infoPopup(filename+" imported!",filename+" has "
-                            + "successfully been imported.");
+                        Popups.infoPopup(filename+" imported!",filename+" has "+
+                            "successfully been imported.");
                     } catch (Exception ex) {
-                        Popups.infoPopup("Import failed!", filename + " could "
-                            + "not be imported.");
+                        Popups.infoPopup("Import failed!",filename+" could not"+
+                            " be imported.");
                     }
                 }
             }
@@ -520,6 +516,14 @@ public class ChecksBalances {
             }
         }
         return String.valueOf(finalID);
+    }
+    
+    public static String trueorfalseNum(boolean torf) {
+        if(torf) {
+            return "1";
+        } else {
+            return "0";
+        }
     }
     
 //<editor-fold defaultstate="collapsed" desc="Log File Method">

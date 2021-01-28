@@ -22,7 +22,7 @@ public class StartGame {
     static List<String> altToons;
     
     
-    public static void startGame(String save, String savetoons, String savemax) 
+    public static void startGame() 
         throws SQLException, IOException, InterruptedException {
         startTime();
     }

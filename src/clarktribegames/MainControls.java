@@ -4,7 +4,9 @@ import java.awt.Color;
 import java.awt.Font;
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,19 +35,19 @@ public class MainControls {
 
     //Main Controls Variables
     static String appName = "Limitless";
-    static String appVer = "0.0.040";
+    static String appVer = "0.0.041";
     static String appTitle = appName + " [ALPHA v" + appVer + "]";
-    static String settingsFile = "settings.ini";
+    //static String settingsFile = "settings.ini";
     static String defaultIntro = "sounds/intro.mp3";
     static String defaultBattle = "sounds/battle.mp3";
     static String defaultWin = "sounds/victory.mp3";
     static String defaultLose = "sounds/loss.mp3";
     static String musicPath = defaultIntro;
     static String custommusicPath = "custom/music";
-    static String custIntro = "";
-    static String custBattle = "";
-    static String custWin = "";
-    static String custLose = "";
+    static String custIntro = "null";
+    static String custBattle = "null";
+    static String custWin = "null";
+    static String custLose = "null";
     static String custommusicSounds = "custom/sounds";
     static String defaultOGSave = "data.mdb";
     static String saveExt = "limit";
@@ -90,6 +92,7 @@ public class MainControls {
     static boolean created = false;
     static boolean justswitch = false;
     static String passiveDestinyID = "1";
+    static String UID="";
 
     public static void main(String[] args) throws Exception {
         lookandfeelSettings();
@@ -121,8 +124,6 @@ public class MainControls {
                 true,false);
             boolean libResult = (CmpImporter.cmpImport("lib"));
             boolean soundsResult = (CmpImporter.cmpImport("sounds"));
-            ChecksBalances.newfileCheck(settingsFile,false,defaultSettings(),
-                true);
             if(!libResult || !soundsResult) {
                 String[] opts = new String[] {"Patreon","PayPal","Maybe Later"};
                 String title = "Alert!";
@@ -241,114 +242,134 @@ public class MainControls {
         }
     }
     
-    private static String defaultSettings() {
-        return "<Limitless Game Options>"
-            + "\nDark=ON\nMusic=ON\nCustM=OFF\nCustI=\nCustB=\nCustW=\nCustL=\n"
-            + "Sound=ON\nSameDB=YES\nDefaultDB=Default\n\n";
-    }
-    
-    private static void checkSettings() throws IOException {
-        if(getSettings("Dark").equals("off")) {
-            darkOn = false;
-            backColor = Color.WHITE;
-            textColor = Color.BLACK;
-        }
-        if(getSettings("Music").equals("off")) {
-            musicOn = false;
-        }
-        custIntro = getSettings("CustI");
-        custBattle = getSettings("CustB");
-        custWin = getSettings("CustW");
-        custLose = getSettings("CustL");
-        if(getSettings("CustM").equals("on")) {
-            custommusicOn = true;
-            musicPath = custommusicPath + "/" + custIntro.replaceAll("[Intro] ",
-                "") + ".mp3";
-            if(custIntro.equals("") || custIntro.isEmpty()) {
-                musicPath = defaultIntro;
+    private static void checkSettings() throws IOException, SQLException {
+        MemoryBank.mainSettings=fetchSettings();
+        if(ChecksBalances.isNullOrEmpty(findSetting("uid"))||findSetting("uid").
+            toLowerCase().equals("null")||!(findSetting("uid")).equals(UID)) {
+            try {
+                updateSettings();
+            } catch (Exception ex) {
+                //
             }
         }
-        if(getSettings("Sound").equals("off")) {
-            soundOn = false;
+        
+        //version check here (0)
+        if(ChecksBalances.isNullOrEmpty(findSetting("version")) || 
+            findSetting("version").toLowerCase().equals("null")) {
+            try {
+                updateSettings();
+            } catch (Exception ex) {
+                //
+            }
         }
-        if(getSettings("SameDB").equals("no")) {
-            samedbOn = false;
+        
+        //dark mode
+        if(findSetting("dark").equals("0")) {
+            darkOn=false;
+            backColor=Color.WHITE;
+            textColor=Color.BLACK;
         }
-        defaultDB = getSettings("DefaultDB");
+        
+        if(findSetting("music").equals("0")) {
+            musicOn = false;
+        }
+
+        custIntro=findSetting("custi");
+        custBattle=findSetting("custb");
+        custWin=findSetting("custw");
+        custLose=findSetting("custl");
+        
+        if(findSetting("custm").equals("1")) {
+            custommusicOn=true;
+            musicPath=custommusicPath+"/"+custIntro.replaceAll("[Intro] ","")+
+                ".mp3";
+            if(custIntro.equals("") || custIntro.isEmpty()) {
+                musicPath=defaultIntro;
+            }
+        }
+
+        if(findSetting("sound").equals("0")) {
+            soundOn=false;
+        }
+        if(findSetting("samedb").equals("0")) {
+            samedbOn=false;
+        }
+        defaultDB=findSetting("default");
+
     }
     
-    private static String getSettings(String type) throws IOException {
-        List<String> settings = Converters.filelistToList(settingsFile, "\n");
-        List<String> listresult=(ChecksBalances.lineFinder(settings,type,true));
-        String rawresult = Converters.listtoString(listresult);
-        String result = rawresult.substring(rawresult.indexOf("=") +1 ,rawresult
-            .length());
-        return result;
+    private static String findSetting(String settings) throws SQLException {
+        int size=0;
+        try {
+            size=MemoryBank.mainSettings.size();
+        } catch (NullPointerException ex) {
+            size=GetData.dataQuery("*","mainSettings","settingID",null,
+                true,false,null,null).size();
+        }
+        String retval="";
+        for(int i=0;i<size;i++){
+            String search=i+":"+settings+":";
+            try {
+                if(MemoryBank.mainSettings.get(i).startsWith(search)) {
+                    retval=MemoryBank.mainSettings.get(i).replaceAll(search,"");
+                }
+            } catch (NullPointerException ex) {
+                if(GetData.dataQuery("*","mainSettings","settingID",String.
+                    valueOf(i),false,false,null,null).get(1).startsWith(settings
+                    )) {
+                    retval=GetData.dataQuery("*","mainSettings","settingID",
+                        String.valueOf(i),false,false,null,null).get(2);
+                }
+            }
+        }
+        return retval;
     }
     
+    private static List<String> fetchSettings() throws SQLException {
+        List<String> retList=new ArrayList<>();
+        int settingscount=GetData.dataQuery("*","mainSettings","settingID",null,
+            true,false,null,null).size();
+        for(int i=0;i<settingscount;i++) {
+            retList.add(Arrays.toString(GetData.dataQuery("*","mainSettings",
+                "settingID",String.valueOf(i),false,false,null,null).toArray()).
+                replaceAll("\\[","").replaceAll("\\]","").replaceAll(", ",":"));
+        }
+        return retList;
+    }
+    
+    private static List<String> determineSettings() throws UnknownHostException {
+        
+        List<String> newSets=new ArrayList<>();
+        newSets.add("0:uid:"+UID);
+        newSets.add("1:version:"+appVer);
+        newSets.add("2:dark:"+ChecksBalances.trueorfalseNum(darkOn));
+        newSets.add("3:music:"+ChecksBalances.trueorfalseNum(musicOn));
+        newSets.add("4:custm:"+ChecksBalances.trueorfalseNum(custommusicOn));
+        newSets.add("5:custi:"+custIntro);
+        newSets.add("6:custb:"+custBattle);
+        newSets.add("7:custw:"+custWin);
+        newSets.add("8:custl:"+custLose);
+        newSets.add("9:sound:"+ChecksBalances.trueorfalseNum(soundOn));
+        newSets.add("10:samedb:"+ChecksBalances.trueorfalseNum(samedbOn));
+        newSets.add("11:defaultdb:"+defaultDB);
+        return newSets;
+        
+    }
+
     public static void updateSettings() throws IOException,InterruptedException,
         Exception{
-        String newSettings = Converters.listtoString(rebuildSettings());
+        for(int i=0;i<determineSettings().size();i++) {
+            String[] setting = determineSettings().get(i).split(":");
+            GetData.dataUpdateSingle("mainSettings","settingConfig",setting[2].
+                replaceAll("null",""),"settingID",setting[0]);
+        }
         try {
             if(!musicOn) {
                 MPlayer.stopMedia();
             }
-            System.gc();
-            ChecksBalances.ifexistDelete(settingsFile);
-            System.gc();
-            ChecksBalances.newfileCheck(settingsFile, false, newSettings, true);
         } catch (IOException ex) {
             LogWriter.logFile("severe","Update Settings.  EX: " +ex.toString());
         }
-    }
-    
-    private static List<String> rebuildSettings() throws IOException {
-        String dark = "Dark=ON";
-        String music = "Music=ON";
-        String custmusic = "CustM=OFF";
-        String custintro = "CustI=" + custIntro;
-        String custbattle = "CustB=" + custBattle;
-        String custwin = "CustW=" + custWin;
-        String custlose = "CustL=" + custLose;
-        String sound = "Sound=ON";
-        String samedb = "SameDB=YES";
-        String defaultdb = "DefaultDB=" + defaultDB;
-        if(!darkOn) {
-            dark = "Dark=OFF";
-        }
-        if(!musicOn) {
-            music = "Music=OFF";
-        }
-        if(custommusicOn) {
-            custmusic = "CustM=ON";
-        }
-        if(!soundOn) {
-            sound = "Sound=OFF";
-        }
-        if(!samedbOn) {
-            samedb = "SameDB=NO";
-        }
-        if(defaultDB.equals(defaultSave.substring(0,defaultSave.indexOf("." + 
-        saveExt)))) {
-            defaultdb = "DefaultDB=Default";
-        } else {
-            if(!(ChecksBalances.searchdirList(defaultDB,savesDir,saveExt))) {
-                defaultdb = "DefaultDB=Default";
-            }
-        }
-        List<String> x1=Converters.filelistToList(settingsFile,"\n");
-        List<String> x2=(ChecksBalances.findandRebuild(x1,"Dark",dark));
-        List<String> x3=(ChecksBalances.findandRebuild(x2,"Music",music));
-        List<String> x4=(ChecksBalances.findandRebuild(x3,"CustM",custmusic));
-        List<String> x5=(ChecksBalances.findandRebuild(x4,"CustI",custintro));
-        List<String> x6=(ChecksBalances.findandRebuild(x5,"CustB",custbattle));
-        List<String> x7=(ChecksBalances.findandRebuild(x6,"CustW",custwin));
-        List<String> x8=(ChecksBalances.findandRebuild(x7,"CustL",custlose));
-        List<String> x9=(ChecksBalances.findandRebuild(x8,"Sound",sound));
-        List<String> x10=(ChecksBalances.findandRebuild(x9,"SameDB",samedb));
-        List<String> finalList=(ChecksBalances.findandRebuild(x10,"DefaultDB",
-            defaultdb));
-        return finalList;
     }
     
     private static void lookandfeelSettings () {
@@ -398,9 +419,6 @@ public class MainControls {
                 while(!created) {
                     Thread.sleep(1);
                 }
-//                rawTime = Integer.parseInt(GetData.dataQuery("*","sav"+
-//                    Converters.capFirstLetter(Limitless.ngText.getText())+"Time"
-//                    ,"timeID","0",false,false,null,null).get(1));
                 String[] dateTime=Converters.convertTime(MemoryBank.dbTime);
                 gameYear=Integer.parseInt(dateTime[0]);
                 gameMonth=Integer.parseInt(dateTime[1]);
@@ -504,9 +522,6 @@ public class MainControls {
     
     private static void worldtextInfo() throws SQLException {
         //add game date method here
-//        String save=savesDir.replaceAll("saves/","").replaceAll("/","");
-//        String rawtime = GetData.dataQuery("*", "sav"+save+"Time","timeID","0",
-//            false,false,null,null).get(1);
         String[] datetime = Converters.convertTime(MemoryBank.dbTime);
 //                Integer.parseInt(rawtime));
         gameYear = Integer.parseInt(datetime[0]);
@@ -583,11 +598,8 @@ public class MainControls {
             selectedToon[6],0,1);
         Limitless.charStat02.setText(ageName + " • " + gendName);
         Limitless.charStat02.setToolTipText(ageName+": "+(Converters.
-            fetchfromTable(MemoryBank.dbAge,ageName,1,3))+" • "+
-//                GetData.dataQuery("*",
-//            "dbAge","ageName",ageName,false,false,null,null)).get(3)
-            gendName+": "+Converters.fetchfromTable(MemoryBank.dbGender,
-            selectedToon[6],0,2));
+            fetchfromTable(MemoryBank.dbAge,ageName,1,3))+" • "+gendName+": "+
+            Converters.fetchfromTable(MemoryBank.dbGender,selectedToon[6],0,2));
         String sizeID = selectedToon[22];
         String sizeName=Converters.fetchfromTable(MemoryBank.dbSize,sizeID,0,1);
         String raceName=Converters.fetchfromTable(MemoryBank.dbRace,selectedToon
@@ -622,20 +634,12 @@ public class MainControls {
 
         String statusname=Converters.fetchfromTable(MemoryBank.dbStatus,"Normal"
             ,1,1);
-//                GetData.dataQuery("*","dbStatus","statusName",
-//            "Normal",false,false,null,null)).get(1);
         String statuscolor=Converters.fetchfromTable(MemoryBank.dbStatus,
             "Normal",1,2);
-//                (GetData.dataQuery("*","dbStatus","statusName",
-//            "Normal",false,false,null,null)).get(2);
         String statusdesc=Converters.fetchfromTable(MemoryBank.dbStatus,"Normal"
             ,1,3);
-//                (GetData.dataQuery("*","dbStatus","statusName",
-//            "Normal", false,false,null,null)).get(3);
         String statusbio=Converters.fetchfromTable(MemoryBank.dbStatus,"Normal",
             1,4);
-//                (GetData.dataQuery("*","dbStatus","statusName","Normal"
-//            , false,false,null,null)).get(4);
 
 //        if(ChecksBalances.isNullOrEmpty(statuscode) || statuscode.equals("0"))
 //            {
@@ -732,7 +736,6 @@ public class MainControls {
         String effsinfo="["+selectedToon[1]+" Starting Effects]\n\n"+
             GetStats.getitemsfromIDtoString(GetStats.getAEStats("Effects",
             selectedToon),MemoryBank.dbEffects,0,1)
-//            "dbEffects","effID","effName")
             +"\n\n(Hidden) Status Code: " + statuscode;
         Limitless.charStatText.setText(effsinfo);
     }
@@ -742,7 +745,6 @@ public class MainControls {
         String ablsinfo="["+selectedToon[1]+" Abilities]\n\n"+GetStats.
             getitemsfromIDtoString(GetStats.getAEStats("Abls",selectedToon),
             MemoryBank.dbAbl,0,1);
-//            "dbAbl","ablID","ablName");
         Limitless.charStatText.setText(ablsinfo);
     }
 
@@ -751,19 +753,15 @@ public class MainControls {
         String equipinfo="["+selectedToon[1]+"]\n\n"+
             "[Equipment Held]\n"+GetStats.getitemsfromIDtoString((
             selectedToon[13].split("x")),MemoryBank.dbItems,0,1)
-//            "dbItems","itemID","itemName")
             +"\n\n"+
             "[Wearables Equipped]\n"+GetStats.getitemsfromIDtoString((
             selectedToon[14].split("x")),MemoryBank.dbItems,0,1)
-//                    ,"dbItems","itemID","itemName")
             +"\n\n"+
             "[Charms Equipped]\n"+GetStats.getitemsfromIDtoString((
             selectedToon[15].split("x")),MemoryBank.dbItems,0,1)
-//                    ,"dbItems","itemID","itemName")
             +"\n\n"+
             "[Starting Inventory]\n"+GetStats.getitemsfromIDtoString((
             selectedToon[16].split("x")),MemoryBank.dbItems,0,1);
-//                    ,"dbItems","itemID","itemName");
         Limitless.charStatText.setText(equipinfo);
     }
 
@@ -779,9 +777,6 @@ public class MainControls {
             fetchfromTable(MemoryBank.dbSize,selectedToon[22],0,1),1,4) +" "+
             Converters.fetchfromTable(MemoryBank.dbRace,selectedToon[2],0,7)+" "
             ;
-//                GetData.dataQuery
-//            ("*","dbSize","sizeName",(Converters.fetchString(MemoryBank.dbSize,
-//            selectedToon[22],1)),false,false,null,null).get(4)
         String UID = selectedToon[5];
         if(UID.startsWith("7x")) {
             Limitless.altName.setVisible(true);
@@ -797,10 +792,6 @@ public class MainControls {
         }
         bioInfo += " and "+Converters.fetchfromTable(MemoryBank.dbStatus,
             Limitless.charStat05.getText(),1,4)+".\n\n"+selectedToon[9];
-//                GetData.dataQuery("*","dbStatus","statusName",
-//            Limitless.charStat05.getText(),false,false,null,null)).get(4)
-//                    +
-//            ".\n\n"+selectedToon[9];
         if(UID.startsWith("7x")) {
             String ogID = UID.replace("7x", "");
             String[] ogToon = MemoryBank.savToons.get(Integer.parseInt(ogID)).
@@ -942,24 +933,18 @@ public class MainControls {
 
     public static void ngStartButton(String toonID) throws SQLException, 
         IOException, InterruptedException {
-        String ngsaveName=Converters.capFirstLetter((selectedSave).substring(0,
-            (selectedSave).indexOf("."+saveExt)));
-        String ngsaveToon=((savesDir).substring(((savesDir).indexOf("/",0)))).
-            substring(1,((savesDir).substring(((savesDir).indexOf("/",0)))).
-            indexOf("/",1));
-        String ngsaveToons = "sav" + ngsaveToon + "Toons";
-        String ngsaveMax = "sav" + ngsaveToon + "Max";
         selectedToon=Converters.fetchfromTable(MemoryBank.savToons,String.
             valueOf(toonID),0,0);
         boolean yesno=Popups.yesnoPopup("Character Selection", "You've selected"
             +" "+Converters.fetchfromTable(MemoryBank.savToons,String.valueOf
-            (toonID),0,1)+" as your character.\n\n"
-            +"Are you sure you want to start the game?");
+            (toonID),0,1)+" as your character.\n\n"+"Are you sure you want to "
+            + "start the game?");
         if(yesno) {
             ChecksBalances.newfileCheck(savesDir+".lastused",true,selectedToon+
             "\n"+selectedSave+"\n"+rawTime+"\n",true);
             System.gc();
-            StartGame.startGame(ngsaveName, ngsaveToons, ngsaveMax);
+            StartGame.startGame();
+//            StartGame.startGame(ngsaveName, ngsaveToons, ngsaveMax);
         } else {
             selectedToon = "";
         }
@@ -1052,9 +1037,7 @@ public class MainControls {
             gameDay=Integer.parseInt(dateTime[3]);
             gameHour=Integer.parseInt(dateTime[4]);
             gameMin=Integer.parseInt(dateTime[5]);
-            StartGame.startGame(selectedSave,"sav"+Limitless.lgList
-                .getSelectedValue()+"Toons","sav"+Limitless.lgList
-                .getSelectedValue()+"Max");
+            StartGame.startGame();
         } catch (IOException | InterruptedException | SQLException ex) {
             //
         }
@@ -1081,17 +1064,6 @@ public class MainControls {
         return MemoryBank.dbAlias.get(Integer.parseInt(aID)).replaceAll(", ",","
             ).split(",");
     }
-    
-    private static String getDestinyID (String destinyname) {
-        String retval="1";
-        for(int i=0;i<MemoryBank.dbDestiny.size();i++) {
-            String tmp[]=Converters.expListtoArray(MemoryBank.dbDestiny.get(i));
-            if(tmp[1].contains(destinyname)) {
-                retval=tmp[0];
-            }
-        }
-        return retval;
-    }
 
     public static void exitGame () throws IOException, InterruptedException {
         try {
@@ -1116,9 +1088,22 @@ public class MainControls {
     }
     
     private static void checkVersion (String name, String ver) throws 
-        IOException, InterruptedException {
+        IOException, InterruptedException, SQLException {
+        UID=(InetAddress.getLocalHost().getHostName().toLowerCase());
         if((VersionCheck.checkVersion(name, ver))) {
-            Updater.updateMessage(name, ver);
+            Updater.updateMessage(false,appName,appVer);
+        }
+        if(new File(savesDir + defaultSave).exists()) {
+            if(ChecksBalances.isNullOrEmpty(findSetting("version")) || 
+                (!(findSetting("version").toLowerCase()).equals(appVer))) {
+                try {
+                    Updater.updateMessage(true,appName,appVer);
+                } catch (IOException | InterruptedException ex) {
+                    Popups.warnPopup("Unexpected Warning","Please reinstall.\n"+
+                        "\n"+ex.toString());
+                    System.exit(0);
+                }
+            }
         }
     }
 }

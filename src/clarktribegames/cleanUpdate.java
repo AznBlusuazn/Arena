@@ -19,7 +19,7 @@ public class CleanUpdate {
         String performPopTitle="Prepare for Update?";
         String performPopMessage="Since this is an ALPHA release, you will need"
             + " to remove some of the default files,\nincluding the default "
-            + "database, in order to properly update " + MainControls.appName +
+            + "database, in order to properly update "+MainControls.appName+"."+
             "\n\nAre you sure you would like to proceed?";
         boolean performYN=Popups.yesnoPopup(performPopTitle,performPopMessage);
         if(performYN) {

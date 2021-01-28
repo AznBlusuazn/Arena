@@ -19,11 +19,11 @@ import javazoom.jl.decoder.JavaLayerException;
 // </editor-fold>
 public class VersusGUI extends javax.swing.JFrame {
    
-    public VersusGUI() throws SQLException, IOException, FileNotFoundException, JavaLayerException, InterruptedException, Exception {
+    public VersusGUI() throws SQLException, IOException, FileNotFoundException, 
+        JavaLayerException, InterruptedException, Exception {
         initComponents();
         setLocationRelativeTo(null);  
         popVersus();
-//        popVersus(BattleEngine.saveName, BattleEngine.saveToons);
     }
     
     private boolean checkforCustom(String toon,List<String> custlist) {
@@ -40,22 +40,17 @@ public class VersusGUI extends javax.swing.JFrame {
         }
     }
     
-    private void popVersus() throws SQLException, IOException, FileNotFoundException, JavaLayerException, InterruptedException, Exception {
+    private void popVersus() throws SQLException,IOException,Exception,
+        FileNotFoundException,JavaLayerException,InterruptedException {
         //add if multiple team captains instead
         char1Label.setText(Converters.fetchfromTable(MemoryBank.savToons,
             BattleEngine.team0[0],0,1));
-//                GetData.dataQuery("*",savetoons, "toonID",
-//            BattleEngine.team0[0], false,false,null,null).get(1));
         char2Label.setText(Converters.fetchfromTable(MemoryBank.savToons,
             BattleEngine.team1[0],0,1));
-//                GetData.dataQuery("*",savetoons, "toonID",
-//            BattleEngine.team1[0], false,false,null,null).get(1));
         Avatars.setAvatar(char1Toon, char1Label.getText(),Converters.
             fetchfromTable(MemoryBank.savToons,char1Label.getText(),1,10));
-//            (GetData.dataQuery("*",savetoons, "toonName",char1Label.getText(), false,false,null,null).get(10)));
         Avatars.setAvatar(char2Toon, char2Label.getText(),Converters.
             fetchfromTable(MemoryBank.savToons,char2Label.getText(),1,10));
-//            (GetData.dataQuery("*",savetoons,"toonName",char2Label.getText(), false,false,null,null).get(10)));
         List<String> custTList=GetData.dataQuery("*","dbCustM","toonID",null,
             true,false,null,null);
         boolean toontheme = checkforCustom(char2Label.getText().toLowerCase(),

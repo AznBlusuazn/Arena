@@ -2563,11 +2563,13 @@ public class Limitless extends javax.swing.JFrame {
     
     private static void updateoptButton() throws IOException, 
         InterruptedException {
-        if((VersionCheck.checkVersion(MainControls.appName,MainControls.appVer))) {
-            Updater.updateMessage(MainControls.appName,MainControls.appVer);
+        if((VersionCheck.checkVersion(MainControls.appName,MainControls.appVer))
+            ) {
+            Updater.updateMessage(false,MainControls.appName,MainControls.appVer
+                );
         } else {
-            Popups.infoPopup("No Update Available", "There is no update "
-                + "available.");
+            Popups.infoPopup("No Update Available", "There is no update "+
+                "available.");
         }
     }
     
