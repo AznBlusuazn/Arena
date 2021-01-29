@@ -313,6 +313,9 @@ public class ChecksBalances {
     public static boolean searchdirList (String search,String dir,String ext) 
         throws IOException {
         boolean retVal = false;
+        if(ext.startsWith(".")) {
+            ext=ext.substring(1);
+        }
         List<String> dirlist = (Converters.foldertoList(dir,ext)).stream()
             .map(Object::toString).collect(Collectors.toList());
         for(int i = 0; i > dirlist.size(); i++ ) {
@@ -325,6 +328,9 @@ public class ChecksBalances {
     
     public static boolean ftypeinDir (String dir,String ext) throws IOException{
         boolean retVal=false;
+        if(ext.startsWith(".")) {
+            ext=ext.substring(1);
+        }
         List<String>dirlist=(Converters.foldertoList(dir,ext)).stream().map(
             Object::toString).collect(Collectors.toList());
         if(dirlist.size()>0) {
@@ -369,18 +375,7 @@ public class ChecksBalances {
                 "a save with the name "+newgamename+".");
             return continueGame;
         };
-//        newdirCheck(MainControls.savesDir+newgamename.toLowerCase()+"/",false);
-//        if(!(new File(MainControls.savesDir+newgamename.toLowerCase()+"/").
-//            exists())) {
-//            Popups.warnPopup("Error creating "+newgamename+" folder","There was"
-//                +" an error creating the "+newgamename+" folder.");
-//            return continueGame;
-//        }
-//        MainControls.currentgamePath=MainControls.savesDir+newgamename.
-//            toLowerCase()+"/"+MainControls.selectedSave;
         fileCheck(MemoryBank.currentDb,MemoryBank.currentSave,false,false);
-//        fileCheck(MainControls.savesDir+MainControls.selectedSave,MainControls.
-//            currentgamePath,false,false);
         if(!(new File(MemoryBank.currentSave).exists())) {
             Popups.warnPopup("Error creating "+newgamename+" save file","There"+
                 " was an error creating the "+newgamename+" save file.");
@@ -460,49 +455,9 @@ public class ChecksBalances {
     }
     
     public static List<String> getSavedGames() throws IOException {
-//        List<String> limitsaveList = new ArrayList<>();
         return (Converters.foldertoList(MainControls.savesDir,MainControls.
             saveExt)).stream().map(Object::toString).collect(Collectors.toList()
             );
-//        try {
-//            File file = new File(MainControls.savesDir);
-//            String[] directories = file.list(new FilenameFilter() {
-//                @Override
-//                public boolean accept(File current, String name) {
-//                    return new File(current,name).isDirectory();
-//                }
-//            });
-//            for(int folder = 0; folder < directories.length; folder++) {
-//                String path = MainControls.savesDir+directories[folder]+"/";
-//                File dir = new File(path);
-//                File[] listindir = dir.listFiles();
-//                boolean savefileexists = false;
-//                boolean lastusedexists = false;
-//                for(File file2 : listindir) {
-//                    if(file2.isFile()) {
-//                        String[] filename = file2.getName().split
-//                            ("\\.(?=[^\\.]+$)");
-//                        if(filename[1].equalsIgnoreCase(MainControls.saveExt)) {
-//                            savefileexists = true;
-//                        }
-//                    }
-//                    if(file2.isFile()) {
-//                        String[] filename = file2.getName().split
-//                            ("\\.(?=[^\\.]+$)");
-//                        if(filename[1].equalsIgnoreCase("lastused")) {
-//                            lastusedexists = true;
-//                        }
-//                    }
-//                }
-//                if(savefileexists && lastusedexists) {
-//                    limitsaveList.add(Converters.capFirstLetter(directories
-//                        [folder].replaceAll(MainControls.savesDir,"")));
-//                }
-//            }
-//        } catch (Exception ex) {
-//            //
-//        }
-//        return limitsaveList;
     }
     
     public static void keyConfirm(KeyEvent evt, JLabel button) {

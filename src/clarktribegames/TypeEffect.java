@@ -50,7 +50,8 @@ public class TypeEffect {
                                 try {
                                     Thread.sleep(250);
                                     BattleGUI.pressConfirm();
-                                } catch (InterruptedException | BadLocationException | SQLException ex) {
+                                } catch (InterruptedException | 
+                                    BadLocationException | SQLException ex) {
                                     //
                                 } catch (Exception ex) {
                                     //

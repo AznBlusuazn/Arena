@@ -6,8 +6,10 @@ import java.io.*;
 import java.nio.file.Path;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.swing.*;
 import javax.swing.border.*;
 
@@ -44,14 +46,6 @@ public class Limitless extends javax.swing.JFrame {
         aboutButton = new javax.swing.JLabel();
         donateButton = new javax.swing.JLabel();
         exitButton = new javax.swing.JLabel();
-        newPanel = new javax.swing.JPanel();
-        ngtlToon = new javax.swing.JLabel();
-        ngmToon = new javax.swing.JLabel();
-        ngtrToon = new javax.swing.JLabel();
-        ngyesButton = new javax.swing.JLabel();
-        ngnoButton = new javax.swing.JLabel();
-        ngLabel = new javax.swing.JLabel();
-        ngText = new javax.swing.JTextField();
         loadPanel = new javax.swing.JPanel();
         optsTitle1 = new javax.swing.JLabel();
         lgyesButton = new javax.swing.JLabel();
@@ -64,6 +58,14 @@ public class Limitless extends javax.swing.JFrame {
         lgToonRank = new javax.swing.JLabel();
         lgToonStats = new javax.swing.JLabel();
         lgToonLevel = new javax.swing.JLabel();
+        newPanel = new javax.swing.JPanel();
+        ngtlToon = new javax.swing.JLabel();
+        ngmToon = new javax.swing.JLabel();
+        ngtrToon = new javax.swing.JLabel();
+        ngyesButton = new javax.swing.JLabel();
+        ngnoButton = new javax.swing.JLabel();
+        ngLabel = new javax.swing.JLabel();
+        ngText = new javax.swing.JTextField();
         optsPanel = new javax.swing.JPanel();
         optsTitle = new javax.swing.JLabel();
         darkOpt = new javax.swing.JCheckBox();
@@ -321,108 +323,6 @@ public class Limitless extends javax.swing.JFrame {
         });
         menuPanel.add(exitButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 700, 200, 25));
 
-        newPanel.setBackground(MainControls.backColor);
-        newPanel.setForeground(MainControls.textColor);
-        newPanel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        newPanel.setMaximumSize(new java.awt.Dimension(450, 475));
-        newPanel.setMinimumSize(new java.awt.Dimension(450, 475));
-        newPanel.setPreferredSize(new java.awt.Dimension(450, 475));
-        newPanel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                newPanelMouseEntered(evt);
-            }
-        });
-        newPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        ngtlToon.setForeground(MainControls.textColor);
-        ngtlToon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        ngtlToon.setFocusable(false);
-        newPanel.add(ngtlToon, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 200));
-
-        ngmToon.setForeground(MainControls.textColor);
-        ngmToon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        ngmToon.setFocusable(false);
-        newPanel.add(ngmToon, new org.netbeans.lib.awtextra.AbsoluteConstraints(125, 0, 200, 200));
-
-        ngtrToon.setForeground(MainControls.textColor);
-        ngtrToon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        ngtrToon.setFocusable(false);
-        newPanel.add(ngtrToon, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 0, 200, 200));
-
-        ngyesButton.setFont(new java.awt.Font("Lucida Console", 1, 12)); // NOI18N
-        ngyesButton.setForeground(MainControls.textColor);
-        ngyesButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        ngyesButton.setText("Start New Game");
-        ngyesButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        ngyesButton.setEnabled(false);
-        ngyesButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ngyesButtonMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                ngyesButtonMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                ngyesButtonMouseExited(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                ngyesButtonMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                ngyesButtonMouseReleased(evt);
-            }
-        });
-        newPanel.add(ngyesButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 325, 200, 25));
-
-        ngnoButton.setFont(new java.awt.Font("Lucida Console", 1, 12)); // NOI18N
-        ngnoButton.setForeground(MainControls.textColor);
-        ngnoButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        ngnoButton.setText("Nevermind");
-        ngnoButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        ngnoButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ngnoButtonMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                ngnoButtonMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                ngnoButtonMouseExited(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                ngnoButtonMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                ngnoButtonMouseReleased(evt);
-            }
-        });
-        newPanel.add(ngnoButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 325, 200, 25));
-
-        ngLabel.setFont(new java.awt.Font("Lucida Console", 1, 12)); // NOI18N
-        ngLabel.setForeground(MainControls.textColor);
-        ngLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        ngLabel.setText("New Game Name:");
-        ngLabel.setFocusable(false);
-        newPanel.add(ngLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 200, 25));
-
-        ngText.setBackground(MainControls.backColor);
-        ngText.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        ngText.setForeground(MainControls.textColor);
-        ngText.setToolTipText("");
-        ngText.setSelectedTextColor(Color.RED);
-        ngText.setSelectionColor(MainControls.backColor);
-        ngText.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                ngTextKeyReleased(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                ngTextKeyTyped(evt);
-            }
-        });
-        newPanel.add(ngText, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 250, 105, 25));
-
-        menuPanel.add(newPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 250, 450, 475));
-
         loadPanel.setBackground(MainControls.backColor);
         loadPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         loadPanel.setForeground(MainControls.textColor);
@@ -564,6 +464,108 @@ public class Limitless extends javax.swing.JFrame {
         loadPanel.add(lgToonLevel, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 375, 250, 25));
 
         menuPanel.add(loadPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 250, 450, 475));
+
+        newPanel.setBackground(MainControls.backColor);
+        newPanel.setForeground(MainControls.textColor);
+        newPanel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
+        newPanel.setMaximumSize(new java.awt.Dimension(450, 475));
+        newPanel.setMinimumSize(new java.awt.Dimension(450, 475));
+        newPanel.setPreferredSize(new java.awt.Dimension(450, 475));
+        newPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                newPanelMouseEntered(evt);
+            }
+        });
+        newPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        ngtlToon.setForeground(MainControls.textColor);
+        ngtlToon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        ngtlToon.setFocusable(false);
+        newPanel.add(ngtlToon, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 200));
+
+        ngmToon.setForeground(MainControls.textColor);
+        ngmToon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        ngmToon.setFocusable(false);
+        newPanel.add(ngmToon, new org.netbeans.lib.awtextra.AbsoluteConstraints(125, 0, 200, 200));
+
+        ngtrToon.setForeground(MainControls.textColor);
+        ngtrToon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        ngtrToon.setFocusable(false);
+        newPanel.add(ngtrToon, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 0, 200, 200));
+
+        ngyesButton.setFont(new java.awt.Font("Lucida Console", 1, 12)); // NOI18N
+        ngyesButton.setForeground(MainControls.textColor);
+        ngyesButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        ngyesButton.setText("Start New Game");
+        ngyesButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        ngyesButton.setEnabled(false);
+        ngyesButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ngyesButtonMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                ngyesButtonMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                ngyesButtonMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                ngyesButtonMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                ngyesButtonMouseReleased(evt);
+            }
+        });
+        newPanel.add(ngyesButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 325, 200, 25));
+
+        ngnoButton.setFont(new java.awt.Font("Lucida Console", 1, 12)); // NOI18N
+        ngnoButton.setForeground(MainControls.textColor);
+        ngnoButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        ngnoButton.setText("Nevermind");
+        ngnoButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        ngnoButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ngnoButtonMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                ngnoButtonMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                ngnoButtonMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                ngnoButtonMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                ngnoButtonMouseReleased(evt);
+            }
+        });
+        newPanel.add(ngnoButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 325, 200, 25));
+
+        ngLabel.setFont(new java.awt.Font("Lucida Console", 1, 12)); // NOI18N
+        ngLabel.setForeground(MainControls.textColor);
+        ngLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        ngLabel.setText("New Game Name:");
+        ngLabel.setFocusable(false);
+        newPanel.add(ngLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 200, 25));
+
+        ngText.setBackground(MainControls.backColor);
+        ngText.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
+        ngText.setForeground(MainControls.textColor);
+        ngText.setToolTipText("");
+        ngText.setSelectedTextColor(Color.RED);
+        ngText.setSelectionColor(MainControls.backColor);
+        ngText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                ngTextKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                ngTextKeyTyped(evt);
+            }
+        });
+        newPanel.add(ngText, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 250, 105, 25));
+
+        menuPanel.add(newPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 250, 450, 475));
 
         optsPanel.setBackground(MainControls.backColor);
         optsPanel.setForeground(MainControls.textColor);
@@ -1906,8 +1908,8 @@ public class Limitless extends javax.swing.JFrame {
         if(loadPanel.isVisible()) {
             if(lgList.isEnabled()) {
                 try {
-                    GetData.getSavedGameToon(lgList,lgToon,lgToonName,lgToonRank,
-                        lgToonStats,lgToonLevel);
+                    GetData.getSavedGameToon(lgList,lgToon,lgToonName,lgToonRank
+                        ,lgToonStats,lgToonLevel);
                 } catch (IOException | SQLException ex) {
                     //
                 }
@@ -1917,6 +1919,11 @@ public class Limitless extends javax.swing.JFrame {
                 lgToonRank.setText("");
                 lgToonStats.setText("");
                 lgToonLevel.setText("");
+            }
+            try {
+                savegameCheck();
+            } catch (IOException ex) {
+                //
             }
         }
     }//GEN-LAST:event_lgListValueChanged
@@ -2069,7 +2076,6 @@ public class Limitless extends javax.swing.JFrame {
                 ngText.setText("");
                 ChecksBalances.ifexistDelete(MemoryBank.currentSave);
                 MemoryBank.ingame=false;
-//                ChecksBalances.iffolderexistsDelete(MainControls.savesDir);
                 showMenu();
             } catch (IOException | InterruptedException ex) {
                 try {
@@ -2419,7 +2425,6 @@ public class Limitless extends javax.swing.JFrame {
     private static void savegameCheck() throws IOException {
         if(!(ChecksBalances.ftypeinDir(MainControls.savesDir,MainControls.
             saveExt))) {
-//        if(!(ChecksBalances.checknoofSubdirs(MainControls.savesDir))) {
             loadButton.setText("  No Saved Games");
             loadButton.setEnabled(false);
         } else {
@@ -2440,7 +2445,6 @@ public class Limitless extends javax.swing.JFrame {
         donatePanel.setVisible(false);
         resetButtons();
         MemoryBank.ingame=false;
-//        MainControls.savesDir = MainControls.defaultsavesDir;
         MainControls.turnonMusic(MainControls.checkforcustMusic("intro"),"intro"
             );
         try {

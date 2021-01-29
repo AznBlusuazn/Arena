@@ -21,18 +21,12 @@ public class BattleEngine {
     
     static String[] team0;
     static String[] team1;
-//    static String saveName;
-//    static String saveToons;
-//    static String saveMax;
     static int[][] tTrack = new int[2][3];
     volatile static boolean battleDone = false;
     
     public static void battleEngine(List<String> toons)
         throws SQLException, IOException, InterruptedException{
         battleDone = false;
-//        saveName = save;
-//        saveToons = savetoons;
-//        saveMax = savemax;
         battleTime(toons);
     }
     

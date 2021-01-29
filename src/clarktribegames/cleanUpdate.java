@@ -30,7 +30,6 @@ public class CleanUpdate {
             if(contYN) {
                 Updater.updateProcess();
             }
-            //MainControls.clearTemp();
             System.gc();
             System.exit(0);
         } else {
@@ -44,15 +43,10 @@ public class CleanUpdate {
     
     private static void deleteforUpdate() throws IOException {
         try {
-            //ChecksBalances.iffolderexistsDelete(MainControls.tempDir);
             ChecksBalances.ifexistDelete(MainControls.imageDir + "_empty_.png");
             ChecksBalances.iffolderexistsDelete("sounds");
             ChecksBalances.iffolderexistsDelete("lib");
             ChecksBalances.iffolderexistsDelete(MainControls.savesDir);
-            //MainControls.defaultsavesDir+
-            //    MainControls.defaultSave);
-            //ChecksBalances.ifexistDelete(MainControls.defaultsavesDir+
-            //    ".lastused");
         } catch (IOException | InterruptedException ex) {
             LogWriter.logFile("severe","Del4Update Error.  Exception: " + ex);
         }

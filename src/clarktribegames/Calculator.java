@@ -104,8 +104,6 @@ public class Calculator {
     }
     
     private static String analyzeAgemath(int age, int max) throws SQLException {
-        String save = savenameCheck();
-        
         List<String> agelist = new ArrayList<>();
         for(int i=0;i<MemoryBank.dbAge.size();i++) {
             agelist.add(Converters.expListtoArray(MemoryBank.dbAge.get(i))[2]);
@@ -1522,12 +1520,6 @@ public class Calculator {
         }
         return Converters.fetchfromTable(MemoryBank.dbSize,sizeid,0,1);
     }
-    
-    private static String savenameCheck() {
-        return MemoryBank.currentSave;
-        //return MainControls.selectedSave;
-    }
-        
     
 //<editor-fold defaultstate="collapsed" desc="Log File Method">
     private static void logFile (String type, String log) throws IOException {

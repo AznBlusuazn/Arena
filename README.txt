@@ -1,6 +1,6 @@
 =======================================
 LIMITLESS by Geoff Clark
-VERSION ALPHA 0.0.041 / 2021.01.29-0131
+VERSION ALPHA 0.0.041 / 2021.01.29-1043
 =======================================
 
 SUPPORT THE DEVELOPMENT OF THIS GAME @ 
@@ -47,7 +47,7 @@ Contact the author:  info@clarktribegames.com
 
 DEVELOPMENT NOTES
 
-0.0.041 / 2021.01.29-0131
+ALPHA 0.0.041 / 2021.01.29-1043
 
 - removed all db queries except initial load -- all game queries are from memory now
 - removed settings.ini external file and integrated settings into the save file
@@ -59,6 +59,8 @@ DEVELOPMENT NOTES
 - retired .lastused files for new files in the .save that will contain the information
 - added feature that if no additional databases exist, samedb will default
 - reorganized memory bank and revamped some of the methods for calling the database
+- fixed load saved game to display selected toon and stats correctly
+- fixed load saved game button update when no saved games are available
 
 ALPHA 0.0.040 / 2021.01.27-1900
 

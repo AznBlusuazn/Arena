@@ -53,18 +53,10 @@ public class MainControls {
     static String saveExt=".save";
     static String dbDir="db/";
     static String defaultDb=dbDir+"default"+dbExt;
-//    static String currentDb=defaultDb;
-//    static String defaultSave = "default" + "." + saveExt;
-//    static String defaultsavesDir = "saves/";
-//    static String savesDir = defaultsavesDir;
     static String savesDir = "saves/";
     static String imageDir="avatars/";
-//    static String tempDir="temp/";
-//    static String selectedSave = defaultSave;
     public URL iconURL=getClass().getResource("/clarktribegames/icon.png");
     public ImageIcon imageIcon=new ImageIcon(iconURL);
-//    static String currentgamePath="";
-//    static String currentgame="";
     static String selectedToon="";
     static String price="";
     static String dagger="";
@@ -118,8 +110,6 @@ public class MainControls {
     private static void firstCheck() throws IOException, InterruptedException, 
         Exception {
         try {
-//            clearTemp();
-//            ChecksBalances.newdirCheck(tempDir, true);
             ChecksBalances.newdirCheck(imageDir,false);
             ChecksBalances.newdirCheck(custommusicPath,false);
             ChecksBalances.newdirCheck(custommusicSounds,false);
@@ -215,7 +205,6 @@ public class MainControls {
             samedbOn=false;
             defaultdbSetting=defaultDb;
         } 
-//        defaultdbSetting=findSetting("default");
         if(!(findSetting("lastdb").equals("null")||ChecksBalances.isNullOrEmpty(
             findSetting("lastdb"))||findSetting("lastdb").equals(defaultDb))) {
             MemoryBank.currentDb=findSetting("lastdb");
@@ -259,7 +248,6 @@ public class MainControls {
         for(int i=0;i<determineSettings().size();i++) {
             String[] setting = determineSettings().get(i).split(":");
             GetData.dataUpdateSingle("mainSettings","settingConfig",setting[2]
-                //.replaceAll("null","")
                 ,"settingID",setting[0]);
         }
         try {
@@ -301,11 +289,6 @@ public class MainControls {
         return newSets;
     }
 
-//    public static void clearTemp() throws IOException, InterruptedException {
-//        System.gc();
-//        ChecksBalances.ifexistDelete(tempDir);
-//    }
-    
     public static void turnonMusic(String trackPath, String trackType) {
         musicPath = trackPath;
         if(!(new File(musicPath).exists())) {
@@ -410,19 +393,11 @@ public class MainControls {
                 limitSelect();
             } else {
                 MemoryBank.currentDb=findSetting("lastdb");
-//                selectedSave = defaultdbSetting + "." + 
-//                    saveExt;
             }
             boolean continueon = false;
             
             MemoryBank.currentGame=Limitless.ngText.getText().toLowerCase();
             MemoryBank.currentSave=savesDir+MemoryBank.currentGame+saveExt;
-//            currentgamePath=currentgamePath=Limitless.ngText.getText().
-//                toLowerCase();
-//            if(currentgamePath.isEmpty()) {
-//                currentgamePath = "";
-//                Limitless.showMenu();
-//            }
             continueon=ChecksBalances.newGame(MemoryBank.currentGame);
             if(continueon) {
                 MemoryBank.ingame=true;
@@ -454,8 +429,6 @@ public class MainControls {
                 newgamelistMenu();
             } else {
                 MemoryBank.currentSave="";
-//                currentgamePath = "";
-                //Limitless.showMenu();
             }
         } catch(Exception ex) {
             ex.printStackTrace();
@@ -474,13 +447,11 @@ public class MainControls {
                 //
             } else {
                 MemoryBank.currentDb=custdbDir+selection.toLowerCase()+dbExt;
-//                selectedSave = (selection.toLowerCase() + "." + saveExt);
                 String confirmMessage=selection+" Loaded";
                 Popups.infoPopup(confirmMessage,confirmMessage+"!");
             }
         } else {
             MemoryBank.currentDb=defaultDb;
-//            selectedSave = (defaultSave);
         }
     }
     
@@ -506,8 +477,6 @@ public class MainControls {
             String x=(list.get(i));
             String y=Converters.capFirstLetter(x.substring(x.indexOf("\\")+1).
                 replaceAll(dbExt,""));
-//            String y=Converters.capFirstLetter(x.substring(x.indexOf("\\")+1,
-//                x.indexOf(".",x.indexOf(saveExt)-2)));
             dml.addElement(y);
         }
         save.setModel(dml);
@@ -536,15 +505,7 @@ public class MainControls {
                 if(MemoryBank.dbToons.isEmpty()) {
                     Thread.sleep(1);
                 }
-
-//                currentgame=currentgamePath.substring(currentgamePath.indexOf(
-//                    "/",0),currentgamePath.indexOf("/",
-//                    currentgamePath.indexOf("/") + 1)).replaceAll("/","");
-//                savesDir="saves/" + currentgame + "/";
                 GetData.createnewSave();
-//                        Converters.capFirstLetter((selectedSave).
-//                    substring(0,(selectedSave).indexOf("."+saveExt))),
-//                    currentgame);
                 return null;
             }
         };
@@ -595,7 +556,6 @@ public class MainControls {
     private static void worldtextInfo() throws SQLException {
         //add game date method here
         String[] datetime = Converters.convertTime(MemoryBank.dbTime);
-//                Integer.parseInt(rawtime));
         gameYear = Integer.parseInt(datetime[0]);
         gameMonth = Integer.parseInt(datetime[1]);
         gameWeek = Integer.parseInt(datetime[2]);
@@ -1018,11 +978,8 @@ public class MainControls {
                 currentSave,"savesetID","0");
             GetData.dataUpdateSingle("saveSettings","savesetConfig",selectedToon
                 ,"savesetID","1");
-//            ChecksBalances.newfileCheck(savesDir+".lastused",true,selectedToon+
-//            "\n"+selectedSave+"\n"+rawTime+"\n",true);
             System.gc();
             StartGame.startGame();
-//            StartGame.startGame(ngsaveName, ngsaveToons, ngsaveMax);
         } else {
             selectedToon = "";
         }
@@ -1048,7 +1005,8 @@ public class MainControls {
             for(int i=0; i < savegameList.size(); i++) {
                 Limitless.lgList.setEnabled(true);
                 lgDml.addElement(Converters.capFirstLetter(savegameList.get(i).
-                    replaceAll(saveExt,"")));
+                    substring(savegameList.get(i).indexOf("\\")+1).replaceAll(
+                    saveExt,"")));
             }
         }
         Limitless.lgList.setModel(lgDml);
@@ -1063,11 +1021,6 @@ public class MainControls {
                 "playertoon",false,false,null,null).get(2);
             rawTime=Integer.parseInt(GetData.dataQuery("*","dbTime","timeID","0"
                 ,false,false,null,null).get(1));
-//            savesDir=defaultsavesDir + Limitless.lgList.getSelectedValue() +"/";
-//            selectedToon=Converters.getSpecificLine(savesDir+".lastused",0);
-//            selectedSave=Converters.getSpecificLine(savesDir+".lastused",1);x
-//            rawTime=Integer.parseInt(Converters.getSpecificLine(savesDir+
-//                ".lastused",2));
             String[] dateTime = Converters.convertTime(rawTime);
             gameYear=Integer.parseInt(dateTime[0]);
             gameMonth=Integer.parseInt(dateTime[1]);
@@ -1091,13 +1044,11 @@ public class MainControls {
             try {
                 ChecksBalances.ifexistDelete(savesDir+Limitless.lgList.
                     getSelectedValue().toLowerCase()+saveExt);
-//                ChecksBalances.iffolderexistsDelete(defaultsavesDir+Limitless.
-//                    lgList.getSelectedValue());
             } catch (IOException | InterruptedException ex) {
                 //
             }
-//        savesDir = defaultsavesDir;
         }
+        
     }
     
     private static String[] getAliasInfo (String aID) throws SQLException {
@@ -1113,13 +1064,6 @@ public class MainControls {
             if(exitChoice == true) {
                 updateSettings();
                 System.gc();
-//                
-//                if(!savesDir.equals(defaultsavesDir)) {
-//                    if(!(new File(savesDir + ".lastused").exists())) {x
-//                        ChecksBalances.iffolderexistsDelete(savesDir);
-//                    }
-//                }
-//                clearTemp();
                 System.exit(0);
             } else {
                 //

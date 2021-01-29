@@ -1,9 +1,6 @@
 package clarktribegames;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -181,7 +178,6 @@ public class GetStats {
             0,9);
         String classeff=Converters.fetchfromTable(MemoryBank.dbClass,toonstats
             [3],0,6);
-//            );
         String aligneff=Converters.fetchfromTable(MemoryBank.dbAlign,Calculator
             .getAlign(Integer.parseInt(toonstats[4])),0,8);
         String gendeff=Converters.fetchfromTable(MemoryBank.dbGender,toonstats

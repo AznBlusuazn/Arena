@@ -135,6 +135,24 @@ public class MemoryBank {
         }
         
     }
+    
+    public static void shortMemory(String type) throws SQLException {
+        switch(type) {
+            case "loadsave":
+                dbTabletoMem(dbAge,GetData.dataQuery("*","dbAge","ageID",null,
+                    true,false,null,null).size(),"dbAge","ageID");          
+                dbTabletoMem(dbGender,GetData.dataQuery("*","dbGender",
+                    "genderID",null,true,false,null,null).size(),"dbGender",
+                    "genderID");
+                dbTabletoMem(dbRace,GetData.dataQuery("*","dbRace","raceID",null
+                    ,true,false,null,null).size(),"dbRace","raceID");
+                dbTabletoMem(dbClass,GetData.dataQuery("*","dbClass","classID",
+                    null,true,false,null,null).size(),"dbClass","classID");
+                break;
+            default:
+                break;
+        }
+    }
 
     public static void clearMemory() {
         

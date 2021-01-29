@@ -32,20 +32,10 @@ public class BattleGUI extends javax.swing.JFrame {
     public BattleGUI() throws SQLException, InterruptedException {
         initComponents();
         setLocationRelativeTo(null);
-        prepBattle(
-//                BattleEngine.saveName,
-                MemoryBank.savToons,
-//                ,BattleEngine.saveToons.replaceAll("sav"
-//            ,"battle"),
-//            BattleEngine.saveMax.replaceAll("sav", "battle"),
-            Arrays.
-            asList(BattleEngine.team0),Arrays.asList(BattleEngine.team1));
+        prepBattle(MemoryBank.savToons,Arrays.asList(BattleEngine.team0),Arrays.
+            asList(BattleEngine.team1));
         BattleEngine.battleStart(MemoryBank.savToons
-//                BattleEngine.saveName, BattleEngine.saveToons.
-//            replaceAll("sav","battle"),BattleEngine.saveMax.replaceAll("sav",
-//            "battle")
         );
-        
     }
 
     //<editor-fold defaultstate="collapsed" desc="JSwing Code"> 
@@ -447,11 +437,8 @@ public class BattleGUI extends javax.swing.JFrame {
 
     private void team1DetailsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_team1DetailsButtonActionPerformed
          try {
-             detailsButton(MemoryBank.savToons,
-//                     BattleEngine.saveName,BattleEngine.saveToons
-//                .replaceAll("sav","battle"),
-                     Arrays.asList(BattleEngine.team1),
-                team1List);
+             detailsButton(MemoryBank.savToons,Arrays.asList(BattleEngine.team1)
+                ,team1List);
          } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -459,11 +446,8 @@ public class BattleGUI extends javax.swing.JFrame {
 
     private void team0DetailsButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_team0DetailsButton1ActionPerformed
          try {
-             detailsButton(MemoryBank.savToons,
-//                     BattleEngine.saveName,BattleEngine.saveToons
-//                .replaceAll("sav","battle"),
-                     Arrays.asList(BattleEngine.team0),
-                team0List);
+             detailsButton(MemoryBank.savToons,Arrays.asList(BattleEngine.team0)
+                ,team0List);
          } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -471,11 +455,8 @@ public class BattleGUI extends javax.swing.JFrame {
 
     private void team1ItemsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_team1ItemsButtonActionPerformed
         try {
-            itemsButton(MemoryBank.savToons,
-//                    BattleEngine.saveName,MemoryBank.savToons,
-//                    BattleEngine.saveToons.replaceAll(
-//                "sav","battle"),
-                    Arrays.asList(BattleEngine.team1),team1List);
+            itemsButton(MemoryBank.savToons,Arrays.asList(BattleEngine.team1),
+                team1List);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -485,8 +466,6 @@ public class BattleGUI extends javax.swing.JFrame {
         try {
             ablButton(MemoryBank.savToons,Arrays.asList(BattleEngine.team1),
                 team1List);
-//                    BattleEngine.saveName,BattleEngine.saveToons.replaceAll(
-//                "sav","battle"),Arrays.asList(BattleEngine.team1),team1List);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -496,8 +475,6 @@ public class BattleGUI extends javax.swing.JFrame {
         try {
             effButton(MemoryBank.savToons,Arrays.asList(BattleEngine.team1),
                 team1List);            
-//            effButton(BattleEngine.saveName,BattleEngine.saveToons.replaceAll(
-//                "sav","battle"),Arrays.asList(BattleEngine.team1),team1List);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -505,11 +482,8 @@ public class BattleGUI extends javax.swing.JFrame {
 
     private void team0ItemsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_team0ItemsButtonActionPerformed
         try {
-            itemsButton(MemoryBank.savToons,
-//                    BattleEngine.saveName,MemoryBank.savToons,
-//                    BattleEngine.saveToons.replaceAll(
-//                "sav","battle"),
-                    Arrays.asList(BattleEngine.team0),team0List);
+            itemsButton(MemoryBank.savToons,Arrays.asList(BattleEngine.team0),
+                team0List);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -519,8 +493,6 @@ public class BattleGUI extends javax.swing.JFrame {
         try {
             ablButton(MemoryBank.savToons,Arrays.asList(BattleEngine.team0),
                 team0List);
-//            ablButton(BattleEngine.saveName,BattleEngine.saveToons.replaceAll(
-//                "sav","battle"),Arrays.asList(BattleEngine.team0),team0List);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -530,8 +502,6 @@ public class BattleGUI extends javax.swing.JFrame {
         try {
             effButton(MemoryBank.savToons,Arrays.asList(BattleEngine.team0),
                     team0List);
-//            effButton(BattleEngine.saveName,BattleEngine.saveToons.replaceAll(
-//                "sav","battle"),Arrays.asList(BattleEngine.team0),team0List);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -539,8 +509,6 @@ public class BattleGUI extends javax.swing.JFrame {
     //</editor-fold> 
 
     private static void prepBattle(List<String>toons,
-//        String toons,
-//        String max,
         List<String> team0,List<String> team1) throws SQLException {
         popteamLists(toons,team0,team0Pane,team0List);
         popteamLists(toons,team1,team1Pane,team1List);
@@ -551,22 +519,16 @@ public class BattleGUI extends javax.swing.JFrame {
     }
 
     private static void popteamLists(List<String>toons,
-//        String toons,
         List<String> team,JScrollPane jpane, JList jlist) throws SQLException { 
         DefaultListModel dml = new DefaultListModel();
         int totalteam = team.size();
-
         if(totalteam > 1) {
             jpane.setEnabled(true);
             for(int player = 0; player < totalteam; player++) {
                 GetStats.getitemsfromIDtoJList(team,dml,jlist,toons,0,1);
-//                GetStats.getitemsfromIDtoJList(save,team,dml,jlist,toons,
-//                    "toonID","toonName");
             }
         } else {
             GetStats.getitemsfromIDtoJList(team,dml,jlist,toons,0,1);            
-//            GetStats.getitemsfromIDtoJList(save,team,dml,jlist,toons,"toonID",
-//                "toonName");
             jlist.setSelectedIndex(0);
             jpane.setVisible(false);
         }
@@ -574,8 +536,6 @@ public class BattleGUI extends javax.swing.JFrame {
     
     private static void popAvatars(JLabel avatar, JList jlist) {
         Avatars.setAvatar(avatar,jlist.getSelectedValue().toString(),null);
-//                GetData.dataQuery("*",toons,"toonName",jlist
-//            .getSelectedValue().toString(),false,false,null,null).get(1),save);
     }
     
     private static void popTooninfo(List<String> toons,List<String> 
@@ -583,8 +543,6 @@ public class BattleGUI extends javax.swing.JFrame {
         SQLException { 
         String[] tooninfo=Converters.expListtoArray(toons.get(Integer.parseInt(
             team.get(jlist.getSelectedIndex()))));
-//                GetData.dataQuery("*",toons,"toonID",team.get(
-//            jlist.getSelectedIndex()),false,false,null,null);
         namebox.setText(tooninfo[1]);
         List<String> combined = new ArrayList<>();
         combined.addAll(Arrays.asList((tooninfo[23]).split("x")));
@@ -602,8 +560,6 @@ public class BattleGUI extends javax.swing.JFrame {
         List<String> team,JList jlist) throws SQLException {
         String[] tooninfo=Converters.expListtoArray(toons.get(Integer.parseInt(
             team.get(jlist.getSelectedIndex()))));
-//                GetData.dataQuery("*",toons,"toonID",team.get(
-//            jlist.getSelectedIndex()),false,false,null,null);
         String message = tooninfo[1]+"\n\n"+
             "Age: " + tooninfo[26] + "\n" +
             "Alignment: " + tooninfo[24] + "\n" +
@@ -625,20 +581,14 @@ public class BattleGUI extends javax.swing.JFrame {
         JList jlist) throws SQLException {
         String[] tooninfo=Converters.expListtoArray(toons.get(Integer.parseInt(
                 team.get(jlist.getSelectedIndex()))));
-//                GetData.dataQuery("*",toons,"toonID",team.get(
-//            jlist.getSelectedIndex()),false,false,null,null);
         String[] heldlist=collectStats(((tooninfo[13].replaceAll("nullx","")
             ).replaceAll("null","").split("x")),MemoryBank.dbItems,0,1);
-//                ,save,"dbItems","itemID",1);
         String[] wearlist=collectStats(((tooninfo[14].replaceAll("nullx","")
             ).replaceAll("null","").split("x")),MemoryBank.dbItems,0,1);
-//                ,save,"dbItems","itemID",1);
         String[] charmslist=collectStats(((tooninfo[15].replaceAll("nullx",
             "")).replaceAll("null","").split("x")),MemoryBank.dbItems,0,1);
-//                ,save,"dbItems","itemID",1);
         String[] invlist=collectStats(((tooninfo[16].replaceAll("nullx",""))
             .replaceAll("null","").split("x")),MemoryBank.dbItems,0,1);
-//                ,save,"dbItems","itemID",1);
         String finallist = "";
         if(heldlist.length >= 1) {
             finallist += "[Equipment Held]\n\n";
@@ -677,15 +627,12 @@ public class BattleGUI extends javax.swing.JFrame {
 
     private static String [] collectStats(String[] raw,List<String> table,
         int matchcol,int fetchcol) throws SQLException {
-//            String col,int field) throws SQLException {
         List<Object> rawlist = Arrays.stream(raw).collect(Collectors.toList());
         List<Object> newlist = new ArrayList<>();
         if(!rawlist.get(0).equals("null") && !rawlist.get(0).equals("")) {
             for(int item = 0; item < rawlist.size(); item++) {
                 newlist.add(getStat(table,rawlist.get(item).toString(),matchcol,
                     fetchcol));
-//                        save,table,col,rawlist.get(item).toString(),
-//                    field));
             }
         } else {
             return new String[0];
@@ -695,36 +642,25 @@ public class BattleGUI extends javax.swing.JFrame {
     
     private static String getStat(List<String> table,String id,int matchcol,int 
         fetchcol) throws SQLException {
-//            String col,
-//        String id,int field) throws SQLException {
         return Converters.fetchfromTable(table,id,matchcol,fetchcol);
-//        return GetData.dataQuery("*",table,col,id,false,false,null,null).get(field);
     }
     
     private static void ablButton(List<String> toons,List<String> team,
         JList jlist) throws SQLException {
         String[] tooninfo=Converters.expListtoArray(MemoryBank.dbToons.get(
             Integer.parseInt(team.get(jlist.getSelectedIndex()))));
-//        List<String> tooninfo=GetData.dataQuery("*",toons,"toonID",team.get(
-//            jlist.getSelectedIndex()),false,false,null,null);
         //toon,align,gender,items,race,class,size
         String toonAbl=tooninfo[11];
         String alignAbl=Converters.fetchfromTable(MemoryBank.dbAlign,Calculator.
             alignvaltoID(Integer.parseInt(tooninfo[4])),0,7);
-//                GetData.dataQuery("*","dbAlign","alignID",Calculator.
-//            alignvaltoID(Integer.parseInt(tooninfo[4])),false,false,null,null).get(7);
         String gendAbl=Converters.fetchfromTable(MemoryBank.dbGender,tooninfo[6]
             ,0,7);
-//                GetData.dataQuery("*","dbGender","genderID",tooninfo[6],false,false,null,null).get(7);
         String raceAbl=Converters.fetchfromTable(MemoryBank.dbRace,tooninfo[2],0
             ,8);
-//                GetData.dataQuery("*","dbRace","raceID",tooninfo[2],false,false,null,null).get(8);
         String classAbl=Converters.fetchfromTable(MemoryBank.dbClass,tooninfo[3]
             ,0,5);
-//                GetData.dataQuery("*","dbClass","classID",tooninfo[3],false,false,null,null).get(5);
         String sizeAbl=Converters.fetchfromTable(MemoryBank.dbSize,tooninfo[21],
             0,5);
-//                (GetData.dataQuery("*","dbSize","sizeID",tooninfo[21],false,false,null,null).get(5));
         String tempAbl=toonAbl+"x"+alignAbl+"x"+gendAbl+"x"+raceAbl+"x"+classAbl
             +"x"+sizeAbl+"x";
         String abltemp=tempAbl.replaceAll("xnull","").replaceAll("null","");
@@ -736,8 +672,6 @@ public class BattleGUI extends javax.swing.JFrame {
         for (int x = 0; x < itemabls.size(); x++) {
             abltemp += Converters.fetchfromTable(MemoryBank.dbItems,itemabls.get
                 (x),0,11).replaceAll("null", "") + "x";
-//                    GetData.dataQuery("*","dbItems","itemID",itemabls
-//                .get(x),false,false,null,null).get(11)).replaceAll("null", "") + "x";
         }
         String ablfinalist= abltemp.charAt(0)+"";
         char [] cA =abltemp.toCharArray();
@@ -759,12 +693,8 @@ public class BattleGUI extends javax.swing.JFrame {
         }
          String[] abllist = collectStats((ablfinalist.split("x")),MemoryBank.
             dbAbl,0,1);
-//                 ,save,
-//            "dbAbl","ablID",1);
          String[] abldesclist = collectStats((ablfinalist.split("x")),MemoryBank
             .dbAbl,0,2);
-//                 ,save,
-//            "dbAbl","ablID",2);
         String message="";
         if(abllist.length >= 1) {
             message += "[Ablilities List]\n\n";
@@ -778,8 +708,6 @@ public class BattleGUI extends javax.swing.JFrame {
         }
         Popups.infoPopup(Converters.fetchfromTable(toons,team.get(jlist.
             getSelectedIndex()),0,1)+" Abilities List",message+"\n"+
-//                (GetData.dataQuery("*",toons,"toonID",team.get(jlist
-//            .getSelectedIndex()),false,false,null,null).get(1))+
             "NOTE:  There will be a future option to navigate\nfurther into "
             + "abilities here.");
     }    
@@ -805,33 +733,12 @@ public class BattleGUI extends javax.swing.JFrame {
         String[] itemlist=((tooninfo[13]+"x"+tooninfo[14]+"x"+tooninfo[15]).
             split("x"));
         
-//        List<String> tooninfo=GetData.dataQuery("*",toons,"toonID",team.get(
-//            jlist.getSelectedIndex()),false,false,null,null);
-//        //toon,align,gender,items,race,class,size
-//        String toonEff = tooninfo.get(11);
-//        String alignEff=GetData.dataQuery("*","dbAlign","alignID",Calculator.
-//            alignvaltoID(Integer.parseInt(tooninfo.get(4))),false,false,null,null).get(7);
-//        String gendEff = GetData.dataQuery("*","dbGender","genderID",tooninfo
-//            .get(6),false,false,null,null).get(7);
-//        String raceEff = GetData.dataQuery("*","dbRace","raceID",tooninfo.get
-//            (2),false,false,null,null).get(8);
-//        String classEff = GetData.dataQuery("*","dbClass","classID",tooninfo.
-//            get(3),false,false,null,null).get(5);
-//        String sizeEff = (GetData.dataQuery("*","dbSize","sizeID",tooninfo.
-//            get(21),false,false,null,null).get(5));
-//        String tempEff = toonEff+"x"+alignEff+"x"+gendEff+"x"+raceEff+"x"+
-//            classEff+"x"+sizeEff+"x";
-//        String efftemp = tempEff.replaceAll("xnull","").replaceAll("null","");
-//        String[] itemlist=((tooninfo.get(13)+"x"+tooninfo.get(14)+"x"+(
-//            tooninfo.get(15))).split("x"));
         List<String> itemeffs = Arrays.stream(itemlist).collect(Collectors
             .toList());
         itemeffs.removeAll(Collections.singleton("null"));
         for (int x = 0; x < itemeffs.size(); x++) {
             efftemp += Converters.fetchfromTable(MemoryBank.dbItems,itemeffs.get
                 (x),0,12).replaceAll("null", "") + "x";
-//            efftemp += (GetData.dataQuery("*","dbItems","itemID",itemeffs
-//                .get(x),false,false,null,null).get(12)).replaceAll("null", "") + "x";
         }
         String efffinalist= efftemp.charAt(0)+"";
         char [] cA =efftemp.toCharArray();
@@ -853,12 +760,8 @@ public class BattleGUI extends javax.swing.JFrame {
         }
          String[] efflist = collectStats((efffinalist.split("x")),MemoryBank.
             dbEffects,0,1);
-//                 ,save,
-//            "dbEffects","effID",1);
          String[] effdesclist = collectStats((efffinalist.split("x")),MemoryBank
             .dbEffects,0,2);
-//                 ,save,
-//            "dbEffects","effID",2);
         String message="";
         if(efflist.length >= 1) {
             message += "[Effects List]\n\n";
@@ -872,16 +775,9 @@ public class BattleGUI extends javax.swing.JFrame {
         }
         Popups.infoPopup(Converters.fetchfromTable(toons,team.get(jlist.
             getSelectedIndex()),0,1)+" Effects List",message+"\n"+
-//                (GetData.dataQuery("*",toons,"toonID",team.get(jlist
-//            .getSelectedIndex()),false,false,null,null).get(1))+
             "NOTE:  There will be a future option to navigate\nfurther into "
             + "effects here.");
     }          
-//        Popups.infoPopup((GetData.dataQuery("*",toons,"toonID",team.get(jlist
-//            .getSelectedIndex()),false,false,null,null).get(1))+" Effects List",
-//            message+"\n"+"NOTE:  There will be a future option to navigate\n"
-//            + "further into effects here.");
-//    }    
 
     private static void confirmButton() throws BadLocationException, 
         SQLException, InterruptedException, Exception {
@@ -924,7 +820,6 @@ public class BattleGUI extends javax.swing.JFrame {
                 }
                 break;
             default:
-//                MainControls.clearTemp();
                 exitProcess();
                 break;
             }
