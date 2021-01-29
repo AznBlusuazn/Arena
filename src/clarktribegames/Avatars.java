@@ -26,8 +26,7 @@ public class Avatars {
         File customfile = new File(newPath);
         File toonfile = new File((MainControls.imageDir) + toon.toLowerCase() + 
             ".png");
-        if(path.equals("") || ChecksBalances.isNullOrEmpty(path) || 
-            !customfile.exists()) {
+        if(ChecksBalances.isNullOrEmpty(path) || !customfile.exists()) {
             if(toonfile.exists()) {
                 newPath = (MainControls.imageDir) + toon.toLowerCase() + ".png";
             } else {

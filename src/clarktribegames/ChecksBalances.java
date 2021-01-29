@@ -46,15 +46,15 @@ public class ChecksBalances {
     public static void fileCheck(String ogPath, String newPath, boolean 
         isitStream, boolean hideItOrNo) throws FileNotFoundException, 
         IOException, Exception {
-        File ogFile = new File(ogPath);
-        File newFile = new File(newPath);
-        boolean exists = newFile.exists();
+        File ogFile=new File(ogPath);
+        File newFile=new File(newPath);
+        boolean exists=newFile.exists();
         if (!exists) {
             if (!isitStream) {
                 FileChannel source;
                 FileChannel destination;
-                source = new FileInputStream(ogFile).getChannel();
-                destination = new FileOutputStream(newFile).getChannel();
+                source=new FileInputStream(ogFile).getChannel();
+                destination=new FileOutputStream(newFile).getChannel();
                 if (destination != null && source != null) {
                     destination.transferFrom(source, 0, source.size());
                 }
@@ -65,7 +65,7 @@ public class ChecksBalances {
                     destination.close();
                 }
             } else {
-                String fullPath = ExportResource(ogPath,newPath);
+                String fullPath=ExportResource(ogPath,newPath);
             }
             if(hideItOrNo == true) {
                     hideFile(newFile);
@@ -75,17 +75,17 @@ public class ChecksBalances {
     
     private static String ExportResource(String source, String dest) throws 
             IOException {
-           InputStream stream = null;
-           OutputStream resStreamOut = null;
+           InputStream stream=null;
+           OutputStream resStreamOut=null;
            try {
-               stream = ChecksBalances.class.getResourceAsStream(source);
+               stream=ChecksBalances.class.getResourceAsStream(source);
                if(stream == null) {
                    logFile("severe","Export Resource error.  Dir:  " + source);
                }
                int readBytes;
-               byte[] buffer = new byte[4096];
-               resStreamOut = new FileOutputStream(dest);
-               while ((readBytes = stream.read(buffer)) > 0) {
+               byte[] buffer=new byte[4096];
+               resStreamOut=new FileOutputStream(dest);
+               while ((readBytes=stream.read(buffer)) > 0) {
                    resStreamOut.write(buffer, 0, readBytes);
                }
            } catch (IOException ex) {
@@ -100,11 +100,11 @@ public class ChecksBalances {
     public static void newfileCheck(String filepath, boolean hideorNot, String 
             text,boolean checkforBlanks) throws IOException {
             try{
-                File filename = new File(filepath);
-                boolean exists = filename.exists();
+                File filename=new File(filepath);
+                boolean exists=filename.exists();
                 if (exists == false) {
                     filename.createNewFile();
-                    try (BufferedWriter writer = new BufferedWriter(new
+                    try (BufferedWriter writer=new BufferedWriter(new
                     FileWriter(filename))) {
                         writer.flush();
                         writer.write(text);
@@ -134,8 +134,8 @@ public class ChecksBalances {
     public static void newdirCheck(String dirpath, boolean hideorNot) throws 
             IOException {
         try {
-            File dirname = new File(dirpath);
-            boolean exists = dirname.exists();
+            File dirname=new File(dirpath);
+            boolean exists=dirname.exists();
            if (exists == false) {
                Files.createDirectories(Paths.get(dirpath));
                if(hideorNot == true) {
@@ -164,7 +164,7 @@ public class ChecksBalances {
     public static void iffolderexistsDelete(String dirpath) throws IOException {
         if(new File(dirpath).exists()) {
             try {
-                Path rootPath = Paths.get(dirpath);
+                Path rootPath=Paths.get(dirpath);
                 Files.walk(rootPath).sorted(Comparator.reverseOrder())
                     .map(Path::toFile).forEach(File::delete);
             } catch (IOException ex) {
@@ -175,7 +175,7 @@ public class ChecksBalances {
     
     private static void hideFile(File hide) throws IOException {
         try {
-          Process p = Runtime.getRuntime().exec("attrib +H " + hide.getPath());
+          Process p=Runtime.getRuntime().exec("attrib +H " + hide.getPath());
           p.waitFor(); 
         } catch (IOException | InterruptedException e) {
             logFile("severe","HideFile Method.  Ex: " + e.toString());
@@ -191,9 +191,9 @@ public class ChecksBalances {
     }
 
     private static boolean invalidcharCheck(String s) {
-        Pattern p = Pattern.compile("[^A-Za-z0-9]");
-        Matcher m = p.matcher(s);
-        boolean b = m.find();
+        Pattern p=Pattern.compile("[^A-Za-z0-9]");
+        Matcher m=p.matcher(s);
+        boolean b=m.find();
         if (b) {
             return true;
         } else {
@@ -202,17 +202,17 @@ public class ChecksBalances {
     }
     
     private static boolean checkplayerExists(List<String> list,String newname) {
-        boolean retVal = false;
+        boolean retVal=false;
         for (String s : list) {
             if(s.contains(newname)) {
-                retVal = true;
+                retVal=true;
             }
         }
         return retVal;
     }    
     
     public static List<String> deletePlayer (List<String> list, String player) {
-        List<String> newlist = new ArrayList<>();
+        List<String> newlist=new ArrayList<>();
         for (String s : list) {
             if(!s.contains(player)) {
                 newlist.add(s);
@@ -223,11 +223,11 @@ public class ChecksBalances {
     
     private static void removeBlanks(String filepath) throws 
         FileNotFoundException {
-        String temppath = ".temp";    
-        Scanner file = new Scanner(new File(filepath));
-            PrintWriter writer = new PrintWriter(temppath);
+        String temppath=".temp";    
+        Scanner file=new Scanner(new File(filepath));
+            PrintWriter writer=new PrintWriter(temppath);
             while (file.hasNext()) {
-                String line = file.nextLine();
+                String line=file.nextLine();
                 if (!line.isEmpty()) {
                     writer.write(line);
                     writer.write("\n");
@@ -235,19 +235,19 @@ public class ChecksBalances {
             }
             file.close();
             writer.close();
-            File file1 = new File(filepath);
-            File file2 = new File(temppath);
+            File file1=new File(filepath);
+            File file2=new File(temppath);
             file1.delete();
             file2.renameTo(file1);
     }
     
     public static String getFirstLine(File filename) throws IOException {
-        String first = new String();  
+        String first=new String();  
         try {
-            InputStreamReader sr = new InputStreamReader(new 
+            InputStreamReader sr=new InputStreamReader(new 
                 FileInputStream(filename));
-            BufferedReader br = new BufferedReader(sr);
-            first = br.readLine();
+            BufferedReader br=new BufferedReader(sr);
+            first=br.readLine();
         } catch (IOException e) {
             logFile("severe","First Line Method.  Ex: " + e.toString());
         }
@@ -256,13 +256,13 @@ public class ChecksBalances {
 
     
     public static String getLast(File filename) throws IOException {
-        String last = new String();  
+        String last=new String();  
         try {
-            InputStreamReader sr = new InputStreamReader(new 
+            InputStreamReader sr=new InputStreamReader(new 
                 FileInputStream(filename));
-            BufferedReader br = new BufferedReader(sr);
+            BufferedReader br=new BufferedReader(sr);
             while (br.ready()) {
-                last = br.readLine();
+                last=br.readLine();
             }
         } catch (IOException e) {
             logFile("severe","Last Line Method.  Ex: " + e.toString());
@@ -272,13 +272,13 @@ public class ChecksBalances {
     
     public static List<String> lineFinder (List<String> oglist, String find,
             boolean casesensitive) throws IOException {
-            List<String> foundResult = new ArrayList<>();
+            List<String> foundResult=new ArrayList<>();
             for (String s : oglist) {
-                Scanner scanner = new Scanner(s).useDelimiter("\n");
+                Scanner scanner=new Scanner(s).useDelimiter("\n");
                 while(scanner.hasNext()) {
-                    String line = scanner.nextLine();
+                    String line=scanner.nextLine();
                     if(casesensitive) {
-                        line = line.toLowerCase();
+                        line=line.toLowerCase();
                         if(line.contains(find.toLowerCase())) {
                             foundResult.add(line);
                         }
@@ -295,11 +295,11 @@ public class ChecksBalances {
     public static List<String> findandRebuild (List<String> list,String find,
         String replace) {
         
-        List<String> finalList = new ArrayList<>();
+        List<String> finalList=new ArrayList<>();
         for (String s : list) {
-                Scanner scanner = new Scanner(s).useDelimiter("\n");
+                Scanner scanner=new Scanner(s).useDelimiter("\n");
                 while(scanner.hasNext()) {
-                    String line = scanner.nextLine();
+                    String line=scanner.nextLine();
                     if(line.contains(find)) {
                         finalList.add(replace);
                     } else {
@@ -312,15 +312,15 @@ public class ChecksBalances {
     
     public static boolean searchdirList (String search,String dir,String ext) 
         throws IOException {
-        boolean retVal = false;
+        boolean retVal=false;
         if(ext.startsWith(".")) {
             ext=ext.substring(1);
         }
-        List<String> dirlist = (Converters.foldertoList(dir,ext)).stream()
+        List<String> dirlist=(Converters.foldertoList(dir,ext)).stream()
             .map(Object::toString).collect(Collectors.toList());
-        for(int i = 0; i > dirlist.size(); i++ ) {
+        for(int i=0; i > dirlist.size(); i++ ) {
             if(dirlist.get(i).contains(search)) {
-                retVal = true;
+                retVal=true;
             }
         }
         return retVal;
@@ -340,15 +340,18 @@ public class ChecksBalances {
     }
     
     public static boolean isNullOrEmpty(String str) {
-        if(str != null && !str.isEmpty())
+        if(str != null && !str.isEmpty() && !str.equals("null") && !str.equals(
+            "")) {
             return false;
-        return true;
+        } else {
+            return true;
+        }
     }
     
     private static boolean anySpecialCharacters(String string) {
-        Pattern p = Pattern.compile("[^A-Za-z0-9]");
-        Matcher m = p.matcher(string);
-        boolean b = m.find();
+        Pattern p=Pattern.compile("[^A-Za-z0-9]");
+        Matcher m=p.matcher(string);
+        boolean b=m.find();
         if(b) {
             return true;
         } else {
@@ -359,8 +362,7 @@ public class ChecksBalances {
     public static boolean newGame(String newgamename) throws IOException,
         Exception {
         boolean continueGame=false;
-        if(newgamename.equals("")||newgamename.trim().isEmpty()||isNullOrEmpty(
-            newgamename)) {
+        if(isNullOrEmpty(newgamename)) {
             Popups.warnPopup("Error","The save name cannot be blank!");
             return continueGame;
     }
@@ -375,6 +377,9 @@ public class ChecksBalances {
                 "a save with the name "+newgamename+".");
             return continueGame;
         };
+        if(isNullOrEmpty(MemoryBank.currentDb)) {
+            MemoryBank.currentDb=MainControls.defaultDb;
+        }
         fileCheck(MemoryBank.currentDb,MemoryBank.currentSave,false,false);
         if(!(new File(MemoryBank.currentSave).exists())) {
             Popups.warnPopup("Error creating "+newgamename+" save file","There"+
@@ -404,35 +409,35 @@ public class ChecksBalances {
     }
     
     private static void importcustomProcess(String type) {
-        String filename = null;
-        String absolpath = null;
-        String destpath = null;
-        boolean cancel = false;
-        FileNameExtensionFilter filter = null;
+        String filename=null;
+        String absolpath=null;
+        String destpath=null;
+        boolean cancel=false;
+        FileNameExtensionFilter filter=null;
         if(type.equals("music")) {
             filter=new FileNameExtensionFilter("MP3 Files (*.mp3)","mp3");
-            destpath = MainControls.custommusicPath;
+            destpath=MainControls.custommusicPath;
         } else {
             if(type.equals("sound")) {
                 filter=new FileNameExtensionFilter("MP3 Files (*.mp3)","mp3");
-                destpath = MainControls.custommusicSounds;
+                destpath=MainControls.custommusicSounds;
             } else {
                 if(type.equals("avatar")) {
                     filter=new FileNameExtensionFilter("PNG Files (200x200 Only"
                         +") (*.png)", "png");
-                    destpath = MainControls.imageDir;
+                    destpath=MainControls.imageDir;
                 } else {
-                    cancel = true;
+                    cancel=true;
                 }
             }
         }
         if(!cancel) {
-            JFileChooser chooser = new JFileChooser();
+            JFileChooser chooser=new JFileChooser();
             chooser.setFileFilter(filter);
-            int retVal = chooser.showOpenDialog(chooser);
+            int retVal=chooser.showOpenDialog(chooser);
             if(retVal == JFileChooser.APPROVE_OPTION) {
-                filename = chooser.getSelectedFile().getName();
-                absolpath = chooser.getSelectedFile().getAbsolutePath();
+                filename=chooser.getSelectedFile().getName();
+                absolpath=chooser.getSelectedFile().getAbsolutePath();
                 boolean importChoice=Popups.yesnoPopup("Are you sure you want "+
                     "to import "+filename+"?","Are you sure you want to import"+
                     "\n" + filename+"\n" + "into the custom "+type+" library?");
@@ -462,7 +467,7 @@ public class ChecksBalances {
     
     public static void keyConfirm(KeyEvent evt, JLabel button) {
         button.setEnabled(true);
-        char typedLetter = evt.getKeyChar();
+        char typedLetter=evt.getKeyChar();
         if(!(Character.isAlphabetic(typedLetter) || Character.isDigit
             (typedLetter) || typedLetter == KeyEvent.VK_BACK_SPACE || 
             typedLetter == KeyEvent.VK_DELETE)){
@@ -476,9 +481,9 @@ public class ChecksBalances {
         List<String>fetchedIDs=GetData.dataQuery("*",table,col,null,true,false,
             null,null);
         try {
-            finalID = Integer.parseInt(newid);
+            finalID=Integer.parseInt(newid);
         } catch (Exception ex) {
-                finalID = 0;
+                finalID=0;
                 }
         for(int i=0;i<fetchedIDs.size();i++) {
             if(fetchedIDs.get(i).equals(String.valueOf(finalID))) {

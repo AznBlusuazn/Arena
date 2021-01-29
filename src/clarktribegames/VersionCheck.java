@@ -27,8 +27,9 @@ public class VersionCheck {
             new InputStreamReader(webCheck.openStream()));
             
             String currentVersion;
-            for(currentVersion = versionIn.readLine(); currentVersion != null; 
-                    currentVersion = versionIn.readLine()) {
+            for(currentVersion = versionIn.readLine(); !(ChecksBalances.
+                isNullOrEmpty(currentVersion)); currentVersion = versionIn.
+                readLine()) {
                 boolean verMatch = currentVersion.contains(installedVersion);
                 if(verMatch == true) {
                     return false;

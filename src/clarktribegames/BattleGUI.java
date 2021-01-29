@@ -629,7 +629,7 @@ public class BattleGUI extends javax.swing.JFrame {
         int matchcol,int fetchcol) throws SQLException {
         List<Object> rawlist = Arrays.stream(raw).collect(Collectors.toList());
         List<Object> newlist = new ArrayList<>();
-        if(!rawlist.get(0).equals("null") && !rawlist.get(0).equals("")) {
+        if(!(ChecksBalances.isNullOrEmpty(rawlist.get(0).toString()))) {
             for(int item = 0; item < rawlist.size(); item++) {
                 newlist.add(getStat(table,rawlist.get(item).toString(),matchcol,
                     fetchcol));
@@ -887,21 +887,20 @@ public class BattleGUI extends javax.swing.JFrame {
     public static void main(String args[]) {
 
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.
+                UIManager.getInstalledLookAndFeels()) {
                 if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(BattleGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(BattleGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(BattleGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(BattleGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException | InstantiationException | 
+            IllegalAccessException | javax.swing.UnsupportedLookAndFeelException
+            ex) {
+            ex.printStackTrace();
         }
+        //</editor-fold>
+        
         //</editor-fold>
 
         java.awt.EventQueue.invokeLater(new Runnable() {

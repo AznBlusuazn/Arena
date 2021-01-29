@@ -116,8 +116,7 @@ public class GetStats {
         DefaultListModel dml, JList<String> jlist,List<String> table,int 
         matchcol,int fetchcol) throws SQLException {
         for(int i = 0; i < list.size(); i++) {
-            if(!(ChecksBalances.isNullOrEmpty(list.get(i))) && !(list.get(i).
-                equals("null"))) {
+            if(!(ChecksBalances.isNullOrEmpty(list.get(i)))) {
                 String temp = Converters.fetchfromTable(table,list.get(i),
                     matchcol,fetchcol);
                 dml.addElement(temp);
@@ -138,8 +137,7 @@ public class GetStats {
         DefaultListModel tempdml = new DefaultListModel();
 
         for(int i = 0; i < list.length; i++) {
-            if(!(ChecksBalances.isNullOrEmpty(list[i])) && !(list[i].
-                equals("null"))) {
+            if(!(ChecksBalances.isNullOrEmpty(list[i]))) {
                 String temp = Converters.fetchfromTable(table,list[i],
                     matchcol,fetchcol);
                 tempdml.addElement(temp);
@@ -151,8 +149,7 @@ public class GetStats {
 //*
 //        
 //        for(int i = 0; i < list.size(); i++) {
-//            if(!(ChecksBalances.isNullOrEmpty(list.get(i))) && !(list.get(i).
-//                equals("null"))) {
+//            if(!(ChecksBalances.isNullOrEmpty(list.get(i)))) {
 //                String temp = GetData.dataQuery("*",dbname,searchcol,list.
 //                    get(i),false,false,null,null).get(1);
 //                tempdml.addElement(temp);
@@ -185,8 +182,7 @@ public class GetStats {
         String sizeef=Converters.fetchfromTable(MemoryBank.dbSize,sizeName,1,6);
         String itemequipped = "";
        for(int c = 13; c <= 15; c++) {
-            if(!ChecksBalances.isNullOrEmpty(toonstats[c]) && (!(toonstats[c]).
-                equals("null"))) {
+            if(!ChecksBalances.isNullOrEmpty(toonstats[c])) {
                 itemequipped += toonstats[c] + "x";
             }
         }
@@ -236,8 +232,7 @@ public class GetStats {
         String sizeab=Converters.fetchfromTable(MemoryBank.dbSize,sizeName,1,5);
         String itemequipped = "";
         for(int c = 13; c <= 15; c++) {
-            if(!ChecksBalances.isNullOrEmpty(toonstats[c]) && (!(toonstats[c])
-                .equals("null"))) {
+            if(!ChecksBalances.isNullOrEmpty(toonstats[c])) {
                 itemequipped += toonstats[c] + "x";
             }
         }
@@ -332,7 +327,8 @@ public class GetStats {
             }
         }
         String[] invlist = toonstats[x].split("x");
-        if(invlist[0].contains("null") || invlist[0].isEmpty()) {
+        if(ChecksBalances.isNullOrEmpty(invlist[0])||invlist[0].contains("null")
+            ) {
             return baselist.toArray(new String[0]);
         }
         if(invlist.length > 0 ) {
@@ -366,8 +362,7 @@ public class GetStats {
     }
     
     private static List<String> statEncoder(String stats, List<String> list) {
-        if(ChecksBalances.isNullOrEmpty(stats) || stats.equals("null") || stats
-            .equals("0")) {
+        if(ChecksBalances.isNullOrEmpty(stats) || stats.equals("0")) {
         } else {
             List<String> templist = Arrays.asList(stats.split("x"));
             for(int x = 0; x < templist.size(); x++) {
@@ -644,7 +639,7 @@ public class GetStats {
             case "b" :
                 return getAblBase(code);
             case "e" :
-                if(ChecksBalances.isNullOrEmpty(code) || code.equals("null")) {
+                if(ChecksBalances.isNullOrEmpty(code)) {
                     return new String[] {""};
                 } else {
                     return new String[] {code};

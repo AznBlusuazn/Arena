@@ -13,7 +13,7 @@ import java.io.IOException;
  */
 // </editor-fold>
 
-public class CleanUpdate {
+public class ClearUpdate {
     
     public static void cleanUpdate() throws IOException, InterruptedException  {
         String performPopTitle="Prepare for Update?";

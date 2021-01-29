@@ -24,7 +24,7 @@ public class Updater {
                 "Would you like to download the latest update?";
             boolean updateNow=Popups.yesnoPopup("Needs an Update",messageStr);
             if(updateNow == true) {
-                CleanUpdate.cleanUpdate();
+                ClearUpdate.cleanUpdate();
             } else {
                 String reminderTitle="This is an older release!";
                 String reminderMessage="As a reminder, this is an older ALPHA "+
@@ -39,7 +39,7 @@ public class Updater {
                 "Would you like to download the latest update?";
             boolean updateNow=Popups.yesnoPopup("Needs an Update",messageStr);
             if(updateNow == true) {
-                CleanUpdate.cleanUpdate();
+                ClearUpdate.cleanUpdate();
             } else {
                 String reminderTitle="This is an older release!";
                 String reminderMessage="You cannot continue forward with this "+

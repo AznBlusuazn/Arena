@@ -34,7 +34,7 @@ public class MainControls {
 
     //Main Controls Variables
     static String appName="Limitless";
-    static String appVer="0.0.040";
+    static String appVer="0.0.041";
     static String appTitle=appName+" [ALPHA v"+appVer+"]";
     static String defaultIntro="sounds/intro.mp3";
     static String defaultBattle="sounds/battle.mp3";
@@ -161,8 +161,8 @@ public class MainControls {
 
     private static void checkSettings() throws IOException, SQLException {
         MemoryBank.mainSettings=fetchSettings();
-        if(ChecksBalances.isNullOrEmpty(findSetting("uid"))||findSetting("uid").
-            toLowerCase().equals("null")||!(findSetting("uid")).equals(
+        if(ChecksBalances.isNullOrEmpty(findSetting("uid"))||!(findSetting("uid"
+            )).equals(
             MemoryBank.UID)) {
             try {
                 updateSettings();
@@ -170,8 +170,7 @@ public class MainControls {
                 //
             }
         }
-        if(ChecksBalances.isNullOrEmpty(findSetting("version")) || 
-            findSetting("version").toLowerCase().equals("null")) {
+        if(ChecksBalances.isNullOrEmpty(findSetting("version"))) {
             try {
                 updateSettings();
             } catch (Exception ex) {
@@ -205,8 +204,8 @@ public class MainControls {
             samedbOn=false;
             defaultdbSetting=defaultDb;
         } 
-        if(!(findSetting("lastdb").equals("null")||ChecksBalances.isNullOrEmpty(
-            findSetting("lastdb"))||findSetting("lastdb").equals(defaultDb))) {
+        if(!(ChecksBalances.isNullOrEmpty(findSetting("lastdb"))||findSetting(
+            "lastdb").equals(defaultDb))) {
             MemoryBank.currentDb=findSetting("lastdb");
             if(!(new File(MemoryBank.currentDb).exists())) {
                 MemoryBank.currentDb=defaultDb;
@@ -313,8 +312,7 @@ public class MainControls {
                 if(!custommusicOn) {
                     return defaultBattle;
                 } else {
-                    if(custBattle.equals("")||custBattle.toLowerCase().equals(
-                        "null")) { 
+                    if(ChecksBalances.isNullOrEmpty(custBattle)) { 
                         return defaultBattle;
                     } else {
                         return custommusicPath + "/" + custBattle + ".mp3";
@@ -330,8 +328,7 @@ public class MainControls {
                 if(!custommusicOn) {
                     return defaultWin;
                 } else {
-                    if(custWin.equals("")||custWin.toLowerCase().equals("null"))
-                    {
+                    if(ChecksBalances.isNullOrEmpty(custWin)) {
                         return defaultWin;
                     } else {
                         return custommusicPath + "/" + custWin + ".mp3";
@@ -342,8 +339,7 @@ public class MainControls {
                 if(!custommusicOn) {
                     return defaultLose;
                 } else {
-                    if(custLose.equals("")||custLose.toLowerCase().equals(
-                        "null")) {
+                    if(ChecksBalances.isNullOrEmpty(custLose)) {
                         return defaultLose;
                     } else {
                         return custommusicPath + "/" + custLose + ".mp3";
@@ -700,8 +696,7 @@ public class MainControls {
             .getSelectedIndex()][1];
         String[] selectedToon = MemoryBank.savToons.get(Integer.parseInt(
             selectedToonID)).replaceAll(", ",",").split(",");
-        if(!selectedToon[18].isEmpty() && !selectedToon[18].equals("null") && 
-            !selectedToon[18].equals("")) {
+        if(!ChecksBalances.isNullOrEmpty(selectedToon[18])) {
             Limitless.altName.setVisible(true);
         } else {
             Limitless.altName.setVisible(false);
@@ -828,8 +823,7 @@ public class MainControls {
             String ogID = UID.replace("7x", "");
             String[] ogToon = MemoryBank.savToons.get(Integer.parseInt(ogID)).
                 replaceAll(", ",",").split(",");
-            if(!ogToon[18].equals("null") && !(ChecksBalances.isNullOrEmpty
-                (ogToon[18]))) {
+            if(!(ChecksBalances.isNullOrEmpty(ogToon[18]))) {
                 String[] ogAlias = getAliasInfo(ogToon[18]);
                 if(ogAlias[2].equals("0") || ogAlias[2].equals("1")) {
                     //and og 18 is either 0 or 1
@@ -847,8 +841,7 @@ public class MainControls {
             }
         } else {
             
-            if(ChecksBalances.isNullOrEmpty(selectedToon[18]) || 
-                (selectedToon[18].equals("null"))) {
+            if(ChecksBalances.isNullOrEmpty(selectedToon[18])) {
                 Limitless.altName.setVisible(false);
                 //do nothing with alias here
             } else {
@@ -908,8 +901,7 @@ public class MainControls {
             selectedToonID)).replaceAll(", ",",").split(",");
         switch(opt) {
             case "Change" :
-                if(!selectedToon[18].isEmpty() && !selectedToon[18]
-                    .equals("null") && !selectedToon[18].equals("")) {
+                if(!ChecksBalances.isNullOrEmpty(selectedToon[18])) {
                     String[] toonAlias = getAliasInfo(selectedToon[18]);
                     if(toonAlias[2].equals("1")) {
                         for(int i=0;i<Limitless.newgameList.getModel().getSize()
@@ -936,8 +928,7 @@ public class MainControls {
                 }
                 break;
             case "Switch" :
-                if(!selectedToon[18].isEmpty() && !selectedToon[18].equals
-                    ("null") && !selectedToon[18].equals("")) {
+                if(!ChecksBalances.isNullOrEmpty(selectedToon[18])) {
                     String[] toonAlias = getAliasInfo(selectedToon[18]);
                     if(toonAlias[2].equals("0")) {
                         Avatars.setAvatar(Limitless.charToon, toonAlias[1],
@@ -947,8 +938,7 @@ public class MainControls {
                 }
                 break;
             case "Revert" :
-                if(!selectedToon[18].isEmpty() && !selectedToon[18].equals
-                    ("null") && !selectedToon[18].equals("")) {
+                if(!ChecksBalances.isNullOrEmpty(selectedToon[18])) {
                     String[] toonAlias = getAliasInfo(selectedToon[18]);
                     if(toonAlias[2].equals("0")) {
                         Avatars.setAvatar(Limitless.charToon, selectedToon[1],

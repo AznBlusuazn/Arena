@@ -21,28 +21,28 @@ import java.util.zip.ZipInputStream;
 
 public class CmpManager {
     
-    private static final int BUFFER_SIZE = 4096;
+    private static final int BUFFER_SIZE=4096;
     
     public void openCmp(String cmpPath, String destPath) throws 
             IOException {
-        File destDir = new File(destPath);
+        File destDir=new File(destPath);
         if (!destDir.exists()) {
             destDir.mkdir();
         }
-        Class unzipClass = this.getClass();   
-        InputStream inStream = unzipClass.getResourceAsStream(cmpPath);
-        try (ZipInputStream cmpIn = new ZipInputStream(inStream)) {
-            ZipEntry entry = cmpIn.getNextEntry();
+        Class unzipClass=this.getClass();   
+        InputStream inStream=unzipClass.getResourceAsStream(cmpPath);
+        try (ZipInputStream cmpIn=new ZipInputStream(inStream)) {
+            ZipEntry entry=cmpIn.getNextEntry();
             while (entry != null) {
-                String filePath = destPath + File.separator + entry.getName();
+                String filePath=destPath + File.separator + entry.getName();
                 if (!entry.isDirectory()) {
                     extractFile(cmpIn, filePath);
                 } else {
-                    File dir = new File(filePath);
+                    File dir=new File(filePath);
                     dir.mkdirs();
                 }
                 cmpIn.closeEntry();
-                entry = cmpIn.getNextEntry();
+                entry=cmpIn.getNextEntry();
             }
         } catch (IOException ex) {
             logFile("severe","Unzip Method.  Exception: " + ex.toString());
@@ -52,11 +52,11 @@ public class CmpManager {
     private void extractFile(ZipInputStream cmpIn, String filePath) throws 
             IOException {
         try {
-            BufferedOutputStream bos = new BufferedOutputStream(new 
+            BufferedOutputStream bos=new BufferedOutputStream(new 
                 FileOutputStream(filePath));
-            byte[] bytesIn = new byte[BUFFER_SIZE];
-            int read = 0;
-            while ((read = cmpIn.read(bytesIn)) != -1) {
+            byte[] bytesIn=new byte[BUFFER_SIZE];
+            int read=0;
+            while ((read=cmpIn.read(bytesIn)) != -1) {
                 bos.write(bytesIn, 0, read);
             }
             bos.close();
