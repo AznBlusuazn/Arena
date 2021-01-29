@@ -32,12 +32,12 @@ public class StartGame {
         Popups.infoPopup("ALPHA TESTING IN PROGRESS", "This is where the game "
             + "would start, but the game is still in ALPHA.\n\nThank you for " +
             "testing!\n\nGeoff @ ClarkTribeGames");
-        String tempfile = MainControls.currentgamePath.replaceAll(
-            MainControls.saveExt,"temp");
-        if(tempfile.length() > 0) {
-            ChecksBalances.ifexistDelete(tempfile);
-        }
-        MainControls.clearTemp();
+//        String tempfile = MainControls.currentgamePath.replaceAll(
+//            MainControls.saveExt,"temp");
+//        if(tempfile.length() > 0) {
+//            ChecksBalances.ifexistDelete(tempfile);
+//        }
+//        MainControls.clearTemp();
         System.gc();
         System.exit(0);
         //revamp Battle Engine

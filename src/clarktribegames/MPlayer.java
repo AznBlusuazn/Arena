@@ -55,10 +55,10 @@ public class MPlayer {
     public static void stopMedia() throws  Exception {
         try {
             mplayerOn = false;
-            MainControls.musicPlaying = mplayerOn;
+            MemoryBank.musicPlaying = mplayerOn;
             if(MainControls.musicOn) {
                 for(Thread t : Thread.getAllStackTraces().keySet()) {
-                    if(t.getName().equals(MainControls.threadName)) {
+                    if(t.getName().equals(MemoryBank.threadName)) {
                         t.interrupt();
                         break;
                     }
@@ -77,7 +77,7 @@ public class MPlayer {
             mplayerOn = false;
         }
         Thread mplayerThread = new Thread(new mplayerRunnable());
-        MainControls.threadName = mplayerThread.getName();
+        MemoryBank.threadName = mplayerThread.getName();
         mplayerThread.start();
     }
 }

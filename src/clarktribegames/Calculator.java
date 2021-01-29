@@ -1524,7 +1524,8 @@ public class Calculator {
     }
     
     private static String savenameCheck() {
-        return MainControls.selectedSave;
+        return MemoryBank.currentSave;
+        //return MainControls.selectedSave;
     }
         
     

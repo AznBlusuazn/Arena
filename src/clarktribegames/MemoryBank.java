@@ -27,14 +27,33 @@ import java.util.List;
 
 public class MemoryBank {
     
+    //settings
     static List<String> mainSettings;
     
+    //active game
     static List<String> savToons;
     static List<String> genToons;
     static List<String> altToons;    
     static List<String> savTemp;
     static List<String> savTime;
-    
+
+    //active cache
+    static String currentDb="";
+    static String currentGame="";
+    static String currentSave="";
+    static boolean currentlyTyping=false;
+    static boolean musicPlaying=false;
+    static Thread currentSong;
+    static String threadName="";
+    static String[][] newgametoonList;
+    static boolean ingame=false;
+    static boolean created=false;
+    static boolean justswitch=false;
+    static String passiveDestinyID="1";
+    static String UID="";
+    static String db1="jdbc:ucanaccess://"+MainControls.defaultDb;
+
+    //db cache
     static List<String> dbAbl;
     static List<String> dbAblType;
     static List<String> dbAge;
@@ -99,13 +118,12 @@ public class MemoryBank {
             true,false,null,null).size(),"dbStatus","statusID");
         dbTabletoMem(dbToons,GetData.dataQuery("*","dbToons","toonID",null,true,
             false,null,null).size(),"dbToons","toonID");
-        if(!newgame) {
-            dbTime = Integer.parseInt(Converters.getSpecificLine(MainControls.
-                savesDir+".lastused",2));
+        if(!newgame && ingame) {
+            dbTime=Integer.parseInt(GetData.dataQuery("*","dbTime","timeID","0"
+                ,false,false,null,null).get(1));
         } else {
             dbTime = 0;
         }
-        
     }
     
     private static void dbTabletoMem (List<String> list,int rows,String table,
@@ -119,6 +137,8 @@ public class MemoryBank {
     }
 
     public static void clearMemory() {
+        
+        ingame = false;
         
         savToons = new ArrayList<>();
         genToons = new ArrayList<>();

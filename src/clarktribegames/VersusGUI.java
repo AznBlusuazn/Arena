@@ -55,7 +55,7 @@ public class VersusGUI extends javax.swing.JFrame {
             true,false,null,null);
         boolean toontheme = checkforCustom(char2Label.getText().toLowerCase(),
             custTList);
-        if(MainControls.musicPlaying) {
+        if(MemoryBank.musicPlaying) {
             MPlayer.stopMedia();
         }
         MainControls.musicPath = MainControls.defaultBattle;

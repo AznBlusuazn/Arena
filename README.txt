@@ -1,6 +1,6 @@
 =======================================
 LIMITLESS by Geoff Clark
-VERSION ALPHA 0.0.040 / 2021.01.28-1805
+VERSION ALPHA 0.0.041 / 2021.01.29-0131
 =======================================
 
 SUPPORT THE DEVELOPMENT OF THIS GAME @ 
@@ -47,13 +47,18 @@ Contact the author:  info@clarktribegames.com
 
 DEVELOPMENT NOTES
 
-ALPHA 0.0.041 / 2021.01.28-1805
+0.0.041 / 2021.01.29-0131
 
 - removed all db queries except initial load -- all game queries are from memory now
 - removed settings.ini external file and integrated settings into the save file
 - added check for default db check and auto upgrade if not up to date
 - added check if default db was copied from another pc -- regenerates new settings for new pc
 - greatly decreased lag between menu selection
+- gutted old save structure for new .save files for saves
+- created foundation for custom dbs in the foundation as .limit files in custom folder
+- retired .lastused files for new files in the .save that will contain the information
+- added feature that if no additional databases exist, samedb will default
+- reorganized memory bank and revamped some of the methods for calling the database
 
 ALPHA 0.0.040 / 2021.01.27-1900
 

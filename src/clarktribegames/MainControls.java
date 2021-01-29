@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URL;
-import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,65 +33,59 @@ import javax.swing.SwingWorker;
 public class MainControls {
 
     //Main Controls Variables
-    static String appName = "Limitless";
-    static String appVer = "0.0.041";
-    static String appTitle = appName + " [ALPHA v" + appVer + "]";
-    //static String settingsFile = "settings.ini";
-    static String defaultIntro = "sounds/intro.mp3";
-    static String defaultBattle = "sounds/battle.mp3";
-    static String defaultWin = "sounds/victory.mp3";
-    static String defaultLose = "sounds/loss.mp3";
-    static String musicPath = defaultIntro;
-    static String custommusicPath = "custom/music";
-    static String custIntro = "null";
-    static String custBattle = "null";
-    static String custWin = "null";
-    static String custLose = "null";
-    static String custommusicSounds = "custom/sounds";
-    static String defaultOGSave = "data.mdb";
-    static String saveExt = "limit";
-    static String defaultSave = "default" + "." + saveExt;
-    static String defaultsavesDir = "saves/";
-    static String savesDir = defaultsavesDir;
-    static String imageDir = "avatars/";
-    static String tempDir = "temp/";
-    static String lastusedSave = savesDir + ".lastused";
-    static String selectedSave = defaultSave;
-    static boolean currentlyTyping = false;
-    public URL iconURL = getClass().getResource("/clarktribegames/icon.png");
-    public ImageIcon imageIcon = new ImageIcon(iconURL);
-    static String currentgamePath = "";
-    static String currentgame = "";
-    static String selectedToon = "";
-    static String price = "";
-    static String dagger = "";
-    static boolean musicPlaying = false;
-    static Thread currentSong;
-    static String threadName = "";
-    static String[][] newgametoonList;
+    static String appName="Limitless";
+    static String appVer="0.0.040";
+    static String appTitle=appName+" [ALPHA v"+appVer+"]";
+    static String defaultIntro="sounds/intro.mp3";
+    static String defaultBattle="sounds/battle.mp3";
+    static String defaultWin="sounds/victory.mp3";
+    static String defaultLose="sounds/loss.mp3";
+    static String musicPath=defaultIntro;
+    static String custommusicPath="custom/music";
+    static String custIntro="null";
+    static String custBattle="null";
+    static String custWin="null";
+    static String custLose="null";
+    static String custommusicSounds="custom/sounds";
+    static String custdbDir="custom/db";
+    static String defaultogDb="data.mdb";
+    static String dbExt=".limit";
+    static String saveExt=".save";
+    static String dbDir="db/";
+    static String defaultDb=dbDir+"default"+dbExt;
+//    static String currentDb=defaultDb;
+//    static String defaultSave = "default" + "." + saveExt;
+//    static String defaultsavesDir = "saves/";
+//    static String savesDir = defaultsavesDir;
+    static String savesDir = "saves/";
+    static String imageDir="avatars/";
+//    static String tempDir="temp/";
+//    static String selectedSave = defaultSave;
+    public URL iconURL=getClass().getResource("/clarktribegames/icon.png");
+    public ImageIcon imageIcon=new ImageIcon(iconURL);
+//    static String currentgamePath="";
+//    static String currentgame="";
+    static String selectedToon="";
+    static String price="";
+    static String dagger="";
     //Color Mode
-    static Color backColor = Color.BLACK;
-    static Color textColor = Color.WHITE;
+    static Color backColor=Color.BLACK;
+    static Color textColor=Color.WHITE;
     //Date and Time
-    static int gameWeek = 1;
-    static int gameDay = 1;
-    static int gameMonth = 1;
-    static int gameYear = 1;
-    static int gameHour = 0;
-    static int gameMin = 0;
-    static int rawTime = 0;
+    static int gameWeek=1;
+    static int gameDay=1;
+    static int gameMonth=1;
+    static int gameYear=1;
+    static int gameHour=0;
+    static int gameMin=0;
+    static int rawTime=0;
     //Settings.ini
-    static boolean darkOn = true;
-    static boolean musicOn = true;
-    static boolean custommusicOn = false;
-    static boolean soundOn = true;
-    static boolean samedbOn = true;
-    static String defaultDB = defaultSave.substring(0,defaultSave.indexOf("." + 
-        saveExt));
-    static boolean created = false;
-    static boolean justswitch = false;
-    static String passiveDestinyID = "1";
-    static String UID="";
+    static boolean darkOn=true;
+    static boolean musicOn=true;
+    static boolean custommusicOn=false;
+    static boolean soundOn=true;
+    static boolean samedbOn=true;
+    static String defaultdbSetting=defaultDb;
 
     public static void main(String[] args) throws Exception {
         lookandfeelSettings();
@@ -102,6 +95,7 @@ public class MainControls {
     
     private static void startupChecks() throws IOException, Exception {
         try {
+            defaultInitialization();
             checkVersion(appName,appVer);
             firstCheck();
             checkSaves();
@@ -111,27 +105,38 @@ public class MainControls {
                 .toString()));
         }
     }
+
+    private static void defaultInitialization() {
+        MemoryBank.currentDb=MainControls.defaultDb;
+        appTitle=appName+" [ALPHA v"+appVer+"]";
+        defaultDb=dbDir+"default"+dbExt;
+        defaultdbSetting=defaultDb;
+        musicPath=defaultIntro;
+    }
+
     
     private static void firstCheck() throws IOException, InterruptedException, 
         Exception {
         try {
-            clearTemp();
-            ChecksBalances.newdirCheck(tempDir, true);
-            ChecksBalances.newdirCheck(imageDir, false);
-            ChecksBalances.newdirCheck(custommusicPath, false);
-            ChecksBalances.newdirCheck(custommusicSounds, false);
-            ChecksBalances.fileCheck("_empty_.png",(imageDir + "_empty_.png"),
-                true,false);
-            boolean libResult = (CmpImporter.cmpImport("lib"));
-            boolean soundsResult = (CmpImporter.cmpImport("sounds"));
-            if(!libResult || !soundsResult) {
-                String[] opts = new String[] {"Patreon","PayPal","Maybe Later"};
-                String title = "Alert!";
-                String message = "Welcome to Limitless!\n\nThis title is still "
-                    + "in development.  Please be patient.\n\nYou can become a "
-                    + "Patreon or Donate if you want to \nhelp support the caus"
-                    + "e.\n\nThanks! ~ Geoff @ ClarkTribeGames";
-                int choice = Popups.optPopup(opts, title, message);
+//            clearTemp();
+//            ChecksBalances.newdirCheck(tempDir, true);
+            ChecksBalances.newdirCheck(imageDir,false);
+            ChecksBalances.newdirCheck(custommusicPath,false);
+            ChecksBalances.newdirCheck(custommusicSounds,false);
+            ChecksBalances.newdirCheck(custdbDir,false);
+            ChecksBalances.fileCheck("_empty_.png",(imageDir+"_empty_.png"),true
+                ,false);
+            boolean libResult=(CmpImporter.cmpImport("lib"));
+            boolean soundsResult=(CmpImporter.cmpImport("sounds"));
+            if(!libResult||!soundsResult) {
+                String[] opts=new String[] {"Patreon","PayPal","Maybe Later"};
+                String title="Alert!";
+                String message="Welcome to Limitless!\n\n"+
+                    "This title is still in development.  Please be patient.\n"+
+                    "\nYou can become a Patreon or Donate if you want to\n"+
+                    "help support the cause.\n\n"+
+                    "Thanks! ~ Geoff @ ClarkTribeGames";
+                int choice=Popups.optPopup(opts, title, message);
                 switch(choice) {
                     case 0:
                         GoToWeb.openWeb("https://www.patreon.com/clarktribegame"
@@ -144,116 +149,37 @@ public class MainControls {
                         break;
                 }
             }
-            dagger = Converters.resourcefileToList("all.cmp").get(0);
-            price = Converters.resourcefileToList("magic.cmp").get(0);
+            dagger=Converters.resourcefileToList("all.cmp").get(0);
+            price=Converters.resourcefileToList("magic.cmp").get(0);
         } catch(IOException ex) {
             LogWriter.logFile("severe","Donate Popup Error.  Exception: " + ex);
         }
     }
-    
-    public static void clearTemp() throws IOException, InterruptedException {
-        System.gc();
-        ChecksBalances.ifexistDelete(tempDir);
-    }
-    
-    public static void turnonMusic(String trackPath, String trackType) {
-        musicPath = trackPath;
-        if(!(new File(musicPath).exists())) {
-            musicPath = defaultMusic(trackType);
-        }
-        SwingWorker<Void,Void> worker = new SwingWorker<Void,Void>() {
-            @Override
-            protected Void doInBackground() throws Exception {
-                MPlayer.mediaPlayer(musicOn);
-                return null;
-            }
-        };
-        if(!musicPlaying) {
-        musicPlaying = true;
-        worker.execute();
-        }
-    }
-    
-    public static String checkforcustMusic(String type) {
-        switch(type) {
-            case "battle" :
-                if(!custommusicOn) {
-                    return defaultBattle;
-                } else {
-                    if(custBattle.equals("")) { 
-                        return defaultBattle;
-                    } else {
-                        return custommusicPath + "/" + custBattle + ".mp3";
-                    }
-            }
-            case "intro" :
-                if(!custommusicOn) {
-                    return defaultIntro;
-                } else {
-                    return custommusicPath + "/" + custIntro + ".mp3";
-                }
-            case "win" :
-                if(!custommusicOn) {
-                    return defaultWin;
-                } else {
-                    if(custWin.equals("")) {
-                        return defaultWin;
-                    } else {
-                        return custommusicPath + "/" + custWin + ".mp3";
-                    }
-                }
-                
-            case "lose" :
-                if(!custommusicOn) {
-                    return defaultLose;
-                } else {
-                    if(custLose.equals("")) {
-                        return defaultLose;
-                    } else {
-                        return custommusicPath + "/" + custLose + ".mp3";
-                    }
-                }                
-            default :
-                return defaultIntro;
-        }
-    }
-    
-    private static String defaultMusic(String type) {
-        switch(type) {
-            case "battle" :
-                return defaultBattle;
-            case "intro" :
-                return defaultIntro;
-            default :
-                return defaultIntro;
-        }
-    }
-    
+
     private static void checkSaves() throws IOException, Exception {
         try {
-            ChecksBalances.newdirCheck("./" + savesDir, false);
-            String ogPath = defaultOGSave;
-            String dbPath = savesDir + defaultSave;
+            ChecksBalances.newdirCheck("./"+dbDir,true);
+            ChecksBalances.newdirCheck("./"+savesDir,false);
+            String ogPath=defaultogDb;
+            String dbPath=defaultDb;
             ChecksBalances.fileCheck(ogPath,dbPath,true,true);
-            ChecksBalances.newfileCheck(lastusedSave, true,"default,0",false);
         } catch(Exception ex) {
             LogWriter.logFile("severe",("Saves Check Exception: "+ex.toString())
                 );
         }
     }
-    
+
     private static void checkSettings() throws IOException, SQLException {
         MemoryBank.mainSettings=fetchSettings();
         if(ChecksBalances.isNullOrEmpty(findSetting("uid"))||findSetting("uid").
-            toLowerCase().equals("null")||!(findSetting("uid")).equals(UID)) {
+            toLowerCase().equals("null")||!(findSetting("uid")).equals(
+            MemoryBank.UID)) {
             try {
                 updateSettings();
             } catch (Exception ex) {
                 //
             }
         }
-        
-        //version check here (0)
         if(ChecksBalances.isNullOrEmpty(findSetting("version")) || 
             findSetting("version").toLowerCase().equals("null")) {
             try {
@@ -262,23 +188,18 @@ public class MainControls {
                 //
             }
         }
-        
-        //dark mode
         if(findSetting("dark").equals("0")) {
             darkOn=false;
             backColor=Color.WHITE;
             textColor=Color.BLACK;
         }
-        
         if(findSetting("music").equals("0")) {
             musicOn = false;
         }
-
         custIntro=findSetting("custi");
         custBattle=findSetting("custb");
         custWin=findSetting("custw");
         custLose=findSetting("custl");
-        
         if(findSetting("custm").equals("1")) {
             custommusicOn=true;
             musicPath=custommusicPath+"/"+custIntro.replaceAll("[Intro] ","")+
@@ -287,15 +208,23 @@ public class MainControls {
                 musicPath=defaultIntro;
             }
         }
-
         if(findSetting("sound").equals("0")) {
             soundOn=false;
         }
         if(findSetting("samedb").equals("0")) {
             samedbOn=false;
+            defaultdbSetting=defaultDb;
+        } 
+//        defaultdbSetting=findSetting("default");
+        if(!(findSetting("lastdb").equals("null")||ChecksBalances.isNullOrEmpty(
+            findSetting("lastdb"))||findSetting("lastdb").equals(defaultDb))) {
+            MemoryBank.currentDb=findSetting("lastdb");
+            if(!(new File(MemoryBank.currentDb).exists())) {
+                MemoryBank.currentDb=defaultDb;
+            }
+        } else {
+            MemoryBank.currentDb=defaultDb;
         }
-        defaultDB=findSetting("default");
-
     }
     
     private static String findSetting(String settings) throws SQLException {
@@ -325,6 +254,23 @@ public class MainControls {
         return retval;
     }
     
+    public static void updateSettings() throws IOException,InterruptedException,
+        Exception{
+        for(int i=0;i<determineSettings().size();i++) {
+            String[] setting = determineSettings().get(i).split(":");
+            GetData.dataUpdateSingle("mainSettings","settingConfig",setting[2]
+                //.replaceAll("null","")
+                ,"settingID",setting[0]);
+        }
+        try {
+            if(!musicOn) {
+                MPlayer.stopMedia();
+            }
+        } catch (IOException ex) {
+            LogWriter.logFile("severe","Update Settings.  EX: " +ex.toString());
+        }
+    }
+    
     private static List<String> fetchSettings() throws SQLException {
         List<String> retList=new ArrayList<>();
         int settingscount=GetData.dataQuery("*","mainSettings","settingID",null,
@@ -337,10 +283,9 @@ public class MainControls {
         return retList;
     }
     
-    private static List<String> determineSettings() throws UnknownHostException {
-        
+    private static List<String> determineSettings() {
         List<String> newSets=new ArrayList<>();
-        newSets.add("0:uid:"+UID);
+        newSets.add("0:uid:"+MemoryBank.UID);
         newSets.add("1:version:"+appVer);
         newSets.add("2:dark:"+ChecksBalances.trueorfalseNum(darkOn));
         newSets.add("3:music:"+ChecksBalances.trueorfalseNum(musicOn));
@@ -351,24 +296,89 @@ public class MainControls {
         newSets.add("8:custl:"+custLose);
         newSets.add("9:sound:"+ChecksBalances.trueorfalseNum(soundOn));
         newSets.add("10:samedb:"+ChecksBalances.trueorfalseNum(samedbOn));
-        newSets.add("11:defaultdb:"+defaultDB);
+        newSets.add("11:defaultdb:"+defaultdbSetting);
+        newSets.add("12:lastdb:"+MemoryBank.currentDb);
         return newSets;
-        
     }
 
-    public static void updateSettings() throws IOException,InterruptedException,
-        Exception{
-        for(int i=0;i<determineSettings().size();i++) {
-            String[] setting = determineSettings().get(i).split(":");
-            GetData.dataUpdateSingle("mainSettings","settingConfig",setting[2].
-                replaceAll("null",""),"settingID",setting[0]);
+//    public static void clearTemp() throws IOException, InterruptedException {
+//        System.gc();
+//        ChecksBalances.ifexistDelete(tempDir);
+//    }
+    
+    public static void turnonMusic(String trackPath, String trackType) {
+        musicPath = trackPath;
+        if(!(new File(musicPath).exists())) {
+            musicPath=defaultMusic(trackType);
         }
-        try {
-            if(!musicOn) {
-                MPlayer.stopMedia();
+        SwingWorker<Void,Void> worker=new SwingWorker<Void,Void>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+                MPlayer.mediaPlayer(musicOn);
+                return null;
             }
-        } catch (IOException ex) {
-            LogWriter.logFile("severe","Update Settings.  EX: " +ex.toString());
+        };
+        if(!MemoryBank.musicPlaying) {
+        MemoryBank.musicPlaying = true;
+        worker.execute();
+        }
+    }
+    
+    public static String checkforcustMusic(String type) {
+        switch(type) {
+            case "battle" :
+                if(!custommusicOn) {
+                    return defaultBattle;
+                } else {
+                    if(custBattle.equals("")||custBattle.toLowerCase().equals(
+                        "null")) { 
+                        return defaultBattle;
+                    } else {
+                        return custommusicPath + "/" + custBattle + ".mp3";
+                    }
+            }
+            case "intro" :
+                if(!custommusicOn) {
+                    return defaultIntro;
+                } else {
+                    return custommusicPath + "/" + custIntro + ".mp3";
+                }
+            case "win" :
+                if(!custommusicOn) {
+                    return defaultWin;
+                } else {
+                    if(custWin.equals("")||custWin.toLowerCase().equals("null"))
+                    {
+                        return defaultWin;
+                    } else {
+                        return custommusicPath + "/" + custWin + ".mp3";
+                    }
+                }
+                
+            case "lose" :
+                if(!custommusicOn) {
+                    return defaultLose;
+                } else {
+                    if(custLose.equals("")||custLose.toLowerCase().equals(
+                        "null")) {
+                        return defaultLose;
+                    } else {
+                        return custommusicPath + "/" + custLose + ".mp3";
+                    }
+                }                
+            default :
+                return defaultIntro;
+        }
+    }
+    
+    private static String defaultMusic(String type) {
+        switch(type) {
+            case "battle" :
+                return defaultBattle;
+            case "intro" :
+                return defaultIntro;
+            default :
+                return defaultIntro;
         }
     }
     
@@ -388,27 +398,34 @@ public class MainControls {
         }
     }
     
+    //When New Game Button Is Pressed From Limitless Menu Panel
     public static void startNewGame() {
         try {
             MemoryBank.clearMemory();
             //create reset variables method
-            created = false;
+            MemoryBank.ingame=false;
+            MemoryBank.created=false;
             //this is temp for now
             if(!samedbOn) {
                 limitSelect();
             } else {
-                selectedSave = defaultDB + "." + 
-                    saveExt;
+                MemoryBank.currentDb=findSetting("lastdb");
+//                selectedSave = defaultdbSetting + "." + 
+//                    saveExt;
             }
             boolean continueon = false;
-            currentgamePath=currentgamePath=Limitless.ngText.getText().
-                toLowerCase();
-            if(currentgamePath.isEmpty()) {
-                currentgamePath = "";
-                Limitless.showMenu();
-            }
-            continueon = ChecksBalances.newGame(currentgamePath);
+            
+            MemoryBank.currentGame=Limitless.ngText.getText().toLowerCase();
+            MemoryBank.currentSave=savesDir+MemoryBank.currentGame+saveExt;
+//            currentgamePath=currentgamePath=Limitless.ngText.getText().
+//                toLowerCase();
+//            if(currentgamePath.isEmpty()) {
+//                currentgamePath = "";
+//                Limitless.showMenu();
+//            }
+            continueon=ChecksBalances.newGame(MemoryBank.currentGame);
             if(continueon) {
+                MemoryBank.ingame=true;
                 loadingScreen();
             }
             if(continueon) {
@@ -416,7 +433,7 @@ public class MainControls {
                 Popups.infoPopup("Building Save Game","Your new game world will"
                     + " now be built.  Please be patient.");
                 backgroundBuild();
-                while(!created) {
+                while(!MemoryBank.created) {
                     Thread.sleep(1);
                 }
                 String[] dateTime=Converters.convertTime(MemoryBank.dbTime);
@@ -436,12 +453,65 @@ public class MainControls {
                 Limitless.showNewGameList();
                 newgamelistMenu();
             } else {
-                currentgamePath = "";
+                MemoryBank.currentSave="";
+//                currentgamePath = "";
                 //Limitless.showMenu();
             }
         } catch(Exception ex) {
             ex.printStackTrace();
         }
+    }
+    
+    private static void limitSelect() throws IOException {
+        String title="New Game Database Selection";
+        String message="Select a Database for the New Game:\n\n";
+        DefaultComboBoxModel limitdml=new DefaultComboBoxModel();
+        JComboBox dboptions=new JComboBox();
+        popLimit(dboptions,limitdml);
+        if(dboptions.getItemCount()>1) {
+            String selection=Popups.comboboxPopup(title,message,dboptions,null);
+            if(ChecksBalances.isNullOrEmpty(selection)) {
+                //
+            } else {
+                MemoryBank.currentDb=custdbDir+selection.toLowerCase()+dbExt;
+//                selectedSave = (selection.toLowerCase() + "." + saveExt);
+                String confirmMessage=selection+" Loaded";
+                Popups.infoPopup(confirmMessage,confirmMessage+"!");
+            }
+        } else {
+            MemoryBank.currentDb=defaultDb;
+//            selectedSave = (defaultSave);
+        }
+    }
+    
+    private static void popLimit(JComboBox box,DefaultComboBoxModel dml) throws 
+        IOException {
+        try {
+            List<String> dblist=(Converters.foldertoList(custdbDir,dbExt)).
+                stream().map(Object::toString).collect(Collectors.toList());
+            fillLimit(box,dblist,dml);
+        } catch (IOException ex) {
+            LogWriter.logFile("severe","SAV Select Error.\nEx: "+ex.toString());
+        }
+    }
+    
+    private static void fillLimit(JComboBox<String> save,List<String> list,
+        DefaultComboBoxModel dml) {
+        Font font=save.getFont();
+        DefaultListCellRenderer lrCenter;
+        lrCenter=new DefaultListCellRenderer();
+        lrCenter.setHorizontalAlignment(DefaultListCellRenderer.LEFT);
+        lrCenter.setFont(font.deriveFont(Font.BOLD));
+        for(int i=0;i<list.size();i++) {
+            String x=(list.get(i));
+            String y=Converters.capFirstLetter(x.substring(x.indexOf("\\")+1).
+                replaceAll(dbExt,""));
+//            String y=Converters.capFirstLetter(x.substring(x.indexOf("\\")+1,
+//                x.indexOf(".",x.indexOf(saveExt)-2)));
+            dml.addElement(y);
+        }
+        save.setModel(dml);
+        save.setRenderer(lrCenter);
     }
     
     private static void loadingScreen() {
@@ -466,13 +536,15 @@ public class MainControls {
                 if(MemoryBank.dbToons.isEmpty()) {
                     Thread.sleep(1);
                 }
-                currentgame=currentgamePath.substring(currentgamePath.indexOf(
-                    "/",0),currentgamePath.indexOf("/",
-                    currentgamePath.indexOf("/") + 1)).replaceAll("/","");
-                savesDir="saves/" + currentgame + "/";
-                GetData.createnewSave(Converters.capFirstLetter((selectedSave).
-                    substring(0,(selectedSave).indexOf("."+saveExt))),
-                    currentgame);
+
+//                currentgame=currentgamePath.substring(currentgamePath.indexOf(
+//                    "/",0),currentgamePath.indexOf("/",
+//                    currentgamePath.indexOf("/") + 1)).replaceAll("/","");
+//                savesDir="saves/" + currentgame + "/";
+                GetData.createnewSave();
+//                        Converters.capFirstLetter((selectedSave).
+//                    substring(0,(selectedSave).indexOf("."+saveExt))),
+//                    currentgame);
                 return null;
             }
         };
@@ -492,12 +564,12 @@ public class MainControls {
             newtlDml.removeAllElements();
             newtlDml.addElement("<No Toons Available>");
         } else {
-            newgametoonList = new String[newgameToonList.size()][2];
+            MemoryBank.newgametoonList = new String[newgameToonList.size()][2];
             for(int i=0;i < newgameToonList.size();i++) {
-                newgametoonList[i][0] = newgameToonList.get(i);
-                newgametoonList[i][1] = String.valueOf(i);
+                MemoryBank.newgametoonList[i][0] = newgameToonList.get(i);
+                MemoryBank.newgametoonList[i][1] = String.valueOf(i);
             }
-            Arrays.sort(newgametoonList, new Comparator<String[]>() {
+            Arrays.sort(MemoryBank.newgametoonList, new Comparator<String[]>() {
                 @Override
                 public int compare(final String[] entry1,final String[] entry2){
                     final String toon1 = entry1[0];
@@ -505,17 +577,17 @@ public class MainControls {
                     return toon1.compareTo(toon2);
                 }
             });
-            for (final String[] s : newgametoonList) {
+            for (final String[] s : MemoryBank.newgametoonList) {
                 newtlDml.addElement(s[0]);
             }
             Limitless.altName.setVisible(false);
             Limitless.newgameList.setModel(newtlDml);
             Limitless.newgameList.setEnabled(true);
             try {
-                passiveDestinyID = Converters.fetchfromTable(MemoryBank.
-                    dbDestiny,"Passive",1,0);
+                MemoryBank.passiveDestinyID=Converters.fetchfromTable(MemoryBank
+                    .dbDestiny,"Passive",1,0);
             } catch (Exception ex) {
-                passiveDestinyID = "1";
+                MemoryBank.passiveDestinyID = "1";
             }
         }
     }    
@@ -653,8 +725,8 @@ public class MainControls {
         Limitless.charStat05.setForeground((Converters.figureoutColor
             (statuscolor)));
         Limitless.charStat05.setToolTipText(statusdesc);
-        if(selectedToon[19].equals(passiveDestinyID) || selectedToon[5].equals
-            ("1")) {
+        if(selectedToon[19].equals(MemoryBank.passiveDestinyID)||selectedToon[5]
+            .equals("1")) {
             Limitless.ngstartButton.setEnabled(false);
         } else {
             Limitless.ngstartButton.setEnabled(true);
@@ -664,7 +736,7 @@ public class MainControls {
     
     public static void ngToonSelectButtons(String option) throws SQLException, 
         IOException {
-        String selectedToonID=newgametoonList[Limitless.newgameList
+        String selectedToonID=MemoryBank.newgametoonList[Limitless.newgameList
             .getSelectedIndex()][1];
         String[] selectedToon = MemoryBank.savToons.get(Integer.parseInt(
             selectedToonID)).replaceAll(", ",",").split(",");
@@ -834,9 +906,9 @@ public class MainControls {
                             dbGender,selectedToon[6],0,5)+" is not "+
                             selectedToon[1]+".";
                         if(toonAlias[2].equals("0")) {
-                            justswitch = true;
+                            MemoryBank.justswitch = true;
                         } else {
-                            justswitch = false;
+                            MemoryBank.justswitch = false;
                         }
                     } else {
                     Limitless.altName.setVisible(false);
@@ -858,8 +930,8 @@ public class MainControls {
                 "***This character is generated generic character.  You cannot "
                 + "start a game with this character.***";
         }
-        if(selectedToon[19].equals(passiveDestinyID) && !selectedToon[5].equals(
-            "1")) {
+        if(selectedToon[19].equals(MemoryBank.passiveDestinyID) && !selectedToon
+            [5].equals("1")) {
             bioInfo+="\n\n"+
                 "***This character is set to Passive.  You cannot start a game "
                 + "with this character.***";
@@ -870,7 +942,7 @@ public class MainControls {
     
     public static void altnameButton(String opt) throws IOException, 
         SQLException {
-        String selectedToonID=newgametoonList[Limitless.newgameList
+        String selectedToonID=MemoryBank.newgametoonList[Limitless.newgameList
             .getSelectedIndex()][1];
         String[] selectedToon = MemoryBank.savToons.get(Integer.parseInt(
             selectedToonID)).replaceAll(", ",",").split(",");
@@ -940,8 +1012,14 @@ public class MainControls {
             (toonID),0,1)+" as your character.\n\n"+"Are you sure you want to "
             + "start the game?");
         if(yesno) {
-            ChecksBalances.newfileCheck(savesDir+".lastused",true,selectedToon+
-            "\n"+selectedSave+"\n"+rawTime+"\n",true);
+            GetData.dataUpdateSingle("dbTime","rawTime",String.valueOf(rawTime),
+                "timeID","0");
+            GetData.dataUpdateSingle("saveSettings","savesetConfig",MemoryBank.
+                currentSave,"savesetID","0");
+            GetData.dataUpdateSingle("saveSettings","savesetConfig",selectedToon
+                ,"savesetID","1");
+//            ChecksBalances.newfileCheck(savesDir+".lastused",true,selectedToon+
+//            "\n"+selectedSave+"\n"+rawTime+"\n",true);
             System.gc();
             StartGame.startGame();
 //            StartGame.startGame(ngsaveName, ngsaveToons, ngsaveMax);
@@ -950,59 +1028,11 @@ public class MainControls {
         }
     }
     
-    private static void limitSelect() throws IOException {
-        String title = "New Game Database Selection";
-        String message = "Select a Database for the New Game:\n\n";
-        DefaultComboBoxModel limitdml = new DefaultComboBoxModel();
-        JComboBox dboptions = new JComboBox();
-        popLimit(dboptions,limitdml);
-        if(dboptions.getItemCount() > 1) {
-            String selection=Popups.comboboxPopup(title,message,dboptions,null);
-            if(ChecksBalances.isNullOrEmpty(selection)) {
-                //
-            } else {
-                selectedSave = (selection.toLowerCase() + "." + saveExt);
-                String confirmMessage = selection + " Loaded";
-                Popups.infoPopup(confirmMessage,confirmMessage + "!");
-            }
-        } else {
-            selectedSave = (defaultSave);
-        }
-    }
-    
-    private static void popLimit(JComboBox box, DefaultComboBoxModel dml) throws 
-        IOException {
-        try {
-            List<String> savelist = (Converters.foldertoList(savesDir,saveExt)).
-                stream().map(Object::toString).collect(Collectors.toList());
-            fillLimit(box,savelist,dml);
-        } catch (IOException ex) {
-            LogWriter.logFile("severe","SAV Select Error.\nEx: "+ex.toString());
-        }
-    }
-    
-    private static void fillLimit(JComboBox<String> save, List<String> list, 
-            DefaultComboBoxModel dml) {
-        Font font = save.getFont();
-        DefaultListCellRenderer lrCenter;
-        lrCenter = new DefaultListCellRenderer();
-        lrCenter.setHorizontalAlignment(DefaultListCellRenderer.LEFT);
-        lrCenter.setFont(font.deriveFont(Font.BOLD));
-        for(int i = 0; i < list.size(); i++) {
-            String x = (list.get(i));
-            String y = Converters.capFirstLetter(x.substring(x.indexOf("\\")+1,
-                x.indexOf(".",x.indexOf(saveExt) - 2)));
-            dml.addElement(y);
-        }
-        save.setModel(dml);
-        save.setRenderer(lrCenter);
-    }
-    
-    public static void saveGameMenu() {
+    public static void saveGameMenu() throws IOException {
         popSaveGameList();
     }
     
-    private static void popSaveGameList() {
+    private static void popSaveGameList() throws IOException {
         List<String> savegameList = ChecksBalances.getSavedGames();
         DefaultListModel lgDml = new DefaultListModel();
         if(savegameList.size() <= 0) {
@@ -1017,7 +1047,8 @@ public class MainControls {
             lgDml.removeAllElements();
             for(int i=0; i < savegameList.size(); i++) {
                 Limitless.lgList.setEnabled(true);
-                lgDml.addElement(savegameList.get(i));
+                lgDml.addElement(Converters.capFirstLetter(savegameList.get(i).
+                    replaceAll(saveExt,"")));
             }
         }
         Limitless.lgList.setModel(lgDml);
@@ -1025,11 +1056,18 @@ public class MainControls {
     
     public static void loadSavedGame() {
         try {
-            savesDir=defaultsavesDir + Limitless.lgList.getSelectedValue() +"/";
-            selectedToon=Converters.getSpecificLine(savesDir+".lastused",0);
-            selectedSave=Converters.getSpecificLine(savesDir+".lastused",1);
-            rawTime=Integer.parseInt(Converters.getSpecificLine(savesDir+
-                ".lastused",2));
+            MemoryBank.currentSave=savesDir+Limitless.lgList.getSelectedValue().
+                toLowerCase()+saveExt;
+            MemoryBank.ingame=true;
+            selectedToon=GetData.dataQuery("*","saveSettings","savesetName",
+                "playertoon",false,false,null,null).get(2);
+            rawTime=Integer.parseInt(GetData.dataQuery("*","dbTime","timeID","0"
+                ,false,false,null,null).get(1));
+//            savesDir=defaultsavesDir + Limitless.lgList.getSelectedValue() +"/";
+//            selectedToon=Converters.getSpecificLine(savesDir+".lastused",0);
+//            selectedSave=Converters.getSpecificLine(savesDir+".lastused",1);x
+//            rawTime=Integer.parseInt(Converters.getSpecificLine(savesDir+
+//                ".lastused",2));
             String[] dateTime = Converters.convertTime(rawTime);
             gameYear=Integer.parseInt(dateTime[0]);
             gameMonth=Integer.parseInt(dateTime[1]);
@@ -1051,12 +1089,14 @@ public class MainControls {
         boolean deleteChoice = Popups.yesnoPopup(title,message);
         if(deleteChoice == true) {
             try {
-                ChecksBalances.iffolderexistsDelete(defaultsavesDir+Limitless.
-                    lgList.getSelectedValue());
-            } catch (IOException ex) {
+                ChecksBalances.ifexistDelete(savesDir+Limitless.lgList.
+                    getSelectedValue().toLowerCase()+saveExt);
+//                ChecksBalances.iffolderexistsDelete(defaultsavesDir+Limitless.
+//                    lgList.getSelectedValue());
+            } catch (IOException | InterruptedException ex) {
                 //
             }
-        savesDir = defaultsavesDir;
+//        savesDir = defaultsavesDir;
         }
     }
     
@@ -1065,19 +1105,21 @@ public class MainControls {
             ).split(",");
     }
 
-    public static void exitGame () throws IOException, InterruptedException {
+    public static void exitGame () throws IOException, Exception {
         try {
             String title = ("Exit the Game?");
             String message = "Are you sure you want to exit?";
             boolean exitChoice = Popups.yesnoPopup(title, message);
             if(exitChoice == true) {
+                updateSettings();
                 System.gc();
-                if(!savesDir.equals(defaultsavesDir)) {
-                    if(!(new File(savesDir + ".lastused").exists())) {
-                        ChecksBalances.iffolderexistsDelete(savesDir);
-                    }
-                }
-                clearTemp();
+//                
+//                if(!savesDir.equals(defaultsavesDir)) {
+//                    if(!(new File(savesDir + ".lastused").exists())) {x
+//                        ChecksBalances.iffolderexistsDelete(savesDir);
+//                    }
+//                }
+//                clearTemp();
                 System.exit(0);
             } else {
                 //
@@ -1089,11 +1131,11 @@ public class MainControls {
     
     private static void checkVersion (String name, String ver) throws 
         IOException, InterruptedException, SQLException {
-        UID=(InetAddress.getLocalHost().getHostName().toLowerCase());
+        MemoryBank.UID=(InetAddress.getLocalHost().getHostName().toLowerCase());
         if((VersionCheck.checkVersion(name, ver))) {
             Updater.updateMessage(false,appName,appVer);
         }
-        if(new File(savesDir + defaultSave).exists()) {
+        if(new File(defaultDb).exists()) {
             if(ChecksBalances.isNullOrEmpty(findSetting("version")) || 
                 (!(findSetting("version").toLowerCase()).equals(appVer))) {
                 try {

@@ -3,19 +3,13 @@ package clarktribegames;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -484,10 +478,10 @@ public class OptionsMenu {
 //        }
 //        if(samedb.isSelected()) { 
 //            MainControls.samedbOn = true;
-//            MainControls.defaultDB = defaultdb.getSelectedItem().toString();
+//            MainControls.defaultdbSetting = defaultdb.getSelectedItem().toString();
 //        } else {
 //            MainControls.samedbOn = false;
-//            MainControls.defaultDB = MainControls.defaultSave.substring(0,
+//            MainControls.defaultdbSetting = MainControls.defaultSave.substring(0,
 //                MainControls.defaultSave.indexOf("." + MainControls.saveExt));
 //        }
 //        if(custommusic.isSelected()) {
@@ -535,13 +529,19 @@ public class OptionsMenu {
             DefaultComboBoxModel dbdml = new DefaultComboBoxModel();
             try {
                 List<String> savelist = (Converters.foldertoList(MainControls.
-                    savesDir, MainControls.saveExt)).stream()
-                    .map(Object::toString).collect(Collectors.toList());
+                    custdbDir,MainControls.dbExt)).stream().map(Object::toString
+                    ).collect(Collectors.toList());
                 for(int i = 0; i < savelist.size(); i++) {
-                    String x = (savelist.get(i));
-                    String y = Converters.capFirstLetter(x.substring(x.indexOf
-                        ("\\") + 1, x.indexOf(".",x.indexOf(MainControls.saveExt
-                        ) - 2)));
+                    String x=(savelist.get(i));
+                    String y=Converters.capFirstLetter(x.replaceAll(MainControls
+                        .custdbDir,"").replaceAll(MainControls.dbExt,""));
+//                            .substring(x.indexOf
+//                        ("\\")+1, x.indexOf(".",x.indexOf(MainControls.saveExt
+//                        ) - 2)));
+//
+//                    String y = Converters.capFirstLetter(x.substring(x.indexOf
+//                        ("\\")+1, x.indexOf(".",x.indexOf(MainControls.saveExt
+//                        ) - 2)));
                 if(!y.contains("\\")) {
                     dbdml.addElement(y);
                 }
@@ -628,7 +628,7 @@ public class OptionsMenu {
         try {
         MainControls.updateSettings();
         System.gc();
-            MainControls.clearTemp();
+//            MainControls.clearTemp();
         } catch (Exception ex) {
             //
         }
@@ -640,7 +640,7 @@ public class OptionsMenu {
         try {
         MainControls.updateSettings();
         System.gc();
-            MainControls.clearTemp();
+//            MainControls.clearTemp();
         } catch (Exception ex) {
             //
         }
@@ -783,7 +783,7 @@ public class OptionsMenu {
     private static void turnoffMusic() {
         try {
             MPlayer.mediaPlayer(false);
-            MainControls.musicPlaying = false;
+            MemoryBank.musicPlaying = false;
             Thread.sleep(1);
             MainControls.musicOn = false;
         } catch (InterruptedException ex) {
@@ -793,7 +793,7 @@ public class OptionsMenu {
 
     private static void turnonMusic() {
         MainControls.musicOn = true;
-        MainControls.musicPlaying = false;
+        MemoryBank.musicPlaying = false;
         try {
             MainControls.turnonMusic(MainControls.checkforcustMusic("intro"),
                 "intro");
@@ -1195,8 +1195,7 @@ public class OptionsMenu {
         } catch (IOException ex) {
             //
         }
-        MainControls.defaultDB = MainControls.defaultSave.substring(0,
-            MainControls.defaultSave.indexOf("." + MainControls.saveExt));        
+        MainControls.defaultdbSetting = MainControls.defaultDb;        
     }
 
     private static void turnonDB() {
@@ -1207,30 +1206,40 @@ public class OptionsMenu {
         } catch (IOException ex) {
             //
         }
-        MainControls.defaultDB = Limitless.dbOpt.getSelectedItem().toString();
+        MainControls.defaultdbSetting = Limitless.dbOpt.getSelectedItem().
+            toString();
     }
     
-    public static void setDBMode(ItemEvent evt) {
-        if((!MainControls.samedbOn && Limitless.sdbOpt.isSelected()) || 
-            (MainControls.samedbOn && !Limitless.sdbOpt.isSelected())) {
-                if(evt.getStateChange()==ItemEvent.SELECTED && !MainControls
-                    .samedbOn) {
-                    turnonDB();
-                    try {
-                        MainControls.updateSettings();
-                    } catch (Exception ex) {
-                        //
+    public static void setDBMode(ItemEvent evt) throws IOException {
+        if(!(ChecksBalances.ftypeinDir(MainControls.custdbDir,MainControls.dbExt
+            ))) {
+            MainControls.samedbOn=true;
+            Limitless.sdbOpt.setSelected(true);
+            Limitless.sdbOpt.setEnabled(false);
+            Limitless.dbOpt.setEnabled(false);
+        } else {
+            Limitless.sdbOpt.setEnabled(true);
+            if((!MainControls.samedbOn && Limitless.sdbOpt.isSelected()) || 
+                (MainControls.samedbOn && !Limitless.sdbOpt.isSelected())) {
+                    if(evt.getStateChange()==ItemEvent.SELECTED&&!MainControls.
+                        samedbOn) {
+                        turnonDB();
+                        try {
+                            MainControls.updateSettings();
+                        } catch (Exception ex) {
+                            //
+                        }
                     }
-                }
-                if(!(evt.getStateChange()==ItemEvent.SELECTED) && MainControls
-                    .samedbOn) {
-                    turnoffDB();
-                    try {
-                        MainControls.updateSettings();
-                    } catch (Exception ex) {
-                        //
+                    if(!(evt.getStateChange()==ItemEvent.SELECTED)&&MainControls
+                        .samedbOn) {
+                        turnoffDB();
+                        try {
+                            MainControls.updateSettings();
+                        } catch (Exception ex) {
+                            //
+                        }
                     }
-                }
+            }
         }
     }
     //</editor-fold>

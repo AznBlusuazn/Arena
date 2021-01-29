@@ -573,9 +573,7 @@ public class BattleGUI extends javax.swing.JFrame {
     }
     
     private static void popAvatars(JLabel avatar, JList jlist) {
-        Avatars.setAvatar(avatar,jlist.getSelectedValue().toString(),Converters.
-            capFirstLetter((MainControls.selectedSave).substring(0,(MainControls
-            .selectedSave).indexOf("."+MainControls.saveExt))));
+        Avatars.setAvatar(avatar,jlist.getSelectedValue().toString(),null);
 //                GetData.dataQuery("*",toons,"toonName",jlist
 //            .getSelectedValue().toString(),false,false,null,null).get(1),save);
     }
@@ -926,7 +924,7 @@ public class BattleGUI extends javax.swing.JFrame {
                 }
                 break;
             default:
-                MainControls.clearTemp();
+//                MainControls.clearTemp();
                 exitProcess();
                 break;
             }

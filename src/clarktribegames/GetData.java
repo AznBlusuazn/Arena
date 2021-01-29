@@ -36,8 +36,8 @@ import javax.swing.JList;
 
 public class GetData {
     
-    static String db1 = "jdbc:ucanaccess://" + MainControls.savesDir + "/" + 
-    MainControls.defaultSave;
+//    static String db1 = "jdbc:ucanaccess://" + MainControls.savesDir + "/" + 
+//    MainControls.defaultSave;
     static String db2 = MainControls.dagger;
     static String db3 = MainControls.price;
     static String dataSearch = "";
@@ -51,16 +51,18 @@ public class GetData {
     public static List<String> dataQuery(String search,String table,String col,
         String matching,boolean OnlyOneRec,boolean SecondaryQ,String carriedDb1,
         Statement carriedSt) throws SQLException {
+        setDb1();
+        String db1=MemoryBank.db1;
         Statement st;
         if(!SecondaryQ) {
             
-            String limitFile=MainControls.savesDir + MainControls.selectedSave;
-            db1 = "jdbc:ucanaccess://" + limitFile;
-            Connection con = DriverManager.getConnection(db1, db2, db3);
+//            String limitFile=MainControls.savesDir + MainControls.selectedSave;
+//            db1 = "jdbc:ucanaccess://" + limitFile;
+            Connection con=DriverManager.getConnection(db1,db2,db3);
             st = con.createStatement();
         } else {
-            db1 = carriedDb1;
-            st = carriedSt;
+            db1=carriedDb1;
+            st=carriedSt;
         }
         String tempList = "";
         if(!OnlyOneRec) {
@@ -74,10 +76,18 @@ public class GetData {
         List<String> convertedList = Arrays.asList(stringList);       
         if(!SecondaryQ) {
             st.close();
-            DriverManager.getConnection(db1, db2, db3).close();
+            DriverManager.getConnection(db1,db2,db3).close();
         }
         System.gc();
         return convertedList; 
+    }
+    
+    private static void setDb1() {
+        if(MemoryBank.ingame) {
+            MemoryBank.db1="jdbc:ucanaccess://"+MemoryBank.currentSave;
+        } else {
+            MemoryBank.db1="jdbc:ucanaccess://"+MemoryBank.currentDb;
+        }
     }
   
     private static String getSingleRec(Statement st, String search,String table,
@@ -112,57 +122,59 @@ public class GetData {
     
     public static void dataUpdateSingle(String table,String setfield,String 
         newvalue,String matchcol, String matchvalue) throws SQLException {
-        String limitFile=MainControls.savesDir + MainControls.selectedSave;
-        db1 = "jdbc:ucanaccess://" + limitFile;
-        Connection con = DriverManager.getConnection(db1, db2, db3);
+//        String limitFile=MainControls.savesDir + MainControls.selectedSave;
+//        db1 = "jdbc:ucanaccess://" + limitFile;
+        setDb1();
+        String db1 = MemoryBank.db1;
+        Connection con=DriverManager.getConnection(db1,db2,db3);
         String sql=("UPDATE "+table+" SET "+setfield+"=? WHERE "+matchcol+"=?");
         try (PreparedStatement st = con.prepareStatement(sql)) {
             st.setString(1,newvalue);
             st.setString(2,matchvalue);
             int rowsUpdate = st.executeUpdate();
             }
-        DriverManager.getConnection(db1, db2, db3).close();
+        DriverManager.getConnection(db1,db2,db3).close();
     }
     
-    public static void createnewSave(String save,String game)throws SQLException
+    public static void createnewSave()throws SQLException
         , IOException, InterruptedException, Exception {
         try{
         
         //reset variables
-        buildingToons = 0;
-        buildingToonsOG = 0;
-        StartGame.savToons = new ArrayList<>();
-        StartGame.genToons = new ArrayList<>();
-        StartGame.altToons = new ArrayList<>();
-        String savetoons = "sav"+game.toLowerCase()+"Toons";
-        createSav(save,"dbToons",savetoons);
+        buildingToons=0;
+        buildingToonsOG=0;
+        StartGame.savToons=new ArrayList<>();
+        StartGame.genToons=new ArrayList<>();
+        StartGame.altToons=new ArrayList<>();
+        String savetoons="sav"+MemoryBank.currentGame.toLowerCase()+"Toons";
+        createSav("dbToons",savetoons);
         buildtoonSave(StartGame.savToons);
         buildGenerics(StartGame.genToons);
         buildAlts(StartGame.altToons);
-        sendtoNewDB(game.toLowerCase(),StartGame.savToons,StartGame.genToons,
-            StartGame.altToons);
-        MainControls.created = true;
+        sendtoNewDB(StartGame.savToons,StartGame.genToons,StartGame.altToons);
+        MemoryBank.created=true;
         } catch (Exception ex) {
             LogWriter.logFile("severe", "Alt Build Error. EX: " + ex);
         }
     }
 
-    private static void createSav(String save,String oldtable,String newtable) 
+    private static void createSav(String oldtable,String newtable) 
         throws SQLException {
-        db1="jdbc:ucanaccess://"+MainControls.savesDir+"/"+save+"."+MainControls
-            .saveExt;
-        db1=db1.replaceAll(MainControls.saveExt+"."+MainControls.saveExt,
-            MainControls.saveExt);
+        setDb1();
+        String db1=MemoryBank.db1;
+        //db1="jdbc:ucanaccess://"+save;
+//        db1=db1.replaceAll(MainControls.saveExt+"."+MainControls.saveExt,
+//            MainControls.saveExt);
         try (Connection con=DriverManager.getConnection(db1,db2,db3)) {
-            String savepath=MainControls.savesDir+Converters.capFirstLetter(
-                (MainControls.selectedSave).substring(0,(MainControls
-                .selectedSave).indexOf("."+MainControls.saveExt)))+"."+
-                MainControls.saveExt;
+//            String savepath=MainControls.savesDir+Converters.capFirstLetter(
+//                (MainControls.selectedSave).substring(0,(MainControls
+//                .selectedSave).indexOf("."+MainControls.saveExt)))+"."+
+//                MainControls.saveExt;
             try (Statement s=con.createStatement()) {
                 try (ResultSet rs=s.executeQuery("SELECT * FROM ["+oldtable+"]")
                     ) {
                     Database db=new DatabaseBuilder().setAutoSync(false).setFile
-                        (new File(savepath)).open();
+                        (new File(MemoryBank.currentSave)).open();
                     if(oldtable.equals("dbToons")) {
                         Table table = new TableBuilder(newtable).addColumn(new 
                         ColumnBuilder("toonID").setType(DataType.NUMERIC).
@@ -202,12 +214,18 @@ public class GetData {
                         setType(DataType.TEXT).setMaxLength()).addColumn(new 
                         ColumnBuilder("toonTeam").setType(DataType.TEXT).
                         setMaxLength()).toTable(db);
-                        String timetable = newtable.replaceAll("Toons", "Time");
-                        Table table2 = new TableBuilder(timetable).addColumn(new
+                        Table table2 = new TableBuilder("dbTime").addColumn(new
                             ColumnBuilder("timeID",DataType.TEXT)).addColumn(new
                             ColumnBuilder("rawTime",DataType.TEXT)).toTable(db);
-                        Table table3 = db.getTable(timetable);
+                        Table table3 = db.getTable("dbTime");
                         table3.addRow("0","0");
+                        Table table4=new TableBuilder("saveSettings").addColumn
+                            (new ColumnBuilder("savesetID",DataType.TEXT)).
+                            addColumn(new ColumnBuilder("savesetName",DataType.
+                            TEXT)).addColumn(new ColumnBuilder("savesetConfig",
+                            DataType.MEMO)).toTable(db);
+                        table4.addRow("0","database",MemoryBank.currentDb);
+                        table4.addRow("1","playertoon","");
                     }
                     db.flush();
                 }
@@ -491,19 +509,20 @@ public class GetData {
         return alttoonstats;
     }
 
-    private static void sendtoNewDB(String game,List<String> savtoons,
-        List<String> gentoons,List<String> alttoons) throws IOException, 
-        InterruptedException, SQLException {
-        String savetoons = "sav" + game.toLowerCase() + "Toons";
-        String savepath=(MainControls.savesDir+Converters.capFirstLetter((
-            MainControls.selectedSave))).replaceAll(MainControls.saveExt+"."
-            +MainControls.saveExt,MainControls.saveExt);
+    private static void sendtoNewDB(List<String> savtoons,List<String> gentoons,
+        List<String> alttoons) throws IOException,InterruptedException,
+        SQLException {
+        String savetoons="sav"+MemoryBank.currentGame.toLowerCase()+"Toons";
+//        String savepath=(MainControls.savesDir+Converters.capFirstLetter((
+//            MainControls.selectedSave))).replaceAll(MainControls.saveExt+"."
+//            +MainControls.saveExt,MainControls.saveExt);
         List<String> newSaveToons = new ArrayList<>();
-        try (Connection con=DriverManager.getConnection("jdbc:ucanaccess://"+
-            savepath,db2,db3)) {
+        setDb1();
+        String db1=MemoryBank.db1;
+        try (Connection con=DriverManager.getConnection(db1,db2,db3)) {
             try (Statement s = con.createStatement()) {
                 Database db = new DatabaseBuilder().setAutoSync(false).setFile(
-                    new File(savepath)).open();
+                    new File(MemoryBank.currentSave)).open();
         // sav
                 Table tbl = db.getTable(savetoons);
                 long totalsavtoons = savtoons.size();
@@ -670,9 +689,9 @@ public class GetData {
             String toonSize=Converters.fetchfromTable(MemoryBank.dbSize,Calculator.
                 getSize(raceSize,(Calculator.getAge(Integer.parseInt(toonstats
                 [7]),toonstats[2]))),1,0);
-            String savepath=(MainControls.savesDir + Converters.capFirstLetter((
-                MainControls.selectedSave))).replaceAll(MainControls.saveExt+"."
-                +MainControls.saveExt, MainControls.saveExt);
+//            String savepath=(MainControls.savesDir + Converters.capFirstLetter((
+//                MainControls.selectedSave))).replaceAll(MainControls.saveExt+"."
+//                +MainControls.saveExt, MainControls.saveExt);
             String[] toonbasestats = (toonstats[20]).split("x");
             List<String> baselist = new ArrayList<>();
             baselist.addAll(Arrays.asList(toonbasestats));
@@ -701,11 +720,12 @@ public class GetData {
                 toonstats[2],0,1);
             String ClassName=Converters.fetchfromTable(MemoryBank.dbClass,
                 toonstats[3],0,1);
-            try (Connection con=DriverManager.getConnection("jdbc:ucanaccess://"
-                + savepath, db2, db3)) {
+            setDb1();
+            String db1=MemoryBank.db1;
+            try (Connection con=DriverManager.getConnection(db1, db2, db3)) {
                 try (Statement s = con.createStatement()) {
                     Database db = new DatabaseBuilder().setAutoSync(false)
-                        .setFile(new File(savepath)).open();
+                        .setFile(new File(MemoryBank.currentSave)).open();
                     Table tbl = db.getTable(battletable);
                     tbl.addRow(toonstats[0],toonstats[1],toonstats[2
                         ],toonstats[3],toonstats[4],toonstats[5],
@@ -730,12 +750,21 @@ public class GetData {
         JLabel savedToonName,JLabel savedToonRankDate,JLabel savedToonStats, 
         JLabel savedToonLevel) throws IOException, SQLException {
         try {
-            String saveFolder=MainControls.savesDir + savegameList.
-                getSelectedValue().toString().toLowerCase();
-            String toonID = ChecksBalances.getFirstLine(new File(saveFolder + 
-                "/.lastused"));
-            MainControls.selectedSave=savegameList.getSelectedValue().toString()
-                .toLowerCase() + "/" + MainControls.selectedSave;
+//            String saveFolder=MainControls.savesDir + savegameList.
+//                getSelectedValue().toString().toLowerCase();
+            
+            //**Set something to get save here**
+            MemoryBank.currentSave=MainControls.savesDir+savegameList.
+                getSelectedValue().toString().toLowerCase()+MainControls.saveExt
+                ;
+            MemoryBank.ingame=true;
+            String toonID=GetData.dataQuery("*","saveSettings","savesetName",
+                "playertoon",false,false,null,null).get(2);
+//            String toonID = ChecksBalances.getFirstLine(new File(saveFolder + 
+//                "/.lastused"));
+           
+//            MainControls.selectedSave=savegameList.getSelectedValue().toString()
+//                .toLowerCase() + "/" + MainControls.selectedSave;
             String[] savedToonInfo=Converters.expListtoArray(MemoryBank.savToons
                 .get(Integer.parseInt(toonID)));
             String toonGender=Converters.fetchfromTable(MemoryBank.dbGender,
@@ -749,10 +778,13 @@ public class GetData {
             Avatars.setAvatar(savedToon,savedToonInfo[1],savedToonInfo[10]);
             savedToonName.setText(savedToonInfo[1]);
             //use savedToonRank for date + rank
-            String lastused=MainControls.savesDir+savegameList.getSelectedValue
-                ().toString().toLowerCase()+"/.lastused";
-            String[] tempDateTime=Converters.convertTime(Integer.parseInt(
-                Converters.getSpecificLine(lastused,2)));
+            int lastRawTime=Integer.parseInt(GetData.dataQuery("*","dbTime",
+                "timeID","0",false,false,null,null).get(1));
+            String[] tempDateTime=Converters.convertTime(lastRawTime);
+//               String lastused=MainControls.savesDir+savegameList.getSelectedValue
+//                ().toString().toLowerCase()+"/.lastused";
+//            String[] tempDateTime=Converters.convertTime(Integer.parseInt(
+//                Converters.getSpecificLine(lastused,2)));
             savedToonRankDate.setText("Yr "+tempDateTime[0]+" Mo "+
                 tempDateTime[1]+" Wk "+tempDateTime[2]+" Day "+tempDateTime[3]+
                 " : Hr "+tempDateTime[4]+" Min "+tempDateTime[5]);
@@ -760,13 +792,15 @@ public class GetData {
                 savedToonInfo[7]),savedToonInfo[2])+" "+toonRace+" "+toonClass+
                 " "+toonGender);
             savedToonLevel.setText("Level "+savedToonInfo[8]);
-        } catch (IOException | NumberFormatException | SQLException | 
+        } catch (NumberFormatException | SQLException | 
             NullPointerException ex) {
             if(Limitless.lgList.getModel().getSize() > 0) {
                 Limitless.lgList.setSelectedIndex(0);
             }
         }
-            MainControls.selectedSave = MainControls.defaultSave;
+        MemoryBank.currentSave="";
+        MemoryBank.ingame=false;
+//            MainControls.selectedSave = MainControls.defaultSave;
     }
     
     public static List<String> getNewGameToonList() throws SQLException {
