@@ -72,6 +72,14 @@ public class Limitless extends javax.swing.JFrame {
         lgToonRank = new javax.swing.JLabel();
         lgToonStats = new javax.swing.JLabel();
         lgToonLevel = new javax.swing.JLabel();
+        aboutPanel = new javax.swing.JPanel();
+        aboutTitle = new javax.swing.JLabel();
+        abouttextPane = new javax.swing.JScrollPane();
+        abouttextArea = new javax.swing.JTextArea();
+        social1 = new javax.swing.JLabel();
+        social2 = new javax.swing.JLabel();
+        social3 = new javax.swing.JLabel();
+        social4 = new javax.swing.JLabel();
         optsPanel = new javax.swing.JPanel();
         optsTitle = new javax.swing.JLabel();
         darkOpt = new javax.swing.JCheckBox();
@@ -87,14 +95,6 @@ public class Limitless extends javax.swing.JFrame {
         sdbOpt = new javax.swing.JCheckBox();
         dbOpt = new javax.swing.JComboBox<>();
         updateOpt = new javax.swing.JLabel();
-        aboutPanel = new javax.swing.JPanel();
-        aboutTitle = new javax.swing.JLabel();
-        abouttextPane = new javax.swing.JScrollPane();
-        abouttextArea = new javax.swing.JTextArea();
-        social1 = new javax.swing.JLabel();
-        social2 = new javax.swing.JLabel();
-        social3 = new javax.swing.JLabel();
-        social4 = new javax.swing.JLabel();
         donatePanel = new javax.swing.JPanel();
         donateTitle = new javax.swing.JLabel();
         donatetextPane = new javax.swing.JScrollPane();
@@ -601,6 +601,113 @@ public class Limitless extends javax.swing.JFrame {
 
         menuPanel.add(loadPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 250, 450, 475));
 
+        aboutPanel.setBackground(MainControls.backColor);
+        aboutPanel.setForeground(MainControls.textColor);
+        aboutPanel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
+        aboutPanel.setMaximumSize(new java.awt.Dimension(450, 475));
+        aboutPanel.setMinimumSize(new java.awt.Dimension(450, 475));
+        aboutPanel.setPreferredSize(new java.awt.Dimension(450, 475));
+        aboutPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        aboutTitle.setFont(new java.awt.Font("Lucida Console", 1, 36)); // NOI18N
+        aboutTitle.setForeground(MainControls.textColor);
+        aboutTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        aboutTitle.setText("About Limitless");
+        aboutTitle.setFocusable(false);
+        aboutPanel.add(aboutTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 450, 40));
+
+        abouttextPane.setBackground(MainControls.backColor);
+        abouttextPane.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        abouttextPane.setForeground(MainControls.textColor);
+        abouttextPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        abouttextPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        abouttextPane.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
+
+        abouttextArea.setBackground(MainControls.backColor);
+        abouttextArea.setColumns(20);
+        abouttextArea.setFont(new java.awt.Font("Lucida Console", 1, 12)); // NOI18N
+        abouttextArea.setForeground(MainControls.textColor);
+        abouttextArea.setLineWrap(true);
+        abouttextArea.setRows(5);
+        abouttextArea.setWrapStyleWord(true);
+        abouttextPane.setViewportView(abouttextArea);
+
+        aboutPanel.add(abouttextPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 430, 290));
+
+        social1.setForeground(MainControls.textColor);
+        social1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        social1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/clarktribegames/fb.png"))); // NOI18N
+        social1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        social1.setFocusable(false);
+        social1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                social1MouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                social1MousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                social1MouseReleased(evt);
+            }
+        });
+        aboutPanel.add(social1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 360, 100, 100));
+
+        social2.setForeground(MainControls.textColor);
+        social2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        social2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/clarktribegames/dc.png"))); // NOI18N
+        social2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        social2.setFocusable(false);
+        social2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                social2MouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                social2MousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                social2MouseReleased(evt);
+            }
+        });
+        aboutPanel.add(social2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 360, 100, 100));
+
+        social3.setForeground(MainControls.textColor);
+        social3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        social3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/clarktribegames/yt.png"))); // NOI18N
+        social3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        social3.setFocusable(false);
+        social3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                social3MouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                social3MousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                social3MouseReleased(evt);
+            }
+        });
+        aboutPanel.add(social3, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 360, 100, 100));
+
+        social4.setForeground(MainControls.textColor);
+        social4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        social4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/clarktribegames/bs.png"))); // NOI18N
+        social4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        social4.setFocusable(false);
+        social4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                social4MouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                social4MousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                social4MouseReleased(evt);
+            }
+        });
+        aboutPanel.add(social4, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 360, 100, 100));
+
+        menuPanel.add(aboutPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 250, 450, 475));
+
         optsPanel.setBackground(MainControls.backColor);
         optsPanel.setForeground(MainControls.textColor);
         optsPanel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
@@ -785,113 +892,6 @@ public class Limitless extends javax.swing.JFrame {
         optsPanel.add(updateOpt, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 425, 150, 25));
 
         menuPanel.add(optsPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 250, 450, 475));
-
-        aboutPanel.setBackground(MainControls.backColor);
-        aboutPanel.setForeground(MainControls.textColor);
-        aboutPanel.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-        aboutPanel.setMaximumSize(new java.awt.Dimension(450, 475));
-        aboutPanel.setMinimumSize(new java.awt.Dimension(450, 475));
-        aboutPanel.setPreferredSize(new java.awt.Dimension(450, 475));
-        aboutPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        aboutTitle.setFont(new java.awt.Font("Lucida Console", 1, 36)); // NOI18N
-        aboutTitle.setForeground(MainControls.textColor);
-        aboutTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        aboutTitle.setText("About Limitless");
-        aboutTitle.setFocusable(false);
-        aboutPanel.add(aboutTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 450, 40));
-
-        abouttextPane.setBackground(MainControls.backColor);
-        abouttextPane.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        abouttextPane.setForeground(MainControls.textColor);
-        abouttextPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        abouttextPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-        abouttextPane.setFont(new java.awt.Font("Lucida Console", 0, 12)); // NOI18N
-
-        abouttextArea.setBackground(MainControls.backColor);
-        abouttextArea.setColumns(20);
-        abouttextArea.setFont(new java.awt.Font("Lucida Console", 1, 12)); // NOI18N
-        abouttextArea.setForeground(MainControls.textColor);
-        abouttextArea.setLineWrap(true);
-        abouttextArea.setRows(5);
-        abouttextArea.setWrapStyleWord(true);
-        abouttextPane.setViewportView(abouttextArea);
-
-        aboutPanel.add(abouttextPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 430, 290));
-
-        social1.setForeground(MainControls.textColor);
-        social1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        social1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/clarktribegames/fb.png"))); // NOI18N
-        social1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        social1.setFocusable(false);
-        social1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                social1MouseClicked(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                social1MousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                social1MouseReleased(evt);
-            }
-        });
-        aboutPanel.add(social1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 360, 100, 100));
-
-        social2.setForeground(MainControls.textColor);
-        social2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        social2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/clarktribegames/dc.png"))); // NOI18N
-        social2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        social2.setFocusable(false);
-        social2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                social2MouseClicked(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                social2MousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                social2MouseReleased(evt);
-            }
-        });
-        aboutPanel.add(social2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 360, 100, 100));
-
-        social3.setForeground(MainControls.textColor);
-        social3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        social3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/clarktribegames/yt.png"))); // NOI18N
-        social3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        social3.setFocusable(false);
-        social3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                social3MouseClicked(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                social3MousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                social3MouseReleased(evt);
-            }
-        });
-        aboutPanel.add(social3, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 360, 100, 100));
-
-        social4.setForeground(MainControls.textColor);
-        social4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        social4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/clarktribegames/bs.png"))); // NOI18N
-        social4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        social4.setFocusable(false);
-        social4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                social4MouseClicked(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                social4MousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                social4MouseReleased(evt);
-            }
-        });
-        aboutPanel.add(social4, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 360, 100, 100));
-
-        menuPanel.add(aboutPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 250, 450, 475));
 
         donatePanel.setBackground(MainControls.backColor);
         donatePanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -2258,19 +2258,19 @@ public class Limitless extends javax.swing.JFrame {
     }//GEN-LAST:event_versionTextMouseClicked
 
     private void versionTextMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_versionTextMouseEntered
-        buttonOver(versionText);
+        textOver(versionText);
     }//GEN-LAST:event_versionTextMouseEntered
 
     private void versionTextMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_versionTextMouseExited
-        buttonOff(versionText);
+        textOff(versionText);
     }//GEN-LAST:event_versionTextMouseExited
 
     private void versionTextMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_versionTextMousePressed
-        buttonPressed(versionText);
+        textPressed(versionText);
     }//GEN-LAST:event_versionTextMousePressed
 
     private void versionTextMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_versionTextMouseReleased
-        buttonReleased(versionText);
+        textReleased(versionText);
     }//GEN-LAST:event_versionTextMouseReleased
 
     // <editor-fold defaultstate="collapsed" desc="Universal">       
@@ -2398,15 +2398,43 @@ public class Limitless extends javax.swing.JFrame {
             .replaceAll(".png",""), list.get(num).toString());
         box.setBorder(BorderFactory.createLineBorder(MainControls.textColor));
     }
-   
-    private static void buttonOver(JLabel button) {
+
+    private static void textOver(JLabel button) {
         button.setForeground(Color.RED);
     }
     
+    private static void textOff(JLabel button) {
+        button.setForeground(MainControls.textColor);
+    }
+    
+    private static void textPressed(JLabel button) {
+        if(button.isEnabled()) {
+            button.setForeground(Color.BLUE);
+        }
+    }
+    
+    private static void textReleased(JLabel button) {
+        if(button.isEnabled()) {
+            button.setForeground(MainControls.textColor);
+        }
+    }
+    
+    private static void textActive(JLabel button) {
+        if(button.isEnabled()) {
+            button.setForeground(Color.BLUE);
+        }
+    }
+
     private static void buttonOff(JLabel button) {
         button.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED)
             );
         button.setForeground(MainControls.textColor);
+    }
+
+    private static void buttonOver(JLabel button) {
+        button.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED)
+            );
+        button.setForeground(Color.RED);
     }
     
     private static void buttonPressed(JLabel button) {
@@ -2672,6 +2700,9 @@ public class Limitless extends javax.swing.JFrame {
     
     //<editor-fold defaultstate="collapsed" desc="About Menu">
     private static void aboutText() {
+        abouttextPane.setVerticalScrollBarPolicy(ScrollPaneConstants.
+            VERTICAL_SCROLLBAR_NEVER);
+        abouttextPane.setAutoscrolls(false);
         if(!MemoryBank.currentlyTyping) {
             abouttextArea.setText("");
         String message = "This application was created by ClarkTribe Games.\n\n"
@@ -2707,6 +2738,9 @@ public class Limitless extends javax.swing.JFrame {
     
     private static void versionClick() {
         showAbout();
+        abouttextPane.setVerticalScrollBarPolicy(ScrollPaneConstants.
+            VERTICAL_SCROLLBAR_AS_NEEDED);
+        abouttextPane.setAutoscrolls(false);
         MemoryBank.currentlyTyping = false;
         if(!MemoryBank.currentlyTyping) {
             abouttextArea.setText("");

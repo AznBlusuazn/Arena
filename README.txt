@@ -1,6 +1,6 @@
 =======================================
 LIMITLESS by Geoff Clark
-VERSION ALPHA 0.0.043 / 2021.01.30-1641
+VERSION ALPHA 0.0.043 / 2021.01.30-1721
 =======================================
 
 SUPPORT THE DEVELOPMENT OF THIS GAME @ 
@@ -49,10 +49,11 @@ DEVELOPMENT NOTES
 
 [CURRENT UPDATE]
 
-ALPHA 0.0.043 / 2021.01.30-1641
+ALPHA 0.0.043 / 2021.01.30-1721
 
 - created and developed new table in db for a 3d grid for battles -- the grid will be in x (west to east), y (north to south), z (space to ground to hell) coordinates; foundation is designed to be able to scale (up or down, with or without boundaries) any setting or arena for the battles; melee, ranged, magic attacks along with the ability to escape battle will all be determined by the location of those on the field
 - added version number in the lower right corner of menu screen - if clicked, the latest version notes are shown (will try local readme first, then web pull)
+- added vertical scrollbar as needed when showing version notes
 
 [PREVIOUS UPDATES]
 
