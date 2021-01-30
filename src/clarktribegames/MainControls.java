@@ -34,7 +34,8 @@ public class MainControls {
 
     //Main Controls Variables
     static String appName="Limitless";
-    static String appVer="0.0.041";
+    static String appVer="0.0.042";
+    static String limitV="0.0.042";
     static String appTitle=appName+" [ALPHA v"+appVer+"]";
     static String defaultIntro="sounds/intro.mp3";
     static String defaultBattle="sounds/battle.mp3";
@@ -53,7 +54,7 @@ public class MainControls {
     static String saveExt=".save";
     static String dbDir="db/";
     static String defaultDb=dbDir+"default"+dbExt;
-    static String savesDir = "saves/";
+    static String savesDir="saves/";
     static String imageDir="avatars/";
     public URL iconURL=getClass().getResource("/clarktribegames/icon.png");
     public ImageIcon imageIcon=new ImageIcon(iconURL);
@@ -70,7 +71,6 @@ public class MainControls {
     static int gameYear=1;
     static int gameHour=0;
     static int gameMin=0;
-    static int rawTime=0;
     //Settings.ini
     static boolean darkOn=true;
     static boolean musicOn=true;
@@ -130,7 +130,7 @@ public class MainControls {
                 switch(choice) {
                     case 0:
                         GoToWeb.openWeb("https://www.patreon.com/clarktribegame"
-                            + "s");
+                           +"s");
                         break;
                     case 1:
                         GoToWeb.openWeb("https://www.paypal.me/aznblusuazn");
@@ -142,7 +142,7 @@ public class MainControls {
             dagger=Converters.resourcefileToList("all.cmp").get(0);
             price=Converters.resourcefileToList("magic.cmp").get(0);
         } catch(IOException ex) {
-            LogWriter.logFile("severe","Donate Popup Error.  Exception: " + ex);
+            LogWriter.logFile("severe","Donate Popup Error.  Exception: "+ex);
         }
     }
 
@@ -183,7 +183,7 @@ public class MainControls {
             textColor=Color.BLACK;
         }
         if(findSetting("music").equals("0")) {
-            musicOn = false;
+            musicOn=false;
         }
         custIntro=findSetting("custi");
         custBattle=findSetting("custb");
@@ -245,7 +245,7 @@ public class MainControls {
     public static void updateSettings() throws IOException,InterruptedException,
         Exception{
         for(int i=0;i<determineSettings().size();i++) {
-            String[] setting = determineSettings().get(i).split(":");
+            String[] setting=determineSettings().get(i).split(":");
             GetData.dataUpdateSingle("mainSettings","settingConfig",setting[2]
                 ,"settingID",setting[0]);
         }
@@ -289,7 +289,7 @@ public class MainControls {
     }
 
     public static void turnonMusic(String trackPath, String trackType) {
-        musicPath = trackPath;
+        musicPath=trackPath;
         if(!(new File(musicPath).exists())) {
             musicPath=defaultMusic(trackType);
         }
@@ -301,7 +301,7 @@ public class MainControls {
             }
         };
         if(!MemoryBank.musicPlaying) {
-        MemoryBank.musicPlaying = true;
+        MemoryBank.musicPlaying=true;
         worker.execute();
         }
     }
@@ -315,14 +315,14 @@ public class MainControls {
                     if(ChecksBalances.isNullOrEmpty(custBattle)) { 
                         return defaultBattle;
                     } else {
-                        return custommusicPath + "/" + custBattle + ".mp3";
+                        return custommusicPath+"/"+custBattle+".mp3";
                     }
             }
             case "intro" :
                 if(!custommusicOn) {
                     return defaultIntro;
                 } else {
-                    return custommusicPath + "/" + custIntro + ".mp3";
+                    return custommusicPath+"/"+custIntro+".mp3";
                 }
             case "win" :
                 if(!custommusicOn) {
@@ -331,7 +331,7 @@ public class MainControls {
                     if(ChecksBalances.isNullOrEmpty(custWin)) {
                         return defaultWin;
                     } else {
-                        return custommusicPath + "/" + custWin + ".mp3";
+                        return custommusicPath+"/"+custWin+".mp3";
                     }
                 }
                 
@@ -342,7 +342,7 @@ public class MainControls {
                     if(ChecksBalances.isNullOrEmpty(custLose)) {
                         return defaultLose;
                     } else {
-                        return custommusicPath + "/" + custLose + ".mp3";
+                        return custommusicPath+"/"+custLose+".mp3";
                     }
                 }                
             default :
@@ -382,6 +382,7 @@ public class MainControls {
         try {
             MemoryBank.clearMemory();
             //create reset variables method
+            Limitless.welcomeText.setText("");
             MemoryBank.ingame=false;
             MemoryBank.created=false;
             //this is temp for now
@@ -390,7 +391,7 @@ public class MainControls {
             } else {
                 MemoryBank.currentDb=findSetting("lastdb");
             }
-            boolean continueon = false;
+            boolean continueon=false;
             
             MemoryBank.currentGame=Limitless.ngText.getText().toLowerCase();
             MemoryBank.currentSave=savesDir+MemoryBank.currentGame+saveExt;
@@ -402,7 +403,7 @@ public class MainControls {
             if(continueon) {
                 //method to change screen here
                 Popups.infoPopup("Building Save Game","Your new game world will"
-                    + " now be built.  Please be patient.");
+                   +" now be built.  Please be patient.");
                 backgroundBuild();
                 while(!MemoryBank.created) {
                     Thread.sleep(1);
@@ -419,7 +420,7 @@ public class MainControls {
                 Limitless.loadingLabel.setText("Game World Has Been Built!");
                 Popups.infoPopup("Save Game Built",
                     "Your new game world has been built.  Thank you for your "
-                    + "patience.");
+                   +"patience.");
                 Thread.sleep(1500);
                 Limitless.showNewGameList();
                 newgamelistMenu();
@@ -480,7 +481,7 @@ public class MainControls {
     }
     
     private static void loadingScreen() {
-        SwingWorker<Void,Void> worker = new SwingWorker<Void,Void>() {
+        SwingWorker<Void,Void> worker=new SwingWorker<Void,Void>() {
             @Override
             protected Void doInBackground() throws Exception {
                 Limitless.menuPanel.setVisible(false);
@@ -494,7 +495,7 @@ public class MainControls {
     }
     
     private static void backgroundBuild() {
-        SwingWorker<Void,Void> worker = new SwingWorker<Void,Void>() {
+        SwingWorker<Void,Void> worker=new SwingWorker<Void,Void>() {
             @Override
             protected Void doInBackground() throws Exception {
                 MemoryBank.fillMemory(true);
@@ -514,23 +515,23 @@ public class MainControls {
     }
     
     private static void popNewGameToonList() throws IOException, SQLException {
-        List<String> newgameToonList = GetData.getNewGameToonList();
-        DefaultListModel newtlDml = new DefaultListModel();
+        List<String> newgameToonList=GetData.getNewGameToonList();
+        DefaultListModel newtlDml=new DefaultListModel();
         if(newgameToonList.size() <= 0) {
             Limitless.newgameList.setEnabled(false);
             newtlDml.removeAllElements();
             newtlDml.addElement("<No Toons Available>");
         } else {
-            MemoryBank.newgametoonList = new String[newgameToonList.size()][2];
+            MemoryBank.newgametoonList=new String[newgameToonList.size()][2];
             for(int i=0;i < newgameToonList.size();i++) {
-                MemoryBank.newgametoonList[i][0] = newgameToonList.get(i);
-                MemoryBank.newgametoonList[i][1] = String.valueOf(i);
+                MemoryBank.newgametoonList[i][0]=newgameToonList.get(i);
+                MemoryBank.newgametoonList[i][1]=String.valueOf(i);
             }
             Arrays.sort(MemoryBank.newgametoonList, new Comparator<String[]>() {
                 @Override
                 public int compare(final String[] entry1,final String[] entry2){
-                    final String toon1 = entry1[0];
-                    final String toon2 = entry2[0];
+                    final String toon1=entry1[0];
+                    final String toon2=entry2[0];
                     return toon1.compareTo(toon2);
                 }
             });
@@ -544,67 +545,67 @@ public class MainControls {
                 MemoryBank.passiveDestinyID=Converters.fetchfromTable(MemoryBank
                     .dbDestiny,"Passive",1,0);
             } catch (Exception ex) {
-                MemoryBank.passiveDestinyID = "1";
+                MemoryBank.passiveDestinyID="1";
             }
         }
     }    
     
     private static void worldtextInfo() throws SQLException {
         //add game date method here
-        String[] datetime = Converters.convertTime(MemoryBank.dbTime);
-        gameYear = Integer.parseInt(datetime[0]);
-        gameMonth = Integer.parseInt(datetime[1]);
-        gameWeek = Integer.parseInt(datetime[2]);
-        gameDay = Integer.parseInt(datetime[3]);
-        gameHour = Integer.parseInt(datetime[4]);
-        gameMin = Integer.parseInt(datetime[5]);
+        String[] datetime=Converters.convertTime(MemoryBank.dbTime);
+        gameYear=Integer.parseInt(datetime[0]);
+        gameMonth=Integer.parseInt(datetime[1]);
+        gameWeek=Integer.parseInt(datetime[2]);
+        gameDay=Integer.parseInt(datetime[3]);
+        gameHour=Integer.parseInt(datetime[4]);
+        gameMin=Integer.parseInt(datetime[5]);
         //above it temp date
-        int count = MemoryBank.savToons.size();
-        List<Integer> exps = new ArrayList<>();
-        for(int expcount = 0;expcount<count;expcount++) {
+        int count=MemoryBank.savToons.size();
+        List<Integer> exps=new ArrayList<>();
+        for(int expcount=0;expcount<count;expcount++) {
             exps.add(Integer.parseInt(Converters.fetchfromTable(MemoryBank.
                 savToons,String.valueOf(expcount),0,21)));
         }
-        int toplv = Integer.MIN_VALUE;
-        int topidx = -1;
+        int toplv=Integer.MIN_VALUE;
+        int topidx=-1;
 
-        for (int l = 0; l < exps.size(); l++) {
-            int val = exps.get(l);
+        for (int l=0; l < exps.size(); l++) {
+            int val=exps.get(l);
             if (val > toplv) {
-                toplv = val;
-                topidx = l;
+                toplv=val;
+                topidx=l;
             }
         }
 
-        String toptoon[] = MemoryBank.savToons.get(topidx).replaceAll(", ",",").
+        String toptoon[]=MemoryBank.savToons.get(topidx).replaceAll(", ",",").
             split(",");
-        String topplayer = toptoon[1];
+        String topplayer=toptoon[1];
 
         String alignment=Converters.fetchfromTable(MemoryBank.dbAlign,Calculator.
             getAlign(Integer.parseInt(toptoon[4])),0,6);
-        String age = Calculator.getAge(Integer.parseInt(toptoon[7]),toptoon[2]);
+        String age=Calculator.getAge(Integer.parseInt(toptoon[7]),toptoon[2]);
         String gender=Converters.fetchfromTable(MemoryBank.dbGender,toptoon[6],0
             ,1);
         String race=Converters.fetchfromTable(MemoryBank.dbRace,toptoon[2],0,7);
         String clas=Converters.fetchfromTable(MemoryBank.dbClass,toptoon[3],0,4);
         String size=Calculator.getSize(Converters.fetchfromTable(MemoryBank.
             dbRace,toptoon[2],0,1),age);
-        String text = "This world starts at Year " + gameYear + ", Month " + 
-            gameMonth + ", Week " + gameWeek + ", Day " + gameDay + " at Hour " 
-            + gameHour + " Minute " + gameMin +".\n\nCurrently, there are " 
-            + count + " characters in the world.\n\nThe highest level character"
-            + " is " + topplayer + ", who is a " + alignment + " " + age + " " 
-            + gender + " that is " + size + " " + race + " " + clas + " at Leve"
-            + "l " + Calculator.getLevel("curlv", String.valueOf(toplv)) + ".\n"
-            + "\nYour possiblities are Limitless!\n\nSelect your character and "
-            + "then click Start New Game to begin your journey.";
+        String text="This world starts at Year "+gameYear+", Month "+
+            gameMonth+", Week "+gameWeek+", Day "+gameDay+" at Hour " 
+           +gameHour+" Minute "+gameMin +".\n\nCurrently, there are " 
+           +count+" characters in the world.\n\nThe highest level character"
+           +" is "+topplayer+", who is a "+alignment+" "+age+" " 
+           +gender+" that is "+size+" "+race+" "+clas+" at Leve"
+           +"l "+Calculator.getLevel("curlv", String.valueOf(toplv))+".\n"
+           +"\nYour possiblities are Limitless!\n\nSelect your character and "
+           +"then click Start New Game to begin your journey.";
         new TypeEffect(Limitless.welcomeText,text,10,false,null,null).start();
         Limitless.newgameList.setSelectedIndex((int) (Math.random() * count));
     }
     
     public static void ngToonSelect(String selectedToonID) throws SQLException, 
         IOException {
-        String[] selectedToon = MemoryBank.savToons.get(Integer.parseInt(
+        String[] selectedToon=MemoryBank.savToons.get(Integer.parseInt(
             selectedToonID)).replaceAll(", ",",").split(",");
         Limitless.charName.setText(selectedToon[1]);
         Avatars.setAvatar(Limitless.charToon, selectedToon[1],selectedToon[10]);
@@ -624,22 +625,22 @@ public class MainControls {
             selectedToon[2]));
         String gendName=Converters.fetchfromTable(MemoryBank.dbGender,
             selectedToon[6],0,1);
-        Limitless.charStat02.setText(ageName + " • " + gendName);
+        Limitless.charStat02.setText(ageName+" • "+gendName);
         Limitless.charStat02.setToolTipText(ageName+": "+(Converters.
             fetchfromTable(MemoryBank.dbAge,ageName,1,3))+" • "+gendName+": "+
             Converters.fetchfromTable(MemoryBank.dbGender,selectedToon[6],0,2));
-        String sizeID = selectedToon[22];
+        String sizeID=selectedToon[22];
         String sizeName=Converters.fetchfromTable(MemoryBank.dbSize,sizeID,0,1);
         String raceName=Converters.fetchfromTable(MemoryBank.dbRace,selectedToon
             [2],0,1);
-        Limitless.charStat03.setText(sizeName + " • " + raceName);
+        Limitless.charStat03.setText(sizeName+" • "+raceName);
         Limitless.charStat03.setToolTipText(sizeName+": "+Converters.
             fetchfromTable(MemoryBank.dbSize,sizeID,0,2)+ " • "+raceName+": "+
             Converters.fetchfromTable(MemoryBank.dbRace,selectedToon[2],0,2));
-        String UID = selectedToon[5];
+        String UID=selectedToon[5];
         if(UID.startsWith("7")) {
-            String ogID = UID.replace("7x", "");
-            String[] ogToon = MemoryBank.savToons.get(Integer.parseInt(ogID)).
+            String ogID=UID.replace("7x", "");
+            String[] ogToon=MemoryBank.savToons.get(Integer.parseInt(ogID)).
                 replaceAll(", ",",").split(",");
             String jobID=Converters.fetchfromTable(MemoryBank.dbAlias,ogToon[18]
                 ,0,6);
@@ -694,7 +695,7 @@ public class MainControls {
         IOException {
         String selectedToonID=MemoryBank.newgametoonList[Limitless.newgameList
             .getSelectedIndex()][1];
-        String[] selectedToon = MemoryBank.savToons.get(Integer.parseInt(
+        String[] selectedToon=MemoryBank.savToons.get(Integer.parseInt(
             selectedToonID)).replaceAll(", ",",").split(",");
         if(!ChecksBalances.isNullOrEmpty(selectedToon[18])) {
             Limitless.altName.setVisible(true);
@@ -723,32 +724,32 @@ public class MainControls {
     
     private static void ngToonSelectStats(String[] selectedToon) throws 
         SQLException, IOException {
-        String importstats = MemoryBank.savTemp.get(Integer.parseInt(
+        String importstats=MemoryBank.savTemp.get(Integer.parseInt(
             selectedToon[0]));
         String[] newstats=importstats.split(",");
-        String statsinfo="[" + selectedToon[1] + " Stats]\n\n"
-            + " Health Points:  " + newstats[9] + "\n"
-            + " Mystic Points:  " + newstats[10] + "\n"
-            + "Ability Points:  " + newstats[11] + "\n"
-            + "  Attack Power:  " + newstats[12] + "\n"
-            + "      Strength:  " + newstats[13] + "\n"
-            + "       Defense:  " + newstats[14] + "\n"
-            + "       Stamina:  " + newstats[15] + "\n"
-            + "         Speed:  " + newstats[16] + "\n"
-            + "         Evade:  " + newstats[17] + "\n"
-            + "     Dexterity:  " + newstats[18] + "\n"
-            + "  Mystic Power:  " + newstats[19] + "\n"
-            + "Mystic Defense:  " + newstats[20] + "\n"
-            + "  Mystic Evade:  " + newstats[21] + "\n"
-            + "     Willpower:  " + newstats[22] + "\n"
-            + "          Luck:  " + newstats[23] + "\n"
-            + "      Charisma:  " + newstats[24] + "\n"
-            + "  Intelligence:  " + newstats[25] + "\n\n"
-            + " Fatigue (Hid):  " + newstats[26] + "\n"
-            + " Soul (Hidden):  " + newstats[27] + "\n"
-            + "Decay (Hidden):  " + newstats[28] + "\n"
-            + "WeightMod(Hid):  " + newstats[29] + "\n"
-            + "  Rep (Hidden):  " + newstats[30];
+        String statsinfo="["+selectedToon[1]+" Stats]\n\n"
+           +" Health Points:  "+newstats[9]+"\n"
+           +" Mystic Points:  "+newstats[10]+"\n"
+           +"Ability Points:  "+newstats[11]+"\n"
+           +"  Attack Power:  "+newstats[12]+"\n"
+           +"      Strength:  "+newstats[13]+"\n"
+           +"       Defense:  "+newstats[14]+"\n"
+           +"       Stamina:  "+newstats[15]+"\n"
+           +"         Speed:  "+newstats[16]+"\n"
+           +"         Evade:  "+newstats[17]+"\n"
+           +"     Dexterity:  "+newstats[18]+"\n"
+           +"  Mystic Power:  "+newstats[19]+"\n"
+           +"Mystic Defense:  "+newstats[20]+"\n"
+           +"  Mystic Evade:  "+newstats[21]+"\n"
+           +"     Willpower:  "+newstats[22]+"\n"
+           +"          Luck:  "+newstats[23]+"\n"
+           +"      Charisma:  "+newstats[24]+"\n"
+           +"  Intelligence:  "+newstats[25]+"\n\n"
+           +" Fatigue (Hid):  "+newstats[26]+"\n"
+           +" Soul (Hidden):  "+newstats[27]+"\n"
+           +"Decay (Hidden):  "+newstats[28]+"\n"
+           +"WeightMod(Hid):  "+newstats[29]+"\n"
+           +"  Rep (Hidden):  "+newstats[30];
         Limitless.charStatText.setText(statsinfo);
     }
     
@@ -758,12 +759,12 @@ public class MainControls {
         String statuscode=(((Arrays.toString(effStats)).replaceAll
             ("MASTER, ", "").replaceAll(",", "-")).replaceAll("[^\\d+\\-]",""));
         if(statuscode.length() <= 0) {
-            statuscode = "0";
+            statuscode="0";
         }
         String effsinfo="["+selectedToon[1]+" Starting Effects]\n\n"+
             GetStats.getitemsfromIDtoString(GetStats.getAEStats("Effects",
             selectedToon),MemoryBank.dbEffects,0,1)
-            +"\n\n(Hidden) Status Code: " + statuscode;
+            +"\n\n(Hidden) Status Code: "+statuscode;
         Limitless.charStatText.setText(effsinfo);
     }
 
@@ -804,11 +805,11 @@ public class MainControls {
             fetchfromTable(MemoryBank.dbSize,selectedToon[22],0,1),1,4) +" "+
             Converters.fetchfromTable(MemoryBank.dbRace,selectedToon[2],0,7)+" "
             ;
-        String UID = selectedToon[5];
+        String UID=selectedToon[5];
         if(UID.startsWith("7x")) {
             Limitless.altName.setVisible(true);
-            String ogID = UID.replace("7x", "");
-            String[] ogToon = MemoryBank.savToons.get(Integer.
+            String ogID=UID.replace("7x", "");
+            String[] ogToon=MemoryBank.savToons.get(Integer.
                 parseInt(ogID)).replaceAll(", ",",").split(",");
             String jobID=Converters.fetchfromTable(MemoryBank.dbAlias,ogToon[18]
                 ,0,6);
@@ -820,11 +821,11 @@ public class MainControls {
         bioInfo += " and "+Converters.fetchfromTable(MemoryBank.dbStatus,
             Limitless.charStat05.getText(),1,4)+".\n\n"+selectedToon[9];
         if(UID.startsWith("7x")) {
-            String ogID = UID.replace("7x", "");
-            String[] ogToon = MemoryBank.savToons.get(Integer.parseInt(ogID)).
+            String ogID=UID.replace("7x", "");
+            String[] ogToon=MemoryBank.savToons.get(Integer.parseInt(ogID)).
                 replaceAll(", ",",").split(",");
             if(!(ChecksBalances.isNullOrEmpty(ogToon[18]))) {
-                String[] ogAlias = getAliasInfo(ogToon[18]);
+                String[] ogAlias=getAliasInfo(ogToon[18]);
                 if(ogAlias[2].equals("0") || ogAlias[2].equals("1")) {
                     //and og 18 is either 0 or 1
                     //name is the identity of xyz known to the public   
@@ -846,7 +847,7 @@ public class MainControls {
                 //do nothing with alias here
             } else {
                 Limitless.altName.setVisible(true);
-                String[] toonAlias = getAliasInfo(selectedToon[18]);
+                String[] toonAlias=getAliasInfo(selectedToon[18]);
                 //0 name only no secret -- nothing
                 //1 transformation no secret
                 if(toonAlias[2].equals("0") || toonAlias[2].equals("1"))
@@ -859,9 +860,9 @@ public class MainControls {
                             dbGender,selectedToon[6],0,5)+" is not "+
                             selectedToon[1]+".";
                         if(toonAlias[2].equals("0")) {
-                            MemoryBank.justswitch = true;
+                            MemoryBank.justswitch=true;
                         } else {
-                            MemoryBank.justswitch = false;
+                            MemoryBank.justswitch=false;
                         }
                     } else {
                     Limitless.altName.setVisible(false);
@@ -881,13 +882,13 @@ public class MainControls {
         if(selectedToon[5].equals("1")) {
             bioInfo+="\n\n"+
                 "***This character is generated generic character.  You cannot "
-                + "start a game with this character.***";
+               +"start a game with this character.***";
         }
         if(selectedToon[19].equals(MemoryBank.passiveDestinyID) && !selectedToon
             [5].equals("1")) {
             bioInfo+="\n\n"+
                 "***This character is set to Passive.  You cannot start a game "
-                + "with this character.***";
+               +"with this character.***";
         }
         //update health status above
         Limitless.charStatText.setText(bioInfo);
@@ -897,12 +898,12 @@ public class MainControls {
         SQLException {
         String selectedToonID=MemoryBank.newgametoonList[Limitless.newgameList
             .getSelectedIndex()][1];
-        String[] selectedToon = MemoryBank.savToons.get(Integer.parseInt(
+        String[] selectedToon=MemoryBank.savToons.get(Integer.parseInt(
             selectedToonID)).replaceAll(", ",",").split(",");
         switch(opt) {
             case "Change" :
                 if(!ChecksBalances.isNullOrEmpty(selectedToon[18])) {
-                    String[] toonAlias = getAliasInfo(selectedToon[18]);
+                    String[] toonAlias=getAliasInfo(selectedToon[18]);
                     if(toonAlias[2].equals("1")) {
                         for(int i=0;i<Limitless.newgameList.getModel().getSize()
                             ;i++) {
@@ -929,7 +930,7 @@ public class MainControls {
                 break;
             case "Switch" :
                 if(!ChecksBalances.isNullOrEmpty(selectedToon[18])) {
-                    String[] toonAlias = getAliasInfo(selectedToon[18]);
+                    String[] toonAlias=getAliasInfo(selectedToon[18]);
                     if(toonAlias[2].equals("0")) {
                         Avatars.setAvatar(Limitless.charToon, toonAlias[1],
                             toonAlias[8]);
@@ -939,7 +940,7 @@ public class MainControls {
                 break;
             case "Revert" :
                 if(!ChecksBalances.isNullOrEmpty(selectedToon[18])) {
-                    String[] toonAlias = getAliasInfo(selectedToon[18]);
+                    String[] toonAlias=getAliasInfo(selectedToon[18]);
                     if(toonAlias[2].equals("0")) {
                         Avatars.setAvatar(Limitless.charToon, selectedToon[1],
                             selectedToon[10]);
@@ -960,18 +961,20 @@ public class MainControls {
         boolean yesno=Popups.yesnoPopup("Character Selection", "You've selected"
             +" "+Converters.fetchfromTable(MemoryBank.savToons,String.valueOf
             (toonID),0,1)+" as your character.\n\n"+"Are you sure you want to "
-            + "start the game?");
+           +"start the game?");
         if(yesno) {
-            GetData.dataUpdateSingle("dbTime","rawTime",String.valueOf(rawTime),
-                "timeID","0");
             GetData.dataUpdateSingle("saveSettings","savesetConfig",MemoryBank.
                 currentSave,"savesetID","0");
+            GetData.dataUpdateSingle("saveSettings","savesetConfig",MainControls
+                .limitV,"savesetID","1");
             GetData.dataUpdateSingle("saveSettings","savesetConfig",selectedToon
-                ,"savesetID","1");
+                ,"savesetID","2");
+            GetData.dataUpdateSingle("saveSettings","savesetConfig",String.
+                valueOf(MemoryBank.dbTime),"savesetID","3");
             System.gc();
             StartGame.startGame();
         } else {
-            selectedToon = "";
+            selectedToon="";
         }
     }
     
@@ -980,8 +983,8 @@ public class MainControls {
     }
     
     private static void popSaveGameList() throws IOException {
-        List<String> savegameList = ChecksBalances.getSavedGames();
-        DefaultListModel lgDml = new DefaultListModel();
+        List<String> savegameList=ChecksBalances.getSavedGames();
+        DefaultListModel lgDml=new DefaultListModel();
         if(savegameList.size() <= 0) {
             Limitless.lgList.setEnabled(false);
             lgDml.removeAllElements();
@@ -1009,9 +1012,10 @@ public class MainControls {
             MemoryBank.ingame=true;
             selectedToon=GetData.dataQuery("*","saveSettings","savesetName",
                 "playertoon",false,false,null,null).get(2);
-            rawTime=Integer.parseInt(GetData.dataQuery("*","dbTime","timeID","0"
-                ,false,false,null,null).get(1));
-            String[] dateTime = Converters.convertTime(rawTime);
+            MemoryBank.dbTime=Integer.parseInt(GetData.dataQuery("*",
+                "saveSettings","savesetName","rawtime",false,false,null,null).
+                get(2));
+            String[] dateTime=Converters.convertTime(MemoryBank.dbTime);
             gameYear=Integer.parseInt(dateTime[0]);
             gameMonth=Integer.parseInt(dateTime[1]);
             gameWeek=Integer.parseInt(dateTime[2]);
@@ -1025,11 +1029,11 @@ public class MainControls {
     }
     
     public static void delSavedGame() {
-        String title=("Are you sure you want to delete " + Limitless.lgList
+        String title=("Are you sure you want to delete "+Limitless.lgList
             .getSelectedValue());
         String message="Are you sure you want to delete\n the save game "+
-            Limitless.lgList.getSelectedValue() + "?";
-        boolean deleteChoice = Popups.yesnoPopup(title,message);
+            Limitless.lgList.getSelectedValue()+"?";
+        boolean deleteChoice=Popups.yesnoPopup(title,message);
         if(deleteChoice == true) {
             try {
                 ChecksBalances.ifexistDelete(savesDir+Limitless.lgList.
@@ -1038,7 +1042,41 @@ public class MainControls {
                 //
             }
         }
-        
+    }
+    
+    public static void badSave(String reason,String game) throws IOException, 
+        SQLException {
+        Limitless.lgyesButton.setEnabled(false);
+        String badsaveTitle="Save "+Converters.capFirstLetter(reason)+" Error!";
+        String badsaveMsg="Your save "+Converters.capFirstLetter(game);
+        switch(reason) {
+            case "version" :
+                String savVer=GetData.dataQuery("*","saveSettings","savesetName"
+                    ,"limitversion",false,false,null,null).get(2);
+                badsaveMsg+=" has a database with version "+savVer+".\n"+
+                    "The lowest compatiable save database version that\n"+
+                    "will work with this release of "+MainControls.appName+
+                    " is database version "+MainControls.limitV+".\n\n"+
+                    "It is recommended to delete this save.";
+                break;
+            default :
+                badsaveMsg+=" is corrupted and cannot be used.\n\n"+
+                    "It is recommended to delete this save.";
+                break;
+        }
+        String[] badsaveOpts={"Delete Save","Not Now"};
+        int badsaveResp=Popups.optPopup(badsaveOpts,badsaveTitle,
+            badsaveMsg);
+        switch(badsaveResp) {
+            case 0:
+                delSavedGame();
+                MemoryBank.ingame=false;
+                saveGameMenu();
+                break;
+            default:
+                MemoryBank.ingame=false;
+                break;
+        }
     }
     
     private static String[] getAliasInfo (String aID) throws SQLException {
@@ -1048,9 +1086,9 @@ public class MainControls {
 
     public static void exitGame () throws IOException, Exception {
         try {
-            String title = ("Exit the Game?");
-            String message = "Are you sure you want to exit?";
-            boolean exitChoice = Popups.yesnoPopup(title, message);
+            String title=("Exit the Game?");
+            String message="Are you sure you want to exit?";
+            boolean exitChoice=Popups.yesnoPopup(title, message);
             if(exitChoice == true) {
                 updateSettings();
                 System.gc();
@@ -1059,7 +1097,7 @@ public class MainControls {
                 //
             }
         } catch (IOException | InterruptedException ex) {
-            LogWriter.logFile("severe","Exit Game Error.  Exception: " + ex);
+            LogWriter.logFile("severe","Exit Game Error.  Exception: "+ex);
         }
     }
     

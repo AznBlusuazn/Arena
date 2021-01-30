@@ -112,8 +112,8 @@ public class MemoryBank {
         dbTabletoMem(dbToons,GetData.dataQuery("*","dbToons","toonID",null,true,
             false,null,null).size(),"dbToons","toonID");
         if(!newgame && ingame) {
-            dbTime=Integer.parseInt(GetData.dataQuery("*","dbTime","timeID","0"
-                ,false,false,null,null).get(1));
+            dbTime=Integer.parseInt(GetData.dataQuery("*","saveSettings",
+                "savesetName","rawtime",false,false,null,null).get(2));
         } else {
             dbTime = 0;
         }

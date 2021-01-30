@@ -200,18 +200,15 @@ public class GetData {
                         setType(DataType.TEXT).setMaxLength()).addColumn(new 
                         ColumnBuilder("toonTeam").setType(DataType.TEXT).
                         setMaxLength()).toTable(db);
-                        Table table2=new TableBuilder("dbTime").addColumn(new
-                            ColumnBuilder("timeID",DataType.TEXT)).addColumn(new
-                            ColumnBuilder("rawTime",DataType.TEXT)).toTable(db);
-                        Table table3=db.getTable("dbTime");
-                        table3.addRow("0","0");
-                        Table table4=new TableBuilder("saveSettings").addColumn
+                        Table table2=new TableBuilder("saveSettings").addColumn
                             (new ColumnBuilder("savesetID",DataType.TEXT)).
                             addColumn(new ColumnBuilder("savesetName",DataType.
                             TEXT)).addColumn(new ColumnBuilder("savesetConfig",
                             DataType.MEMO)).toTable(db);
-                        table4.addRow("0","database",MemoryBank.currentDb);
-                        table4.addRow("1","playertoon","");
+                        table2.addRow("0","database",MemoryBank.currentDb);
+                        table2.addRow("1","limitversion",MainControls.limitV);
+                        table2.addRow("2","playertoon","null");
+                        table2.addRow("3","rawtime",String.valueOf(0));
                     }
                     db.flush();
                 }
@@ -251,7 +248,7 @@ public class GetData {
     
     private static void buildGenerics(List<String> gentoons) throws 
         SQLException, IOException, InterruptedException {
-//        int gensneeded=numbertoons * 3;
+//        int gensneeded=numbertoons * 3;  // multiplies gens by 3 for testing
         int gensneeded=buildingToons - (buildingToons / 3);
         int numbergens=MemoryBank.dbGeneric.size();
         int gensremain=gensneeded;
@@ -651,35 +648,55 @@ public class GetData {
                 ;
             MemoryBank.ingame=true;
             MemoryBank.shortMemory("loadsave");
-            String toonID=GetData.dataQuery("*","saveSettings","savesetName",
-                "playertoon",false,false,null,null).get(2);
-            String[] savedToonInfo=GetData.dataQuery("*","sav"+savegameList.
-                getSelectedValue().toString().toLowerCase()+"Toons","toonID",
-                toonID,false,false,null,null).toArray(new String[0]);
-            String toonGender=
-                    Converters.fetchfromTable(MemoryBank.dbGender,
-                savedToonInfo[6],0,1);
-            String toonRace=
-                    Converters.fetchfromTable(MemoryBank.dbRace,
-                savedToonInfo[2],0,1);
-            String toonClass=
-                    Converters.fetchfromTable(MemoryBank.dbClass,
-                savedToonInfo[3],0,1);
-            savedToonStats.setForeground(Converters.figureoutColor(GetStats
-                .getalignColor(Integer.parseInt((savedToonInfo[4])))));
-            Avatars.setAvatar(savedToon,savedToonInfo[1],savedToonInfo[10]);
-            savedToonName.setText(savedToonInfo[1]);
-            //use savedToonRank for date + rank
-            int lastRawTime=Integer.parseInt(GetData.dataQuery("*","dbTime",
-                "timeID","0",false,false,null,null).get(1));
-            String[] tempDateTime=Converters.convertTime(lastRawTime);
-            savedToonRankDate.setText("Yr "+tempDateTime[0]+" Mo "+
-                tempDateTime[1]+" Wk "+tempDateTime[2]+" Day "+tempDateTime[3]+
-                " : Hr "+tempDateTime[4]+" Min "+tempDateTime[5]);
-            savedToonStats.setText(Calculator.getAge(Integer.parseInt(
-                savedToonInfo[7]),savedToonInfo[2])+" "+toonRace+" "+toonClass+
-                " "+toonGender);
-            savedToonLevel.setText("Level "+savedToonInfo[8]);
+            String toonID="";
+            String savVer="";
+            try {
+                toonID=GetData.dataQuery("*","saveSettings","savesetName",
+                    "playertoon",false,false,null,null).get(2);
+                savVer=GetData.dataQuery("*","saveSettings","savesetName",
+                    "limitversion",false,false,null,null).get(2);
+            } catch (SQLException ex) {
+                MainControls.badSave("corrupt",savegameList.getSelectedValue()
+                    .toString());
+            }
+            if(ChecksBalances.isNullOrEmpty(toonID)||
+                ChecksBalances.isNullOrEmpty(savVer)) {
+                MainControls.badSave("corrupt",savegameList.getSelectedValue()
+                    .toString());
+            }
+            if(Integer.parseInt(MainControls.limitV.replaceAll("\\.","")) >
+                Integer.parseInt(savVer.replaceAll("\\.",""))) {
+                MainControls.badSave("version",savegameList.getSelectedValue()
+                    .toString());
+            }
+            if(MemoryBank.ingame) {
+                String[] savedToonInfo=GetData.dataQuery("*","sav"+savegameList.
+                    getSelectedValue().toString().toLowerCase()+"Toons","toonID"
+                    ,toonID,false,false,null,null).toArray(new String[0]);
+                String toonGender=Converters.fetchfromTable(MemoryBank.dbGender,
+                    savedToonInfo[6],0,1);
+                String toonRace=Converters.fetchfromTable(MemoryBank.dbRace,
+                    savedToonInfo[2],0,1);
+                String toonClass=Converters.fetchfromTable(MemoryBank.dbClass,
+                    savedToonInfo[3],0,1);
+                savedToonStats.setForeground(Converters.figureoutColor(GetStats
+                    .getalignColor(Integer.parseInt((savedToonInfo[4])))));
+                Avatars.setAvatar(savedToon,savedToonInfo[1],savedToonInfo[10]);
+                savedToonName.setText(savedToonInfo[1]);
+                //use savedToonRank for date + rank
+                int lastRawTime=Integer.parseInt(GetData.dataQuery("*",
+                    "saveSettings","savesetName","rawtime",false,false,null,null
+                    ).get(2));
+                String[] tempDateTime=Converters.convertTime(lastRawTime);
+                savedToonRankDate.setText("Yr "+tempDateTime[0]+" Mo "+
+                    tempDateTime[1]+" Wk "+tempDateTime[2]+" Day "+
+                    tempDateTime[3]+" : Hr "+tempDateTime[4]+" Min "+
+                    tempDateTime[5]);
+                savedToonStats.setText(Calculator.getAge(Integer.parseInt(
+                    savedToonInfo[7]),savedToonInfo[2])+" "+toonRace+" "+
+                    toonClass+" "+toonGender);
+                savedToonLevel.setText("Level "+savedToonInfo[8]);
+            }
         } catch (NumberFormatException | SQLException | 
             NullPointerException ex) {
             if(Limitless.lgList.getModel().getSize() > 0) {

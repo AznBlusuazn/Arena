@@ -251,10 +251,10 @@ public class Converters {
         //10080 mins in a week
         //40320 mins in a month
         //483840 mins in a year
-        int years=1;
-        int months=1;
-        int weeks=1;
-        int days=1;
+        int years=0;
+        int months=0;
+        int weeks=0;
+        int days=0;
         int hours=0;
         int minutes=0;
         if(rawTime >= 483840) {
@@ -269,7 +269,7 @@ public class Converters {
                 10080 + (days * 1440) + (hours * 60))));
         }
         if(rawTime < 483840 && rawTime >= 40320) {
-            years=1;
+            years=0;
             months=rawTime / 40320;
             weeks=(rawTime - (months * 40320)) / 10080;
             days=(rawTime - ((months * 40320) + (weeks * 10080))) / 1440;
@@ -279,8 +279,8 @@ public class Converters {
                 1440) + (hours * 60))));
         }
         if(rawTime < 40320 && rawTime >= 10080) {
-            years=1;
-            months=1;
+            years=0;
+            months=0;
             weeks=rawTime / 10080;
             days=(rawTime - (weeks * 10080)) / 1440;
             hours=(rawTime - ((weeks * 10080) + (days * 1440))) / 60;
@@ -288,18 +288,18 @@ public class Converters {
                 60))));
         }
         if(rawTime < 10080 && rawTime >= 1440) {
-            years=1;
-            months=1;
-            weeks=1;
+            years=0;
+            months=0;
+            weeks=0;
             days=rawTime / 1440;
             hours=(rawTime - (days * 1440)) / 60;
             minutes=rawTime - ((days * 1440) + (hours * 60));
         }
         if(rawTime < 1440 && rawTime >= 60) {
-            years=1;
-            months=1;
-            weeks=1;
-            days=1;
+            years=0;
+            months=0;
+            weeks=0;
+            days=0;
             hours=rawTime / 60;
             minutes=rawTime - (hours * 60);
         }
@@ -307,7 +307,7 @@ public class Converters {
             months += 1;
             weeks += 1;
             days += 1;
-            hours += 1;
+            //hours += 1;
             if(minutes > 60) {
                 minutes=0;
                 hours += 1;

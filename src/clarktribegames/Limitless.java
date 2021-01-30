@@ -451,7 +451,7 @@ public class Limitless extends javax.swing.JFrame {
         lgToonRank.setFocusable(false);
         loadPanel.add(lgToonRank, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 325, 250, 25));
 
-        lgToonStats.setFont(new java.awt.Font("Lucida Console", 1, 12)); // NOI18N
+        lgToonStats.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         lgToonStats.setForeground(MainControls.textColor);
         lgToonStats.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lgToonStats.setFocusable(false);
@@ -1832,19 +1832,27 @@ public class Limitless extends javax.swing.JFrame {
     }//GEN-LAST:event_lgyesButtonMouseClicked
 
     private void lgyesButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lgyesButtonMouseEntered
-        buttonOver(lgyesButton);
+        if(lgyesButton.isEnabled()) {
+            buttonOver(lgyesButton);
+        }
     }//GEN-LAST:event_lgyesButtonMouseEntered
 
     private void lgyesButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lgyesButtonMouseExited
-        buttonOff(lgyesButton);
+        if(lgyesButton.isEnabled()) {
+            buttonOff(lgyesButton);
+        }
     }//GEN-LAST:event_lgyesButtonMouseExited
 
     private void lgyesButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lgyesButtonMousePressed
-        buttonPressed(lgyesButton);
+        if(lgyesButton.isEnabled()) {
+            buttonPressed(lgyesButton);
+        }
     }//GEN-LAST:event_lgyesButtonMousePressed
 
     private void lgyesButtonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lgyesButtonMouseReleased
-        buttonReleased(lgyesButton);
+        if(lgyesButton.isEnabled()) {
+            buttonReleased(lgyesButton);
+        }
     }//GEN-LAST:event_lgyesButtonMouseReleased
 
     private void lgnoButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lgnoButtonMouseClicked
@@ -1932,7 +1940,8 @@ public class Limitless extends javax.swing.JFrame {
         try {
             MainControls.ngToonSelect(MemoryBank.newgametoonList[newgameList.
             getSelectedIndex()][1]);
-        } catch (IOException | SQLException ex) {
+        } catch (ArrayIndexOutOfBoundsException | IOException | SQLException ex) 
+            {
             //
         }
     }//GEN-LAST:event_newgameListValueChanged

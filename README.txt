@@ -1,6 +1,6 @@
 =======================================
 LIMITLESS by Geoff Clark
-VERSION ALPHA 0.0.041 / 2021.01.29-1125
+VERSION ALPHA 0.0.042 / 2021.01.30-0001
 =======================================
 
 SUPPORT THE DEVELOPMENT OF THIS GAME @ 
@@ -46,6 +46,15 @@ Contact the author:  info@clarktribegames.com
 ====================================
 
 DEVELOPMENT NOTES
+
+ALPHA 0.0.042 / 2021.01.30-0001
+
+- added save game corruption detection and prompt to delete corrupted save
+- added check for game save database version compatiblity
+- removed separate time table for game time and put it into the game save table (formerly "lastused")
+- fixed issue with game time calculating an extra year, month, week, and day when converting raw time to game time
+- added save state update to start game method (updates save on demand)
+- added temporary code to simulate time passing for new games and load games (testing time conversion)
 
 ALPHA 0.0.041 / 2021.01.29-1125
 

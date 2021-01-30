@@ -32,10 +32,19 @@ public class StartGame {
         Popups.infoPopup("ALPHA TESTING IN PROGRESS", "This is where the game "
             + "would start, but the game is still in ALPHA.\n\nThank you for " +
             "testing!\n\nGeoff @ ClarkTribeGames");
+        MemoryBank.dbTime+=(int) (Math.random() * (60*60));  //for testing time
+        updateSave();
         System.gc();
         System.exit(0);
         //revamp Battle Engine
         //BattleEngine.battleEngine(save, savetoons, savemax);
+    }
+    
+    private static void updateSave() throws SQLException {
+        GetData.dataUpdateSingle("saveSettings","savesetConfig",MainControls.
+            selectedToon,"savesetID","2");
+        GetData.dataUpdateSingle("saveSettings","savesetConfig",String.
+            valueOf(MemoryBank.dbTime),"savesetID","3");        
     }
     
 }
