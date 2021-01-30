@@ -47,47 +47,53 @@ public class VersionCheck {
         return false;
     }
     
-    public static String versionNotes()  {
+    public static String versionNotes() {
         String str="";
         String superstr="";
         try {
-            String readmeURL=
-                "https://github.com/AznBlusuazn/Arena/raw/master/README.txt";
-            URL webCheck=new URL(readmeURL);
-            BufferedReader in=new BufferedReader(
-            new InputStreamReader(webCheck.openStream()));
-
-            while ((str=in.readLine()) != null) {
-                    str=in.readLine();
-                    superstr+= str+"\n";
+            StringBuilder contentBuilder=new StringBuilder();
+            try (Stream<String> stream=Files.lines(Paths.get("README.txt"),
+                GetData.determineCharset(Paths.get("README.txt"))))
+            {
+                stream.forEach(s -> contentBuilder.append(s).append("\n"));
             }
-        in.close();
+            superstr=contentBuilder.toString();
         } catch (IOException ex) {
             try {
-                StringBuilder contentBuilder=new StringBuilder();
-                try (Stream<String> stream=Files.lines(Paths.get("README.txt"),
-                    GetData.determineCharset(Paths.get("README.txt"))))
-                {
-                    stream.forEach(s -> contentBuilder.append(s).append("\n"));
+                String readmeURL=
+                    "https://github.com/AznBlusuazn/Arena/raw/master/README.txt"
+                    ;
+                URL webCheck=new URL(readmeURL);
+                BufferedReader in=new BufferedReader(
+                new InputStreamReader(webCheck.openStream()));
+                while ((str=in.readLine()) != null) {
+                        str=in.readLine();
+                        superstr+= str+"\n";
                 }
-                superstr=contentBuilder.toString();
+            in.close();
             } catch (IOException ex2) {
-                superstr="XXXXXXXXXXXXXXXXX\n\n[CURRENT UPDATE]\n\n"+
+                superstr="                   [CURRENT UPDATE]\n\n"+
                     MainControls.appTitle.substring(MainControls.appName.
-                    length()+2,MainControls.appTitle.length()-1)+"-0000\n\n"+
-                    "- No update notes available at this time.";
+                    length()+2,MainControls.appTitle.length()-1)+
+                    "                  "+"\n\n"+
+                    "- There was an error trying to get version notes."+
+                    "\n- Please try again later.\n\n"+
+                    "[PREVIOUS UPDATES]";
             }
         }
-        String version=superstr.substring(superstr.indexOf("[CURRENT UPDATE")+17
-            ,superstr.indexOf("-",superstr.indexOf("[CURRENT UPDATE]")+49));
+        int vIndexS=superstr.indexOf("CURRENT UPDATE")+16;
+        int vIndexE=superstr.indexOf("-",superstr.indexOf("CURRENT UPDATE")+48);
+        String version=superstr.substring(vIndexS,vIndexE);
+        int nIndexS=vIndexS+version.length();
+        int nIndexE=superstr.indexOf("PREVIOUS UPDATES")-1;
         String notes="";
         try {
-            notes=superstr.substring(((superstr.indexOf(version))+version.length
-                ()),(superstr.indexOf("[PREVIOUS UPDATES]")));
+            notes=superstr.substring(nIndexS,nIndexE);
         } catch (StringIndexOutOfBoundsException ex) {
-            notes="- No update notes available at this time.";
+            notes="- There was an error trying to get version notes."+
+                "\n- Please try again later.";
         }
-        return MainControls.appName.toUpperCase()+" "+version+"\n"+
+        return MainControls.appName.toUpperCase()+" "+version+
             "by: ClarkTribeGames"+"\n\n"+"Release Notes:"+"\n\n"+notes;
     }
 
