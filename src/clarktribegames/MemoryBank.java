@@ -52,6 +52,7 @@ public class MemoryBank {
     static List<String> dbAge;
     static List<String> dbAlias;
     static List<String> dbAlign;
+    static List<String> dbArea;
     static List<String> dbClass;
     static List<String> dbCustM;
     static List<String> dbDestiny;
@@ -82,6 +83,8 @@ public class MemoryBank {
             ,false,null,null).size(),"dbAlias","aliasID");
         dbTabletoMem(dbAlign,GetData.dataQuery("*","dbAlign","alignID",null,true
             ,false,null,null).size(),"dbAlign","alignID");
+        dbTabletoMem(dbArea,GetData.dataQuery("*","dbArea","areaID",null,true
+            ,false,null,null).size(),"dbArea","areaID");
         dbTabletoMem(dbClass,GetData.dataQuery("*","dbClass","classID",null,true
             ,false,null,null).size(),"dbClass","classID");
         dbTabletoMem(dbDestiny,GetData.dataQuery("*","dbDestiny","destinyID",

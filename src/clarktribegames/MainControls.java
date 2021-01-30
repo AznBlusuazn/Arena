@@ -34,9 +34,9 @@ public class MainControls {
 
     //Main Controls Variables
     static String appName="Limitless";
-    static String appVer="0.0.042";
-    static String limitV="0.0.042";
-    static String appTitle=appName+" [ALPHA v"+appVer+"]";
+    static String appVer="0.0.043";
+    static String limitV="0.0.043";
+    static String appTitle=appName+" [ALPHA "+appVer+"]";
     static String defaultIntro="sounds/intro.mp3";
     static String defaultBattle="sounds/battle.mp3";
     static String defaultWin="sounds/victory.mp3";
