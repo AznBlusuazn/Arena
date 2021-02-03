@@ -1,12 +1,12 @@
 package clarktribegames;
 
-// <editor-fold defaultstate="collapsed" desc="credits">
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+// <editor-fold defaultstate="collapsed" desc="credits">
 
 
 /**
@@ -52,7 +52,7 @@ public class MemoryBank {
     static List<String> dbAge;
     static List<String> dbAlias;
     static List<String> dbAlign;
-    static List<String> dbArea;
+    static List<String> dbAreas;
     static List<String> dbClass;
     static List<String> dbCustM;
     static List<String> dbDestiny;
@@ -65,6 +65,7 @@ public class MemoryBank {
     static List<String> dbJobs;
     static List<String> dbPhrases;
     static List<String> dbRace;
+    static List<String> dbSections;
     static List<String> dbSize;
     static List<String> dbStatus;
     static List<String> dbToons;
@@ -72,7 +73,6 @@ public class MemoryBank {
     
     public static void fillMemory(boolean newgame) throws SQLException, 
         IOException {
-
         dbTabletoMem(dbAbl,GetData.dataQuery("*","dbAbl","ablID",null,true,false
             ,null,null).size(),"dbAbl","ablID");
         dbTabletoMem(dbAblType,GetData.dataQuery("*","dbAblType","abtID",null,
@@ -83,8 +83,6 @@ public class MemoryBank {
             ,false,null,null).size(),"dbAlias","aliasID");
         dbTabletoMem(dbAlign,GetData.dataQuery("*","dbAlign","alignID",null,true
             ,false,null,null).size(),"dbAlign","alignID");
-        dbTabletoMem(dbArea,GetData.dataQuery("*","dbArea","areaID",null,true
-            ,false,null,null).size(),"dbArea","areaID");
         dbTabletoMem(dbClass,GetData.dataQuery("*","dbClass","classID",null,true
             ,false,null,null).size(),"dbClass","classID");
         dbTabletoMem(dbDestiny,GetData.dataQuery("*","dbDestiny","destinyID",
@@ -114,6 +112,11 @@ public class MemoryBank {
             true,false,null,null).size(),"dbStatus","statusID");
         dbTabletoMem(dbToons,GetData.dataQuery("*","dbToons","toonID",null,true,
             false,null,null).size(),"dbToons","toonID");
+        dbTabletoMem(Areas.allSections,GetData.dataQuery("*","dbSections",
+            "sectionID",null,true,false,null,null).size(),"dbSections",
+            "sectionID");
+        dbTabletoMem(Areas.allAreas,GetData.dataQuery("*","dbAreas","areaID",
+            null,true,false,null,null).size(),"dbAreas","areaID");
         if(!newgame && ingame) {
             dbTime=Integer.parseInt(GetData.dataQuery("*","saveSettings",
                 "savesetName","rawtime",false,false,null,null).get(2));
@@ -121,17 +124,15 @@ public class MemoryBank {
             dbTime = 0;
         }
     }
-    
+
     private static void dbTabletoMem (List<String> list,int rows,String table,
-        String id) throws SQLException {
-        
+        String id) throws SQLException {        
         for(int i=0;i<rows;i++) {
             list.add(Arrays.toString(GetData.dataQuery("*",table,id,String.
                 valueOf(i),false,false,null,null).toArray()));
         }
-        
     }
-    
+
     public static void shortMemory(String type) throws SQLException {
         switch(type) {
             case "loadsave":
@@ -165,6 +166,7 @@ public class MemoryBank {
         dbAge = new ArrayList<>();
         dbAlias = new ArrayList<>();
         dbAlign = new ArrayList<>();
+        dbAreas = new ArrayList<>();
         dbClass = new ArrayList<>();
         dbCustM = new ArrayList<>();
         dbDestiny = new ArrayList<>();
@@ -177,9 +179,13 @@ public class MemoryBank {
         dbJobs = new ArrayList<>();
         dbPhrases = new ArrayList<>();
         dbRace = new ArrayList<>();
+        dbSections = new ArrayList<>();
         dbSize = new ArrayList<>();
         dbStatus = new ArrayList<>();
         dbToons = new ArrayList<>();
+        
+        Areas.allAreas = new ArrayList<>();
+        Areas.allSections = new ArrayList<>();
         
         dbTime = 0;
     }
