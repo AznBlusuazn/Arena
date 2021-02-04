@@ -58,6 +58,7 @@ public class MemoryBank {
     static List<String> dbDestiny;
     static List<String> dbEffects;
     static List<String> dbEffectsType;
+    static List<String> dbEnv;
     static List<String> dbGender;
     static List<String> dbGeneric;
     static List<String> dbItems;
@@ -92,6 +93,8 @@ public class MemoryBank {
         dbTabletoMem(dbEffectsType,GetData.dataQuery("*","dbEffectsType",
             "effTypeID",null,true,false,null,null).size(),"dbEffectsType",
             "effTypeID");
+        dbTabletoMem(dbEnv,GetData.dataQuery("*","dbEnv","envID",null,true,false
+            ,null,null).size(),"dbEnv","envID");
         dbTabletoMem(dbGender,GetData.dataQuery("*","dbGender","genderID",null,
             true,false,null,null).size(),"dbGender","genderID");
         dbTabletoMem(dbGeneric,GetData.dataQuery("*","dbGeneric","genericID",
@@ -146,6 +149,16 @@ public class MemoryBank {
                 dbTabletoMem(dbClass,GetData.dataQuery("*","dbClass","classID",
                     null,true,false,null,null).size(),"dbClass","classID");
                 break;
+            case "temp":
+                Areas.selectedArea = 0;
+                dbTabletoMem(Areas.allAreas,GetData.dataQuery("*","dbAreas","areaID",
+                    null,true,false,null,null).size(),"dbAreas","areaID");
+                dbTabletoMem(Areas.allSections,GetData.dataQuery("*","dbSections",
+                    "sectionID",null,true,false,null,null).size(),"dbSections",
+                    "sectionID");
+                dbTabletoMem(dbEnv,GetData.dataQuery("*","dbEnv","envID",null,
+                    true,false,null,null).size(),"dbEnv","envID");
+                break;
             default:
                 break;
         }
@@ -172,6 +185,7 @@ public class MemoryBank {
         dbDestiny = new ArrayList<>();
         dbEffects = new ArrayList<>();
         dbEffectsType = new ArrayList<>();
+        dbEnv = new ArrayList<>();
         dbGender = new ArrayList<>();
         dbGeneric = new ArrayList<>();
         dbItems = new ArrayList<>();

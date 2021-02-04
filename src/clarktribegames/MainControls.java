@@ -381,6 +381,8 @@ public class MainControls {
     public static void startNewGame() {
         try {
             MemoryBank.clearMemory();
+            MemoryBank.shortMemory("temp");
+            Areas.buildArea();
             //create reset variables method
             Limitless.welcomeText.setText("");
             MemoryBank.ingame=false;
