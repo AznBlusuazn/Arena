@@ -34,8 +34,8 @@ public class MainControls {
 
     //Main Controls Variables
     static String appName="Limitless";
-    static String appVer="0.0.043";
-    static String limitV="0.0.043";
+    static String appVer="0.0.044";
+    static String limitV="0.0.044";
     static String appTitle=appName+" [ALPHA "+appVer+"]";
     static String defaultIntro="sounds/intro.mp3";
     static String defaultBattle="sounds/battle.mp3";
@@ -381,8 +381,7 @@ public class MainControls {
     public static void startNewGame() {
         try {
             MemoryBank.clearMemory();
-            MemoryBank.shortMemory("temp");
-            Areas.buildArea();
+//            MemoryBank.shortMemory("temp");
             //create reset variables method
             Limitless.welcomeText.setText("");
             MemoryBank.ingame=false;
@@ -410,6 +409,7 @@ public class MainControls {
                 while(!MemoryBank.created) {
                     Thread.sleep(1);
                 }
+                Areas.findActiveAreas();
                 String[] dateTime=Converters.convertTime(MemoryBank.dbTime);
                 gameYear=Integer.parseInt(dateTime[0]);
                 gameMonth=Integer.parseInt(dateTime[1]);
@@ -592,13 +592,26 @@ public class MainControls {
         String clas=Converters.fetchfromTable(MemoryBank.dbClass,toptoon[3],0,4);
         String size=Calculator.getSize(Converters.fetchfromTable(MemoryBank.
             dbRace,toptoon[2],0,1),age);
+        int activeareas=Areas.activeAreas.size();
+        String areatext;
+        switch(activeareas) {
+            case 0:
+                areatext="no active areas";
+                break;
+            case 1:
+                areatext="1 active area";
+                break;
+            default:
+                areatext=activeareas+" active areas";
+        }
         String text="This world starts at Year "+gameYear+", Month "+
             gameMonth+", Week "+gameWeek+", Day "+gameDay+" at Hour " 
            +gameHour+" Minute "+gameMin +".\n\nCurrently, there are " 
            +count+" characters in the world.\n\nThe highest level character"
            +" is "+topplayer+", who is a "+alignment+" "+age+" " 
-           +gender+" that is "+size+" "+race+" "+clas+" at Leve"
-           +"l "+Calculator.getLevel("curlv", String.valueOf(toplv))+".\n"
+           +gender+" that is "+size+" "+race+" "+clas+" at Level "
+           +Calculator.getLevel("curlv", String.valueOf(toplv))+".\n\n"
+           +"There are currently "+areatext+" available.\n"
            +"\nYour possiblities are Limitless!\n\nSelect your character and "
            +"then click Start New Game to begin your journey.";
         new TypeEffect(Limitless.welcomeText,text,10,false,null,null).start();

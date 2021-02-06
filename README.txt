@@ -1,6 +1,6 @@
 =======================================
 LIMITLESS by Geoff Clark
-VERSION ALPHA 0.0.044 / 2021.02.03-2250
+VERSION ALPHA 0.0.044 / 2021.02.06-1734
 =======================================
 
 SUPPORT THE DEVELOPMENT OF THIS GAME @ 
@@ -49,9 +49,8 @@ DEVELOPMENT NOTES
 
 [CURRENT UPDATE]
 
-ALPHA 0.0.044 / 2021.02.03-2250
+ALPHA 0.0.044 / 2021.02.06-1734
 
-- **still in progress**
 - modified the 3d grid to be separated into areas and sections -- "ground" level will be accessible in all areas.  each area can define if space, air, underground, and hell exists for that area.  each area can be scaled by an infinite number with a minimum of 3 units in x.y.z directions as long as the number is odd (this will always guarantee a "center stage" section for each area).
 - each section can have its own "environment" effects that can automatically apply status effects to the characters on the field -- e.g. heat, ice, rain, water, etc. can be applied
 - for now, the game will only have one arena but over time this frame will allow a "limitless" amount of possiblities.
@@ -59,6 +58,7 @@ ALPHA 0.0.044 / 2021.02.03-2250
 - redesigned area tables and created the Areas method to build areas to scale based on the area
 - added ceiling value (is there a ceiling) and merged "air" as part of the "ground" level
 - added total units per section value
+- added total available area count to world text at world start
 
 [PREVIOUS UPDATES]
 

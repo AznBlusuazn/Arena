@@ -7,7 +7,7 @@ import java.util.List;
 
 
 
-// z is still incorrect
+// units are still incorrect
 
 
 // <editor-fold defaultstate="collapsed" desc="credits">
@@ -24,8 +24,8 @@ import java.util.List;
 
 public class Areas {
     
-    static List<String> allAreas;
-    static List<String> allSections;
+    static List<String> activeAreas;
+    static List<String> currentSections;
     static int selectedArea;
 
     public static void buildArea () {
@@ -44,9 +44,18 @@ public class Areas {
         //sectioncolor(9),sectiondesc(10),sectionspawn(11),sectionnull(12)
         //item delimiter is ":"
         rawSections.forEach(rawSection -> {
-            System.out.println(rawSection);
+            currentSections.add(rawSection);
         });
-        
+    }
+    
+    public static void findActiveAreas() {
+        for(int i=0;i<MemoryBank.dbAreas.size();i++) {
+            if(!(((Converters.expListtoArray(MemoryBank.dbAreas.get(i)))[7]).
+                equals("0"))) {
+                activeAreas.add(MemoryBank.dbAreas.get(i));
+            } else {
+            }
+        }
     }
     
     private static String[] areaBuilder(int areaid) {
@@ -58,15 +67,23 @@ public class Areas {
         //rawarea[]
         //id(0),name(1),loc(2),desc(3),Xunits(4),Yunits(5),Zunits(6),active(7),
         //space(8),hell(9),null(10),under(11),ceiling(12)
-        String rawarea[]=allAreas.get(areaid).replaceAll(", ",",").split(",");
         
+        //String rawarea[]=allAreas.get(areaid).replaceAll(", ",",").split(",");
+        String[] rawarea=MemoryBank.dbAreas.get(areaid).replaceAll(", ",",").
+            split(",");
+        for(int i=0;i<activeAreas.size();i++) {
+            if(((Converters.expListtoArray(activeAreas.get(i)))[0]).equals(
+                String.valueOf(areaid))) {
+                rawarea=activeAreas.get(i).replaceAll(", ",",").split(",");
+            }
+        }
         //id(0),name(1),loc(2),spcxyzmin(3),spcxyzmax(4),grdxyzmin(5),
         //grdxyzmax(6),undxyzmin(7),undxyzmax(8),helxyzmin(9),helxyzmax(10)
         String xyMax=(Integer.parseInt(rawarea[4])-1)+"x"+(Integer.parseInt(
             rawarea[5])-1);
         int groundZ=Integer.parseInt(rawarea[6]);
         int underZmin=groundZ+1;
-        int underZmax=underZmin+Integer.parseInt(rawarea[11]);
+        int underZmax=underZmin+Integer.parseInt(rawarea[11])-1;
         int hellZ=underZmax+1;
         //spc (3-4)
         String space="0x0x0"+":"+xyMax+"x0";
@@ -109,7 +126,7 @@ public class Areas {
         //ceiingexist(16),desc(17)
         return (rawarea[0]+":"+rawarea[1]+":"+rawarea[2]+":"+space+":"+ground+
             ":"+under+":"+hell+":"+String.valueOf(Integer.parseInt(rawarea[6])-1
-            )+rawarea[8]+":"+rawarea[9]+":"+rawarea[10]+":"+rawarea[11]+":"+
+            )+":"+rawarea[8]+":"+rawarea[9]+":"+rawarea[10]+":"+rawarea[11]+":"+
             rawarea[12]+":"+rawarea[3]).replaceAll("\\[","").replaceAll("\\]",
             "").split(":");
     }
@@ -121,8 +138,9 @@ public class Areas {
         defcoords.addAll(Arrays.asList("0x0x2","0x1x2","0x2x2","1x0x2","1x1x2",
             "1x2x2","2x0x2","2x1x2","2x2x2"));
         //rawarea[11]=airunits
-        for(int i=0;i<allSections.size();i++) {
-            String tmpsection[]=Converters.expListtoArray(allSections.get(i));
+        for(int i=0;i<MemoryBank.dbSections.size();i++) {
+            String tmpsection[]=Converters.expListtoArray(MemoryBank.dbSections.
+                get(i));
             if(tmpsection[1].equals(rawarea[0]) && !(rawarea[0].equals("0"))) {
                 if(tmpsection[3].endsWith("x2")) {
                     String tempCoords=tmpsection[3];
@@ -151,7 +169,8 @@ public class Areas {
                 for(int k=0;k<extracoords.size();k++) {
                     if(tmpsection[1].equals("0") && tmpsection[3].equals(
                         extracoords.get(k))) {
-                        sectionprelist.add(getSectionString(tmpsection,rawarea));
+                        sectionprelist.add(getSectionString(tmpsection,rawarea))
+                            ;
                     }
                 }
             }
@@ -164,7 +183,7 @@ public class Areas {
         //1x1x2
         //z=2 = returns 5,6
         //rawarea[5] = ground min (xyz) 0x0x1?
-        //String[] newStart=rawarea[whichZ(tmpStart[2])[0]].split("x");                
+        String[] newStart=rawarea[whichZ(tmpStart[2])[0]].split("x");                
         //1x1x2
         //z=2 = return 5,6
         //rawarea[6] = ground max (xyz)
@@ -184,13 +203,21 @@ public class Areas {
         if(tmpStart[2].equals("3")&&(Integer.parseInt(rawarea[15])<2)) {
             tmpStartZ=tmpStart[2];
         }
-        String newStartC[]=getC(tmpStart[0],tmpStart[1],tmpStartZ,
+        if(tmpStart[2].equals("3")&&(Integer.parseInt(rawarea[15])>=2)) {
+            tmpStartZ=tmpStart[2]+"S";
+        }
+        String[] newStartC=getC(tmpStart[0],tmpStart[1],tmpStartZ,
             Integer.parseInt(newEnd[0]),Integer.parseInt(newEnd[1]),
             Integer.parseInt(newEnd[2]));
-        String newEndC[]=getC(tmpEnd[0],tmpEnd[1],tmpEndZ,Integer.
+        if(tmpStartZ.equals("3S")) {
+            newStartC=getC(tmpStart[0],tmpStart[1],tmpStartZ,
+            Integer.parseInt(newEnd[0]),Integer.parseInt(newEnd[1]),
+            Integer.parseInt(newStart[2]));
+        }
+        String[] newEndC=getC(tmpEnd[0],tmpEnd[1],tmpEndZ,Integer.
             parseInt(newEnd[0]),Integer.parseInt(newEnd[1]),Integer.
             parseInt(newEnd[2]));
-        String tmpEnv[]=Converters.expListtoArray(MemoryBank.dbEnv.get(
+        String[] tmpEnv=Converters.expListtoArray(MemoryBank.dbEnv.get(
             Integer.parseInt(tmpsection[5])));
         int totalunits=getUnits(newStartC,newEndC);
         return (tmpsection[0]+":"+tmpsection[2]+":"+newStartC[0]+"x"+
@@ -224,16 +251,16 @@ public class Areas {
             newZ=1;
         }
         if(z.equals("1E")) {
-            newZ=(mz/2)-1;
+            newZ=(mz)-1;
         }
         if(z.equals("2")) {
-            newZ=mz/2;
+            newZ=mz;
         }
         if(z.equals("3") || z.equals("3S")) {
-            newZ=(mz/2)+1;
+            newZ=(mz);
         }
         if(z.equals("3E")) {
-            newZ=mz-1;
+            newZ=mz;
         }
         if(z.equals("4")) {
             newZ=mz;
@@ -261,9 +288,9 @@ public class Areas {
     }
     
     private static int getUnits(String[] start, String[] end) {
-        return (Integer.parseInt(end[0])+1-Integer.parseInt(start[0]))+
-        (Integer.parseInt(end[1])+1-Integer.parseInt(start[1]))+
-        (Integer.parseInt(end[2])+1-Integer.parseInt(start[2]));
+        return ((Integer.parseInt(end[0])+1-Integer.parseInt(start[0]))*
+            (Integer.parseInt(end[1])+1-Integer.parseInt(start[1])))*
+            (Integer.parseInt(end[2])+1-Integer.parseInt(start[2]));
     }
     
     private static int[] getCoords (String coords) {
@@ -271,10 +298,5 @@ public class Areas {
         return new int[]{Integer.parseInt(coordarray[0]),Integer.parseInt(
             coordarray[1]),Integer.parseInt(coordarray[2])};
     }
-    
-//    private static int[] sectionCoords(String[] rawCoords) {
-//        
-//    }
-    
     
 }

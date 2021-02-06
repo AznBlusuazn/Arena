@@ -33,6 +33,8 @@ public class StartGame {
             + "would start, but the game is still in ALPHA.\n\nThank you for " +
             "testing!\n\nGeoff @ ClarkTribeGames");
         MemoryBank.dbTime+=(int) (Math.random() * (60*60));  //for testing time
+        Areas.selectedArea=0; //for testing area selection
+        Areas.buildArea(); // for testing area build
         updateSave();
         System.gc();
         System.exit(0);

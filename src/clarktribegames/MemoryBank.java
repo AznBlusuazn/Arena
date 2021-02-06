@@ -84,6 +84,8 @@ public class MemoryBank {
             ,false,null,null).size(),"dbAlias","aliasID");
         dbTabletoMem(dbAlign,GetData.dataQuery("*","dbAlign","alignID",null,true
             ,false,null,null).size(),"dbAlign","alignID");
+        dbTabletoMem(dbAreas,GetData.dataQuery("*","dbAreas","areaID",
+            null,true,false,null,null).size(),"dbAreas","areaID");
         dbTabletoMem(dbClass,GetData.dataQuery("*","dbClass","classID",null,true
             ,false,null,null).size(),"dbClass","classID");
         dbTabletoMem(dbDestiny,GetData.dataQuery("*","dbDestiny","destinyID",
@@ -109,17 +111,15 @@ public class MemoryBank {
             ,true,false,null,null).size(),"dbPhrases","phraseID");
         dbTabletoMem(dbRace,GetData.dataQuery("*","dbRace","raceID",null,true,
             false,null,null).size(),"dbRace","raceID");
+        dbTabletoMem(dbSections,GetData.dataQuery("*","dbSections",
+            "sectionID",null,true,false,null,null).size(),"dbSections",
+            "sectionID");
         dbTabletoMem(dbSize,GetData.dataQuery("*","dbSize","sizeID",null,true,
             false,null,null).size(),"dbSize","sizeID");
         dbTabletoMem(dbStatus,GetData.dataQuery("*","dbStatus","statusID",null,
             true,false,null,null).size(),"dbStatus","statusID");
         dbTabletoMem(dbToons,GetData.dataQuery("*","dbToons","toonID",null,true,
             false,null,null).size(),"dbToons","toonID");
-        dbTabletoMem(Areas.allSections,GetData.dataQuery("*","dbSections",
-            "sectionID",null,true,false,null,null).size(),"dbSections",
-            "sectionID");
-        dbTabletoMem(Areas.allAreas,GetData.dataQuery("*","dbAreas","areaID",
-            null,true,false,null,null).size(),"dbAreas","areaID");
         if(!newgame && ingame) {
             dbTime=Integer.parseInt(GetData.dataQuery("*","saveSettings",
                 "savesetName","rawtime",false,false,null,null).get(2));
@@ -150,14 +150,7 @@ public class MemoryBank {
                     null,true,false,null,null).size(),"dbClass","classID");
                 break;
             case "temp":
-                Areas.selectedArea = 0;
-                dbTabletoMem(Areas.allAreas,GetData.dataQuery("*","dbAreas","areaID",
-                    null,true,false,null,null).size(),"dbAreas","areaID");
-                dbTabletoMem(Areas.allSections,GetData.dataQuery("*","dbSections",
-                    "sectionID",null,true,false,null,null).size(),"dbSections",
-                    "sectionID");
-                dbTabletoMem(dbEnv,GetData.dataQuery("*","dbEnv","envID",null,
-                    true,false,null,null).size(),"dbEnv","envID");
+                //this is for testing
                 break;
             default:
                 break;
@@ -198,8 +191,8 @@ public class MemoryBank {
         dbStatus = new ArrayList<>();
         dbToons = new ArrayList<>();
         
-        Areas.allAreas = new ArrayList<>();
-        Areas.allSections = new ArrayList<>();
+        Areas.activeAreas = new ArrayList<>();
+        Areas.currentSections = new ArrayList<>();
         
         dbTime = 0;
     }
