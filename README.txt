@@ -1,6 +1,6 @@
 =======================================
 LIMITLESS by Geoff Clark
-VERSION ALPHA 0.0.044 / 2021.02.06-1734
+VERSION ALPHA 0.0.045 / 2021.02.07-2225
 =======================================
 
 SUPPORT THE DEVELOPMENT OF THIS GAME @ 
@@ -49,6 +49,23 @@ DEVELOPMENT NOTES
 
 [CURRENT UPDATE]
 
+ALPHA 0.0.045 / 2021.02.07-2225
+
+- added "life force" stat for toons - this defines if there is an item that if removed can kill/control the toon (e.g. heart, soul, or enchanted item)
+- added race life force and toon specific life force
+- modified method of generating unique id numbers for generics to keep a pool of used numbers
+- the maximum randomized number is based on the number of toons in the database
+- the used unique ids are saved in the game save data
+- added "create a new character" button in new game for future use (currently disabled)
+- fixed issue with loading saved games without generics and alts included
+- fixed rare issue with option settings crashing game
+- added loading notice and loading screen when loading saved games
+- corrected typo in current area text for world info
+- added "game option" buttons 1-5 for future in game options (navigation) when not in battle
+- added game world text box, enter, and clear buttons for player navigation
+
+[PREVIOUS UPDATES]
+
 ALPHA 0.0.044 / 2021.02.06-1734
 
 - modified the 3d grid to be separated into areas and sections -- "ground" level will be accessible in all areas.  each area can define if space, air, underground, and hell exists for that area.  each area can be scaled by an infinite number with a minimum of 3 units in x.y.z directions as long as the number is odd (this will always guarantee a "center stage" section for each area).
@@ -59,8 +76,6 @@ ALPHA 0.0.044 / 2021.02.06-1734
 - added ceiling value (is there a ceiling) and merged "air" as part of the "ground" level
 - added total units per section value
 - added total available area count to world text at world start
-
-[PREVIOUS UPDATES]
 
 ALPHA 0.0.043 / 2021.01.30-1721
 

@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.swing.DefaultComboBoxModel;
@@ -34,8 +35,8 @@ public class MainControls {
 
     //Main Controls Variables
     static String appName="Limitless";
-    static String appVer="0.0.044";
-    static String limitV="0.0.044";
+    static String appVer="0.0.045";
+    static String limitV="0.0.045";
     static String appTitle=appName+" [ALPHA "+appVer+"]";
     static String defaultIntro="sounds/intro.mp3";
     static String defaultBattle="sounds/battle.mp3";
@@ -117,7 +118,7 @@ public class MainControls {
             ChecksBalances.fileCheck("_empty_.png",(imageDir+"_empty_.png"),true
                 ,false);
             boolean libResult=(CmpImporter.cmpImport("lib"));
-            boolean soundsResult=(CmpImporter.cmpImport("sounds"));
+          boolean soundsResult=(CmpImporter.cmpImport("sounds"));
             if(!libResult||!soundsResult) {
                 String[] opts=new String[] {"Patreon","PayPal","Maybe Later"};
                 String title="Alert!";
@@ -234,8 +235,12 @@ public class MainControls {
                 if(GetData.dataQuery("*","mainSettings","settingID",String.
                     valueOf(i),false,false,null,null).get(1).startsWith(settings
                     )) {
-                    retval=GetData.dataQuery("*","mainSettings","settingID",
-                        String.valueOf(i),false,false,null,null).get(2);
+                    try {
+                        retval=GetData.dataQuery("*","mainSettings","settingID",
+                            String.valueOf(i),false,false,null,null).get(2);
+                    } catch (NullPointerException ex2) {
+                        retval="null";
+                    }
                 }
             }
         }
@@ -246,8 +251,13 @@ public class MainControls {
         Exception{
         for(int i=0;i<determineSettings().size();i++) {
             String[] setting=determineSettings().get(i).split(":");
+            try {
             GetData.dataUpdateSingle("mainSettings","settingConfig",setting[2]
                 ,"settingID",setting[0]);
+            } catch (ArrayIndexOutOfBoundsException ex2) {
+                GetData.dataUpdateSingle("mainSettings","settingConfig","null"
+                    ,"settingID",setting[0]);
+            }
         }
         try {
             if(!musicOn) {
@@ -380,6 +390,7 @@ public class MainControls {
     //When New Game Button Is Pressed From Limitless Menu Panel
     public static void startNewGame() {
         try {
+            MemoryBank.newgame=true;
             MemoryBank.clearMemory();
 //            MemoryBank.shortMemory("temp");
             //create reset variables method
@@ -393,7 +404,7 @@ public class MainControls {
                 MemoryBank.currentDb=findSetting("lastdb");
             }
             boolean continueon=false;
-            
+            Limitless.loadingLabel.setText("Game World Is Building...");            
             MemoryBank.currentGame=Limitless.ngText.getText().toLowerCase();
             MemoryBank.currentSave=savesDir+MemoryBank.currentGame+saveExt;
             continueon=ChecksBalances.newGame(MemoryBank.currentGame);
@@ -410,14 +421,7 @@ public class MainControls {
                     Thread.sleep(1);
                 }
                 Areas.findActiveAreas();
-                String[] dateTime=Converters.convertTime(MemoryBank.dbTime);
-                gameYear=Integer.parseInt(dateTime[0]);
-                gameMonth=Integer.parseInt(dateTime[1]);
-                gameWeek=Integer.parseInt(dateTime[2]);
-                gameDay=Integer.parseInt(dateTime[3]);
-                gameHour=Integer.parseInt(dateTime[4]);
-                gameMin=Integer.parseInt(dateTime[5]);
-
+                Calculator.buildDateTime();
                 Limitless.setLoadingAvatars();
                 Limitless.loadingLabel.setText("Game World Has Been Built!");
                 Popups.infoPopup("Save Game Built",
@@ -489,7 +493,6 @@ public class MainControls {
                 Limitless.menuPanel.setVisible(false);
                 Limitless.loadingPanel.setVisible(true);
                 Limitless.setLoadingAvatars();
-                Limitless.loadingLabel.setText("Game World Is Building...");
                 return null;
             }
         };
@@ -500,11 +503,16 @@ public class MainControls {
         SwingWorker<Void,Void> worker=new SwingWorker<Void,Void>() {
             @Override
             protected Void doInBackground() throws Exception {
-                MemoryBank.fillMemory(true);
+                MemoryBank.fillMemory(MemoryBank.newgame);
                 if(MemoryBank.dbToons.isEmpty()) {
                     Thread.sleep(1);
                 }
-                GetData.createnewSave();
+                if(MemoryBank.newgame) {
+                    GetData.createnewSave();
+                }
+                if(!MemoryBank.created) {
+                    MemoryBank.created=true;
+                }
                 return null;
             }
         };
@@ -554,13 +562,7 @@ public class MainControls {
     
     private static void worldtextInfo() throws SQLException {
         //add game date method here
-        String[] datetime=Converters.convertTime(MemoryBank.dbTime);
-        gameYear=Integer.parseInt(datetime[0]);
-        gameMonth=Integer.parseInt(datetime[1]);
-        gameWeek=Integer.parseInt(datetime[2]);
-        gameDay=Integer.parseInt(datetime[3]);
-        gameHour=Integer.parseInt(datetime[4]);
-        gameMin=Integer.parseInt(datetime[5]);
+        Calculator.buildDateTime();
         //above it temp date
         int count=MemoryBank.savToons.size();
         List<Integer> exps=new ArrayList<>();
@@ -596,13 +598,13 @@ public class MainControls {
         String areatext;
         switch(activeareas) {
             case 0:
-                areatext="no active areas";
+                areatext="are currently no active areas";
                 break;
             case 1:
-                areatext="1 active area";
+                areatext="is currently 1 active area";
                 break;
             default:
-                areatext=activeareas+" active areas";
+                areatext="are currently "+activeareas+" active areas";
         }
         String text="This world starts at Year "+gameYear+", Month "+
             gameMonth+", Week "+gameWeek+", Day "+gameDay+" at Hour " 
@@ -611,7 +613,7 @@ public class MainControls {
            +" is "+topplayer+", who is a "+alignment+" "+age+" " 
            +gender+" that is "+size+" "+race+" "+clas+" at Level "
            +Calculator.getLevel("curlv", String.valueOf(toplv))+".\n\n"
-           +"There are currently "+areatext+" available.\n"
+           +"There "+areatext+" available.\n"
            +"\nYour possiblities are Limitless!\n\nSelect your character and "
            +"then click Start New Game to begin your journey.";
         new TypeEffect(Limitless.welcomeText,text,10,false,null,null).start();
@@ -986,6 +988,10 @@ public class MainControls {
                 ,"savesetID","2");
             GetData.dataUpdateSingle("saveSettings","savesetConfig",String.
                 valueOf(MemoryBank.dbTime),"savesetID","3");
+            GetData.dataUpdateSingle("saveSettings","savesetConfig",String.
+                valueOf(Arrays.toString(Randomizer.usedGenericNumbers.toArray())
+                .replaceAll(", ","x").replaceAll("\\[","").replaceAll("\\]",""))
+                ,"savesetID","4");
             System.gc();
             StartGame.startGame();
         } else {
@@ -1022,21 +1028,40 @@ public class MainControls {
     
     public static void loadSavedGame() {
         try {
+            MemoryBank.newgame=false;
+            MemoryBank.created=false;
             MemoryBank.currentSave=savesDir+Limitless.lgList.getSelectedValue().
                 toLowerCase()+saveExt;
+            Limitless.setLoadingAvatars();
+            Limitless.loadingLabel.setText("Game World is Loading...");
+            loadingScreen();
+            Popups.infoPopup("Loading Your Save Game","Your Save Game "+
+                Limitless.lgList.getSelectedValue()+" will now load.");
+            System.out.println("HERE");
             MemoryBank.ingame=true;
+//            MemoryBank.fillMemory(false);
+            backgroundBuild();
+            while(!MemoryBank.created) {
+                Thread.sleep(1);
+            }
             selectedToon=GetData.dataQuery("*","saveSettings","savesetName",
                 "playertoon",false,false,null,null).get(2);
             MemoryBank.dbTime=Integer.parseInt(GetData.dataQuery("*",
                 "saveSettings","savesetName","rawtime",false,false,null,null).
                 get(2));
-            String[] dateTime=Converters.convertTime(MemoryBank.dbTime);
-            gameYear=Integer.parseInt(dateTime[0]);
-            gameMonth=Integer.parseInt(dateTime[1]);
-            gameWeek=Integer.parseInt(dateTime[2]);
-            gameDay=Integer.parseInt(dateTime[3]);
-            gameHour=Integer.parseInt(dateTime[4]);
-            gameMin=Integer.parseInt(dateTime[5]);
+            Randomizer.usedGenericNumbers=new HashSet<>();
+            for (String usedGenericNumbersinArray : (GetData.dataQuery("*",
+                "saveSettings","savesetName","usedgenpool",false,false,null,null
+                ).get(2).split("x"))) {
+                Randomizer.usedGenericNumbers.add(Integer.parseInt(
+                    usedGenericNumbersinArray));
+            }
+            Limitless.setLoadingAvatars();
+            Limitless.loadingLabel.setText("Game World Has Loaded!");
+            Popups.infoPopup("Save Game Loaded","Your Save Game "+Limitless.
+                lgList.getSelectedValue()+" has loaded.\n\nThank you for your "+
+                "patience.");
+            Calculator.buildDateTime();
             StartGame.startGame();
         } catch (IOException | InterruptedException | SQLException ex) {
             //
@@ -1105,7 +1130,11 @@ public class MainControls {
             String message="Are you sure you want to exit?";
             boolean exitChoice=Popups.yesnoPopup(title, message);
             if(exitChoice == true) {
-                updateSettings();
+                try{
+                    updateSettings();
+                } catch (ArrayIndexOutOfBoundsException ex2) {
+                    ex2.printStackTrace();
+                }
                 System.gc();
                 System.exit(0);
             } else {
@@ -1119,8 +1148,12 @@ public class MainControls {
     private static void checkVersion (String name, String ver) throws 
         IOException, InterruptedException, SQLException {
         MemoryBank.UID=(InetAddress.getLocalHost().getHostName().toLowerCase());
-        if((VersionCheck.checkVersion(name, ver))) {
-            Updater.updateMessage(false,appName,appVer);
+        try {
+            if((VersionCheck.checkVersion(name, ver))) {
+                Updater.updateMessage(false,appName,appVer);
+            }
+        } catch (Exception ex) {
+                    //
         }
         if(new File(defaultDb).exists()) {
             if(ChecksBalances.isNullOrEmpty(findSetting("version")) || 

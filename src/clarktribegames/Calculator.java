@@ -1520,6 +1520,31 @@ public class Calculator {
         return Converters.fetchfromTable(MemoryBank.dbSize,sizeid,0,1);
     }
     
+    public static int getGenRange(int numbertoons) {
+        int nextDecimalUp=numbertoons*10;
+        int decimalPlaces=-1;
+        for(int i=0; i<String.valueOf(nextDecimalUp).length(); i++) {    
+            if(String.valueOf(nextDecimalUp).charAt(i) != ' ') {
+                decimalPlaces++;
+            }
+        }
+        String retVal="1";
+        for(int j=0; j<decimalPlaces; j++) {
+            retVal+="0";
+        }
+        return Integer.parseInt(retVal);
+    }
+    
+    public static void buildDateTime() {
+        String[] dateTime=Converters.convertTime(MemoryBank.dbTime);
+        MainControls.gameYear=Integer.parseInt(dateTime[0]);
+        MainControls.gameMonth=Integer.parseInt(dateTime[1]);
+        MainControls.gameWeek=Integer.parseInt(dateTime[2]);
+        MainControls.gameDay=Integer.parseInt(dateTime[3]);
+        MainControls.gameHour=Integer.parseInt(dateTime[4]);
+        MainControls.gameMin=Integer.parseInt(dateTime[5]);
+    }
+    
 //<editor-fold defaultstate="collapsed" desc="Log File Method">
     private static void logFile (String type, String log) throws IOException {
         try {

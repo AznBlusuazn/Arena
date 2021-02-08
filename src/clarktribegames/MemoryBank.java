@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 // <editor-fold defaultstate="collapsed" desc="credits">
@@ -39,6 +40,7 @@ public class MemoryBank {
     static Thread currentSong;
     static String threadName="";
     static String[][] newgametoonList;
+    static boolean newgame=false;
     static boolean ingame=false;
     static boolean created=false;
     static boolean justswitch=false;
@@ -123,6 +125,10 @@ public class MemoryBank {
         if(!newgame && ingame) {
             dbTime=Integer.parseInt(GetData.dataQuery("*","saveSettings",
                 "savesetName","rawtime",false,false,null,null).get(2));
+            dbTabletoMem(savToons,GetData.dataQuery("*","sav"+Limitless.lgList.
+                getSelectedValue().toLowerCase()+"Toons","toonID",null,true,
+                false,null,null).size(),"sav"+Limitless.lgList.getSelectedValue
+                ().toLowerCase()+"Toons","toonID");
         } else {
             dbTime = 0;
         }
@@ -193,6 +199,9 @@ public class MemoryBank {
         
         Areas.activeAreas = new ArrayList<>();
         Areas.currentSections = new ArrayList<>();
+        
+        Randomizer.usedGenericNumbers = new HashSet<>();
+        Randomizer.usedGenericNumbers.add(0);
         
         dbTime = 0;
     }

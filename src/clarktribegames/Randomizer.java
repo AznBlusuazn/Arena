@@ -1,6 +1,7 @@
 package clarktribegames;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
@@ -15,6 +16,8 @@ import java.util.Random;
 // </editor-fold>
 
 public class Randomizer {
+    
+    static HashSet<Integer> usedGenericNumbers;
 
     public static void getRandom(int max) {
         Random rand = new Random();
@@ -43,11 +46,17 @@ public class Randomizer {
                 }
     }
     
-    public static int[] randomNumbers(int numberneeded) {
+    public static int[] randGenNums(int numberneeded) {
         int[] randintArray = new int[numberneeded];
-        for(int x=0;x<numberneeded;x++) {
-            randintArray[x] = (int) (10000* Math.random());
-            //add no duplicates to this later
+        int maxValue=Calculator.getGenRange(GetData.buildingToons);
+        //usedGenericNumbers=new HashSet<>();
+        for (int i=0; i<numberneeded; i++) {
+            int add=(int)(Math.random()*maxValue);
+            while (usedGenericNumbers.contains(add)) {
+                add = (int)(Math.random()*maxValue);
+            }
+        usedGenericNumbers.add(add);
+        randintArray[i]=add;
         }
         return randintArray;
     }

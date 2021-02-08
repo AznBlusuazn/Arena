@@ -189,7 +189,7 @@ public class GetData {
                         "toonCharms").setType(DataType.TEXT).setMaxLength()).
                         addColumn(new ColumnBuilder("toonInv").setType(DataType.
                         TEXT).setMaxLength()).addColumn(new ColumnBuilder(
-                        "toonLifeO").setType(DataType.TEXT).setMaxLength()).
+                        "toonForce").setType(DataType.TEXT).setMaxLength()).
                         addColumn(new ColumnBuilder("toonAlias").setType(
                         DataType.TEXT).setMaxLength()).addColumn(new 
                         ColumnBuilder("toonDestiny").setType(DataType.NUMERIC).
@@ -199,7 +199,8 @@ public class GetData {
                         setMaxLength()).addColumn(new ColumnBuilder("toonSize").
                         setType(DataType.TEXT).setMaxLength()).addColumn(new 
                         ColumnBuilder("toonTeam").setType(DataType.TEXT).
-                        setMaxLength()).toTable(db);
+                        setMaxLength()).addColumn(new ColumnBuilder("toonComp").
+                        setType(DataType.TEXT).setMaxLength()).toTable(db);
                         Table table2=new TableBuilder("saveSettings").addColumn
                             (new ColumnBuilder("savesetID",DataType.TEXT)).
                             addColumn(new ColumnBuilder("savesetName",DataType.
@@ -209,6 +210,7 @@ public class GetData {
                         table2.addRow("1","limitversion",MainControls.limitV);
                         table2.addRow("2","playertoon","null");
                         table2.addRow("3","rawtime",String.valueOf(0));
+                        table2.addRow("4","usedgenpool",String.valueOf(0));
                     }
                     db.flush();
                 }
@@ -241,7 +243,7 @@ public class GetData {
             toonStats=toonStats.substring(1, toonStats.length() - 1);
             String tempSav=(Arrays.toString(toonstats));
             tempSav=tempSav.substring(1,tempSav.length() -1).replace(", ",",");
-            tempSav=tempSav+","+toonStats+","+toonExp+","+toonSize+",0";
+            tempSav=tempSav+","+toonStats+","+toonExp+","+toonSize+",0,0";
             savtoons.add(tempSav);
         }
     }
@@ -270,7 +272,7 @@ public class GetData {
                             }
                         }
                         if(makenumber > 0) {
-                            int[]genidnums=Randomizer.randomNumbers(makenumber);
+                            int[]genidnums=Randomizer.randGenNums(makenumber);
                             //add genidnums method here;
                             for(int y=1; y <= makenumber; y++) {
                                 String[] genstats=Converters.expListtoArray(
@@ -333,7 +335,7 @@ public class GetData {
                                 tempGen=tempGen.substring(3,tempGen.length() -1)
                                     .replace(", ", ",");
                                 tempGen=tempGen+","+genStats+","+genExp+","+
-                                    genSize+",0";
+                                    genSize+",0,0";
                                 gentoons.add(tempGen);
                             }
                             gensremain -= makenumber;
@@ -487,6 +489,7 @@ public class GetData {
         alttoonstats.add(22,altsize);
         //alt toonteam 23
         alttoonstats.add(23,ogtoonstats[23]);
+        alttoonstats.add(24,ogtoonstats[24]);
         return alttoonstats;
     }
 
@@ -518,7 +521,7 @@ public class GetData {
                         tempsavToon[14],tempsavToon[15],tempsavToon[16],
                         tempsavToon[17],tempsavToon[18],tempsavToon[19],
                         tempsavToon[20],tempsavToon[21],tempsavToon[22],
-                        tempsavToon[23]);
+                        tempsavToon[23],tempsavToon[24]);
                 }
         //gens
                 long totalgentoons=gentoons.size();
@@ -540,7 +543,8 @@ public class GetData {
                         tempgenToon[15],tempgenToon[16],
                         tempgenToon[17],tempgenToon[18],
                         tempgenToon[19],tempgenToon[20],
-                        tempgenToon[21],tempgenToon[22]);
+                        tempgenToon[21],tempgenToon[22],
+                        tempgenToon[23]);
                     buildingToons += 1;
                 }
         //alts
@@ -560,7 +564,7 @@ public class GetData {
                         tempaltToon[13],tempaltToon[14],tempaltToon[15],
                         tempaltToon[16],tempaltToon[17],tempaltToon[18],
                         tempaltToon[19],tempaltToon[20],tempaltToon[21],
-                        tempaltToon[22]);
+                        tempaltToon[22],tempaltToon[23]);
                     buildingToons += 1;
                 }
             }

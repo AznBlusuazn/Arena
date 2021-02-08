@@ -353,6 +353,26 @@ public class Converters {
         return finalExport.split(",");
     }
     
+    public static String[] gwDTFormatter () {
+        String gwDate="Year "+MainControls.gameYear+" Month "+MainControls.
+            gameMonth+" Week "+MainControls.gameWeek+" Day "+MainControls.
+            gameDay;
+        String gwHour;
+        String gwMin;
+        if(String.valueOf(MainControls.gameHour).length()<2){
+            gwHour="0"+String.valueOf(MainControls.gameHour);
+        } else {
+            gwHour=String.valueOf(MainControls.gameHour);
+        }
+        if(String.valueOf(MainControls.gameHour).length()<2){
+            gwMin="0"+String.valueOf(MainControls.gameMin);
+        } else {
+            gwMin=String.valueOf(MainControls.gameMin);
+        }
+        String gwTime=gwHour+":"+gwMin;
+        return new String[] {gwDate,gwTime};
+    }
+    
     //<editor-fold defaultstate="collapsed" desc="Log File Method">
     private static void logFile (String type, String loginfo) throws IOException
         {
