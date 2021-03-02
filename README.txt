@@ -1,4 +1,16 @@
 =======================================
+
+DEVELOPMENT OF THIS VERSION HAS BEEN DISCONTINUED
+
+Please go to 
+
+	https://github.com/AznBlusuazn/Limitless
+
+		for new version and updates!
+
+THANK YOU
+
+=======================================
 LIMITLESS by Geoff Clark
 VERSION ALPHA 0.0.045 / 2021.02.07-2225
 =======================================
